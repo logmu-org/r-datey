@@ -2,25 +2,57 @@
 % Please edit documentation in R/datey.R
 \name{is_leap_year}
 \alias{is_leap_year}
-\title{Is year a leap year?}
+\alias{is_leap_year.default}
+\alias{is_leap_year.integer}
+\alias{is_leap_year.double}
+\alias{is_leap_year.datey}
+\alias{is_leap_year.Date}
+\alias{is_leap_year.POSIXct}
+\title{Is this a leap year?}
 \usage{
-is_leap_year(year)
+is_leap_year(x, ...)
+
+\method{is_leap_year}{default}(x, ...)
+
+\method{is_leap_year}{integer}(x, ...)
+
+\method{is_leap_year}{double}(x, ...)
+
+\method{is_leap_year}{datey}(x, ...)
+
+\method{is_leap_year}{Date}(x, ...)
+
+\method{is_leap_year}{POSIXct}(x, ...)
+
+\method{is_leap_year}{POSIXct}(x, ...)
 }
 \arguments{
-\item{year}{The year to test.}
+\item{x}{A vector representing a year or date.}
+
+\item{...}{Other arguments.}
 }
 \value{
-\code{NA} if \code{year} is non-numeric, non-integral or outside [1000,3000),
+\code{NA} if \code{x} is not interpretable as a year or date, or outside [1000,3000),
 \code{TRUE} if \code{year} is a leap year, otherwise
 \code{FALSE}.
 }
 \description{
-Tests whether a year is a leap year, \emph{and} that it is
+Tests whether a year or date is a leap year, \emph{and} that it is
 integral and in [1000,3000).
+
+This is an S3 generic. This package provides methods for the
+following classes:
+\itemize{
+\item \code{double} and \code{integer}
+\item \code{datey} and \code{integer}
+\item \code{Date}
+\item \code{POSIXct}
+\item \code{POSIXlt}
+}
 }
 \examples{
 is_leap_year(2009) # FALSE
-is_leap_year(2008) # TRUE
-is_leap_year(1900) # FALSE
+is_leap_year(2008.5) # TRUE
+is_leap_year(datey(1900, 1, 1, 0)) # FALSE
 is_leap_year(2000) # TRUE
 }

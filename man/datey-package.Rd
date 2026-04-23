@@ -3,9 +3,9 @@
 \docType{package}
 \name{datey-package}
 \alias{datey-package}
-\title{datey: Annualised Dates and Durations for Actuarial Analytics}
+\title{datey: Fixed-Precision Annualised Dates and Durations for Actuarial Experience Analysis}
 \description{
-What the package does (one paragraph).
+TODO.
 }
 \author{
 \strong{Maintainer}: Tim Gordon \email{tim.gordon@btinternet.com} (\href{https://orcid.org/0009-0006-3087-4384}{ORCID})

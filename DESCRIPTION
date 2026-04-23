@@ -1,5 +1,7 @@
 Package: datey
-Title: Annualised Dates and Durations for Actuarial Analytics
+Title:
+  Fixed-Precision Annualised Dates and Durations
+  for Actuarial Experience Analysis
 Version: 0.0.0.9000
 Authors@R:
   person("Tim", "Gordon",
@@ -7,13 +9,14 @@ Authors@R:
     role = c("aut", "cre"),
     comment = c(ORCID = "0009-0006-3087-4384")
   )
-Description: What the package does (one paragraph).
+Description:
+  TODO.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Suggests: 
-    testthat (>= 3.0.0)
+  testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LinkingTo: 
-    cpp11
+  cpp11
