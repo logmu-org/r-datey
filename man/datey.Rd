@@ -2,13 +2,20 @@
 % Please edit documentation in R/datey.R
 \name{datey}
 \alias{datey}
+\alias{as_start_day}
+\alias{as_mid_day}
+\alias{as_end_day}
 \title{Create a \code{datey}}
 \usage{
-datey(date = NULL, year = NULL, month = NULL, day = NULL, day_fraction)
+datey(year, month, day, day_fraction)
+
+as_start_day(x, ...)
+
+as_mid_day(x, ...)
+
+as_end_day(x, ...)
 }
 \arguments{
-\item{date}{Date represented as one of \link{Date}, \link{POSIXct} or \link{POSIXlt}.}
-
 \item{year}{Calendar year.
 Valid years are from 1000 (inclusive) to 3000 (exclusive).}
 
@@ -17,24 +24,24 @@ Valid years are from 1000 (inclusive) to 3000 (exclusive).}
 \item{day}{Day number in month, with 1 representing the first day of the month.}
 
 \item{day_fraction}{The fraction of the day, in [0,1].
-In particular,
 0 means the start of the day,
 0.5 means the middle of the day, and
-1 means the end of the day.}
+1 means the end of the day
+(which is identical to the start of the next day).}
 }
 \description{
 Creates a \code{datey} from
-either (a) a base R date type
-or (b) a year, month and day,
-plus, \emph{in both cases}, a mandatory day-fraction.
+a year, month, day and day-fraction.
 }
 \details{
-If present, \code{year}, \code{month} and \code{day} must be integral and of the
+\code{year}, \code{month} and \code{day} must be integral and of the
 same length.
 
-In all cases, calendar years outside the interval [1000,3000)
-are treated as invalid.
+\code{day_fraction} must be numeric, lie in [0,1]
+and be either the same length as the date arguments or a scalar.
 
-\code{day_fraction} must be numeric and lie in [0,1).
-It must be either the same length as the date arguments or a scalar.
+Calendar years outside the interval [1000,3000)
+are treated as NA.
+
+To deconstruct a \code{datey}, use \link{as_ymdf}.
 }

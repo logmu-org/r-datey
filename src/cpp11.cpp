@@ -6,40 +6,72 @@
 #include <R_ext/Visibility.h>
 
 // R_datey.cpp
-integers cpp_safeDoubleToInteger(doubles x);
-extern "C" SEXP _datey_cpp_safeDoubleToInteger(SEXP x) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(cpp_safeDoubleToInteger(cpp11::as_cpp<cpp11::decay_t<doubles>>(x)));
-  END_CPP11
-}
-// R_datey.cpp
-integers cpp_clicksFromYMDF(integers year, integers month, integers day, doubles dayFraction);
-extern "C" SEXP _datey_cpp_clicksFromYMDF(SEXP year, SEXP month, SEXP day, SEXP dayFraction) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(cpp_clicksFromYMDF(cpp11::as_cpp<cpp11::decay_t<integers>>(year), cpp11::as_cpp<cpp11::decay_t<integers>>(month), cpp11::as_cpp<cpp11::decay_t<integers>>(day), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction)));
-  END_CPP11
-}
-// R_datey.cpp
-list cpp_clicksToYMDF(integers clicks);
-extern "C" SEXP _datey_cpp_clicksToYMDF(SEXP clicks) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(cpp_clicksToYMDF(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
-  END_CPP11
-}
-// R_datey.cpp
 logicals cpp_isLeapYear(integers year);
 extern "C" SEXP _datey_cpp_isLeapYear(SEXP year) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_isLeapYear(cpp11::as_cpp<cpp11::decay_t<integers>>(year)));
   END_CPP11
 }
+// R_datey.cpp
+integers cpp_IntegralDoubleToInteger(doubles x);
+extern "C" SEXP _datey_cpp_IntegralDoubleToInteger(SEXP x) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_IntegralDoubleToInteger(cpp11::as_cpp<cpp11::decay_t<doubles>>(x)));
+  END_CPP11
+}
+// R_datey.cpp
+integers cpp_dateyFromYMDF(integers year, integers month, integers day, doubles dayFraction);
+extern "C" SEXP _datey_cpp_dateyFromYMDF(SEXP year, SEXP month, SEXP day, SEXP dayFraction) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyFromYMDF(cpp11::as_cpp<cpp11::decay_t<integers>>(year), cpp11::as_cpp<cpp11::decay_t<integers>>(month), cpp11::as_cpp<cpp11::decay_t<integers>>(day), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction)));
+  END_CPP11
+}
+// R_datey.cpp
+list cpp_dateyToYMDF(integers datey);
+extern "C" SEXP _datey_cpp_dateyToYMDF(SEXP datey) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToYMDF(cpp11::as_cpp<cpp11::decay_t<integers>>(datey)));
+  END_CPP11
+}
+// R_datey.cpp
+integers cpp_dateyFromRDate(doubles rDate, doubles dayFraction);
+extern "C" SEXP _datey_cpp_dateyFromRDate(SEXP rDate, SEXP dayFraction) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyFromRDate(cpp11::as_cpp<cpp11::decay_t<doubles>>(rDate), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction)));
+  END_CPP11
+}
+// R_datey.cpp
+strings cpp_dateyToRString(integers datey);
+extern "C" SEXP _datey_cpp_dateyToRString(SEXP datey) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToRString(cpp11::as_cpp<cpp11::decay_t<integers>>(datey)));
+  END_CPP11
+}
+// R_datey.cpp
+integers cpp_dateyFromRStringOnly(strings s);
+extern "C" SEXP _datey_cpp_dateyFromRStringOnly(SEXP s) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyFromRStringOnly(cpp11::as_cpp<cpp11::decay_t<strings>>(s)));
+  END_CPP11
+}
+// R_datey.cpp
+integers cpp_dateyFromRStringAndDayFraction(strings s, doubles dayFraction);
+extern "C" SEXP _datey_cpp_dateyFromRStringAndDayFraction(SEXP s, SEXP dayFraction) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyFromRStringAndDayFraction(cpp11::as_cpp<cpp11::decay_t<strings>>(s), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction)));
+  END_CPP11
+}
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_datey_cpp_clicksFromYMDF",      (DL_FUNC) &_datey_cpp_clicksFromYMDF,      4},
-    {"_datey_cpp_clicksToYMDF",        (DL_FUNC) &_datey_cpp_clicksToYMDF,        1},
-    {"_datey_cpp_isLeapYear",          (DL_FUNC) &_datey_cpp_isLeapYear,          1},
-    {"_datey_cpp_safeDoubleToInteger", (DL_FUNC) &_datey_cpp_safeDoubleToInteger, 1},
+    {"_datey_cpp_IntegralDoubleToInteger",        (DL_FUNC) &_datey_cpp_IntegralDoubleToInteger,        1},
+    {"_datey_cpp_dateyFromRDate",                 (DL_FUNC) &_datey_cpp_dateyFromRDate,                 2},
+    {"_datey_cpp_dateyFromRStringAndDayFraction", (DL_FUNC) &_datey_cpp_dateyFromRStringAndDayFraction, 2},
+    {"_datey_cpp_dateyFromRStringOnly",           (DL_FUNC) &_datey_cpp_dateyFromRStringOnly,           1},
+    {"_datey_cpp_dateyFromYMDF",                  (DL_FUNC) &_datey_cpp_dateyFromYMDF,                  4},
+    {"_datey_cpp_dateyToRString",                 (DL_FUNC) &_datey_cpp_dateyToRString,                 1},
+    {"_datey_cpp_dateyToYMDF",                    (DL_FUNC) &_datey_cpp_dateyToYMDF,                    1},
+    {"_datey_cpp_isLeapYear",                     (DL_FUNC) &_datey_cpp_isLeapYear,                     1},
     {NULL, NULL, 0}
 };
 }

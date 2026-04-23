@@ -10,45 +10,71 @@ clicks_per_year <- 534360L
 valid_clicks_start <- valid_years_start * clicks_per_year
 valid_clicks_end <- valid_years_end * clicks_per_year
 
-as_integer_or_NA <- function(x) {
-  if (is.integer(x)) {
-    x
-  } else if (is.double(x)) {
-    cpp_safeDoubleToInteger(x)
-  } else {
-    NA_integer_
-  }
-}
-as_double_or_NA <- function(x) {
-  if (is.double(x)) {
-    x
-  } else if (is.integer(x)) {
-    as.double(x)
-  } else {
-    NA_real_
-  }
+as_integer_for_cpp <- function(x) {
+  # Exclude anything other than base numerics
+  if (is.object(x) || !is.numeric(x)) NA_integer_
+  else if (is.integer(x)) x
+  else if (is.double(x)) cpp_IntegralDoubleToInteger(x)
+  else NA_integer_
 }
 
-#' Is year a leap year?
+as_double_for_cpp <- function(x) {
+  # Exclude anything other than base numerics
+  if (is.object(x) || !is.numeric(x)) NA_real_
+  else if (is.double(x)) x
+  else as.double(x)
+}
+
+#' Is this a leap year?
 #'
-#' Tests whether a year is a leap year, *and* that it is
+#' @description
+#' Tests whether a year or date is a leap year, *and* that it is
 #' integral and in \[1000,3000).
 #'
+#' This is an S3 generic. This package provides methods for the
+#' following classes:
+#'
+#' - `double` and `integer`
+#' - `datey` and `integer`
+#' - `Date`
+#' - `POSIXct`
+#' - `POSIXlt`
+#'
+#' @param x A vector representing a year or date.
+#' @param ... Other arguments.
 #' @export
-#' @param year The year to test.
 #' @return
-#'   `NA` if `year` is non-numeric, non-integral or outside \[1000,3000),
+#'   `NA` if `x` is not interpretable as a year or date, or outside \[1000,3000),
 #'   `TRUE` if `year` is a leap year, otherwise
 #'   `FALSE`.
 #' @examples
 #' is_leap_year(2009) # FALSE
-#' is_leap_year(2008) # TRUE
-#' is_leap_year(1900) # FALSE
+#' is_leap_year(2008.5) # TRUE
+#' is_leap_year(datey(1900, 1, 1, 0)) # FALSE
 #' is_leap_year(2000) # TRUE
-is_leap_year <- function(year) {
-  year <- as_integer_or_NA(year)
-  cpp_isLeapYear(year)
-}
+is_leap_year <- function(x, ...) UseMethod("is_leap_year")
+
+#' @rdname is_leap_year
+#' @export
+is_leap_year.default <- function(x, ...) NA
+#' @rdname is_leap_year
+#' @export
+is_leap_year.integer <- function(x, ...) cpp_isLeapYear(x)
+#' @rdname is_leap_year
+#' @export
+is_leap_year.double <- function(x, ...) cpp_isLeapYear(as.integer(x))
+#' @rdname is_leap_year
+#' @export
+is_leap_year.datey <- function(x, ...) cpp_isLeapYear(unclass(x) %/% 534360L)
+#' @rdname is_leap_year
+#' @export
+is_leap_year.Date <- function(x, ...) is_leap_year(as_datey(x, 0))
+#' @rdname is_leap_year
+#' @export
+is_leap_year.POSIXct <- function(x, ...) is_leap_year(as_datey(x))
+#' @rdname is_leap_year
+#' @export
+is_leap_year.POSIXct <- function(x, ...) is_leap_year(as_datey(x))
 
 #' Check if object is a `datey`
 #'
@@ -56,29 +82,26 @@ is_leap_year <- function(year) {
 #'
 #' @export
 #' @param x The object to test.
-is.datey <- function(x) {
+is_datey <- function(x) {
   typeof(x) == "integer" && inherits(x, "datey")
 }
 
 #' Create a `datey`
 #'
 #' Creates a `datey` from
-#' either (a) a base R date type
-#' or (b) a year, month and day,
-#' plus, *in both cases*, a mandatory day-fraction.
+#' a year, month, day and day-fraction.
 #'
-#' If present, `year`, `month` and `day` must be integral and of the
+#' `year`, `month` and `day` must be integral and of the
 #' same length.
 #'
-#' In all cases, calendar years outside the interval \[1000,3000)
-#' are treated as invalid.
+#' `day_fraction` must be numeric, lie in \[0,1\]
+#' and be either the same length as the date arguments or a scalar.
 #'
-#' `day_fraction` must be numeric and lie in \[0,1).
-#' It must be either the same length as the date arguments or a scalar.
+#' Calendar years outside the interval \[1000,3000)
+#' are treated as NA.
 #'
-#' @export
-#' @param date
-#'   Date represented as one of [Date], [POSIXct] or [POSIXlt].
+#' To deconstruct a `datey`, use [as_ymdf].
+#'
 #' @param year
 #'   Calendar year.
 #'   Valid years are from 1000 (inclusive) to 3000 (exclusive).
@@ -88,51 +111,27 @@ is.datey <- function(x) {
 #'   Day number in month, with 1 representing the first day of the month.
 #' @param day_fraction
 #'   The fraction of the day, in \[0,1\].
-#'   In particular,
 #'   0 means the start of the day,
 #'   0.5 means the middle of the day, and
-#'   1 means the end of the day.
-datey <- function(
-  date = NULL,
-  year = NULL, month = NULL, day = NULL,
-  day_fraction
-) {
+#'   1 means the end of the day
+#'   (which is identical to the start of the next day).
+#' @export
+datey <- function(year, month, day, day_fraction) {
 
-  day_fraction <- as_double_or_NA(day_fraction)
+  year <- as_integer_for_cpp(year)
+  month <- as_integer_for_cpp(month)
+  day <- as_integer_for_cpp(day)
+  day_fraction <- as_double_for_cpp(day_fraction)
 
-  if (is.null(date)) {
+  datey <- cpp_dateyFromYMDF(year, month, day, day_fraction)
 
-    stopifnot(is.null(date))
-
-    year <- as_integer_or_NA(year)
-    month <- as_integer_or_NA(month)
-    day <- as_integer_or_NA(day)
-
-    clicks <- cpp_clicksFromYMDF(year, month, day, day_fraction)
-
-  } else {
-
-    stopifnot(is.null(year), is.null(month), is.null(day))
-
-  }
-
-  structure(clicks, class = "datey")
-}
-
-start_day <- function() {
-  1
-}
-mid_day <- function() {
-  1
-}
-end_day <- function() {
-  1
+  structure(datey, class = "datey")
 }
 
 #' Deconstruct a `datey`
 #'
-#' Deconstructs a `datey` into a list comprising `year`, `month`, `day` and
-#' `day_fraction` components (in that order).
+#' Deconstructs a `datey` into its `year`, `month`, `day` and
+#' `day_fraction` components.
 #'
 #' If `datey` is valid then the components will lie in the following intervals:
 #' - `year` an `integer` in \[1000,3000),
@@ -140,14 +139,132 @@ end_day <- function() {
 #' - `day` an `integer` in \[1,N], where N is the number of days
 #'   in the month specified by `year` and `month`, and
 #' - `day_fraction` a `double` in \[0,1) representing the fraction of the day,
-#'   where, for instance, 0 means the start of the day and 0.5 means the middle of the day.
+#'   where 0 means the start of the day and 0.5 means the middle of the day.
+#'
+#' If the `datey` was constructed using `end_day` or `day_fraction = 1` then
+#' this function will return the *start* of the *next* day with
+#' `day_fraction = 0`.
 #' @param datey The `datey` to deconstruct.
 #' @export
-as.ymdf <- function(datey) {
-  if (!is.datey(datey)) {
-    stop("Argument is not a `datey`.")
+as_ymdf <- function(datey) {
+  if (!is_datey(datey)) stop("Argument is not a `datey`.")
+  cpp_dateyToYMDF(datey)
+}
+
+#' Convert an object to a `datey`.
+#'
+#' @description
+#' This is an S3 generic. This package provides methods for the
+#' following classes:
+#'
+#' - `double` and `integer`:
+#'   Values are interpreted as year, e.g. 2000.0. is the *start of*
+#'   the year 2000.
+#' - `Date`: Note that .
+#' - `POSIXct`: Note that .
+#' - `POSIXlt`: Note that .
+#'
+#' @param x A vector.
+#' @param day_fraction
+#'   The fraction of the day, in \[0,1\].
+#'   0 means the start of the day,
+#'   0.5 means the middle of the day, and
+#'   1 means the end of the day
+#'   (which is identical to the start of the next day).
+#' @param ... Other arguments.
+#' @export
+as_datey <- function(x, ...) UseMethod("as_datey")
+#' @rdname as_datey
+#' @export
+as_datey.default <- function(x, ...) NA
+#' @rdname as_datey
+#' @export
+as_datey.double <- function(x, ...)
+  structure(as.integer(round(x * 534360)), class = "datey")
+#' @rdname as_datey
+#' @export
+as_datey.integer <- function(x, ...)
+  structure(x * 534360L, class = "datey")
+#' @rdname as_datey
+#' @export
+as_datey.character <- function(x, day_fraction = NULL, ...) {
+  if (is.null(day_fraction)) {
+    clicks <- cpp_dateyFromRStringOnly(x)
   }
-  cpp_clicksToYMDF(datey)
+  else {
+    day_fraction <- as_double_for_cpp(day_fraction)
+    clicks <- cpp_dateyFromRStringAndDayFraction(x, day_fraction)
+  }
+  structure(clicks, class = "datey")
+}
+#' @rdname as_datey
+#' @export
+as_datey.Date <- function(x, day_fraction, ...) {
+  rDate <- as_double_for_cpp(unclass(x))
+  day_fraction <- as_double_for_cpp(day_fraction)
+  clicks <- cpp_dateyFromRDate(rDate, day_fraction)
+  structure(clicks, class = "datey")
+}
+#' @rdname as_datey
+#' @export
+as_datey.POSIXct <- function(x, ...) as_datey(as.POSIXlt(x))
+#' @rdname as_datey
+#' @export
+as_datey.POSIXlt <- function(x, ...) {
+  # From POSIXlt docs:
+  # `sec` in 0–61: seconds, allowing for leap seconds.
+  # `min` in 0–59: minutes.
+  # `hour` in 0–23: hours.
+  # `year`: years since 1900.
+  # `yday` in 0–365: day of the year (365 only in leap years).
+
+  year <- as.integer(x$year) + 1900L
+
+  seconds <- (((x$yday * 24 + x$hour) * 60 + x$min) * 60 + x$sec)
+  # (366 or 365) * 24 * 60 * 60
+  seconds_in_year <- ifelse(is_leap_year(year), 31622400, 31536000)
+  year_fraction <- seconds / seconds_in_year
+  # Ignore leap seconds added on 30 June
+  # But leap seconds on 31 December would take the fraction over 1
+  year_fraction <- pmin(1, year_fraction)
+
+  clicks <- year * 534360L + as.integer(round(year_fraction * 534360))
+  clicks <- ifelse(year < 1000L | year >= 3000L, NA_integer_, clicks)
+
+  structure(clicks, class = "datey")
+}
+
+#' @rdname datey
+#' @export
+as_start_day <- function(x, ...) UseMethod("as_start_day")
+#' @rdname datey
+#' @export
+as_mid_day <- function(x, ...) UseMethod("as_mid_day")
+#' @rdname datey
+#' @export
+as_end_day <- function(x, ...) UseMethod("as_end_day")
+
+#' @rdname as_datey
+#' @export
+format.datey <- function(x, ...) cpp_dateyToRString(x)
+
+#' @rdname as_datey
+#' @export
+print.datey <- function(x, max = NULL, ...) {
+  if (is.null(max)) max <- getOption("max.print", 9999L)
+
+  if(max < length(x)) {
+    print(format(x[seq_len(max)]), max=max+1, ...)
+    cat(" [ reached 'max' / getOption(\"max.print\") -- omitted",
+        length(x) - max, 'entries ]\n')
+  } else if(length(x)) {
+    print(format(x), max = max, ...)
+  }
+  else {
+    cat(class(x)[1L], "of length 0\n")
+  }
+
+  invisible(x)
 }
 
 #' Generic operators for `datey`
@@ -184,4 +301,3 @@ Ops.datey <- function(e1, e2) {
     stop(.Generic, " not supported for units")
   }
 }
-

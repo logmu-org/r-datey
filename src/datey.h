@@ -2,8 +2,7 @@
 #define INCLUDED_DATEY
 
 #include <tuple>
-
-typedef unsigned int uint;
+#include <cpp11.hpp>
 
 const int ValidYearsStart = 1000;
 const int ValidYearsEnd = 3000;
@@ -25,9 +24,15 @@ double roundBankers(double x);
 
 // date_functions.cpp
 bool isLeapYear(int year);
+bool isValidDatey(int datey);
 bool isValidYear(int year);
 bool isValidMonth(int month);
-int clicksFromYMDF(int year, int month, int day, double dayFraction);
-std::tuple<int, int, int, double> clicksToYMDF(int clicks);
-
+int dateyFromYMDF(int year, int month, int day, double dayFraction);
+std::tuple<int, int, int, double> dateyToYMDF(int datey);
+int dateyFromRDate(double rDate, double dayFraction);
+int yearFromJulianDay(int julianDay);
+int firstJulianDayOfYear(int year);
+cpp11::r_string dateyToRString(int datey);
+int dateyFromRStringOnly(cpp11::r_string rString);
+int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction);
 #endif

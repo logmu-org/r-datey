@@ -1,10 +1,32 @@
-#include <cpp11.hpp>
 #include "datey.h"
 
 using namespace cpp11;
 
 [[cpp11::register]]
-integers cpp_safeDoubleToInteger(doubles x)
+logicals cpp_isLeapYear(integers year)
+{
+  int n = year.size();
+  writable::logicals results(n);
+  for(int i = 0; i < n; ++i)
+  {
+    auto year_i = year[i];
+    r_bool result_i;
+    if (year_i == NA_INTEGER)
+    {
+      result_i = NA_LOGICAL;
+    }
+    else
+    {
+      result_i = isLeapYear(year_i) ? TRUE : FALSE;
+    }
+    results[i] = result_i;
+  }
+
+  return results;
+}
+
+[[cpp11::register]]
+integers cpp_IntegralDoubleToInteger(doubles x)
 {
   int n = x.size();
 
@@ -46,7 +68,7 @@ integers cpp_safeDoubleToInteger(doubles x)
 }
 
 [[cpp11::register]]
-integers cpp_clicksFromYMDF(
+integers cpp_dateyFromYMDF(
   integers year,
   integers month,
   integers day,
@@ -66,7 +88,7 @@ integers cpp_clicksFromYMDF(
   {
     for(int i = 0; i < n; ++i)
     {
-      result[i] = clicksFromYMDF(year[i], month[i], day[i], dayFraction[i]);
+      result[i] = dateyFromYMDF(year[i], month[i], day[i], dayFraction[i]);
     }
   }
   else if (n_dayFraction == 1)
@@ -74,12 +96,12 @@ integers cpp_clicksFromYMDF(
     double dayFraction_0 = dayFraction[0];
     for(int i = 0; i < n; ++i)
     {
-      result[i] = clicksFromYMDF(year[i], month[i], day[i], dayFraction_0);
+      result[i] = dateyFromYMDF(year[i], month[i], day[i], dayFraction_0);
     }
   }
   else
   {
-    stop("`day_fraction` must have either 1 element or the same number as `year`, `month` and `day`.");
+    stop("`day_fraction` must be a scalar or a vector the same size as `year`, `month` and `day`.");
   }
 
 
@@ -87,9 +109,9 @@ integers cpp_clicksFromYMDF(
 }
 
 [[cpp11::register]]
-list cpp_clicksToYMDF(integers clicks)
+list cpp_dateyToYMDF(integers datey)
 {
-  int n = clicks.size();
+  int n = datey.size();
 
   cpp11::writable::integers year(n);
   cpp11::writable::integers month(n);
@@ -98,7 +120,7 @@ list cpp_clicksToYMDF(integers clicks)
 
   for(int i = 0; i < n; ++i)
   {
-    auto ymdf = clicksToYMDF(clicks[i]);
+    auto ymdf = dateyToYMDF(datey[i]);
 
     year[i] = std::get<0>(ymdf);
     month[i] = std::get<1>(ymdf);
@@ -117,24 +139,96 @@ list cpp_clicksToYMDF(integers clicks)
 }
 
 [[cpp11::register]]
-logicals cpp_isLeapYear(integers year)
+integers cpp_dateyFromRDate(doubles rDate, doubles dayFraction)
 {
-  int n = year.size();
-  writable::logicals results(n);
-  for(int i = 0; i < n; ++i)
+  int n = rDate.size();
+
+  writable::integers result(n);
+
+  int n_dayFraction = dayFraction.size();
+
+  if (n_dayFraction == n)
   {
-    auto year_i = year[i];
-    r_bool result_i;
-    if (year_i == NA_INTEGER)
+    for(int i = 0; i < n; ++i)
     {
-      result_i = NA_LOGICAL;
+      result[i] = dateyFromRDate(rDate[i], dayFraction[i]);
     }
-    else
+  }
+  else if (n_dayFraction == 1)
+  {
+    double dayFraction_0 = dayFraction[0];
+    for(int i = 0; i < n; ++i)
     {
-      result_i = isLeapYear(year_i) ? TRUE : FALSE;
+      result[i] = dateyFromRDate(rDate[i], dayFraction_0);
     }
-    results[i] = result_i;
+  }
+  else
+  {
+    stop("`day_fraction` must be a scalar or a vector the same size as the date vector.");
   }
 
-  return results;
+
+  return result;
+}
+
+[[cpp11::register]]
+strings cpp_dateyToRString(integers datey)
+{
+  int n = datey.size();
+
+  writable::strings result(n);
+
+  for(int i = 0; i < n; ++i)
+  {
+    result[i] = dateyToRString(datey[i]);
+  }
+
+  return result;
+}
+
+
+[[cpp11::register]]
+integers cpp_dateyFromRStringOnly(strings s)
+{
+  int n = s.size();
+
+  writable::integers result(n);
+
+  for(int i = 0; i < n; ++i)
+  {
+    result[i] = dateyFromRStringOnly(s[i]);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+integers cpp_dateyFromRStringAndDayFraction(strings s, doubles dayFraction)
+{
+  int n = s.size();
+
+  writable::integers result(n);
+
+  int n_dayFraction = dayFraction.size();
+
+  if (n_dayFraction == n)
+  {
+    for(int i = 0; i < n; ++i)
+    {
+      result[i] = dateyFromRStringAndDayFraction(s[i], dayFraction[i]);
+    }
+  }
+  else if (n_dayFraction == 1)
+  {
+    double dayFraction_0 = dayFraction[0];
+    for(int i = 0; i < n; ++i)
+    {
+      result[i] = dateyFromRStringAndDayFraction(s[i], dayFraction_0);
+    }
+  }
+  else
+  {
+    stop("`day_fraction` must be a scalar or a vector the same size as the date vector.");
+  }
+
+  return result;
 }
