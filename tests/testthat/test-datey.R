@@ -13,6 +13,8 @@ test_that("`is_leap_year` works", {
 test_that("`is_leap_year` gives `NA` for invalid args", {
   expect_equal(datey::is_leap_year(NA), NA)
   expect_equal(datey::is_leap_year("2000"), NA)
+  expect_equal(datey::is_leap_year(999.99), NA)
+  expect_equal(datey::is_leap_year(3000L), NA)
 })
 
 test_that("a `datey` is numeric", {
@@ -77,31 +79,65 @@ test_that("`datey` works with vector and scalar `day_fraction`s", {
   df_scalar <- 0.25;
   df_vector <- c(0.25, 0.25, 0.25);
 
-  datey_scalar <- datey::datey(year, month, day,
-                               df_scalar)
+  datey_scalar <- datey::datey(year, month, day, df_scalar)
 
-  datey_vector <- datey::datey(year, month, day,
-                               df_vector)
-
+  datey_vector <- datey::datey(year, month, day, df_vector)
 
   expect_identical(datey_vector, datey_scalar)
 })
 
-test_that("`datey` matches `Date`", {
+
+test_that("`as_datey` works for `integer`", {
+  expect_identical(as_datey("1000-01-01.0"), as_datey(1000L))
+  expect_identical(as_datey("2999-01-01.0"), as_datey(2999L))
+  expect_identical(as_datey("0999-01-01.0"), as_datey(999L))
+  expect_identical(as_datey("3000-01-01.0"), as_datey(3000L))
+})
+test_that("`as_datey` works for `double`", {
+  expect_identical(as_datey("1000-01-01.0"), as_datey(1000))
+  expect_identical(as_datey("2999-12-31.0"), as_datey(2999 + 364/365))
+  expect_identical(as_datey("0999-12-31.5"), as_datey(999))
+  expect_identical(as_datey("3000-01-01.0"), as_datey(3000))
+})
+test_that("`as_datey` works for `character`", {
+  # 1 day in a non-leap year is 534360 / 365 = 1464 clicks
+  # 1 click / 1 day = 1 / 1464 = 0.0006830601
+  expect_identical(as_datey("1999-01-01.0007"), as_datey(1999 + 1/534360))
+  expect_identical(as_datey("1999-01-01.0006830601"), as_datey(1999 + 1/534360))
+  # 1 July is 181 days
+  # 777 clicks / 1 day = 777 / 1464 = 0.530737705
+  expect_identical(as_datey("1999-07-01.5307"), as_datey(1999 + (1464 * 181 + 777)/534360))
+  expect_identical(as_datey("1999-07-01.530737705"), as_datey(1999 + (1464 * 181 + 777) /534360))
+  # (1 day less 1 click) / 1 day = 1463 / 1464 = 0.99931694
+  expect_identical(as_datey("1999-12-31.9993"), as_datey(1999 + (1464 * 364 + 1463)/534360))
+  expect_identical(as_datey("1999-12-31.99931694"), as_datey(1999 + (1464 * 364 + 1463) /534360))
+
+  # 1 day in a leap year is 534360 / 366 = 1460 clicks
+  # 1 click / 1 day = 1 / 1460 = 0.0006849315
+  expect_identical(as_datey("2000-01-01.0007"), as_datey(2000 + 1/534360))
+  expect_identical(as_datey("2000-01-01.0006849315"), as_datey(2000 + 1/534360))
+  # 1 July is 182 days
+  # 777 clicks / 1 day = 777 / 1460 = 0.53219178
+  expect_identical(as_datey("2000-07-01.5322"), as_datey(2000 + (1460 * 182 + 777)/534360))
+  expect_identical(as_datey("2000-07-01.53219178"), as_datey(2000 + (1460 * 182 + 777) /534360))
+  # (1 day less 1 click) / 1 day = 1459 / 1460 = 0.99931506
+  expect_identical(as_datey("2000-12-31.9993"), as_datey(2000 + (1460 * 365 + 1459)/534360))
+  expect_identical(as_datey("2000-12-31.99931506"), as_datey(2000 + (1460 * 365 + 1459) /534360))
+})
+
+test_that("`as_datey` works for `Date`", {
   expect_identical(as_datey("1000-01-01.0"), as_datey(as.Date("1000-01-01"), 0))
   expect_identical(as_datey("2999-12-31.0"), as_datey(as.Date("2999-12-31"), 0))
   expect_identical(as_datey("0999-12-31.5"), as_datey(as.Date("0999-12-31"), 0))
   expect_identical(as_datey("3000-01-01.0"), as_datey(as.Date("3000-01-01"), 0))
 })
-
-test_that("`datey` matches `POSIXct`", {
+test_that("`as_datey` works for `POSIXct`", {
   expect_identical(as_datey("1000-01-01.0"), as_datey(as.POSIXct("1000-01-01")))
   expect_identical(as_datey("2999-12-31.5"), as_datey(as.POSIXct("2999-12-31 12:00")))
   expect_identical(as_datey("0999-12-31.5"), as_datey(as.POSIXct("0999-12-31 12:00")))
   expect_identical(as_datey("3000-01-01.0"), as_datey(as.POSIXct("3000-01-01")))
 })
-
-test_that("`datey` matches `POSIXlt`", {
+test_that("`as_datey` works for `POSIXlt`", {
   expect_identical(as_datey("1000-01-01.0"), as_datey(as.POSIXlt("1000-01-01")))
   expect_identical(as_datey("2999-12-31.5"), as_datey(as.POSIXlt("2999-12-31 12:00")))
   expect_identical(as_datey("0999-12-31.5"), as_datey(as.POSIXlt("0999-12-31 12:00")))

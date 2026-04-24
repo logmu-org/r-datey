@@ -2,7 +2,7 @@
 % Please edit documentation in R/datey.R
 \name{as_ymdf}
 \alias{as_ymdf}
-\title{Deconstruct a \code{datey}}
+\title{Get year, month day and day fraction for a \code{datey}}
 \usage{
 as_ymdf(datey)
 }
@@ -10,21 +10,17 @@ as_ymdf(datey)
 \item{datey}{The \code{datey} to deconstruct.}
 }
 \description{
-Deconstructs a \code{datey} into its \code{year}, \code{month}, \code{day} and
-\code{day_fraction} components.
-}
-\details{
-If \code{datey} is valid then the components will lie in the following intervals:
+\code{as_ymdf()} returns a list of the \code{year}, \code{month}, \code{day} and \code{day_fraction}
+breakdown of a \code{datey}, where
 \itemize{
-\item \code{year} an \code{integer} in [1000,3000),
-\item \code{month} an \code{integer} in [1,12],
-\item \code{day} an \code{integer} in [1,N], where N is the number of days
+\item \code{year} is an \code{integer} in [1000,3000),
+\item \code{month} is an \code{integer} in [1,12],
+\item \code{day} is an \code{integer} in [1,N], where N is the number of days
 in the month specified by \code{year} and \code{month}, and
-\item \code{day_fraction} a \code{double} in [0,1) representing the fraction of the day,
-where 0 means the start of the day and 0.5 means the middle of the day.
+\item \code{day_fraction} is a \code{double} in [0,1) representing the fraction of the day,
+where e.g. 0 means the start and 0.5 means the middle of the day.
 }
 
 If the \code{datey} was constructed using \code{end_day} or \code{day_fraction = 1} then
-this function will return the \emph{start} of the \emph{next} day with
-\code{day_fraction = 0}.
+\code{as_ymdf()} will return the \emph{start} of the \emph{next} day with \code{day_fraction = 0}.
 }
