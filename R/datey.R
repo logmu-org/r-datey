@@ -6,25 +6,6 @@ valid_years_start <- 1000L
 #' @export
 valid_years_end <- 3000L
 
-clicks_per_year <- 534360L
-valid_clicks_start <- valid_years_start * clicks_per_year
-valid_clicks_end <- valid_years_end * clicks_per_year
-
-as_integer_for_cpp <- function(x) {
-  # Exclude anything other than base numerics
-  if (is.object(x) || !is.numeric(x)) NA_integer_
-  else if (is.integer(x)) x
-  else if (is.double(x)) cpp_IntegralDoubleToInteger(x)
-  else NA_integer_
-}
-
-as_double_for_cpp <- function(x) {
-  # Exclude anything other than base numerics
-  if (is.object(x) || !is.numeric(x)) NA_real_
-  else if (is.double(x)) x
-  else as.double(x)
-}
-
 #' Is this a leap year?
 #'
 #' @description
@@ -128,22 +109,21 @@ datey <- function(year, month, day, day_fraction) {
   structure(datey, class = "datey")
 }
 
-#' Deconstruct a `datey`
+#' Get year, month day and day fraction for a `datey`
 #'
-#' Deconstructs a `datey` into its `year`, `month`, `day` and
-#' `day_fraction` components.
-#'
-#' If `datey` is valid then the components will lie in the following intervals:
-#' - `year` an `integer` in \[1000,3000),
-#' - `month` an `integer` in \[1,12],
-#' - `day` an `integer` in \[1,N], where N is the number of days
-#'   in the month specified by `year` and `month`, and
-#' - `day_fraction` a `double` in \[0,1) representing the fraction of the day,
-#'   where 0 means the start of the day and 0.5 means the middle of the day.
+#' @description
+#' `as_ymdf()` returns a list of the `year`, `month`, `day` and `day_fraction`
+#' breakdown of a `datey`, where
+#' - `year` is an `integer` in \[1000,3000),
+#' - `month` is an `integer` in \[1,12],
+#' - `day` is an `integer` in \[1,N], where N is the number of days
+#' in the month specified by `year` and `month`, and
+#' - `day_fraction` is a `double` in \[0,1) representing the fraction of the day,
+#' where e.g. 0 means the start and 0.5 means the middle of the day.
 #'
 #' If the `datey` was constructed using `end_day` or `day_fraction = 1` then
-#' this function will return the *start* of the *next* day with
-#' `day_fraction = 0`.
+#' `as_ymdf()` will return the *start* of the *next* day with `day_fraction =
+#' 0`.
 #' @param datey The `datey` to deconstruct.
 #' @export
 as_ymdf <- function(datey) {
@@ -179,12 +159,16 @@ as_datey <- function(x, ...) UseMethod("as_datey")
 as_datey.default <- function(x, ...) NA
 #' @rdname as_datey
 #' @export
-as_datey.double <- function(x, ...)
-  structure(as.integer(round(x * 534360)), class = "datey")
+as_datey.integer <- function(x, ...) {
+  valid_year <- ifelse(x >= 1000L & x < 3000L, x * 534360L, NA_integer_)
+  structure(valid_year, class = "datey")
+}
 #' @rdname as_datey
 #' @export
-as_datey.integer <- function(x, ...)
-  structure(x * 534360L, class = "datey")
+as_datey.double <- function(x, ...) {
+  valid_year <- ifelse(x >= 1000 & x < 3000, round(x * 534360), NA_real_)
+  structure(as.integer(valid_year), class = "datey")
+}
 #' @rdname as_datey
 #' @export
 as_datey.character <- function(x, day_fraction = NULL, ...) {
@@ -265,39 +249,4 @@ print.datey <- function(x, max = NULL, ...) {
   }
 
   invisible(x)
-}
-
-#' Generic operators for `datey`
-#' @param e1 First (`datey`) parameter.
-#' @param e2 Second parameter -- must be `datey` or `durationy`.
-# @exportS3Method package::generic
-Ops.datey <- function(e1, e2) {
-
-  # Legal ops with first parameter a datey:
-  #   datey rel_op datey
-  #   datey + durationy
-  #   datey - durationy
-
-  u1 <- unclass(e1)
-  u2 <- unclass(e2)
-
-    #if (!typeof(e1) != "integer") stop()
-  if (inherits(e2, "datey")) {
-    #if (!typeof(e2) != "integer") stop()
-    if (.Generic %in% c("==", "!=", "<", "<=", ">", ">=")) {
-      get(.Generic)(u1, u2)
-    } else {
-      stop(.Generic, " is supported only for comparison with other dateys")
-    }
-  }
-  else if (inherits(e2, "durationy")) {
-    #if (!typeof(e2) != "integer") stop()
-    if (.Generic %in% c("+", "-")) {
-      structure(get(.Generic)(u1, u2), class = "datey")
-    } else {
-      stop(.Generic, " is supported only for comparison with other dateys")
-    }
-  } else {
-    stop(.Generic, " not supported for units")
-  }
 }

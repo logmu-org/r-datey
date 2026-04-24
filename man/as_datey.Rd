@@ -3,8 +3,8 @@
 \name{as_datey}
 \alias{as_datey}
 \alias{as_datey.default}
-\alias{as_datey.double}
 \alias{as_datey.integer}
+\alias{as_datey.double}
 \alias{as_datey.character}
 \alias{as_datey.Date}
 \alias{as_datey.POSIXct}
@@ -17,9 +17,9 @@ as_datey(x, ...)
 
 \method{as_datey}{default}(x, ...)
 
-\method{as_datey}{double}(x, ...)
-
 \method{as_datey}{integer}(x, ...)
+
+\method{as_datey}{double}(x, ...)
 
 \method{as_datey}{character}(x, day_fraction = NULL, ...)
 

@@ -11,13 +11,14 @@ logicals cpp_isLeapYear(integers year)
   {
     auto year_i = year[i];
     r_bool result_i;
-    if (year_i == NA_INTEGER)
+    if (year_i >= 1000 && year_i < 3000)
     {
-      result_i = NA_LOGICAL;
+      result_i = isLeapYear(year_i) ? TRUE : FALSE;
     }
     else
     {
-      result_i = isLeapYear(year_i) ? TRUE : FALSE;
+      // This includes NA
+      result_i = NA_LOGICAL;
     }
     results[i] = result_i;
   }
