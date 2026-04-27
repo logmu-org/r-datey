@@ -6,27 +6,24 @@ valid_years_start <- 1000L
 #' @export
 valid_years_end <- 3000L
 
-#' Is this a leap year?
+#' Is `x` a leap year?
 #'
 #' @description
-#' Tests whether a year or date is a leap year, *and* that it is
-#' integral and in \[1000,3000).
+#' Tests whether a date or year is a leap year.
 #'
-#' This is an S3 generic. This package provides methods for the
-#' following classes:
+#' For years outside \[1000,3000), this returns `NA`.
 #'
-#' - `double` and `integer`
-#' - `datey` and `integer`
-#' - `Date`
-#' - `POSIXct`
-#' - `POSIXlt`
+#' This is an S3 generic. This package provides methods for:
 #'
-#' @param x A vector representing a year or date.
-#' @param ... Other arguments.
+#' - date types `datey`, `Date`, `POSIXct` and `POSIXlt`, and
+#' - numeric types `double` and `integer`.
+#'
+#' @param x A vector date type or numeric year.
+#' @param ... Additional arguments (unused by this package).
 #' @export
 #' @return
 #'   `NA` if `x` is not interpretable as a year or date, or outside \[1000,3000),
-#'   `TRUE` if `year` is a leap year, otherwise
+#'   `TRUE` if `x` is a leap year, otherwise
 #'   `FALSE`.
 #' @examples
 #' is_leap_year(2009) # FALSE
@@ -131,7 +128,7 @@ as_ymdf <- function(datey) {
   cpp_dateyToYMDF(datey)
 }
 
-#' Convert an object to a `datey`.
+#' Convert an object to a `datey`
 #'
 #' @description
 #' This is an S3 generic. This package provides methods for the
@@ -227,6 +224,33 @@ as_mid_day <- function(x, ...) UseMethod("as_mid_day")
 #' @rdname datey
 #' @export
 as_end_day <- function(x, ...) UseMethod("as_end_day")
+
+#' Test whether a `datey` is the start or middle of a day
+#'
+#' @description
+#' `is_start_day()` tests whether the `datey` is the start (or end) of
+#'  a day, i.e. the boundary between two days.
+#'
+#' `is_mid_day()` tests whether the `datey` is (exactly) the middle of
+#'  a day.
+#'
+#' @param datey The (vector of ) `datey` to test.
+#' @export
+is_start_day <- function(datey) {
+  clicks <- convert_datey_to_valid_clicks(datey)
+  year <- clicks %/% 534360L
+  is_leap <- is_leap_year.integer(year)
+  day_clicks <- clicks - year * 534360L
+
+  ### YOU ARE HERE
+
+  is_leap_year.datey
+}
+#' @rdname is_start_day
+#' @export
+is_mid_day <- function(datey) {
+  TRUE
+}
 
 #' @rdname as_datey
 #' @export

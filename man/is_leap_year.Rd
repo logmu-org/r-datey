@@ -8,7 +8,7 @@
 \alias{is_leap_year.datey}
 \alias{is_leap_year.Date}
 \alias{is_leap_year.POSIXct}
-\title{Is this a leap year?}
+\title{Is \code{x} a leap year?}
 \usage{
 is_leap_year(x, ...)
 
@@ -27,27 +27,24 @@ is_leap_year(x, ...)
 \method{is_leap_year}{POSIXct}(x, ...)
 }
 \arguments{
-\item{x}{A vector representing a year or date.}
+\item{x}{A vector date type or numeric year.}
 
-\item{...}{Other arguments.}
+\item{...}{Additional arguments (unused by this package).}
 }
 \value{
 \code{NA} if \code{x} is not interpretable as a year or date, or outside [1000,3000),
-\code{TRUE} if \code{year} is a leap year, otherwise
+\code{TRUE} if \code{x} is a leap year, otherwise
 \code{FALSE}.
 }
 \description{
-Tests whether a year or date is a leap year, \emph{and} that it is
-integral and in [1000,3000).
+Tests whether a date or year is a leap year.
 
-This is an S3 generic. This package provides methods for the
-following classes:
+For years outside [1000,3000), this returns \code{NA}.
+
+This is an S3 generic. This package provides methods for:
 \itemize{
-\item \code{double} and \code{integer}
-\item \code{datey} and \code{integer}
-\item \code{Date}
-\item \code{POSIXct}
-\item \code{POSIXlt}
+\item date types \code{datey}, \code{Date}, \code{POSIXct} and \code{POSIXlt}, and
+\item numeric types \code{double} and \code{integer}.
 }
 }
 \examples{

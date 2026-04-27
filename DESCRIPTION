@@ -1,6 +1,6 @@
 Package: datey
 Title:
-  Fixed-Precision Annualised Dates and Durations
+  Annualised Fixed-Precision Dates and Durations
   for Actuarial Experience Analysis
 Version: 0.0.0.9000
 Authors@R:
@@ -11,8 +11,10 @@ Authors@R:
   )
 Description:
   TODO.
+URL: https://github.com/logmu-org/r-datey
 License: MIT + file LICENSE
 Encoding: UTF-8
+Depends: R (>= 4.0.0)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Suggests: 

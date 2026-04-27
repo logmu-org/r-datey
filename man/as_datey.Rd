@@ -11,7 +11,7 @@
 \alias{as_datey.POSIXlt}
 \alias{format.datey}
 \alias{print.datey}
-\title{Convert an object to a \code{datey}.}
+\title{Convert an object to a \code{datey}}
 \usage{
 as_datey(x, ...)
 
