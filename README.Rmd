@@ -2,7 +2,12 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!--
+**Make sure you're editing README.Rmd, *not* README.md!!**
+(README.md is generated from README.Rmd.)
+
+After changing this file, run `devtools::build_readme()`!!
+-->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -13,12 +18,37 @@ knitr::opts_chunk$set(
 )
 ```
 
-# datey
-
+# datey <img src="man/figures/logo.png" align="right" />
 <!-- badges: start -->
 <!-- badges: end -->
 
 The goal of datey is to ...
+
+standardise annual, i.e. year-based calculations e.g. as required for actuarial
+mortality experience analyses or valuations.
+
+- Fixed precision dates for calendar years [1000, 3000)
+- Technically this is the Proleptic Gregorian calendar
+
+Guarantees:
+
+- Can represent start and middle of any day leap year and non leap year
+- Years divisible by 120
+
+You can convert from standard base R dates (`Date`, `POSIXct` and `POSIXlt`).
+
+Key argument is `day_fraction`. Simpler just to use `start_day`, `mid_day` or 
+`end_day`.
+
+For instance
+
+- start of E2R is typically included, so use `start_day`.
+- if the individual survived then the end of the E2R is also typically included, 
+so use `end_day`. This means that if the E2R comprises separate periods then 
+they will interlock correctly (E2Rs being [measurable](https://timgord.com/2025-08/mortality-measures-matter/#Insight2))
+- If the individual died then on average this is during the final day and so 
+use `mid_day`.
+
 
 ## Installation
 
@@ -46,7 +76,7 @@ summary(cars)
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
 
-You can also embed plots, for example:
+You can also embed plots in the man/figures folder, for example:
 
 ```{r pressure, echo = FALSE}
 plot(pressure)
