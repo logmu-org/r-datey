@@ -3,9 +3,18 @@
 \docType{package}
 \name{datey-package}
 \alias{datey-package}
-\title{datey: Fixed-Precision Annualised Dates and Durations for Actuarial Experience Analysis}
+\title{datey: Annualised Fixed-Precision Dates and Durations for Actuarial Experience Analysis}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 TODO.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/logmu-org/r-datey}
+}
+
 }
 \author{
 \strong{Maintainer}: Tim Gordon \email{tim.gordon@btinternet.com} (\href{https://orcid.org/0009-0006-3087-4384}{ORCID})

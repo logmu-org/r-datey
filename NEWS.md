@@ -1,3 +1,3 @@
-1# datey (development version)
+# datey (development version)
 
 * Initial CRAN submission.
