@@ -2,26 +2,29 @@
 % Please edit documentation in R/datey.R
 \name{datey}
 \alias{datey}
-\alias{as_start_day}
-\alias{as_mid_day}
-\alias{as_end_day}
+\alias{start_day}
+\alias{mid_day}
+\alias{end_day}
 \title{Create a \code{datey}}
 \usage{
 datey(year, month, day, day_fraction)
 
-as_start_day(x, ...)
+start_day(year, month, day)
 
-as_mid_day(x, ...)
+mid_day(year, month, day)
 
-as_end_day(x, ...)
+end_day(year, month, day)
 }
 \arguments{
 \item{year}{Calendar year.
-Valid years are from 1000 (inclusive) to 3000 (exclusive).}
+Valid years are from 1000 (inclusive) to 3000 (exclusive).
+Doubles are truncated to integers.}
 
-\item{month}{Month number in calendar year, with 1 representing January.}
+\item{month}{Month number in calendar year, with 1 representing January.
+Doubles are truncated to integers.}
 
-\item{day}{Day number in month, with 1 representing the first day of the month.}
+\item{day}{Day number in month, with 1 representing the first day of the month.
+Doubles are truncated to integers.}
 
 \item{day_fraction}{The fraction of the day, in [0,1].
 0 means the start of the day,
@@ -30,18 +33,11 @@ Valid years are from 1000 (inclusive) to 3000 (exclusive).}
 (which is identical to the start of the next day).}
 }
 \description{
-Creates a \code{datey} from
-a year, month, day and day-fraction.
-}
-\details{
-\code{year}, \code{month} and \code{day} must be integral and of the
-same length.
+Create a \code{datey} from
+a year, month, day and, optionally, a day-fraction.
 
-\code{day_fraction} must be numeric, lie in [0,1]
-and be either the same length as the date arguments or a scalar.
+In general, prefer the explicit \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}}
+versions.
 
-Calendar years outside the interval [1000,3000)
-are treated as NA.
-
-To deconstruct a \code{datey}, use \link{as_ymdf}.
+To deconstruct a \code{datey}, use \code{\link[=as_ymdf]{as_ymdf()}}.
 }

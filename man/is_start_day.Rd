@@ -13,9 +13,9 @@ is_mid_day(datey)
 \item{datey}{The (vector of ) \code{datey} to test.}
 }
 \description{
-\code{is_start_day()} tests whether the \code{datey} is the start (or end) of
+\code{is_start_day()} tests whether the \code{datey} is a valid start (or end) of
 a day, i.e. the boundary between two days.
 
-\code{is_mid_day()} tests whether the \code{datey} is (exactly) the middle of
+\code{is_mid_day()} tests whether the \code{datey} is a valid exact the middle of
 a day.
 }

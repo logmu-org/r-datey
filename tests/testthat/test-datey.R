@@ -1,24 +1,15 @@
-test_that("`is_leap_year` works", {
-  expect_identical(datey::is_leap_year(2009.0), FALSE)
-  expect_identical(datey::is_leap_year(2008L),  TRUE)
-  expect_identical(datey::is_leap_year(2000.1),  TRUE)
-  expect_identical(datey::is_leap_year(1901),  FALSE)
-  expect_identical(datey::is_leap_year(1900),  FALSE)
-  expect_identical(datey::is_leap_year(as_datey("2044-01-02.0")), TRUE)
-  expect_identical(datey::is_leap_year(as_datey("2047-12-29.0")), FALSE)
-  expect_identical(datey::is_leap_year(as.Date("1804-04-01.0")), TRUE)
-  expect_identical(datey::is_leap_year(as.Date("1813-08-30.0")), FALSE)
-})
-
-test_that("`is_leap_year` gives `NA` for invalid args", {
-  expect_equal(datey::is_leap_year(NA), NA)
-  expect_equal(datey::is_leap_year("2000"), NA)
-  expect_equal(datey::is_leap_year(999.99), NA)
-  expect_equal(datey::is_leap_year(3000L), NA)
-})
-
-test_that("a `datey` is numeric", {
+test_that("`datey` is numeric", {
   expect_identical(base::is.numeric(datey::datey(2000, 1, 1, 0)), TRUE)
+})
+
+test_that("`datey` and `start_day`, `mid_day` and `end_day` are consistent", {
+  y <- c(999, 1000, 1900, 1950, 2000, 2020, 2999, 3000)
+  m <- c(12, 1, 6, 3, 2, 5, 6, 1)
+  d <- c(31, 1, 15, 3, 29, 20, 10, 1)
+
+  expect_identical(datey(y, m, d, 0), start_day(y, m, d))
+  expect_identical(datey(y, m, d, 0.5), mid_day(y, m, d))
+  expect_identical(datey(y, m, d, 1), end_day(y, m, d))
 })
 
 test_datey_round_trip <- function(year, month, day, day_fraction, valid) {

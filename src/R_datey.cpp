@@ -3,123 +3,68 @@
 using namespace cpp11;
 
 [[cpp11::register]]
-logicals cpp_isLeapYear(integers year)
-{
-  int n = year.size();
-  writable::logicals results(n);
-  for(int i = 0; i < n; ++i)
-  {
-    auto year_i = year[i];
-    r_bool result_i;
-    if (year_i >= 1000 && year_i < 3000)
-    {
-      result_i = isLeapYear(year_i) ? TRUE : FALSE;
-    }
-    else
-    {
-      // This includes NA
-      result_i = NA_LOGICAL;
-    }
-    results[i] = result_i;
-  }
-
-  return results;
-}
-
-[[cpp11::register]]
-integers cpp_IntegralDoubleToInteger(doubles x)
-{
-  int n = x.size();
-
-  writable::integers result(n);
-
-  for(int i = 0; i < n; ++i)
-  {
-    double x_i = x[i];
-
-    int result_i;
-
-    if (R_IsNaN(x_i))
-    {
-      result_i = NA_INTEGER;
-    }
-    else
-    {
-      // Behaviour of `nearbyint()` for fractions depends on
-      // rounding mode, but that doesn't matter here.
-      //
-      // We deliberately exclude -(2^31) on because
-      // (a) R may use it for NA_INTEGER, and
-      // (b) it catches people out.
-      double rounded = std::nearbyint(x_i);
-      if (rounded != x_i || std::abs(rounded) > INT_MAX)
-      {
-        result_i = NA_INTEGER;
-      }
-      else
-      {
-        result_i = (int)rounded;
-      }
-    }
-
-    result[i] = result_i;
-  }
-
-  return result;
-}
-
-[[cpp11::register]]
 integers cpp_dateyFromYMDF(
   integers year,
   integers month,
   integers day,
   doubles dayFraction)
 {
-  int n = year.size();
-  if (month.size() != n || day.size() != n)
-  {
-    stop("`year`, `month` and `day` must be the same size.");
-  }
+  R_xlen_t n_y = year.size();
+  R_xlen_t n_m = month.size();
+  R_xlen_t n_d = day.size();
+  R_xlen_t n_f = dayFraction.size();
 
-  writable::integers result(n);
-
-  int n_dayFraction = dayFraction.size();
-
-  if (n_dayFraction == n)
+  // Optimise common case where
+  // (a) `dayFraction` is a scalar, and
+  // (b) other vectors are same length.
+  if (n_f == 1 && n_y == n_m && n_y == n_d)
   {
-    for(int i = 0; i < n; ++i)
-    {
-      result[i] = dateyFromYMDF(year[i], month[i], day[i], dayFraction[i]);
-    }
-  }
-  else if (n_dayFraction == 1)
-  {
+    writable::integers result(n_y);
+
     double dayFraction_0 = dayFraction[0];
-    for(int i = 0; i < n; ++i)
+    for(R_xlen_t i = 0; i < n_y; ++i)
     {
       result[i] = dateyFromYMDF(year[i], month[i], day[i], dayFraction_0);
     }
+
+    return result;
   }
   else
   {
-    stop("`day_fraction` must be a scalar or a vector the same size as `year`, `month` and `day`.");
+    R_xlen_t n = std::max(std::max(n_y, n_m), std::max(n_d, n_f));
+
+    writable::integers result(n);
+
+    R_xlen_t i_y = 0;
+    R_xlen_t i_m = 0;
+    R_xlen_t i_d = 0;
+    R_xlen_t i_f = 0;
+
+    for(R_xlen_t i = 0; i < n; ++i)
+    {
+      result[i] = dateyFromYMDF(year[i], month[i], day[i], dayFraction[0]);
+
+      if (++i_y >= n_y) { i_y = 0;}
+      if (++i_m >= n_m) { i_m = 0;}
+      if (++i_d >= n_d) { i_d = 0;}
+      if (++i_f >= n_f) { i_f = 0;}
+    }
+
+    return result;
   }
-
-
-  return result;
 }
 
 [[cpp11::register]]
 list cpp_dateyToYMDF(integers datey)
 {
-  int n = datey.size();
+  R_xlen_t n = datey.size();
 
   cpp11::writable::integers year(n);
   cpp11::writable::integers month(n);
   cpp11::writable::integers day(n);
   cpp11::writable::doubles dayFraction(n);
 
-  for(int i = 0; i < n; ++i)
+  for(R_xlen_t i = 0; i < n; ++i)
   {
     auto ymdf = dateyToYMDF(datey[i]);
 
@@ -140,48 +85,109 @@ list cpp_dateyToYMDF(integers datey)
 }
 
 [[cpp11::register]]
-integers cpp_dateyFromRDate(doubles rDate, doubles dayFraction)
+integers cpp_dateyWithNewDayFraction(integers datey, doubles dayFraction)
 {
-  int n = rDate.size();
+  R_xlen_t n_dy = datey.size();
+  R_xlen_t n_f = dayFraction.size();
 
-  writable::integers result(n);
-
-  int n_dayFraction = dayFraction.size();
-
-  if (n_dayFraction == n)
+  if (n_f == 1)
   {
-    for(int i = 0; i < n; ++i)
-    {
-      result[i] = dateyFromRDate(rDate[i], dayFraction[i]);
-    }
-  }
-  else if (n_dayFraction == 1)
-  {
+    // Optimise common case
+    writable::integers result(n_dy);
+
     double dayFraction_0 = dayFraction[0];
-    for(int i = 0; i < n; ++i)
+    for(R_xlen_t i = 0; i < n_dy; ++i)
     {
-      result[i] = dateyFromRDate(rDate[i], dayFraction_0);
+      result[i] = dateyWithNewDayFraction(datey[i], dayFraction_0);
     }
+
+    return result;
   }
   else
   {
-    stop("`day_fraction` must be a scalar or a vector the same size as the date vector.");
+    R_xlen_t n = std::max(n_dy, n_f);
+
+    writable::integers result(n);
+
+    R_xlen_t i_dy = 0;
+    R_xlen_t i_f = 0;
+
+    for(R_xlen_t i = 0; i < n; ++i)
+    {
+      result[i] = dateyWithNewDayFraction(datey[i], dayFraction[i]);
+
+      if (++i_dy >= n_dy) { i_dy = 0;}
+      if (++i_f >= n_f) { i_f = 0;}
+    }
+
+    return result;
   }
-
-
-  return result;
 }
 
 [[cpp11::register]]
-strings cpp_dateyToRString(integers datey)
+integers cpp_dateyFromRDate(doubles rDate)
 {
-  int n = datey.size();
+  R_xlen_t n = rDate.size();
+
+  writable::integers result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    result[i] = dateyFromRDate(rDate[i]);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+integers cpp_dateyFromRDateAndFraction(doubles rDate, doubles dayFraction)
+{
+  R_xlen_t n_rd = rDate.size();
+  R_xlen_t n_f = dayFraction.size();
+
+  if (n_f == 1)
+  {
+    // Optimise common case
+    writable::integers result(n_rd);
+
+    double dayFraction_0 = dayFraction[0];
+    for(R_xlen_t i = 0; i < n_rd; ++i)
+    {
+      result[i] = dateyFromRDateAndDayFraction(rDate[i], dayFraction_0);
+    }
+
+    return result;
+  }
+  else
+  {
+    R_xlen_t n = std::max(n_rd, n_f);
+
+    writable::integers result(n);
+
+    R_xlen_t i_rd = 0;
+    R_xlen_t i_f = 0;
+
+    for(R_xlen_t i = 0; i < n; ++i)
+    {
+      result[i] = dateyFromRDateAndDayFraction(rDate[i], dayFraction[i]);
+
+      if (++i_rd >= n_rd) { i_rd = 0;}
+      if (++i_f >= n_f) { i_f = 0;}
+    }
+
+    return result;
+  }
+}
+
+[[cpp11::register]]
+strings cpp_dateyToRString(integers datey, bool includeDayFraction)
+{
+  R_xlen_t n = datey.size();
 
   writable::strings result(n);
 
-  for(int i = 0; i < n; ++i)
+  for(R_xlen_t i = 0; i < n; ++i)
   {
-    result[i] = dateyToRString(datey[i]);
+    result[i] = dateyToRString(datey[i], includeDayFraction);
   }
 
   return result;
@@ -191,11 +197,11 @@ strings cpp_dateyToRString(integers datey)
 [[cpp11::register]]
 integers cpp_dateyFromRStringOnly(strings s)
 {
-  int n = s.size();
+  R_xlen_t n = s.size();
 
   writable::integers result(n);
 
-  for(int i = 0; i < n; ++i)
+  for(R_xlen_t i = 0; i < n; ++i)
   {
     result[i] = dateyFromRStringOnly(s[i]);
   }
@@ -205,23 +211,23 @@ integers cpp_dateyFromRStringOnly(strings s)
 [[cpp11::register]]
 integers cpp_dateyFromRStringAndDayFraction(strings s, doubles dayFraction)
 {
-  int n = s.size();
+  R_xlen_t n = s.size();
 
   writable::integers result(n);
 
-  int n_dayFraction = dayFraction.size();
+  R_xlen_t n_f = dayFraction.size();
 
-  if (n_dayFraction == n)
+  if (n_f == n)
   {
-    for(int i = 0; i < n; ++i)
+    for(R_xlen_t i = 0; i < n; ++i)
     {
       result[i] = dateyFromRStringAndDayFraction(s[i], dayFraction[i]);
     }
   }
-  else if (n_dayFraction == 1)
+  else if (n_f == 1)
   {
     double dayFraction_0 = dayFraction[0];
-    for(int i = 0; i < n; ++i)
+    for(R_xlen_t i = 0; i < n; ++i)
     {
       result[i] = dateyFromRStringAndDayFraction(s[i], dayFraction_0);
     }
@@ -233,3 +239,4 @@ integers cpp_dateyFromRStringAndDayFraction(strings s, doubles dayFraction)
 
   return result;
 }
+

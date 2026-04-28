@@ -4,26 +4,25 @@
 constexpr int DaysToStartByMonth365[13] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 constexpr int DaysToStartByMonth366[13] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
 
-bool isLeapYear(int year)
-{
-  if ((year & 3) != 0) { return false; }
-  if ((year & 15) == 0) { return true; }
-  return year % 25 != 0;
-}
-
 bool isValidDatey(int datey)
 {
-  return datey >= ValidClicksStart && datey < ValidClicksEnd;
+  return datey >= ValidDateStartClicks && datey < ValidDateEndClicks;
 }
 
 bool isValidYear(int year)
 {
-  return year >= ValidYearsStart && year < ValidYearsEnd;
+  return year >= ValidDateStartYear && year < ValidDateEndYear;
 }
 
 bool isValidMonth(int month)
 {
   return month >= 1 && month <= 12;
+}
+
+bool isValidDayFraction(double dayFraction)
+{
+  // Exclude NaNs
+  return dayFraction >= 0.0 && dayFraction <= 1.0;
 }
 
 int dateyFromYMDF(int year, int month, int day, double dayFraction)
@@ -32,7 +31,7 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction)
   if (!isValidYear(year)
     || !isValidMonth(month)
     || day < 1
-    || !(dayFraction >= 0.0 && dayFraction <= 1.0) // NaN!
+    || !isValidDayFraction(dayFraction)
   )
   {
     return NA_INTEGER;
@@ -62,6 +61,8 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction)
 
   int dayCount = daysToStartOfMonth + dayLess1;
   double clicksInYear = (dayCount + dayFraction) * clicksPerDay;
+  // (2999, 12, 31, 1.0) will overflow but we leave that to be caught elsewhere
+  // in line with general datey philosophy of not checking integer calcs.
   return year * ClicksPerYear + (int)roundBankers(clicksInYear);
 }
 
@@ -75,21 +76,21 @@ std::tuple<int, int, int, double> dateyToYMDF(int datey)
   int year = datey / ClicksPerYear;
   int clicksRemaining = datey - year * ClicksPerYear;
 
-  int clicksInOneDay;
+  int clicksPerDay;
   int const *daysToStartByMonth;
   if (isLeapYear(year))
   {
-    clicksInOneDay = ClicksPerDay366;
+    clicksPerDay = ClicksPerDay366;
     daysToStartByMonth = DaysToStartByMonth366;
   }
   else
   {
-    clicksInOneDay = ClicksPerDay365;
+    clicksPerDay = ClicksPerDay365;
     daysToStartByMonth = DaysToStartByMonth365;
   }
 
-  int wholeDaysFromStartOfYear = clicksRemaining / clicksInOneDay;
-  clicksRemaining -= wholeDaysFromStartOfYear * clicksInOneDay;
+  int wholeDaysFromStartOfYear = clicksRemaining / clicksPerDay;
+  clicksRemaining -= wholeDaysFromStartOfYear * clicksPerDay;
 
   for (int monthLess1 = 11; ; --monthLess1)
   {
@@ -98,7 +99,7 @@ std::tuple<int, int, int, double> dateyToYMDF(int datey)
     {
       int day = wholeDaysFromStartOfYear - daysToStartOfMonth + 1;
       int month = monthLess1 + 1;
-      double dayFraction = clicksRemaining / (double)clicksInOneDay;
+      double dayFraction = clicksRemaining / (double)clicksPerDay;
       return std::make_tuple(year, month, day, dayFraction);
     }
   }
@@ -107,55 +108,77 @@ std::tuple<int, int, int, double> dateyToYMDF(int datey)
   return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER, NA_REAL);
 }
 
-int dateyFromRDate(double rDate, double dayFraction)
+int dateyWithNewDayFraction(int datey, double dayFraction)
 {
-  const double rDate_1000_01_01 = -354285.0;
-  const double rDate_3000_01_01 = 376200.0;
-  const int JulianDay_1970_01_01 = 719162;
+  if (!isValidDatey(datey) || !isValidDayFraction(dayFraction))
+  {
+    return NA_INTEGER;
+  }
 
+  int year = datey / ClicksPerYear;
+  int clicksToY = year * ClicksPerYear;
+  int clicksRemaining = datey - clicksToY;
+
+  int clicksPerDay = isLeapYear(year) ? ClicksPerDay366 : ClicksPerDay365;
+
+  int day = clicksRemaining / clicksPerDay;
+  int clicksYToD = day * clicksPerDay;
+  int clicksDToF = roundBankers(dayFraction * clicksPerDay);
+
+  return clicksToY + clicksYToD + clicksDToF;
+}
+
+const double rDate_1000_01_01 = -354285.0;
+const double rDate_3000_01_01 = 376200.0;
+const int JulianDay_1970_01_01 = 719162;
+
+int dateyFromRDate(double rDate)
+{
   // Following allows for NA and NaNs:
-  if (!(rDate>= rDate_1000_01_01 && rDate < rDate_3000_01_01)
-    || !(dayFraction >= 0.0 && dayFraction <= 1.0))
+  if (!(rDate>= rDate_1000_01_01 && rDate < rDate_3000_01_01))
   {
     return NA_INTEGER;
   }
 
-  // `Date` does not report fractional dates
-  //  It uses the floor, e.g
-  //    -0.5 is "1969-12-31"
-  //    +0.5 is "1970-01-01"
-  //
-  // The safe course of action is to treat non-integral
-  // values as invalid.
-  //
-  // NB (int) rounds to 0.
+  // Rounding the R Date *before* adding the 1970 offset is more accurate.
+  // NB We can't simply cast to `int` before adding the offset because that
+  // rounds towards 0.
+  double floor = std::floor(rDate);
 
-  double rounded = std::nearbyint(rDate);
-  if (rounded != rDate)
-  {
-    return NA_INTEGER;
-  }
-
-  int julianDay = (int)rounded + JulianDay_1970_01_01;
+  int julianDay = (int)floor + JulianDay_1970_01_01;
   int year = yearFromJulianDay(julianDay);
 
-  int clicksPerDay;
-  if (isLeapYear(year))
-  {
-    clicksPerDay = ClicksPerDay366;
-  }
-  else
-  {
-    clicksPerDay = ClicksPerDay365;
-  }
+  int clicksPerDay = isLeapYear(year) ? ClicksPerDay366 : ClicksPerDay365;
 
-  int daysFromStartOfYear = julianDay - firstJulianDayOfYear(year);
-
-  int clicksFromStartOfDay = (int)roundBankers(dayFraction * clicksPerDay);
+  int day = julianDay - firstJulianDayOfYear(year);
 
   return year * ClicksPerYear
-    + daysFromStartOfYear * clicksPerDay
-    + clicksFromStartOfDay;
+    + day * clicksPerDay
+    + (int)roundBankers((rDate - floor) * clicksPerDay);
+}
+int dateyFromRDateAndDayFraction(double rDate, double dayFraction)
+{
+  // Following allows for NA and NaNs:
+  if (!(rDate>= rDate_1000_01_01 && rDate < rDate_3000_01_01))
+  {
+    return NA_INTEGER;
+  }
+
+  // Rounding the R Date *before* adding the 1970 offset is more accurate.
+  // NB We can't simply cast to `int` before adding the offset because that
+  // rounds towards 0.
+  double floor = std::floor(rDate);
+
+  int julianDay = (int)floor + JulianDay_1970_01_01;
+  int year = yearFromJulianDay(julianDay);
+
+  int clicksPerDay = isLeapYear(year) ? ClicksPerDay366 : ClicksPerDay365;
+
+  int day = julianDay - firstJulianDayOfYear(year);
+
+  return year * ClicksPerYear
+    + day * clicksPerDay
+    + (int)roundBankers(dayFraction * clicksPerDay);
 }
 
 int yearFromJulianDay(int julianDay)
@@ -221,7 +244,7 @@ static int readN(const char *chars, int n)
   return value;
 }
 
-cpp11::r_string dateyToRString(int datey)
+cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
 {
   if (!isValidDatey(datey)) { return text_NA; }
 
@@ -237,21 +260,29 @@ cpp11::r_string dateyToRString(int datey)
   writeN(std::get<1>(ymdf), chars + 5, 2);
   chars[7] = '-';
   writeN(std::get<2>(ymdf), chars + 8, 2);
-  chars[10] = '.';
 
-  int f_times_10000 = (int)roundBankers(std::get<3>(ymdf) * 10000.0);
-
-  writeN(f_times_10000, chars + 11, 4);
-
-  char *p = chars + 15;
-  *p = '\0';
-
-  // Leave at least one trailing '0'
-  for (int i = 2; i >= 0; --i)
+  if (includeDayFraction)
   {
-    --p;
-    if (*p != '0') { break; }
+    chars[10] = '.';
+
+    int f_times_10000 = (int)roundBankers(std::get<3>(ymdf) * 10000.0);
+
+    writeN(f_times_10000, chars + 11, 4);
+
+    char *p = chars + 15;
     *p = '\0';
+
+    // Leave at least one trailing '0'
+    for (int i = 2; i >= 0; --i)
+    {
+      --p;
+      if (*p != '0') { break; }
+      *p = '\0';
+    }
+  }
+  else
+  {
+    chars[10] = '\0';
   }
 
   return cpp11::r_string(chars);
@@ -321,3 +352,17 @@ int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction)
 
   return dateyFromYMDF(year, month, day, dayFraction);
 }
+
+bool isLeapYear(int year)
+{
+  // For comparison and benchmarking of various approaches see
+  // https://www.benjoffe.com/fast-leap-year.
+
+  // Source: https://hueffner.de/falk/blog/a-leap-year-check-in-three-instructions.html.
+  // uint32_t is part of C++11.
+  const uint32_t f = 1073750999u;
+  const uint32_t m = 3221352463u;
+  const uint32_t t = 126976u;
+  return ((uint32_t(year) * f) & m) <= t;
+}
+

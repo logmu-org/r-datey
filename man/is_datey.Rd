@@ -10,5 +10,5 @@ is_datey(x)
 \item{x}{The object to test.}
 }
 \description{
-Checks whether an object is a \code{datey}
+Checks whether an object is a \code{datey}.
 }
