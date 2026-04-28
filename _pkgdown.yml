@@ -1,10 +1,11 @@
-url: https://github.com/logmu-org/r-datey
+url: http://logmu-org.github.io/r-datey/
 template:
   bootstrap: 5
-  light-switch: true
+  light-switch: yes
   bslib:
     base_font: Lisnoti
-    primary: "#7E57C2"
-    secondary: "#FF5722"
-    navbar-light-bg: "hsl(262, 50%, 90%)"
-    navbar-dark-bg: "hsl(262, 50%, 35%)"
+    primary: '#7E57C2'
+    secondary: '#FF5722'
+    navbar-light-bg: hsl(262, 50%, 90%)
+    navbar-dark-bg: hsl(262, 50%, 35%)
+
