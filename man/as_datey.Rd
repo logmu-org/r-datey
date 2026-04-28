@@ -3,56 +3,80 @@
 \name{as_datey}
 \alias{as_datey}
 \alias{as_datey.default}
+\alias{as_datey.datey}
 \alias{as_datey.integer}
 \alias{as_datey.double}
 \alias{as_datey.character}
 \alias{as_datey.Date}
 \alias{as_datey.POSIXct}
 \alias{as_datey.POSIXlt}
-\alias{format.datey}
-\alias{print.datey}
+\alias{as_start_day}
+\alias{as_mid_day}
+\alias{as_end_day}
 \title{Convert an object to a \code{datey}}
 \usage{
-as_datey(x, ...)
+as_datey(x, day_fraction = NULL, ...)
 
-\method{as_datey}{default}(x, ...)
+\method{as_datey}{default}(x, day_fraction = NULL, ...)
 
-\method{as_datey}{integer}(x, ...)
+\method{as_datey}{datey}(x, day_fraction = NULL, ...)
 
-\method{as_datey}{double}(x, ...)
+\method{as_datey}{integer}(x, day_fraction = NULL, ...)
+
+\method{as_datey}{double}(x, day_fraction = NULL, ...)
 
 \method{as_datey}{character}(x, day_fraction = NULL, ...)
 
-\method{as_datey}{Date}(x, day_fraction, ...)
+\method{as_datey}{Date}(x, day_fraction = NULL, ...)
 
-\method{as_datey}{POSIXct}(x, ...)
+\method{as_datey}{POSIXct}(x, day_fraction = NULL, ...)
 
-\method{as_datey}{POSIXlt}(x, ...)
+\method{as_datey}{POSIXlt}(x, day_fraction = NULL, ...)
 
-\method{format}{datey}(x, ...)
+as_start_day(x, ...)
 
-\method{print}{datey}(x, max = NULL, ...)
+as_mid_day(x, ...)
+
+as_end_day(x, ...)
 }
 \arguments{
-\item{x}{A vector.}
+\item{x}{A vector of the S3 class.}
 
-\item{...}{Other arguments.}
+\item{day_fraction}{The \code{day_fraction} override. Defaults to \code{NULL}.
+\itemize{
+\item If \code{day_fraction} is \emph{not} provided then \code{x} is used to derive both
+the calendar year, month, day \emph{and} the day fraction.
+\item If \code{day_fraction} \emph{is} provided then \code{x} is used solely to derive the
+calendar year, month and day, while \code{day_fraction} provides the position in
+the day. \code{day_fraction} must lie in the inclusive interval [0,1], with
+\item 0 meaning the start of the day,
+\item 0.5 meaning the middle of the day, and
+\item 1 meaning the end of the day (which is identical to the start of the next
+day).
+}}
 
-\item{day_fraction}{The fraction of the day, in [0,1].
-0 means the start of the day,
-0.5 means the middle of the day, and
-1 means the end of the day
-(which is identical to the start of the next day).}
+\item{...}{Other arguments (not used in this package).}
 }
 \description{
 This is an S3 generic. This package provides methods for the
 following classes:
 \itemize{
-\item \code{double} and \code{integer}:
-Values are interpreted as year, e.g. 2000.0. is the \emph{start of}
-the year 2000.
-\item \code{Date}: Note that .
-\item \code{POSIXct}: Note that .
-\item \code{POSIXlt}: Note that .
+\item \code{double} and \code{integer} -- the value is interpreted as the specified
+calendar year, with the fractional part representing the fraction of the
+year. For instance, \code{as_datey(2000.5)} means halfway though the year 2000.
+(\code{integer} means the \emph{start} of the calendar year, e.g. \code{as_datey(2000L)}
+means the start of the year 2000.
+\item \code{datey}, \code{Date} and \code{POSIXct} and \code{POSIXlt} are interpreted as fractional
+years. If no \code{day_fraction} argument is provided then the day fraction is
+determined by the hours, minutes, and seconds. For instance,
+\code{as_datey(as.POSIXct("2000-03-21 12:00"))} means the \emph{middle} of 2000-03-21.
+Note that in standard use, a \code{Date} has no fractional part and therefore
+means the \emph{start} of the day. For instance,
+\code{as_datey(as.Date("2000-03-21 12:00"))} means the \emph{start} of 2000-03-21.
+\item \code{character} -- If \code{day_fraction} \emph{is} provided then the text format must
+be in ISO 8601 extended format, i.e. YYYY-MM-DD. If \code{day_fraction} \emph{is}
+provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
+fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
+for the start of 1 January 2000.
 }
 }

@@ -1,0 +1,38 @@
+test_that("`is_leap_year` works on years 1000 to 2999 ", {
+
+  integer_year <- 1000L:2999L
+  # Any fractions will do but =, < and > that 0.5 is vulnerable to round so test
+  # these explicitly
+  double_year <- integer_year + ((integer_year %%  13L) %%  4L) / 4
+
+  expected <- (integer_year %% 4L == 0L) & (integer_year %% 100L != 0L | (integer_year %% 400L == 0L))
+
+  expect_identical(datey::is_leap_year(integer_year), expected)
+  expect_identical(datey::is_leap_year(double_year), expected)
+  expect_identical(datey::is_leap_year(as_datey(double_year)), expected)
+})
+
+test_that("`is_leap_year` examples work", {
+  expect_false(any(is_leap_year(c(1900, 1901, 2001))))
+  expect_true(all(is_leap_year(c(1904.1, 2000.5, 2004.9))))
+})
+
+test_that("`is_leap_year` works on `Date`", {
+  expect_identical(datey::is_leap_year(as.Date("1804-04-01")), TRUE)
+  expect_identical(datey::is_leap_year(as.Date("1813-08-30")), FALSE)
+  expect_identical(datey::is_leap_year(as.Date("2044-01-02")), TRUE)
+  expect_identical(datey::is_leap_year(as.Date("2047-12-29")), FALSE)
+})
+
+test_that("`is_leap_year` gives `NA` for invalid args", {
+  expect_equal(datey::is_leap_year(NA), NA)
+  expect_equal(datey::is_leap_year(999L), NA)
+  expect_equal(datey::is_leap_year(3000L), NA)
+  expect_equal(datey::is_leap_year(999.99), NA)
+  expect_equal(datey::is_leap_year(3000), NA)
+  expect_equal(datey::is_leap_year(as.Date("0999-12-31")), NA)
+  expect_equal(datey::is_leap_year(as.Date("3000-01-01")), NA)
+  expect_equal(datey::is_leap_year(""), NA)
+  expect_equal(datey::is_leap_year("2000"), NA)
+})
+

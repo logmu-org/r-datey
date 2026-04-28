@@ -3,7 +3,7 @@
 \docType{data}
 \name{valid_years_end}
 \alias{valid_years_end}
-\title{The first \emph{invalid} calendar year after \if{html}{\out{<see cref="ValidYearsStart"/>}}.\if{html}{\out{</summary>}}}
+\title{The first \emph{invalid} calendar year after \link{valid_years_start}.}
 \format{
 An object of class \code{integer} of length 1.
 }
@@ -11,6 +11,6 @@ An object of class \code{integer} of length 1.
 valid_years_end
 }
 \description{
-The first \emph{invalid} calendar year after \if{html}{\out{<see cref="ValidYearsStart"/>}}.\if{html}{\out{</summary>}}
+The first \emph{invalid} calendar year after \link{valid_years_start}.
 }
 \keyword{datasets}
