@@ -252,6 +252,25 @@ is_mid_day <- function(datey) {
   day_fraction_clicks == clicks_per_day / 2L
 }
 
+#' A `datey` as years
+#'
+#' @description
+#' A `datey` converted to years, with `2000.0` representing the *start* of
+#' 2000-01-01 (or, equivalently, the *end* of 1999-12-31).
+#'
+#' Note that a `datey` created as the end of a day (or with day fraction 1) will
+#' print as the start of the following day.
+#' @param x The `datey` to print or format.
+#' @param include_day_fraction Whether to include the fractional day part.
+#' Defaults to `FALSE`.
+#' @param  max Numeric or `NULL`, specifying the maximal number of entries to be
+#' printed. When `NULL`, `getOption("max.print")` used. Defaults to `NULL`.
+#' @param ... Further arguments to be passed from or to other methods.
+#' @export
+as.numeric.datey(x, ...) {
+  MAKE THIS A C++ METHOD FOR EFFICIENCY
+}
+
 #' Format or print a `datey`
 #'
 #' @description
