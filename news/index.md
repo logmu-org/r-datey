@@ -2,4 +2,8 @@
 
 ## datey (development version)
 
-- Initial CRAN submission.
+- Development version
+
+## datey 0.0.1
+
+- Initial release

@@ -33,7 +33,7 @@ is_leap_year(x, ...)
 # S3 method for class 'POSIXct'
 is_leap_year(x, ...)
 
-# S3 method for class 'POSIXct'
+# S3 method for class 'POSIXlt'
 is_leap_year(x, ...)
 ```
 

@@ -1,4 +1,4 @@
-# Check if object is a `datey`
+# Check if an object is a `datey`
 
 Checks whether an object is a `datey`.
 

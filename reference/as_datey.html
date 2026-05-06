@@ -19,7 +19,8 @@ provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 for the start of 1 January 2000.
 
-'><meta property="og:description" content='This is an S3 generic. This package provides methods for the
+
+The lengths of vector arguments must be multiples of each other.'><meta property="og:description" content='This is an S3 generic. This package provides methods for the
 following classes:
 double and integer – the value is interpreted as the specified
 calendar year, with the fractional part representing the fraction of the
@@ -39,7 +40,8 @@ provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 for the start of 1 January 2000.
 
-'><meta property="og:image" content="http://logmu-org.github.io/r-datey/logo.svg"></head><body>
+
+The lengths of vector arguments must be multiples of each other.'><meta property="og:image" content="https://logmu-org.github.io/r-datey/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -97,35 +99,33 @@ be in ISO 8601 extended format, i.e. YYYY-MM-DD. If <code>day_fraction</code> <e
 provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 for the start of 1 January 2000.</p></li>
-</ul></div>
+</ul><p>The lengths of vector arguments must be multiples of each other.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Default S3 method</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'datey'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'integer'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'double'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'character'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'Date'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'POSIXct'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'POSIXlt'</span></span>
-<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">as_datey</span><span class="op">(</span><span class="va">x</span>, day_fraction <span class="op">=</span> <span class="cn">NULL</span>, strict <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">as_start_day</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -153,6 +153,14 @@ the day. <code>day_fraction</code> must lie in the inclusive interval [0,1], wit
 <li><p>1 meaning the end of the day (which is identical to the start of the next
 day).</p></li>
 </ul></dd>
+
+
+<dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
+<dd><p>How calendar years less than 1000 or greater than or equal to 3000 and day
+fractions not in the interval [0,1] should be
+handled.</p><ul><li><p>If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.</p></li>
+<li><p>If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p></li>
+</ul><p>(NAs will result in NA regardless of this switch.)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

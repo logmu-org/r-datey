@@ -25,34 +25,33 @@ classes:
   even if the fraction is 0, e.g. "2000-01-01.0" for the start of 1
   January 2000.
 
+The lengths of vector arguments must be multiples of each other.
+
 ## Usage
 
 ``` r
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # Default S3 method
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'datey'
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'integer'
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'double'
-as_datey(x, day_fraction = NULL, ...)
-
-# S3 method for class 'character'
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'Date'
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'POSIXct'
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'POSIXlt'
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 as_start_day(x, ...)
 
@@ -85,6 +84,17 @@ as_end_day(x, ...)
 
   - 1 meaning the end of the day (which is identical to the start of the
     next day).
+
+- strict:
+
+  How calendar years less than 1000 or greater than or equal to 3000 and
+  day fractions not in the interval \[0,1\] should be handled.
+
+  - If `strict` is `TRUE` – the default – then execution is stopped.
+
+  - If `strict` is `FALSE` then `NA` is returned.
+
+  (NAs will result in NA regardless of this switch.)
 
 - ...:
 

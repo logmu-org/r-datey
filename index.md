@@ -35,6 +35,7 @@ You can install the development version of datey from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("logmu-org/r-datey")
 ```
@@ -44,6 +45,7 @@ pak::pak("logmu-org/r-datey")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
+
 library(datey)
 ## basic example code
 ```
@@ -52,6 +54,7 @@ What is special about using `README.Rmd` instead of just `README.md`?
 You can include R chunks like so:
 
 ``` r
+
 summary(cars)
 #>      speed           dist       
 #>  Min.   : 4.0   Min.   :  2.00  

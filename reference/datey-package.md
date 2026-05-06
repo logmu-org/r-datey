@@ -12,6 +12,8 @@ Useful links:
 
 - <http://logmu-org.github.io/r-datey/>
 
+- <https://logmu-org.github.io/r-datey/>
+
 ## Author
 
 **Maintainer**: Tim Gordon <tim.gordon@btinternet.com>
