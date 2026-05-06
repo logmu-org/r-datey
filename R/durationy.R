@@ -72,7 +72,7 @@ NULL
 
 #' @rdname durationy.NA
 #' @export
-NA_durationy_ <- structure(NA_integer_, class = "durationy")
+NA_durationy_ <- structure(NA_integer_, c("datey_type", "durationy"))
 #' @rdname durationy.NA
 #' @export
 is.na.durationy <- function(x) {
@@ -139,7 +139,7 @@ as_durationy.integer <- function(x, strict = TRUE, ...) {
     }
   }
   clicks <- ifelse(x >= -2000L & x <= 2000L, x * 534360L, NA_integer_)
-  structure(clicks, class = "durationy")
+  structure(clicks, class = c("datey_type", "durationy"))
 }
 #' @rdname as_durationy
 #' @export
@@ -152,7 +152,7 @@ as_durationy.double <- function(x, strict = TRUE, ...) {
     }
   }
   clicks <- ifelse(x >= -2000 & x <= 2000, round(x * 534360), NA_real_)
-  structure(as.integer(clicks), class = "durationy")
+  structure(as.integer(clicks), class = c("datey_type", "durationy"))
 }
 
 #' Parse text as a `durationy`
@@ -194,7 +194,7 @@ as_durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_u
   ensure_is_switch(blank_is_NA)
   ensure_is_text_scalar(year_unit)
   clicks <- cpp_durationyFromRString(x, strict, blank_is_NA, year_unit)
-  structure(clicks, class = "durationy")
+  structure(clicks, class = c("datey_type", "durationy"))
 }
 
 #' A `durationy` as years
@@ -255,7 +255,7 @@ c.durationy <- function(..., recursive = FALSE) {
   result <- NextMethod("c")
 
   # Re-apply class
-  class(result) <- "durationy"
+  class(result) <- c("datey_type", "durationy")
   result
 }
 
