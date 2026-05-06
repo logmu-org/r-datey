@@ -74,7 +74,7 @@ NULL
 
 #' @rdname datey.NA
 #' @export
-NA_datey_ <- structure(NA_integer_, class = "datey")
+NA_datey_ <- structure(NA_integer_, class = c("datey_type", "datey"))
 #' @rdname datey.NA
 #' @export
 is.na.datey <- function(x) {
@@ -177,7 +177,7 @@ datey <- function(year, month, day, day_fraction, strict = TRUE) {
     clicks <- cpp_dateyFromYMDF(year, month, day, day_fraction, strict)
   }
 
-  structure(clicks, class = "datey")
+  structure(clicks, class = c("datey_type", "datey"))
 }
 
 #' @rdname datey
@@ -275,7 +275,7 @@ as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   if (!is.null(day_fraction)) {
     day_fraction <- as_double_for_cpp(day_fraction)
     x <- cpp_dateyWithNewDayFraction(x, day_fraction, strict)
-    x <- structure(x, class = "datey")
+    x <- structure(x, class = c("datey_type", "datey"))
   }
   x
 }
@@ -284,7 +284,7 @@ as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 as_datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000L & x < 3000L, x * 534360L, NA_integer_)
-  datey <- structure(clicks, class = "datey")
+  datey <- structure(clicks, class = c("datey_type", "datey"))
   if (!is.null(day_fraction)) datey <- as_datey.datey(datey, day_fraction, ...)
   datey
 }
@@ -293,7 +293,7 @@ as_datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 as_datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000 & x < 3000, round(x * 534360), NA_real_)
-  datey <- structure(as.integer(clicks), class = "datey")
+  datey <- structure(as.integer(clicks), class = c("datey_type", "datey"))
   if (!is.null(day_fraction)) datey <- as_datey.datey(datey, day_fraction, ...)
   datey
 }
@@ -307,7 +307,7 @@ as_datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) {
     day_fraction <- as_double_for_cpp(day_fraction)
     clicks <- cpp_dateyFromRDateAndFraction(x, day_fraction, strict)
   }
-  datey <- structure(as.integer(clicks), class = "datey")
+  datey <- structure(as.integer(clicks), class = c("datey_type", "datey"))
 }
 #' @rdname as_datey
 #' @export
@@ -339,7 +339,7 @@ as_datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   clicks <- year * 534360L + as.integer(round(year_fraction * 534360))
   clicks <- ifelse(year < 1000L | year >= 3000L, NA_integer_, clicks)
 
-  datey <- structure(as.integer(clicks), class = "datey")
+  datey <- structure(as.integer(clicks), class = c("datey_type", "datey"))
   as_datey.datey(datey, day_fraction, strict)
 }
 
@@ -401,7 +401,7 @@ as_datey.character <- function(x,
     day_fraction <- as_double_for_cpp(day_fraction)
     clicks <- cpp_dateyFromRStringAndDayFraction(x, day_fraction, strict, blank_is_NA)
   }
-  structure(clicks, class = "datey")
+  structure(clicks, class = c("datey_type", "datey"))
 }
 
 #' @rdname as_datey
@@ -507,7 +507,7 @@ c.datey <- function(..., recursive = FALSE) {
   result <- NextMethod("c")
 
   # Re-apply class
-  class(result) <- "datey"
+  class(result) <- c("datey_type", "datey")
   result
 }
 
