@@ -7,37 +7,59 @@
 \alias{end_day}
 \title{Create a \code{datey}}
 \usage{
-datey(year, month, day, day_fraction)
+datey(year, month, day, day_fraction, strict = TRUE)
 
-start_day(year, month, day)
+start_day(year, month, day, strict = TRUE)
 
-mid_day(year, month, day)
+mid_day(year, month, day, strict = TRUE)
 
-end_day(year, month, day)
+end_day(year, month, day, strict = TRUE)
 }
 \arguments{
 \item{year}{Calendar year.
 Valid years are from 1000 (inclusive) to 3000 (exclusive).
-Doubles are truncated to integers.}
+If provided as \code{double} then these \emph{must be integers}.}
 
 \item{month}{Month number in calendar year, with 1 representing January.
-Doubles are truncated to integers.}
+If provided as \code{double} then these \emph{must be integers}.}
 
 \item{day}{Day number in month, with 1 representing the first day of the month.
-Doubles are truncated to integers.}
+If provided as \code{double} then these \emph{must be integers}.}
 
 \item{day_fraction}{The fraction of the day, in [0,1].
 0 means the start of the day,
 0.5 means the middle of the day, and
 1 means the end of the day
 (which is identical to the start of the next day).}
+
+\item{strict}{How to handle calendar years less than 1000 or greater than or equal to 3000 and day
+fractions not in the interval [0,1].
+\itemize{
+\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
+}
+
+(NA arguments result in NA regardless of \code{strict}.)}
 }
 \description{
 Create a \code{datey} from
-a year, month, day and, optionally, a day-fraction.
+a year, month, day and, for \code{datey()}, a day-fraction.
 
 In general, prefer the explicit \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}}
 versions.
 
 To deconstruct a \code{datey}, use \code{\link[=as_ymdf]{as_ymdf()}}.
+
+The lengths of vector arguments must be multiples of each other.
 }
+\section{Edge cases}{
+The following are special cases:
+\enumerate{
+\item \verb{(year = 999, month = 12, day = 31, day_fraction = 1}). This \emph{will} cause
+an error, even though in theory it represents the legal \code{datey} 1000-01-01.0.
+\item \verb{(year = 2999, month = 12, day = 31, day_fraction = 1}). This will \emph{not}
+cause an error, even though in theory it represents the illegal \code{datey}
+3000-01-01.0. (The resulting \code{datey} will be invalid though.)
+}
+}
+

@@ -1,3 +1,9 @@
+// S3 annualised fixed precision dates and durations for R
+//
+// This file is licensed to you under the MIT License.
+//
+// Copyright (c) Tim Gordon
+
 #include "datey.h"
 //#include <math.h>
 
@@ -25,16 +31,62 @@ bool isValidDayFraction(double dayFraction)
   return dayFraction >= 0.0 && dayFraction <= 1.0;
 }
 
-int dateyFromYMDF(int year, int month, int day, double dayFraction)
+bool isLeapYear(int year)
 {
-  // Assume NA_INTEGER is not in any of these ranges
-  if (!isValidYear(year)
-    || !isValidMonth(month)
-    || day < 1
-    || !isValidDayFraction(dayFraction)
-  )
+  // For comparison and benchmarking of various approaches see
+  // https://www.benjoffe.com/fast-leap-year.
+
+  // Source: https://hueffner.de/falk/blog/a-leap-year-check-in-three-instructions.html.
+  // uint32_t is part of C++11.
+  const uint32_t f = 1073750999u;
+  const uint32_t m = 3221352463u;
+  const uint32_t t = 126976u;
+  return ((uint32_t(year) * f) & m) <= t;
+}
+
+int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
+{
+  if (!isValidYear(year) || !isValidMonth(month) || day < 1 || !isValidDayFraction(dayFraction))
   {
+    if (cpp11::is_na(year) || cpp11::is_na(month) || cpp11::is_na(day) || cpp11::is_na(dayFraction) )
+    {
+      return NA_INTEGER;
+    }
+
+    // Special case: 0999-12-31 + day_fraction rounds to 1
+    // We catch this even though it results in a legal datey.
+
+    //// Handling this inside the error check should not be on hot path
+    //if (year == 999 && month == 12 && day == 31 && roundBankers(dayFraction * ClicksPerDay365) == ClicksPerDay365)
+    //{
+    //  year = 1000; month = 1; day = 1; dayFraction = 0.0;
+    //}
+    //else
+    //{
+    if (strict)
+    {
+      const char *msg;
+      if (!isValidYear(year))
+      {
+        msg = "`year` argument is outside valid `datey` interval [1000,3000).";
+      }
+      else if (!isValidMonth(month))
+      {
+        msg = "`month` argument must be 1 to 12 inclusive.";
+      }
+      else if (day < 1)
+      {
+        msg = "`day` argument must be 1 to M, where M is the number of days in the month.";
+      }
+      else
+      {
+        msg = "`day_fraction` must be in the interval [0,1].";
+      }
+      cpp11::stop(msg);
+    }
+
     return NA_INTEGER;
+    //}
   }
 
   double clicksPerDay;
@@ -56,13 +108,18 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction)
   int dayLess1 = day - 1;
   if (dayLess1 < 0 || dayLess1 >= daysToEndOfMonth - daysToStartOfMonth)
   {
+    if (strict)
+    {
+      cpp11::stop("`day` argument must be 1 to M, where M is the number of days in the month.");
+    }
     return NA_INTEGER;
   }
 
   int dayCount = daysToStartOfMonth + dayLess1;
   double clicksInYear = (dayCount + dayFraction) * clicksPerDay;
-  // (2999, 12, 31, 1.0) will overflow but we leave that to be caught elsewhere
-  // in line with general datey philosophy of not checking integer calcs.
+
+  // Special case: 2999-12-31 + day_fraction close to 1
+  // We let this go, even though it results in an illegal datey.
   return year * ClicksPerYear + (int)roundBankers(clicksInYear);
 }
 
@@ -108,12 +165,25 @@ std::tuple<int, int, int, double> dateyToYMDF(int datey)
   return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER, NA_REAL);
 }
 
-int dateyWithNewDayFraction(int datey, double dayFraction)
+int dateyWithNewDayFraction(int datey, double dayFraction, bool strict)
 {
-  if (!isValidDatey(datey) || !isValidDayFraction(dayFraction))
+  if (!isValidDatey(datey)) { return NA_INTEGER; }
+
+  if (!isValidDayFraction(dayFraction))
   {
+    if (cpp11::is_na(dayFraction) )
+    {
+      return NA_INTEGER;
+    }
+
+    if (strict)
+    {
+      cpp11::stop("`day_fraction` must be in the interval [0,1].");
+    }
+
     return NA_INTEGER;
   }
+
 
   int year = datey / ClicksPerYear;
   int clicksToY = year * ClicksPerYear;
@@ -132,11 +202,18 @@ const double rDate_1000_01_01 = -354285.0;
 const double rDate_3000_01_01 = 376200.0;
 const int JulianDay_1970_01_01 = 719162;
 
-int dateyFromRDate(double rDate)
+int dateyFromRDate(double rDate, bool strict)
 {
   // Following allows for NA and NaNs:
   if (!(rDate>= rDate_1000_01_01 && rDate < rDate_3000_01_01))
   {
+    if (cpp11::is_na(rDate)) { return NA_INTEGER; }
+
+    if (strict)
+    {
+      cpp11::stop("`Date` calendar year is outside valid `datey` interval [1000,3000).");
+    }
+
     return NA_INTEGER;
   }
 
@@ -156,11 +233,15 @@ int dateyFromRDate(double rDate)
     + day * clicksPerDay
     + (int)roundBankers((rDate - floor) * clicksPerDay);
 }
-int dateyFromRDateAndDayFraction(double rDate, double dayFraction)
+int dateyFromRDateAndDayFraction(double rDate, double dayFraction, bool strict)
 {
   // Following allows for NA and NaNs:
   if (!(rDate>= rDate_1000_01_01 && rDate < rDate_3000_01_01))
   {
+    if (strict)
+    {
+      cpp11::stop("`Date` calendar year is outside valid `datey` interval [1000,3000).");
+    }
     return NA_INTEGER;
   }
 
@@ -217,36 +298,9 @@ int firstJulianDayOfYear(int year)
   return k * (365 * 4 + 1) / 4 - cent + cent / 4;
 }
 
-static const cpp11::r_string text_NA = "NA";
-
-// Simpler to implement explicitly
-static void writeN(int value, char *buffer, int n)
-{
-  for (char *p = buffer + (n - 1); p >= buffer; --p)
-  {
-    int value_div_10 = value / 10;
-    int digit = value - value_div_10 * 10;
-    *p = (char)('0' + digit);
-    value = value_div_10;
-  }
-}
-static int readN(const char *chars, int n)
-{
-  int value = 0;
-  for (int i = 0; i < n; ++i)
-  {
-    char c = chars[i];
-    if (c == 0) { return -1; }
-    int digit = c - '0';
-    if (digit > 9 || digit < 0) { return -1; }
-    value = value * 10 + digit;
-  }
-  return value;
-}
-
 cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
 {
-  if (!isValidDatey(datey)) { return text_NA; }
+  if (!isValidDatey(datey)) { return NA_STRING; }
 
   // 4 digits distinguishes between values
   // 16 chars captures max text plus 0 terminator
@@ -269,6 +323,7 @@ cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
 
     writeN(f_times_10000, chars + 11, 4);
 
+    // Remove trailing zeros:
     char *p = chars + 15;
     *p = '\0';
 
@@ -288,81 +343,133 @@ cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
   return cpp11::r_string(chars);
 }
 
-int dateyFromRStringOnly(cpp11::r_string rString)
+int dateyFromRStringOnly(cpp11::r_string rString, bool blankIsNA, bool strict)
 {
+  if (cpp11::is_na(rString)) { return NA_INTEGER; }
+
   std::string s = (std::string)rString;
 
-  size_t size = s.size();
+  auto size = s.size();
 
-  // "YYYY-MM-DD.0###" = min 12 chars
-  if (size < 12 || size > 100) { return NA_INTEGER; }
+  if (blankIsNA && size == 0) { return NA_INTEGER; }
 
-  // `data()` is null terminated as of C++11.
-  // https://en.cppreference.com/cpp/string/basic_string/data
-  const char* chars = s.data();
+  int clicks;
 
-  int year = readN(chars, 4);
-  char hyphen_YM = chars[4];
-  int month = readN(chars + 5, 2);
-  char hyphen_MD = chars[7];
-  int day = readN(chars + 8, 2);
-  char point = chars[10];
-
-  if (hyphen_YM != '-' || hyphen_MD != '-' || point != '.')
+  // "YYYY-MM-DD" or "YYYY-MM-DD.0###" = 10 or 12+ chars
+  if (size < 10 || size == 11 || size > 100)
   {
-    return NA_INTEGER;
+    clicks = NA_INTEGER;
+  }
+  else
+  {
+    // As of C++11, `data()` is guaranteed to be null-terminated.
+    // See: https://en.cppreference.com/cpp/string/basic_string/data
+    const char* chars = s.data();
+
+    int year = readN(chars, 4);
+    char hyphen_YM = chars[4];
+    int month = readN(chars + 5, 2);
+    char hyphen_MD = chars[7];
+    int day = readN(chars + 8, 2);
+
+    if (hyphen_YM != '-' || hyphen_MD != '-')
+    {
+      clicks = NA_INTEGER;
+    }
+    else
+    {
+      double dayFraction = 0.0;
+      bool isValid;
+      if (size < 12)
+      {
+        isValid = true; // "YYYY-MM-DD"
+      }
+      else
+      {
+        if (chars[10] != '.')
+        {
+          isValid = false; // "YYYY-MM-DD.0###"
+        }
+        else
+        {
+          isValid = true;
+          for(int i = (int)(size - 1); i > 10; --i)
+          {
+            char c = chars[i];
+            int digit = c - '0';
+            if (digit < 0 || digit > 9)
+            {
+              isValid = false;
+              break;
+            }
+            dayFraction = dayFraction / 10.0 + (double)digit;
+          }
+
+          dayFraction /= 10.0;
+        }
+      }
+
+      clicks = isValid ? dateyFromYMDF(year, month, day, dayFraction, strict) : NA_INTEGER;
+    }
   }
 
-  double dayFraction = 0.0;
-
-  for(int i = (int)(size - 1); i > 10; --i)
+  if (strict && clicks == NA_INTEGER)
   {
-    char c = chars[i];
-    int digit = c - '0';
-    if (digit > 9 || digit < 0) { return NA_INTEGER; }
-    dayFraction = dayFraction / 10.0 + (double)digit;
+    const char *msg = blankIsNA
+    ? "Invalid datey text. Should be \"\" or \"YYYY-MM-DD[.FFF]\", where \"[.FFF]\" is optional fraction with at least 1 digit."
+    : "Invalid datey text. Should be \"YYYY-MM-DD[.FFF]\", where \"[.FFF]\" is optional fraction with at least 1 digit."
+    ;
+    cpp11::stop(msg);
   }
 
-  dayFraction /= 10.0;
-
-  return dateyFromYMDF(year, month, day, dayFraction);
+  return clicks;
 }
 
-int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction)
+int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, bool blankIsNA, bool strict)
 {
+  if (cpp11::is_na(rString) || cpp11::is_na(dayFraction)) { return NA_INTEGER; }
+
   std::string s = (std::string)rString;
 
-  size_t size = s.size();
+  auto size = s.size();
+
+  if (blankIsNA && size == 0) { return NA_INTEGER; }
+
+  int clicks;
 
   // "YYYY-MM-DD" = exactly 10 chars
-  if (size != 10) { return NA_INTEGER; }
-
-  const char* chars = s.data();
-
-  int year = readN(chars, 4);
-  char hyphen_YM = chars[4];
-  int month = readN(chars + 5, 2);
-  char hyphen_MD = chars[7];
-  int day = readN(chars + 8, 2);
-
-  if (hyphen_YM != '-' || hyphen_MD != '-')
+  if (size != 10)
   {
-    return NA_INTEGER;
+    clicks = NA_INTEGER;
+  }
+  else
+  {
+    const char* chars = s.data();
+
+    int year = readN(chars, 4);
+    char hyphen_YM = chars[4];
+    int month = readN(chars + 5, 2);
+    char hyphen_MD = chars[7];
+    int day = readN(chars + 8, 2);
+
+    if (hyphen_YM != '-' || hyphen_MD != '-')
+    {
+      clicks = NA_INTEGER;
+    }
+    else
+    {
+      clicks = dateyFromYMDF(year, month, day, dayFraction, strict);
+    }
   }
 
-  return dateyFromYMDF(year, month, day, dayFraction);
+  if (strict && clicks == NA_INTEGER)
+  {
+    const char *msg = blankIsNA
+      ? "Invalid datey text. Should be \"YYYY-MM-DD\" or \"\"."
+      : "Invalid datey text. Should be \"YYYY-MM-DD\"."
+      ;
+    cpp11::stop(msg);
+  }
+
+  return clicks;
 }
-
-bool isLeapYear(int year)
-{
-  // For comparison and benchmarking of various approaches see
-  // https://www.benjoffe.com/fast-leap-year.
-
-  // Source: https://hueffner.de/falk/blog/a-leap-year-check-in-three-instructions.html.
-  // uint32_t is part of C++11.
-  const uint32_t f = 1073750999u;
-  const uint32_t m = 3221352463u;
-  const uint32_t t = 126976u;
-  return ((uint32_t(year) * f) & m) <= t;
-}
-

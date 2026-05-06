@@ -8,6 +8,7 @@
 \alias{is_leap_year.datey}
 \alias{is_leap_year.Date}
 \alias{is_leap_year.POSIXct}
+\alias{is_leap_year.POSIXlt}
 \title{Is \code{x} a leap year?}
 \usage{
 is_leap_year(x, ...)
@@ -24,7 +25,7 @@ is_leap_year(x, ...)
 
 \method{is_leap_year}{POSIXct}(x, ...)
 
-\method{is_leap_year}{POSIXct}(x, ...)
+\method{is_leap_year}{POSIXlt}(x, ...)
 }
 \arguments{
 \item{x}{A vector date type or numeric year.}

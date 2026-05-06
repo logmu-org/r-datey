@@ -15,6 +15,7 @@ Useful links:
   \item \url{https://github.com/logmu-org/r-datey}
   \item \url{http://logmu.org/r-datey/}
   \item \url{http://logmu-org.github.io/r-datey/}
+  \item \url{https://logmu-org.github.io/r-datey/}
 }
 
 }

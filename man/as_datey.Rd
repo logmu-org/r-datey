@@ -6,7 +6,6 @@
 \alias{as_datey.datey}
 \alias{as_datey.integer}
 \alias{as_datey.double}
-\alias{as_datey.character}
 \alias{as_datey.Date}
 \alias{as_datey.POSIXct}
 \alias{as_datey.POSIXlt}
@@ -15,23 +14,21 @@
 \alias{as_end_day}
 \title{Convert an object to a \code{datey}}
 \usage{
-as_datey(x, day_fraction = NULL, ...)
+as_datey(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{default}(x, day_fraction = NULL, ...)
+\method{as_datey}{default}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{datey}(x, day_fraction = NULL, ...)
+\method{as_datey}{datey}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{integer}(x, day_fraction = NULL, ...)
+\method{as_datey}{integer}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{double}(x, day_fraction = NULL, ...)
+\method{as_datey}{double}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{character}(x, day_fraction = NULL, ...)
+\method{as_datey}{Date}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{Date}(x, day_fraction = NULL, ...)
+\method{as_datey}{POSIXct}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{as_datey}{POSIXct}(x, day_fraction = NULL, ...)
-
-\method{as_datey}{POSIXlt}(x, day_fraction = NULL, ...)
+\method{as_datey}{POSIXlt}(x, day_fraction = NULL, strict = TRUE, ...)
 
 as_start_day(x, ...)
 
@@ -54,6 +51,16 @@ the day. \code{day_fraction} must lie in the inclusive interval [0,1], with
 \item 1 meaning the end of the day (which is identical to the start of the next
 day).
 }}
+
+\item{strict}{How calendar years less than 1000 or greater than or equal to 3000 and day
+fractions not in the interval [0,1] should be
+handled.
+\itemize{
+\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
+}
+
+(NAs will result in NA regardless of this switch.)}
 
 \item{...}{Other arguments (not used in this package).}
 }
@@ -79,4 +86,6 @@ provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 for the start of 1 January 2000.
 }
+
+The lengths of vector arguments must be multiples of each other.
 }
