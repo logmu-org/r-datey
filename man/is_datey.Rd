@@ -2,7 +2,7 @@
 % Please edit documentation in R/datey.R
 \name{is_datey}
 \alias{is_datey}
-\title{Check if object is a \code{datey}}
+\title{Check if an object is a \code{datey}}
 \usage{
 is_datey(x)
 }

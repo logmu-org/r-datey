@@ -1,3 +1,9 @@
+// S3 annualised fixed precision dates and durations for R
+//
+// This file is licensed to you under the MIT License.
+//
+// Copyright (c) Tim Gordon
+
 #include "datey.h"
 
 using namespace cpp11;

@@ -1,3 +1,9 @@
+# S3 annualised fixed precision dates and durations for R
+#
+# This file is licensed to you under the MIT License.
+#
+# Copyright (c) Tim Gordon
+
 #' Generic operators for `datey`
 #' @param e1 First (`datey`) parameter.
 #' @param e2 Second parameter -- must be `datey` or `durationy`.
