@@ -10,7 +10,7 @@ test_that("`NA_durationy_` is NA", expect_identical(is.na(NA_durationy_), TRUE))
 test_that("`valid_duration_years_max` is 2000", expect_identical(valid_duration_years_max, 2000L))
 
 # is_durationy <- function(x) ==================================================
-test_that("`is_durationy()` works", {
+test_that("`is_durationy()`", {
   expect_identical(is_durationy(NA_durationy_), TRUE)
   expect_identical(is_durationy(durationy(1.5)), TRUE)
   expect_identical(is_durationy(durationy(1L)), TRUE)
@@ -23,18 +23,18 @@ test_that("`is_durationy()` works", {
 })
 
 # durationy.default <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`durationy.default()` works", {
+test_that("`durationy.default()`", {
   expect_identical(durationy(structure(0, class = "FAKE")), NA_durationy_)
 })
 
 # durationy.durationy <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`durationy.durationy()` works", {
+test_that("`durationy.durationy()`", {
   expect_identical(durationy(durationy(1.23456)), durationy(1.23456))
   expect_identical(durationy(datey::NA_durationy_), datey::NA_durationy_)
 })
 
 # durationy.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`durationy.integer()` works", {
+test_that("`durationy.integer()`", {
   expect_identical(durationy(0L), durationy(0))
   expect_identical(durationy(1L), durationy(1))
   expect_identical(durationy(-1L), durationy(-1))
@@ -45,7 +45,7 @@ test_that("`durationy.integer()` works", {
 })
 
 # durationy.double <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`durationy.double()` works", {
+test_that("`durationy.double()`", {
 
   expect_identical(durationy(0), durationy("0 yr"))
   expect_identical(durationy(1), durationy("+1 yr"))
@@ -59,7 +59,7 @@ test_that("`durationy.double()` works", {
 })
 
 # durationy.character <- function(x, day_fraction = NULL, blank_is_NA = FALSE, strict = TRUE, ...) ==================================================
-test_that("`durationy.character()` works", {
+test_that("`durationy.character()`", {
 
   testX <- function(years, text_no_units) {
     durationy <- durationy(years)
@@ -90,7 +90,7 @@ test_that("`durationy.character()` works", {
 })
 # as.double.durationy <- function(x, ...) ==================================================
 # as.numeric dispatches to as.double.XXX
-test_that("`is.numeric.durationy()`, `as.numeric.durationy()` and `as.double.durationy()` all work", {
+test_that("`is.numeric.durationy()`, `as.numeric.durationy()` and `as.double.durationy()`", {
 
   d_0 <- durationy(0)
   d_pos <- durationy(1.75)
@@ -114,7 +114,7 @@ test_that("`is.numeric.durationy()`, `as.numeric.durationy()` and `as.double.dur
 })
 
 # as.integer.durationy <- function(x, ...) ==================================================
-test_that("`as.integer.durationy()` works", {
+test_that("`as.integer.durationy()`", {
   expect_identical(as.integer(durationy(0)), 0L)
   expect_identical(as.integer(durationy(2000)), 2000L)
   expect_identical(as.integer(durationy(0.5)), 0L) # Rounds to integer closest to 0
@@ -125,7 +125,7 @@ test_that("`as.integer.durationy()` works", {
 })
 
 # is.na.durationy <- function(x) ==================================================
-test_that("`is.na.durationy()` works", {
+test_that("`is.na.durationy()`", {
   expect_identical(is.na(NA_durationy_), TRUE)
   expect_identical(is.na(durationy(2000.5, strict = FALSE)), TRUE)
 
@@ -134,7 +134,7 @@ test_that("`is.na.durationy()` works", {
 })
 
 # anyNA.durationy = function(x, recursive=FALSE) ==================================================
-test_that("`anyNA.durationy()` works", {
+test_that("`anyNA.durationy()`", {
 
   na_1 <- NA_durationy_
   na_2 <- durationy(2001L, strict = FALSE)
@@ -157,13 +157,13 @@ test_that("`anyNA.durationy()` works", {
 })
 
 # c.durationy <- function(..., recursive = FALSE) ==================================================
-test_that("`c()` works on `durationy`", {
+test_that("`c()` on `durationy`", {
   expect_identical(is_durationy(c(durationy(1), durationy(2))), TRUE)
   expect_identical(is_durationy(c(NA_durationy_, durationy(3))), TRUE)
 })
 
 # format.durationy <- function(x, include_plus = FALSE, use_true_minus = TRUE, year_unit = "yr", ...) ==================================================
-test_that("`format.durationy()` works", {
+test_that("`format.durationy()`", {
 
   d_0 <- durationy(0)
   d_eps <- durationy(1/(4*365*366))
@@ -199,7 +199,7 @@ test_that("`format.durationy()` works", {
 })
 
 # c.durationy <- function(..., recursive = FALSE) ==================================================
-test_that("`c()` works on `durationy`", {
+test_that("`c()` on `durationy`", {
 
   na_1 <- NA_durationy_
   na_2 <- durationy(2000.1, strict = FALSE)

@@ -11,7 +11,7 @@ test_that("`valid_years_start` is 1000", expect_identical(valid_years_start, 100
 test_that("`valid_years_end` is 3000", expect_identical(valid_years_end, 3000L))
 
 # is_datey <- function(x) ==================================================
-test_that("`is_datey()` works", {
+test_that("`is_datey()`", {
   expect_identical(is_datey(NA_datey_), TRUE)
   expect_identical(is_datey(point_in_day(2000, 1, 1, 0)), TRUE)
 
@@ -23,7 +23,7 @@ test_that("`is_datey()` works", {
 })
 
 # point_in_day <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
-test_that("`point_in_day()` works with vector and scalar `day_fraction`s", {
+test_that("`point_in_day()` with vector and scalar `day_fraction`s", {
 
   year <- c(1960, 2001, 2099);
   month <- c(11, 3, 7);
@@ -37,7 +37,7 @@ test_that("`point_in_day()` works with vector and scalar `day_fraction`s", {
 
   expect_identical(datey_vector, datey_scalar)
 })
-test_that("`point_in_day()` works cyclically and for integer/double combos", {
+test_that("`point_in_day()` cyclically and for integer/double combos", {
 
   y <- c(1960, 2001, 1999, 2000, 2001, 2099)
   m <- c(12, 3, 7, 1, 8, 5) # All months with 31 days
@@ -198,12 +198,12 @@ test_that("`datey` round-trips from ymdf and back", {
 })
 
 # datey.default <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.default()` works", {
+test_that("`datey.default()`", {
   expect_identical(datey(structure(0, class = "FAKE")), NA_datey_)
 })
 
 # datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.datey()` works", {
+test_that("`datey.datey()`", {
   expect_identical(datey(point_in_day(1999, 02, 28, 0.00)), point_in_day(1999, 02, 28, 0.00))
   expect_identical(datey(point_in_day(1999, 11, 17, 0.25)), point_in_day(1999, 11, 17, 0.25))
   expect_identical(datey(point_in_day(2000, 10, 11, 0.00)), point_in_day(2000, 10, 11, 0.00))
@@ -218,7 +218,7 @@ test_that("`datey.datey()` works", {
 })
 
 # datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.integer()` works", {
+test_that("`datey.integer()`", {
   expect_identical(datey(1000L), point_in_day(1000, 01, 01, 0.00))
   expect_identical(datey(1999L, day_fraction = 0.75), point_in_day(1999, 01, 01, 0.75))
   expect_identical(datey(2000L, day_fraction = 0.75), point_in_day(2000, 01, 01, 0.75))
@@ -231,7 +231,7 @@ test_that("`datey.integer()` works", {
 })
 
 # datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.double()` works", {
+test_that("`datey.double()`", {
 
   d_1999_01_15_0.25 <- 1999 + ((15.25 - 1) * 1464) / 534360 # Normal year
   d_2000_01_15_0.25 <- 2000 + ((15.25 - 1) * 1460) / 534360 # Leap year
@@ -260,7 +260,7 @@ test_that("`datey.double()` works", {
 })
 
 # datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.Date()` works", {
+test_that("`datey.Date()`", {
 
   # Get a `Date` that is actually a fraction
   D_2021_09_16.5 <- mean(c(as.Date("2021-09-16"), as.Date("2021-09-17")))
@@ -279,7 +279,7 @@ test_that("`datey.Date()` works", {
   expect_identical(datey(as.Date("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
   expect_identical(datey(as.Date("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
 })
-test_that("`datey.Date()` works cyclically", {
+test_that("`datey.Date()` cyclically", {
 
   Date_A <- as.Date("1000-01-01")
   Date_B <- as.Date("1801-03-05")
@@ -318,7 +318,7 @@ test_that("`datey.Date()` works cyclically", {
 })
 
 # datey.POSIXct <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.POSIXct()` works", {
+test_that("`datey.POSIXct()`", {
 
   expect_identical(datey(as.POSIXct("1000-01-01")), point_in_day(1000, 01, 01, 0.00))
   expect_identical(datey(as.POSIXct("2000-07-23")), point_in_day(2000, 07, 23, 0.00))
@@ -336,7 +336,7 @@ test_that("`datey.POSIXct()` works", {
 })
 
 # datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
-test_that("`datey.POSIXlt()` works", {
+test_that("`datey.POSIXlt()`", {
 
   expect_identical(datey(as.POSIXlt("1000-01-01")), point_in_day(1000, 01, 01, 0.00))
   expect_identical(datey(as.POSIXlt("2000-07-23")), point_in_day(2000, 07, 23, 0.00))
@@ -354,7 +354,7 @@ test_that("`datey.POSIXlt()` works", {
 })
 
 # datey.character <- function(x, day_fraction = NULL, blank_is_NA = FALSE, strict = TRUE, ...) ==================================================
-test_that("`datey.character()` works", {
+test_that("`datey.character()`", {
 
   testX <- function(x, text) {
     expect_identical(datey(text), x)
@@ -398,7 +398,7 @@ test_that("`datey.character()` works", {
   testX(datey(2000 + (1460 * 365 + 1459) / 534360), "2000-12-31.9993")
   testX(datey(2000 + (1460 * 365 + 1459) / 534360), "2000-12-31.99931506")
 })
-test_that("`datey.character()` works cyclically", {
+test_that("`datey.character()` cyclically", {
 
   text_A <- "1000-01-01"
   text_B <- "1801-03-05"
@@ -437,7 +437,7 @@ test_that("`datey.character()` works cyclically", {
 })
 
 # start_day / mid_day / end_day / is_start_day / is_mid_day ==================================================
-test_that("`as_XXX_day()` and `is_XXX_day()` both work", {
+test_that("`as_XXX_day()` and `is_XXX_day()`", {
 
   testX <- function(y, m, d) {
     d_0.00 <- point_in_day(y, m, d, 0.00)
@@ -467,7 +467,7 @@ test_that("`as_XXX_day()` and `is_XXX_day()` both work", {
 
 # as.double.datey <- function(x, ...) ==================================================
 # as.numeric dispatches to as.double.XXX
-test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()` all work", {
+test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()`", {
   expect_identical(is.numeric(point_in_day(2000, 1, 1, 0)), TRUE)
   expect_identical(as.numeric(point_in_day(2000, 1, 1, 0)), 2000)
   expect_identical(as.double(point_in_day(2000, 1, 1, 0)), 2000)
@@ -477,7 +477,7 @@ test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()` al
 })
 
 # as.integer.datey <- function(x, ...) ==================================================
-test_that("`as.integer.datey()` works", {
+test_that("`as.integer.datey()`", {
   expect_identical(as.integer(point_in_day(2000, 1, 1, 0)), 2000L)
   expect_identical(as.integer(point_in_day(2000, 7, 1, 0)), 2000L)
   expect_identical(as.integer(point_in_day(2000, 7, 15, 0.75)), 2000L)
@@ -486,7 +486,7 @@ test_that("`as.integer.datey()` works", {
 })
 
 # is.na.datey <- function(x) ==================================================
-test_that("`is.na.datey()` works", {
+test_that("`is.na.datey()`", {
   expect_identical(is.na(NA_datey_), TRUE)
   expect_identical(is.na(point_in_day(0999, 12, 31, 1.00, strict = FALSE)), TRUE)
   expect_identical(is.na(point_in_day(3000, 01, 01, 0.00, strict = FALSE)), TRUE)
@@ -497,7 +497,7 @@ test_that("`is.na.datey()` works", {
 })
 
 # anyNA.datey = function(x, recursive=FALSE) ==================================================
-test_that("`anyNA.datey()` works", {
+test_that("`anyNA.datey()`", {
 
   na_1 <- NA_datey_
   na_2 <- point_in_day(0999, 12, 31, 1.00, strict = FALSE)
@@ -520,19 +520,19 @@ test_that("`anyNA.datey()` works", {
 })
 
 # c.datey <- function(..., recursive = FALSE) ==================================================
-test_that("`c()` works on `datey`", {
+test_that("`c()` on `datey`", {
   expect_identical(is_datey(c(point_in_day(2000, 1, 1, 0), point_in_day(2000, 1, 1, 0))), TRUE)
   expect_identical(is_datey(c(NA_datey_, point_in_day(2000, 1, 1, 0))), TRUE)
 })
 
 # format.datey <- function(x, include_day_fraction = TRUE, ...) ==================================================
-test_that("`format.datey()` works on NA", {
+test_that("`format.datey()` on NA", {
 
   expect_identical(format(NA_datey_), NA_character_)
   expect_identical(format(point_in_day(0999, 12, 31, 1.00, strict = FALSE)), NA_character_)
   expect_identical(format(point_in_day(3000, 01, 01, 0.00, strict = FALSE)), NA_character_)
 })
-test_that("`format.datey()` works", {
+test_that("`format.datey()`", {
 
   testX <- function(y, m, d, f, text) {
     x <- point_in_day(y, m, d, f)
@@ -607,7 +607,7 @@ test_that("`format.datey()` works", {
 })
 
 # c.datey <- function(..., recursive = FALSE) ==================================================
-test_that("`c()` works on `datey`", {
+test_that("`c()` on `datey`", {
 
   na_1 <- NA_datey_
   na_2 <- point_in_day(0999, 12, 31, 1.00, strict = FALSE)

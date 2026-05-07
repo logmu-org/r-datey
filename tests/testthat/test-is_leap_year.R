@@ -1,4 +1,4 @@
-test_that("`is_leap_year` works on years 1000 to 2999 ", {
+test_that("`is_leap_year` on years 1000 to 2999 ", {
 
   integer_year <- 1000L:2999L
   # Any fractions will do but =, < and > that 0.5 is vulnerable to round so test
@@ -12,12 +12,12 @@ test_that("`is_leap_year` works on years 1000 to 2999 ", {
   expect_identical(is_leap_year(datey(double_year)), expected)
 })
 
-test_that("`is_leap_year` examples work", {
+test_that("`is_leap_year` examples", {
   expect_false(any(is_leap_year(c(1900, 1901, 2001))))
   expect_true(all(is_leap_year(c(1904.1, 2000.5, 2004.9))))
 })
 
-test_that("`is_leap_year` works on `Date`", {
+test_that("`is_leap_year` on `Date`", {
   expect_identical(is_leap_year(as.Date("1804-04-01")), TRUE)
   expect_identical(is_leap_year(as.Date("1813-08-30")), FALSE)
   expect_identical(is_leap_year(as.Date("2044-01-02")), TRUE)

@@ -6,7 +6,7 @@
 
 # +Δ
 # -Δ
-test_that("durationy unary operators work", {
+test_that("durationy unary operators", {
 
   D_pos <- durationy(+1)
   D_neg <- durationy(-1)
@@ -17,11 +17,12 @@ test_that("durationy unary operators work", {
   expect_identical(-D_neg, D_pos)
 })
 
-# T R T => logical
-test_that("datey relational operators work", {
+test_that("datey relational operators", {
 
   T_1999 <- datey(1999)
   T_2000 <- datey(2000)
+
+  # T R T => logical
 
   expect_identical(T_1999 == T_1999, TRUE)
   expect_identical(T_1999 != T_1999, FALSE)
@@ -45,11 +46,12 @@ test_that("datey relational operators work", {
   expect_identical(T_2000 <= T_1999, FALSE)
 })
 
-# Δ R Δ => logical
-test_that("durationy relational operators work", {
+test_that("durationy relational operators", {
 
   D_1 <- durationy(1)
   D_2 <- durationy(2)
+
+  # Δ R Δ => logical
 
   expect_identical(D_1 == D_1, TRUE)
   expect_identical(D_1 != D_1, FALSE)
@@ -73,34 +75,35 @@ test_that("durationy relational operators work", {
   expect_identical(D_2 <= D_1, FALSE)
 })
 
-# T - T => Δ
-# T + Δ => T
-# T - Δ => T
-# T + N => T
-# T - N => T
-# Δ + T => T
-# Δ + Δ => Δ
-# Δ - Δ => Δ
-# Δ + N => Δ
-# Δ - N => Δ
-# Δ * N => Δ
-# Δ / N => Δ
-
-# N + T => T
-
-# N + Δ => Δ
-# N - Δ => Δ
-# N * Δ => Δ
-test_that("datey arithmetic operators work", {
+test_that("datey and durationy arithmetic operators", {
 
   T_1990 <- datey(1990)
   T_2000 <- datey(2000)
-  D_0 <- durationy(0)
-  D_0.25 <- durationy(0.25)
   D_10 <- durationy(10)
-  D_20 <- durationy(20)
+  D_15 <- durationy(15)
+  D_5 <- durationy(5)
 
+  # T - T => Δ
   expect_identical(T_2000 - T_1990, D_10)
+  # T + Δ => T
+  expect_identical(T_1990 + D_10, T_2000)
+  # T - Δ => T
+  expect_identical(T_2000 - D_10, T_1990)
+
+  # Δ + T => T
+  expect_identical(D_10 + T_1990, T_2000)
+  # Δ + Δ => Δ
+  expect_identical(D_10 + D_5, D_15)
+  # Δ - Δ => Δ
+  expect_identical(D_15 - D_5, D_10)
+
+  # Δ * N => Δ
+  expect_identical(D_5 * 3, D_15)
+  # Δ / N => Δ
+  expect_identical(D_10 / 2L, D_5)
+
+  # N * Δ => Δ
+  expect_identical(3 * D_5, D_15)
 })
 
 test_that("undefined operators throw errors for dateys", {
@@ -115,4 +118,17 @@ test_that("undefined operators throw errors for dateys", {
   expect_error(T1 * T2)
   expect_error(T1 * 1)
   expect_error(1 * T1)
+
+  expect_error(T1 + 1)
+  expect_error(T1 - 1L)
+})
+test_that("undefined operators throw errors for dateys", {
+
+  D1 <- durationy(1)
+  D2 <- durationy(2)
+
+  expect_error(D1 * D2)
+
+  expect_error(D1 + 1)
+  expect_error(D1 - 1L)
 })
