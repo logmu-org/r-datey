@@ -5,7 +5,13 @@
 - [`Ops(`*`<datey_type>`*`)`](https://logmu-org.github.io/r-datey/reference/Ops.datey_type.md)
   :
 
-  Generic operators for `datey`
+  Generic operators for `datey` and `durationy`
+
+- [`Summary(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/Summary.datey.md)
+  [`Summary(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/Summary.datey.md)
+  :
+
+  Maximum, minimum or range of `datey` or `durationy`
 
 - [`as.double(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/as.double.datey.md)
   [`as.integer(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/as.double.datey.md)
@@ -102,6 +108,12 @@
   :
 
   Test whether a `datey` is the start or middle of a day
+
+- [`mean(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/mean.datey.md)
+  [`mean(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/mean.datey.md)
+  :
+
+  Mean value of `datey` or `durationy`
 
 - [`point_in_day()`](https://logmu-org.github.io/r-datey/reference/point_in_day.md)
   [`start_day()`](https://logmu-org.github.io/r-datey/reference/point_in_day.md)

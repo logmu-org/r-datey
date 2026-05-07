@@ -1,6 +1,6 @@
-# Generic operators for `datey`
+# Generic operators for `datey` and `durationy`
 
-Generic operators for `datey`
+Generic operators for `datey` and `durationy`
 
 ## Usage
 
