@@ -69,9 +69,9 @@ datey_from_clicks <- function(clicks) {
 #' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
 #'   anything other than a single value.
 #' @keywords NA
-#' @seealso as_datey
+#' @seealso datey
 #' @examples
-#'   x <- c(NA_datey_, as_datey(2000))
+#'   x <- c(NA_datey_, datey(2000))
 #'   is.na(x) # c(TRUE, FALSE)
 #'   anyNA(x) # TRUE
 #' @name datey.NA
@@ -109,7 +109,7 @@ is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 #' @description
 #'
 #' Create a `datey` from
-#' a year, month, day and, for `new_datey()`, a day-fraction.
+#' a year, month, day and, for `point_in_day()`, a day-fraction.
 #'
 #' In general, prefer the explicit [start_day()], [mid_day()] and [end_day()]
 #' versions.
@@ -153,7 +153,7 @@ is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 #'
 #' (NA arguments result in NA regardless of `strict`.)
 #' @export
-new_datey <- function(year, month, day, day_fraction, strict = TRUE) {
+point_in_day <- function(year, month, day, day_fraction, strict = TRUE) {
 
   day_fraction <- as_double_for_cpp(day_fraction)
 
@@ -185,15 +185,15 @@ new_datey <- function(year, month, day, day_fraction, strict = TRUE) {
   datey_from_clicks(clicks)
 }
 
-#' @rdname new_datey
+#' @rdname point_in_day
 #' @export
-start_day <- function(year, month, day, strict = TRUE) new_datey(year, month, day, day_fraction = 0, strict)
-#' @rdname new_datey
+start_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, day, day_fraction = 0, strict)
+#' @rdname point_in_day
 #' @export
-mid_day <- function(year, month, day, strict = TRUE) new_datey(year, month, day, day_fraction = 0.5, strict)
-#' @rdname new_datey
+mid_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, day, day_fraction = 0.5, strict)
+#' @rdname point_in_day
 #' @export
-end_day <- function(year, month, day, strict = TRUE) new_datey(year, month, day, day_fraction = 1, strict)
+end_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, day, day_fraction = 1, strict)
 
 #' Get year, month day and day fraction for a `datey`
 #'
@@ -224,16 +224,16 @@ as_ymdf <- function(datey) {
 #'
 #' - `double` and `integer` are interpreted as the specified
 #' calendar year, with the fractional part representing the fraction of the
-#' year. For instance, `as_datey(2000.5)` means halfway though the year 2000.
+#' year. For instance, `datey(2000.5)` means halfway though the year 2000.
 #' (This means that an `integer` argument always indicates the *start* of the
-#' calendar year, e.g. `as_datey(2000L)` is the start of the year 2000.)
+#' calendar year, e.g. `datey(2000L)` is the start of the year 2000.)
 #' - `Date` and `POSIXct` and `POSIXlt` are interpreted as fractional
 #' years. If no `day_fraction` argument is provided then the day fraction is
 #' determined by the hours, minutes, and seconds. For instance,
-#' `as_datey(as.POSIXct("2000-03-21 12:00"))` means the *middle* of 2000-03-21.
+#' `datey(as.POSIXct("2000-03-21 12:00"))` means the *middle* of 2000-03-21.
 #' Note that in standard use, a `Date` has no fractional part and therefore
 #' means the *start* of the day. For instance,
-#' `as_datey(as.Date("2000-03-21 12:00"))` means the *start* of 2000-03-21.
+#' `datey(as.Date("2000-03-21 12:00"))` means the *start* of 2000-03-21.
 #' - `character` -- If `day_fraction` *is* provided then the text format must
 #' be in ISO 8601 extended format, i.e. YYYY-MM-DD. If `day_fraction` *is*
 #' provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
@@ -272,13 +272,13 @@ as_ymdf <- function(datey) {
 #' (NAs will result in NA regardless of this switch.)
 #' @param ... Other arguments (not used in this package).
 #' @export
-as_datey <- function(x, day_fraction = NULL, strict = TRUE, ...) UseMethod("as_datey")
-#' @rdname as_datey
+datey <- function(x, day_fraction = NULL, strict = TRUE, ...) UseMethod("datey")
+#' @rdname datey
 #' @export
-as_datey.default <- function(x, day_fraction = NULL, strict = TRUE, ...) NA_datey_
-#' @rdname as_datey
+datey.default <- function(x, day_fraction = NULL, strict = TRUE, ...) NA_datey_
+#' @rdname datey
 #' @export
-as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
+datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   #ensure_is_datey(x)
   ensure_is_switch(strict)
   if (!is.null(day_fraction)) {
@@ -288,27 +288,27 @@ as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   }
   x
 }
-#' @rdname as_datey
+#' @rdname datey
 #' @export
-as_datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
+datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000L & x < 3000L, x * 534360L, NA_integer_)
-  datey <- datey_from_clicks(clicks)
-  if (!is.null(day_fraction)) datey <- as_datey.datey(datey, day_fraction, ...)
-  datey
+  x <- datey_from_clicks(clicks)
+  if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, ...)
+  x
 }
-#' @rdname as_datey
+#' @rdname datey
 #' @export
-as_datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) {
+datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000 & x < 3000, round(x * 534360), NA_real_)
-  datey <- datey_from_clicks(clicks)
-  if (!is.null(day_fraction)) datey <- as_datey.datey(datey, day_fraction, ...)
-  datey
+  x <- datey_from_clicks(clicks)
+  if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, ...)
+  x
 }
-#' @rdname as_datey
+#' @rdname datey
 #' @export
-as_datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) {
+datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   x <- as_double_for_cpp(unclass(x))
   if (is.null(day_fraction)) clicks <- cpp_dateyFromRDate(x, strict)
@@ -316,16 +316,16 @@ as_datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) {
     day_fraction <- as_double_for_cpp(day_fraction)
     clicks <- cpp_dateyFromRDateAndFraction(x, day_fraction, strict)
   }
-  datey <- datey_from_clicks(clicks)
+  datey_from_clicks(clicks)
 }
-#' @rdname as_datey
+#' @rdname datey
 #' @export
-as_datey.POSIXct <- function(x, day_fraction = NULL, strict = TRUE, ...) {
-  as_datey.POSIXlt(as.POSIXlt(x), day_fraction, strict, ...)
+datey.POSIXct <- function(x, day_fraction = NULL, strict = TRUE, ...) {
+  datey.POSIXlt(as.POSIXlt(x), day_fraction, strict, ...)
 }
-#' @rdname as_datey
+#' @rdname datey
 #' @export
-as_datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
+datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   # From POSIXlt docs:
   # `sec` in 0–61: seconds, allowing for leap seconds.
   # `min` in 0–59: minutes.
@@ -348,8 +348,8 @@ as_datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   clicks <- year * 534360L + as.integer(round(year_fraction * 534360))
   clicks <- ifelse(year < 1000L | year >= 3000L, NA_integer_, clicks)
 
-  datey <- datey_from_clicks(clicks)
-  as_datey.datey(datey, day_fraction, strict)
+  x <- datey_from_clicks(clicks)
+  datey.datey(x, day_fraction, strict)
 }
 
 #' Parse text as a `datey`
@@ -395,7 +395,7 @@ as_datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 #' Defaults to `FALSE`.
 #' @param ... Other arguments (not used in this package).
 #' @export
-as_datey.character <- function(x,
+datey.character <- function(x,
   day_fraction = NULL,
   strict = TRUE,
   blank_is_NA = FALSE,
@@ -413,15 +413,15 @@ as_datey.character <- function(x,
   datey_from_clicks(clicks)
 }
 
-#' @rdname as_datey
+#' @rdname datey
 #' @export
-as_start_day <- function(x, ...) as_datey.datey(datey, day_fraction = 0)
-#' @rdname as_datey
+as_start_day <- function(x, ...) datey.datey(x, day_fraction = 0)
+#' @rdname datey
 #' @export
-as_mid_day <- function(x, ...) as_datey.datey(datey, day_fraction = 0.5)
-#' @rdname as_datey
+as_mid_day <- function(x, ...) datey.datey(x, day_fraction = 0.5)
+#' @rdname datey
 #' @export
-as_end_day <- function(x, ...) as_datey.datey(datey, day_fraction = 1)
+as_end_day <- function(x, ...) datey.datey(x, day_fraction = 1)
 
 #' Test whether a `datey` is the start or middle of a day
 #'
@@ -487,7 +487,7 @@ as.integer.datey <- function(x, ...) {
 #' Combines (flattens) `datey` vectors.
 #'
 #' If the first element in `c(...)` is not a `datey` then this method will not
-#' be called. For instance, `c(NA, as_datey("2000-01-01.0"))`
+#' be called. For instance, `c(NA, datey("2000-01-01.0"))`
 #'
 #' @param ... The items to combine
 #' @param recursive Unused.
@@ -503,7 +503,7 @@ as.integer.datey <- function(x, ...) {
 #'
 #' @keywords classes manip
 #' @examples
-#'   c(as_datey(2000), as_datey("2020-01-01.0"))
+#'   c(datey(2000), datey("2020-01-01.0"))
 #'   #cbind(1:6, as.datey(2001:2020))
 #'   #rbind(1:6, as.datey(2001:2020))
 #' @export

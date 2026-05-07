@@ -42,10 +42,10 @@ is_leap_year.double <- function(x, ...) cpp_isLeapYear_double(x)
 is_leap_year.datey <- function(x, ...) cpp_isLeapYear_datey(unclass(x))
 #' @rdname is_leap_year
 #' @export
-is_leap_year.Date <- function(x, ...) is_leap_year(as_datey(x, strict = FALSE))
+is_leap_year.Date <- function(x, ...) is_leap_year(datey(x, strict = FALSE))
 #' @rdname is_leap_year
 #' @export
-is_leap_year.POSIXct <- function(x, ...) is_leap_year(as_datey(x, strict = FALSE))
+is_leap_year.POSIXct <- function(x, ...) is_leap_year(datey(x, strict = FALSE))
 #' @rdname is_leap_year
 #' @export
-is_leap_year.POSIXlt <- function(x, ...) is_leap_year(as_datey(x, strict = FALSE))
+is_leap_year.POSIXlt <- function(x, ...) is_leap_year(datey(x, strict = FALSE))

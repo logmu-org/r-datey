@@ -20,8 +20,8 @@ test_that("durationy unary operators work", {
 # T R T => logical
 test_that("datey relational operators work", {
 
-  T_1999 <- as_datey(1999)
-  T_2000 <- as_datey(2000)
+  T_1999 <- datey(1999)
+  T_2000 <- datey(2000)
 
   expect_identical(T_1999 == T_1999, TRUE)
   expect_identical(T_1999 != T_1999, FALSE)
@@ -93,8 +93,8 @@ test_that("durationy relational operators work", {
 # N * Δ => Δ
 test_that("datey arithmetic operators work", {
 
-  T_1990 <- as_datey(1990)
-  T_2000 <- as_datey(2000)
+  T_1990 <- datey(1990)
+  T_2000 <- datey(2000)
   D_0 <- durationy(0)
   D_0.25 <- durationy(0.25)
   D_10 <- durationy(10)
@@ -105,8 +105,8 @@ test_that("datey arithmetic operators work", {
 
 test_that("undefined operators throw errors for dateys", {
 
-  T1 <- as_datey(1999)
-  T2 <- as_datey(2000)
+  T1 <- datey(1999)
+  T2 <- datey(2000)
 
   expect_error(+T1)
   expect_error(-T1)
