@@ -2,6 +2,7 @@
 % Please edit documentation in R/datey-package.R
 \docType{package}
 \name{datey-package}
+\alias{datey}
 \alias{datey-package}
 \title{datey: Annualised Fixed-Precision Dates and Durations for Actuarial Experience Analysis}
 \description{

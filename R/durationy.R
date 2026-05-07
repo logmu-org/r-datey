@@ -35,6 +35,11 @@
 # [, [[, $, [<-, [[<-, $<-
 # is.nan, is.finite is.infinite -- these automatically work
 
+durationy_from_clicks <- function(clicks) {
+  clicks <- unclass(clicks)
+  clicks <- as.integer(clicks)
+  structure(clicks, class = c("datey_type", "durationy"))
+}
 
 #' Handling invalid durations
 #'
@@ -62,9 +67,9 @@
 #' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
 #'   anything other than a single value.
 #' @keywords NA
-#' @seealso as_durationy
+#' @seealso durationy
 #' @examples
-#'   x <- c(NA_durationy_, as_durationy(1.5))
+#'   x <- c(NA_durationy_, durationy(1.5))
 #'   is.na(x) # c(TRUE, FALSE)
 #'   anyNA(x) # TRUE
 #' @name durationy.NA
@@ -72,7 +77,7 @@ NULL
 
 #' @rdname durationy.NA
 #' @export
-NA_durationy_ <- structure(NA_integer_, c("datey_type", "durationy"))
+NA_durationy_ <- durationy_from_clicks(NA_integer_)
 #' @rdname durationy.NA
 #' @export
 is.na.durationy <- function(x) {
@@ -94,21 +99,22 @@ valid_duration_years_max <- 2000L
 #' @export
 is_durationy <- function(x) typeof(x) == "integer" && inherits(x, "durationy")
 
-#' Convert an object to a `durationy`
+#' Creates a `durationy`
 #'
 #' @description
-#' This is an S3 generic. This package provides methods for the
-#' following classes:
+#' This package provides methods to create a `durationy` from the following:
 #'
 #' - `integer` -- the value is interpreted as the specified
 #' number of years.
 #' - `double` -- the value is interpreted as the specified
 #' number of years, rounded to fixed precision of a `durationy`. This means that
-#' `as_durationy(0.5)` is precise but `as_durationy(0.01)` is not.
+#' `durationy(0.5)` is precise but `durationy(0.01)` is not.
 #' - `durationy` -- value is unchanged.
 #'
+#' This is an S3 generic.
+#'
 #' @param
-#' x A vector of the S3 class.
+#' x The argument to convert to a `durationy`.
 #' @param strict
 #' How years greater than 2000 in magnitude should be
 #' handled.
@@ -118,19 +124,19 @@ is_durationy <- function(x) typeof(x) == "integer" && inherits(x, "durationy")
 #' (NAs will result in NA regardless of this switch.)
 #' @param ... Other arguments (not used in this package).
 #' @export
-as_durationy <- function(x, strict = TRUE, ...) UseMethod("as_durationy")
-#' @rdname as_durationy
+durationy <- function(x, strict = TRUE, ...) UseMethod("durationy")
+#' @rdname durationy
 #' @export
-as_durationy.default <- function(x, strict = TRUE, ...) NA_durationy_
-#' @rdname as_durationy
+durationy.default <- function(x, strict = TRUE, ...) NA_durationy_
+#' @rdname durationy
 #' @export
-as_durationy.durationy <- function(x, strict = TRUE, ...) {
+durationy.durationy <- function(x, strict = TRUE, ...) {
   #ensure_is_durationy(x)
   x
 }
-#' @rdname as_durationy
+#' @rdname durationy
 #' @export
-as_durationy.integer <- function(x, strict = TRUE, ...) {
+durationy.integer <- function(x, strict = TRUE, ...) {
   ensure_is_switch(strict)
   if (strict)
   {
@@ -139,11 +145,11 @@ as_durationy.integer <- function(x, strict = TRUE, ...) {
     }
   }
   clicks <- ifelse(x >= -2000L & x <= 2000L, x * 534360L, NA_integer_)
-  structure(clicks, class = c("datey_type", "durationy"))
+  durationy_from_clicks(clicks)
 }
-#' @rdname as_durationy
+#' @rdname durationy
 #' @export
-as_durationy.double <- function(x, strict = TRUE, ...) {
+durationy.double <- function(x, strict = TRUE, ...) {
   ensure_is_switch(strict)
   if (strict)
   {
@@ -152,7 +158,7 @@ as_durationy.double <- function(x, strict = TRUE, ...) {
     }
   }
   clicks <- ifelse(x >= -2000 & x <= 2000, round(x * 534360), NA_real_)
-  structure(as.integer(clicks), class = c("datey_type", "durationy"))
+  durationy_from_clicks(clicks)
 }
 
 #' Parse text as a `durationy`
@@ -189,12 +195,12 @@ as_durationy.double <- function(x, strict = TRUE, ...) {
 #' Defaults to `"yr"`.
 #' @param ... Other arguments (not used in this package).
 #' @export
-as_durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit = "yr", ...) {
+durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit = "yr", ...) {
   ensure_is_switch(strict)
   ensure_is_switch(blank_is_NA)
   ensure_is_text_scalar(year_unit)
   clicks <- cpp_durationyFromRString(x, strict, blank_is_NA, year_unit)
-  structure(clicks, class = c("datey_type", "durationy"))
+  durationy_from_clicks(clicks)
 }
 
 #' A `durationy` as years
@@ -228,7 +234,7 @@ as.integer.durationy <- function(x, ...) {
 #' Combines (flattens) `durationy` vectors.
 #'
 #' If the first element in `c(...)` is not a `durationy` then this method will not
-#' be called. For instance, `c(NA, as_durationy(1))` is *not* a `durationy`.
+#' be called. For instance, `c(NA, durationy(1))` is *not* a `durationy`.
 #'
 #' @param ... The items to combine
 #' @param recursive Unused.
@@ -244,7 +250,7 @@ as.integer.durationy <- function(x, ...) {
 #'
 #' @keywords classes manip
 #' @examples
-#'   c(as_durationy(1), as_durationy("2.5 yr"))
+#'   c(durationy(1), durationy("2.5 yr"))
 #' @export
 c.durationy <- function(..., recursive = FALSE) {
   args <- list(...)
@@ -254,9 +260,7 @@ c.durationy <- function(..., recursive = FALSE) {
   # Concatenate the underlying numeric (integer) values
   result <- NextMethod("c")
 
-  # Re-apply class
-  class(result) <- c("datey_type", "durationy")
-  result
+  durationy_from_clicks(result)
 }
 
 #' Format or print a `durationy`
@@ -264,7 +268,7 @@ c.durationy <- function(..., recursive = FALSE) {
 #' @description
 #' A `durationy` is printed as a decimal.
 #'
-#' This format is readable by [as_durationy.character()].
+#' This format is readable by [durationy.character()].
 #'
 #' @param x The `durationy` to print or format.
 #' @param include_plus Whether to include a plus ('+') sign for positive
@@ -283,8 +287,8 @@ c.durationy <- function(..., recursive = FALSE) {
 #' printed. When `NULL`, `getOption("max.print")` used. Defaults to `NULL`.
 #' @param ... Further arguments to be passed from or to other methods.
 #' @examples
-#'   pos <- as_durationy(1)
-#'   neg <- as_durationy(-2.3)
+#'   pos <- durationy(1)
+#'   neg <- durationy(-2.3)
 #'   format(pos) # "1 yr"
 #'   format(pos, include_plus = TRUE) # "1 yr"
 #'   format(pos, year_unit = "") # "1"

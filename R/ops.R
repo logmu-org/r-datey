@@ -12,69 +12,90 @@ Ops.datey_type <- function(e1, e2) {
 
   # Legal ops (where T is datey, Δ is durationy, N is numeric, R is relop):
 
-  #   +T
-  #   +Δ
-  #   -Δ
+  # Ordered by type of first op then type of second op:
 
-  #   T R T => logical
-  #   Δ R Δ => logical
+  # ✔ T R T => logical
+  # · T - T => Δ
+  # · T + Δ => T
+  # · T - Δ => T
+  # · T + N => T
+  # · T - N => T
 
-  #   T + Δ => T
-  #   T - Δ => T
-  #   T + N => T
-  #   T - N => T
-  #   Δ + T => T
-  #   Δ - T => T
-  #   N + T => T
-  #   N - T => T
+  # ✔ +Δ
+  # ✔ -Δ
+  # · Δ + T => T
+  # ✔ Δ R Δ => logical
+  # · Δ + Δ => Δ
+  # · Δ - Δ => Δ
+  # · Δ + N => Δ
+  # · Δ - N => Δ
+  # · Δ * N => Δ
+  # · Δ / N => Δ
 
-  #   N * Δ => Δ
-  #   Δ * N => Δ
-  #   Δ / N => Δ
+  # · N + T => T
 
-  if (is_datey(e1)) {
-    if (is_durationy)
+  # · N + Δ => Δ
+  # · N - Δ => Δ
+  # · N * Δ => Δ
 
-  } else if (is_datey(e2)) {
+  u1 <- unclass(e1)
 
-  } else {
+  if (missing(e2)) {
 
+    if (is_durationy(e1)) {
+      # ✔ +Δ
+      if (.Generic == "+") return (e1)
+      # ✔ -Δ
+      if (.Generic == "-") return (durationy_from_clicks(-u1))
+    }
+
+    stop("Unary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.")
   }
+
   u2 <- unclass(e2)
 
-  #if (!typeof(e1) != "integer") stop()
-  if (inherits(e2, "datey")) {
-    #if (!typeof(e2) != "integer") stop()
-    if (.Generic %in% c("==", "!=", "<", "<=", ">", ">=")) {
-      get(.Generic)(u1, u2)
-    } else {
-      stop(.Generic, " is supported only for comparison with other dateys")
+  if (is_datey(e1)) {
+
+    if (is_datey(e2)) {
+      # ✔ T R T => logical
+      if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return (get(.Generic)(u1, u2))
+      # · T - T => Δ
+      if (.Generic == "-") return (durationy_from_clicks(u1 - u2))
+    } else if (is_durationy(e2)) {
+      # · T + Δ => T
+      # · T - Δ => T
+    } else if (is_pure_numeric(e2)) {
+      # · T + N => T
+      # · T - N => T
     }
-  }
-  else if (inherits(e2, "durationy")) {
-    #if (!typeof(e2) != "integer") stop()
-    if (.Generic %in% c("+", "-")) {
-      structure(get(.Generic)(u1, u2), class = "datey")
-    } else {
-      stop(.Generic, " is supported only for comparison with other dateys")
+
+  } else if (is_durationy(e1)) {
+
+    if (is_datey(e2)) {
+      # · Δ + T => T
+    } else if (is_durationy(e2)) {
+      # ✔ Δ R Δ => logical
+      if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return (get(.Generic)(u1, u2))
+      # · Δ + Δ => Δ
+      # · Δ - Δ => Δ
+    } else if (is_pure_numeric(e2)) {
+      # · Δ + N => Δ
+      # · Δ - N => Δ
+      # · Δ * N => Δ
+      # · Δ / N => Δ
     }
-  } else {
-    stop(.Generic, " not supported for units")
+
+  } else if (is_pure_numeric(e1)) {
+
+    if (is_datey(e2)) {
+      # · N + T => T
+    } else if (is_durationy(e2)) {
+      # · N + Δ => Δ
+      # · N - Δ => Δ
+      # · N * Δ => Δ
+    }
+
   }
-}
 
-Ops.length_m <- function(e1, e2) {
-  v1 <- if (inherits(e1, "length_m")) e1$value else e1
-  v2 <- if (inherits(e2, "length_m")) e2$value else e2
-
-  result <- get(.Generic)(v1, v2)
-
-  # Comparisons return logical; arithmetic returns length_m
-  if (.Generic %in% c("==", "!=", "<", "<=", ">", ">=")) {
-    result
-  } else if (.Generic %in% c("+", "-", "*", "/")) {
-    length_m(result)
-  } else {
-    stop(.Generic, " is not defined for length_m")
-  }
+  stop("Binary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.")
 }

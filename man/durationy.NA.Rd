@@ -9,7 +9,7 @@
 \alias{valid_duration_years_max}
 \title{Handling invalid durations}
 \format{
-An object of class \code{durationy} of length 1.
+An object of class \code{datey_type} (inherits from \code{durationy}) of length 1.
 
 An object of class \code{integer} of length 1.
 }
@@ -51,12 +51,12 @@ duration in years (2000).
 For performance reasons, intermediate calculations may not check for NAs.
 }
 \examples{
-  x <- c(NA_durationy_, as_durationy(1.5))
+  x <- c(NA_durationy_, durationy(1.5))
   is.na(x) # c(TRUE, FALSE)
   anyNA(x) # TRUE
 }
 \seealso{
-as_durationy
+durationy
 }
 \keyword{NA}
 \keyword{datasets}

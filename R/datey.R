@@ -35,6 +35,11 @@
 # [, [[, $, [<-, [[<-, $<-
 # is.nan, is.finite is.infinite -- these automatically work
 
+datey_from_clicks <- function(clicks) {
+  clicks <- unclass(clicks)
+  clicks <- as.integer(clicks)
+  structure(clicks, class = c("datey_type", "datey"))
+}
 
 #' Handling invalid dates
 #'
@@ -74,7 +79,7 @@ NULL
 
 #' @rdname datey.NA
 #' @export
-NA_datey_ <- structure(NA_integer_, class = c("datey_type", "datey"))
+NA_datey_ <- datey_from_clicks(NA_integer_)
 #' @rdname datey.NA
 #' @export
 is.na.datey <- function(x) {
@@ -104,7 +109,7 @@ is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 #' @description
 #'
 #' Create a `datey` from
-#' a year, month, day and, for `datey()`, a day-fraction.
+#' a year, month, day and, for `new_datey()`, a day-fraction.
 #'
 #' In general, prefer the explicit [start_day()], [mid_day()] and [end_day()]
 #' versions.
@@ -148,7 +153,7 @@ is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 #'
 #' (NA arguments result in NA regardless of `strict`.)
 #' @export
-datey <- function(year, month, day, day_fraction, strict = TRUE) {
+new_datey <- function(year, month, day, day_fraction, strict = TRUE) {
 
   day_fraction <- as_double_for_cpp(day_fraction)
 
@@ -177,18 +182,18 @@ datey <- function(year, month, day, day_fraction, strict = TRUE) {
     clicks <- cpp_dateyFromYMDF(year, month, day, day_fraction, strict)
   }
 
-  structure(clicks, class = c("datey_type", "datey"))
+  datey_from_clicks(clicks)
 }
 
-#' @rdname datey
+#' @rdname new_datey
 #' @export
-start_day <- function(year, month, day, strict = TRUE) datey(year, month, day, day_fraction = 0, strict)
-#' @rdname datey
+start_day <- function(year, month, day, strict = TRUE) new_datey(year, month, day, day_fraction = 0, strict)
+#' @rdname new_datey
 #' @export
-mid_day <- function(year, month, day, strict = TRUE) datey(year, month, day, day_fraction = 0.5, strict)
-#' @rdname datey
+mid_day <- function(year, month, day, strict = TRUE) new_datey(year, month, day, day_fraction = 0.5, strict)
+#' @rdname new_datey
 #' @export
-end_day <- function(year, month, day, strict = TRUE) datey(year, month, day, day_fraction = 1, strict)
+end_day <- function(year, month, day, strict = TRUE) new_datey(year, month, day, day_fraction = 1, strict)
 
 #' Get year, month day and day fraction for a `datey`
 #'
@@ -212,18 +217,17 @@ as_ymdf <- function(datey) {
   cpp_dateyToYMDF(datey)
 }
 
-#' Convert an object to a `datey`
+#' Creates a `datey`
 #'
 #' @description
-#' This is an S3 generic. This package provides methods for the
-#' following classes:
+#' This package provides methods to create a `datey` from the following:
 #'
-#' - `double` and `integer` -- the value is interpreted as the specified
+#' - `double` and `integer` are interpreted as the specified
 #' calendar year, with the fractional part representing the fraction of the
 #' year. For instance, `as_datey(2000.5)` means halfway though the year 2000.
-#' (`integer` means the *start* of the calendar year, e.g. `as_datey(2000L)`
-#' means the start of the year 2000.
-#' - `datey`, `Date` and `POSIXct` and `POSIXlt` are interpreted as fractional
+#' (This means that an `integer` argument always indicates the *start* of the
+#' calendar year, e.g. `as_datey(2000L)` is the start of the year 2000.)
+#' - `Date` and `POSIXct` and `POSIXlt` are interpreted as fractional
 #' years. If no `day_fraction` argument is provided then the day fraction is
 #' determined by the hours, minutes, and seconds. For instance,
 #' `as_datey(as.POSIXct("2000-03-21 12:00"))` means the *middle* of 2000-03-21.
@@ -235,11 +239,16 @@ as_ymdf <- function(datey) {
 #' provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 #' fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 #' for the start of 1 January 2000.
+#' - `datey` is interpreted as is but with the optional `day_fraction` override.
+#' Note that a `day_fraction` of 1 will add a day to a day boundary,
+#' *even if it was originally defined as an end day*.
 #'
 #' The lengths of vector arguments must be multiples of each other.
 #'
+#' This is an S3 generic.
+#'
 #' @param
-#' x A vector of the S3 class.
+#' x The argument to convert to a `datey`.
 #' @param day_fraction
 #' The `day_fraction` override. Defaults to `NULL`.
 #'
@@ -275,7 +284,7 @@ as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   if (!is.null(day_fraction)) {
     day_fraction <- as_double_for_cpp(day_fraction)
     x <- cpp_dateyWithNewDayFraction(x, day_fraction, strict)
-    x <- structure(x, class = c("datey_type", "datey"))
+    x <- datey_from_clicks(x)
   }
   x
 }
@@ -284,7 +293,7 @@ as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 as_datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000L & x < 3000L, x * 534360L, NA_integer_)
-  datey <- structure(clicks, class = c("datey_type", "datey"))
+  datey <- datey_from_clicks(clicks)
   if (!is.null(day_fraction)) datey <- as_datey.datey(datey, day_fraction, ...)
   datey
 }
@@ -293,7 +302,7 @@ as_datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 as_datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000 & x < 3000, round(x * 534360), NA_real_)
-  datey <- structure(as.integer(clicks), class = c("datey_type", "datey"))
+  datey <- datey_from_clicks(clicks)
   if (!is.null(day_fraction)) datey <- as_datey.datey(datey, day_fraction, ...)
   datey
 }
@@ -307,7 +316,7 @@ as_datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) {
     day_fraction <- as_double_for_cpp(day_fraction)
     clicks <- cpp_dateyFromRDateAndFraction(x, day_fraction, strict)
   }
-  datey <- structure(as.integer(clicks), class = c("datey_type", "datey"))
+  datey <- datey_from_clicks(clicks)
 }
 #' @rdname as_datey
 #' @export
@@ -339,7 +348,7 @@ as_datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   clicks <- year * 534360L + as.integer(round(year_fraction * 534360))
   clicks <- ifelse(year < 1000L | year >= 3000L, NA_integer_, clicks)
 
-  datey <- structure(as.integer(clicks), class = c("datey_type", "datey"))
+  datey <- datey_from_clicks(clicks)
   as_datey.datey(datey, day_fraction, strict)
 }
 
@@ -401,7 +410,7 @@ as_datey.character <- function(x,
     day_fraction <- as_double_for_cpp(day_fraction)
     clicks <- cpp_dateyFromRStringAndDayFraction(x, day_fraction, strict, blank_is_NA)
   }
-  structure(clicks, class = c("datey_type", "datey"))
+  datey_from_clicks(clicks)
 }
 
 #' @rdname as_datey
@@ -506,9 +515,7 @@ c.datey <- function(..., recursive = FALSE) {
   # Concatenate the underlying numeric (integer) values
   result <- NextMethod("c")
 
-  # Re-apply class
-  class(result) <- c("datey_type", "datey")
-  result
+  datey_from_clicks(result)
 }
 
 #' Format or print a `datey`
