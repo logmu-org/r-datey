@@ -20,14 +20,14 @@
 Combines (flattens) \code{durationy} vectors.
 
 If the first element in \code{c(...)} is not a \code{durationy} then this method will not
-be called. For instance, \code{c(NA, as_durationy(1))} is \emph{not} a \code{durationy}.
+be called. For instance, \code{c(NA, durationy(1))} is \emph{not} a \code{durationy}.
 }
 \note{
 R currently only dispatches generic \code{c} to method \code{c.durationy} if the
 first argument is a \code{durationy}.
 }
 \examples{
-  c(as_durationy(1), as_durationy("2.5 yr"))
+  c(durationy(1), durationy("2.5 yr"))
 }
 \keyword{classes}
 \keyword{manip}

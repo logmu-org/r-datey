@@ -10,7 +10,7 @@
 \alias{valid_years_end}
 \title{Handling invalid dates}
 \format{
-An object of class \code{datey} of length 1.
+An object of class \code{datey_type} (inherits from \code{datey}) of length 1.
 
 An object of class \code{integer} of length 1.
 

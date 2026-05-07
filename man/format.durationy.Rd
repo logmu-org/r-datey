@@ -42,11 +42,11 @@ printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code
 \description{
 A \code{durationy} is printed as a decimal.
 
-This format is readable by \code{\link[=as_durationy.character]{as_durationy.character()}}.
+This format is readable by \code{\link[=durationy.character]{durationy.character()}}.
 }
 \examples{
-  pos <- as_durationy(1)
-  neg <- as_durationy(-2.3)
+  pos <- durationy(1)
+  neg <- durationy(-2.3)
   format(pos) # "1 yr"
   format(pos, include_plus = TRUE) # "1 yr"
   format(pos, year_unit = "") # "1"

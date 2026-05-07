@@ -13,7 +13,7 @@ test_that("`valid_years_end` is 3000", expect_identical(valid_years_end, 3000L))
 # is_datey <- function(x) ==================================================
 test_that("`is_datey()` works", {
   expect_identical(is_datey(NA_datey_), TRUE)
-  expect_identical(is_datey(datey(2000, 1, 1, 0)), TRUE)
+  expect_identical(is_datey(new_datey(2000, 1, 1, 0)), TRUE)
 
   expect_identical(is_datey(NA), FALSE)
   expect_identical(is_datey(TRUE), FALSE)
@@ -22,8 +22,8 @@ test_that("`is_datey()` works", {
   expect_identical(is_datey("2000-01-01"), FALSE)
 })
 
-# datey <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
-test_that("`datey()` works with vector and scalar `day_fraction`s", {
+# new_datey <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
+test_that("`new_datey()` works with vector and scalar `day_fraction`s", {
 
   year <- c(1960, 2001, 2099);
   month <- c(11, 3, 7);
@@ -31,13 +31,13 @@ test_that("`datey()` works with vector and scalar `day_fraction`s", {
   df_scalar <- 0.25;
   df_vector <- c(0.25, 0.25, 0.25);
 
-  datey_scalar <- datey(year, month, day, df_scalar)
+  datey_scalar <- new_datey(year, month, day, df_scalar)
 
-  datey_vector <- datey(year, month, day, df_vector)
+  datey_vector <- new_datey(year, month, day, df_vector)
 
   expect_identical(datey_vector, datey_scalar)
 })
-test_that("`datey()` works cyclically and for integer/double combos", {
+test_that("`new_datey()` works cyclically and for integer/double combos", {
 
   y <- c(1960, 2001, 1999, 2000, 2001, 2099)
   m <- c(12, 3, 7, 1, 8, 5) # All months with 31 days
@@ -74,7 +74,7 @@ test_that("`datey()` works cyclically and for integer/double combos", {
 
   testX <- function(y_act, m_act, d_act, f_act, y_exp, m_exp, d_exp, f_exp) {
 
-    expected <- datey(y_exp, m_exp, d_exp, f_exp)
+    expected <- new_datey(y_exp, m_exp, d_exp, f_exp)
 
     y_int <- as.integer(y_act)
     m_int <- as.integer(m_act)
@@ -84,14 +84,14 @@ test_that("`datey()` works cyclically and for integer/double combos", {
     m_dbl <- as.double(m_act)
     d_dbl <- as.double(d_act)
 
-    expect_identical(datey(y_int, m_int, d_int, f_act), expected)
-    expect_identical(datey(y_int, m_int, d_dbl, f_act), expected)
-    expect_identical(datey(y_int, m_dbl, d_int, f_act), expected)
-    expect_identical(datey(y_int, m_dbl, d_dbl, f_act), expected)
-    expect_identical(datey(y_dbl, m_int, d_int, f_act), expected)
-    expect_identical(datey(y_dbl, m_int, d_dbl, f_act), expected)
-    expect_identical(datey(y_dbl, m_dbl, d_int, f_act), expected)
-    expect_identical(datey(y_dbl, m_dbl, d_dbl, f_act), expected)
+    expect_identical(new_datey(y_int, m_int, d_int, f_act), expected)
+    expect_identical(new_datey(y_int, m_int, d_dbl, f_act), expected)
+    expect_identical(new_datey(y_int, m_dbl, d_int, f_act), expected)
+    expect_identical(new_datey(y_int, m_dbl, d_dbl, f_act), expected)
+    expect_identical(new_datey(y_dbl, m_int, d_int, f_act), expected)
+    expect_identical(new_datey(y_dbl, m_int, d_dbl, f_act), expected)
+    expect_identical(new_datey(y_dbl, m_dbl, d_int, f_act), expected)
+    expect_identical(new_datey(y_dbl, m_dbl, d_dbl, f_act), expected)
   }
 
   testX(y, m, d, f, y, m, d, f) # Test double/integer combos
@@ -118,28 +118,28 @@ test_that("`datey()` works cyclically and for integer/double combos", {
   testX(y3, m2, d, f3, y3_full, m2_full, d, f3_full)
   testX(y3, m, d2, f1, y3_full, m, d2_full, f1_full)
 
-  expect_error(datey(y3, m2, d1, f1))
-  expect_error(datey(y1, m3, d2, f1))
-  expect_error(datey(y1, m1, d3, f2))
-  expect_error(datey(y2, m1, d1, f3))
+  expect_error(new_datey(y3, m2, d1, f1))
+  expect_error(new_datey(y1, m3, d2, f1))
+  expect_error(new_datey(y1, m1, d3, f2))
+  expect_error(new_datey(y2, m1, d1, f3))
 })
 test_that("`datey` is illegal but not error for 2999-12-31 plus `day_fraction = 1`", {
-  expect_identical(unclass(datey(2999, 12, 31, 1)), 3000L * 534360L)
+  expect_identical(unclass(new_datey(2999, 12, 31, 1)), 3000L * 534360L)
 })
 test_that("`datey` errors in invalid inputs when `strict = TRUE`", {
-  expect_error(datey(999, 12, 31, 0.9993))
-  expect_error(datey(999, 12, 31, 1))
-  expect_error(datey(3000, 1, 1, 0))
-  expect_error(datey(3000, 1, 1, 0.0007))
+  expect_error(new_datey(999, 12, 31, 0.9993))
+  expect_error(new_datey(999, 12, 31, 1))
+  expect_error(new_datey(3000, 1, 1, 0))
+  expect_error(new_datey(3000, 1, 1, 0.0007))
 })
 test_that("`datey` errors for non-integer years, months or days", {
-  expect_error(datey(1000.01, 01.00, 01.00, 0.00))
-  expect_error(datey(1800.00, 02.01, 05.00, 0.00))
-  expect_error(datey(1900.00, 04.00, 10.01, 0.00))
-  expect_error(datey(1999.99, 06.00, 15.00, 0.00))
-  expect_error(datey(2000.00, 08.99, 20.00, 0.00))
-  expect_error(datey(2087.00, 10.00, 25.99, 0.00))
-  expect_error(datey(2999.50, 12.00, 31.00, 0.00))
+  expect_error(new_datey(1000.01, 01.00, 01.00, 0.00))
+  expect_error(new_datey(1800.00, 02.01, 05.00, 0.00))
+  expect_error(new_datey(1900.00, 04.00, 10.01, 0.00))
+  expect_error(new_datey(1999.99, 06.00, 15.00, 0.00))
+  expect_error(new_datey(2000.00, 08.99, 20.00, 0.00))
+  expect_error(new_datey(2087.00, 10.00, 25.99, 0.00))
+  expect_error(new_datey(2999.50, 12.00, 31.00, 0.00))
 })
 
 # start_day / mid_day <- function(year, month, day, strict = TRUE) ==================================================
@@ -148,16 +148,16 @@ test_that("`datey` and `start_day`, `mid_day` and `end_day` are consistent", {
   m <- c(12, 1, 6, 3, 2, 5, 6, 1)
   d <- c(31, 1, 15, 3, 29, 20, 10, 1)
 
-  expect_identical(datey(y, m, d, 0, strict = FALSE), start_day(y, m, d, strict = FALSE))
-  expect_identical(datey(y, m, d, 0.5, strict = FALSE), mid_day(y, m, d, strict = FALSE))
-  expect_identical(datey(y, m, d, 1, strict = FALSE), end_day(y, m, d, strict = FALSE))
+  expect_identical(new_datey(y, m, d, 0, strict = FALSE), start_day(y, m, d, strict = FALSE))
+  expect_identical(new_datey(y, m, d, 0.5, strict = FALSE), mid_day(y, m, d, strict = FALSE))
+  expect_identical(new_datey(y, m, d, 1, strict = FALSE), end_day(y, m, d, strict = FALSE))
 })
 
 # as_ymdf <- function(datey) ==================================================
 test_that("`datey` round-trips from ymdf and back", {
 
   testX <- function(year, month, day, day_fraction) {
-    datey <- datey(year, month, day, day_fraction)
+    datey <- new_datey(year, month, day, day_fraction)
     ymdf <- as_ymdf(datey)
     expect_identical(ymdf$year, as.integer(year))
     expect_identical(ymdf$month, as.integer(month))
@@ -204,25 +204,25 @@ test_that("`as_datey.default()` works", {
 
 # as_datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`as_datey.datey()` works", {
-  expect_identical(as_datey(datey(1999, 02, 28, 0.00)), datey(1999, 02, 28, 0.00))
-  expect_identical(as_datey(datey(1999, 11, 17, 0.25)), datey(1999, 11, 17, 0.25))
-  expect_identical(as_datey(datey(2000, 10, 11, 0.00)), datey(2000, 10, 11, 0.00))
-  expect_identical(as_datey(datey(2000, 03, 05, 0.25)), datey(2000, 03, 05, 0.25))
-  expect_identical(as_datey(datey(0999, 12, 31, 0.90, strict = FALSE)), datey::NA_datey_)
+  expect_identical(as_datey(new_datey(1999, 02, 28, 0.00)), new_datey(1999, 02, 28, 0.00))
+  expect_identical(as_datey(new_datey(1999, 11, 17, 0.25)), new_datey(1999, 11, 17, 0.25))
+  expect_identical(as_datey(new_datey(2000, 10, 11, 0.00)), new_datey(2000, 10, 11, 0.00))
+  expect_identical(as_datey(new_datey(2000, 03, 05, 0.25)), new_datey(2000, 03, 05, 0.25))
+  expect_identical(as_datey(new_datey(0999, 12, 31, 0.90, strict = FALSE)), datey::NA_datey_)
 
-  expect_identical(as_datey(datey(1999, 02, 28, 0.00), day_fraction = 0.75), datey(1999, 02, 28, 0.75))
-  expect_identical(as_datey(datey(1999, 11, 17, 0.25), day_fraction = 0.75), datey(1999, 11, 17, 0.75))
-  expect_identical(as_datey(datey(2000, 10, 11, 0.00), day_fraction = 0.75), datey(2000, 10, 11, 0.75))
-  expect_identical(as_datey(datey(2000, 03, 05, 0.25), day_fraction = 0.75), datey(2000, 03, 05, 0.75))
-  expect_identical(as_datey(datey(0999, 12, 31, 0.90, strict = FALSE), day_fraction = 0.75), datey::NA_datey_)
+  expect_identical(as_datey(new_datey(1999, 02, 28, 0.00), day_fraction = 0.75), new_datey(1999, 02, 28, 0.75))
+  expect_identical(as_datey(new_datey(1999, 11, 17, 0.25), day_fraction = 0.75), new_datey(1999, 11, 17, 0.75))
+  expect_identical(as_datey(new_datey(2000, 10, 11, 0.00), day_fraction = 0.75), new_datey(2000, 10, 11, 0.75))
+  expect_identical(as_datey(new_datey(2000, 03, 05, 0.25), day_fraction = 0.75), new_datey(2000, 03, 05, 0.75))
+  expect_identical(as_datey(new_datey(0999, 12, 31, 0.90, strict = FALSE), day_fraction = 0.75), datey::NA_datey_)
 })
 
 # as_datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`as_datey.integer()` works", {
-  expect_identical(as_datey(1000L), datey(1000, 01, 01, 0.00))
-  expect_identical(as_datey(1999L, day_fraction = 0.75), datey(1999, 01, 01, 0.75))
-  expect_identical(as_datey(2000L, day_fraction = 0.75), datey(2000, 01, 01, 0.75))
-  expect_identical(as_datey(2999L), datey(2999, 01, 01, 0.00))
+  expect_identical(as_datey(1000L), new_datey(1000, 01, 01, 0.00))
+  expect_identical(as_datey(1999L, day_fraction = 0.75), new_datey(1999, 01, 01, 0.75))
+  expect_identical(as_datey(2000L, day_fraction = 0.75), new_datey(2000, 01, 01, 0.75))
+  expect_identical(as_datey(2999L), new_datey(2999, 01, 01, 0.00))
 
   expect_identical(as_datey(0999L, strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(3000L, strict = FALSE), datey::NA_datey_)
@@ -238,20 +238,20 @@ test_that("`as_datey.double()` works", {
   d_2108_02_29_0.25 <- 2108 + ((31 + 29.25 - 1) * 1460) / 534360 # Leap year
   d_2109_02_28_0.25 <- 2109 + ((31 + 28.25 - 1) * 1464) / 534360 # Normal year
 
-  expect_identical(as_datey(d_1999_01_15_0.25), datey(1999, 01, 15, 0.25))
-  expect_identical(as_datey(d_2000_01_15_0.25), datey(2000, 01, 15, 0.25))
-  expect_identical(as_datey(d_2108_02_29_0.25), datey(2108, 02, 29, 0.25))
-  expect_identical(as_datey(d_2109_02_28_0.25), datey(2109, 02, 28, 0.25))
+  expect_identical(as_datey(d_1999_01_15_0.25), new_datey(1999, 01, 15, 0.25))
+  expect_identical(as_datey(d_2000_01_15_0.25), new_datey(2000, 01, 15, 0.25))
+  expect_identical(as_datey(d_2108_02_29_0.25), new_datey(2108, 02, 29, 0.25))
+  expect_identical(as_datey(d_2109_02_28_0.25), new_datey(2109, 02, 28, 0.25))
 
-  expect_identical(as_datey(d_1999_01_15_0.25, day_fraction = 0.75), datey(1999, 01, 15, 0.75))
-  expect_identical(as_datey(d_2000_01_15_0.25, day_fraction = 0.75), datey(2000, 01, 15, 0.75))
-  expect_identical(as_datey(d_2108_02_29_0.25, day_fraction = 0.75), datey(2108, 02, 29, 0.75))
-  expect_identical(as_datey(d_2109_02_28_0.25, day_fraction = 0.75), datey(2109, 02, 28, 0.75))
+  expect_identical(as_datey(d_1999_01_15_0.25, day_fraction = 0.75), new_datey(1999, 01, 15, 0.75))
+  expect_identical(as_datey(d_2000_01_15_0.25, day_fraction = 0.75), new_datey(2000, 01, 15, 0.75))
+  expect_identical(as_datey(d_2108_02_29_0.25, day_fraction = 0.75), new_datey(2108, 02, 29, 0.75))
+  expect_identical(as_datey(d_2109_02_28_0.25, day_fraction = 0.75), new_datey(2109, 02, 28, 0.75))
 
-  expect_identical(as_datey(d_1999_01_15_0.25, day_fraction = 0.00), datey(1999, 01, 15, 0.00))
-  expect_identical(as_datey(d_2000_01_15_0.25, day_fraction = 0.00), datey(2000, 01, 15, 0.00))
-  expect_identical(as_datey(d_2108_02_29_0.25, day_fraction = 1.00), datey(2108, 02, 29, 1.00))
-  expect_identical(as_datey(d_2109_02_28_0.25, day_fraction = 1.00), datey(2109, 02, 28, 1.00))
+  expect_identical(as_datey(d_1999_01_15_0.25, day_fraction = 0.00), new_datey(1999, 01, 15, 0.00))
+  expect_identical(as_datey(d_2000_01_15_0.25, day_fraction = 0.00), new_datey(2000, 01, 15, 0.00))
+  expect_identical(as_datey(d_2108_02_29_0.25, day_fraction = 1.00), new_datey(2108, 02, 29, 1.00))
+  expect_identical(as_datey(d_2109_02_28_0.25, day_fraction = 1.00), new_datey(2109, 02, 28, 1.00))
 
   expect_identical(as_datey(0999.9993, strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(3000, strict = FALSE), datey::NA_datey_)
@@ -265,17 +265,17 @@ test_that("`as_datey.Date()` works", {
   # Get a `Date` that is actually a fraction
   D_2021_09_16.5 <- mean(c(as.Date("2021-09-16"), as.Date("2021-09-17")))
 
-  expect_identical(as_datey(as.Date("1000-01-01")), datey(1000, 01, 01, 0.00))
-  expect_identical(as_datey(as.Date("2000-07-23")), datey(2000, 07, 23, 0.00))
-  expect_identical(as_datey(as.Date("2999-12-31")), datey(2999, 12, 31, 0.00))
-  expect_identical(as_datey(D_2021_09_16.5), datey(2021, 09, 16, 0.50))
+  expect_identical(as_datey(as.Date("1000-01-01")), new_datey(1000, 01, 01, 0.00))
+  expect_identical(as_datey(as.Date("2000-07-23")), new_datey(2000, 07, 23, 0.00))
+  expect_identical(as_datey(as.Date("2999-12-31")), new_datey(2999, 12, 31, 0.00))
+  expect_identical(as_datey(D_2021_09_16.5), new_datey(2021, 09, 16, 0.50))
   expect_identical(as_datey(as.Date("0999-12-31"), strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(as.Date("3000-01-01"), strict = FALSE), datey::NA_datey_)
 
-  expect_identical(as_datey(as.Date("1000-01-01"), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
-  expect_identical(as_datey(as.Date("2000-07-23"), day_fraction = 0.75), datey(2000, 07, 23, 0.75))
-  expect_identical(as_datey(as.Date("2999-12-31"), day_fraction = 0.75), datey(2999, 12, 31, 0.75))
-  expect_identical(as_datey(D_2021_09_16.5, day_fraction = 0.75), datey(2021, 09, 16, 0.75))
+  expect_identical(as_datey(as.Date("1000-01-01"), day_fraction = 0.75), new_datey(1000, 01, 01, 0.75))
+  expect_identical(as_datey(as.Date("2000-07-23"), day_fraction = 0.75), new_datey(2000, 07, 23, 0.75))
+  expect_identical(as_datey(as.Date("2999-12-31"), day_fraction = 0.75), new_datey(2999, 12, 31, 0.75))
+  expect_identical(as_datey(D_2021_09_16.5, day_fraction = 0.75), new_datey(2021, 09, 16, 0.75))
   expect_identical(as_datey(as.Date("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(as.Date("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
 })
@@ -320,17 +320,17 @@ test_that("`as_datey.Date()` works cyclically", {
 # as_datey.POSIXct <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`as_datey.POSIXct()` works", {
 
-  expect_identical(as_datey(as.POSIXct("1000-01-01")), datey(1000, 01, 01, 0.00))
-  expect_identical(as_datey(as.POSIXct("2000-07-23")), datey(2000, 07, 23, 0.00))
-  expect_identical(as_datey(as.POSIXct("2999-12-31")), datey(2999, 12, 31, 0.00))
-  expect_identical(as_datey(as.POSIXct("2021-09-16 12:00")), datey(2021, 09, 16, 0.50))
+  expect_identical(as_datey(as.POSIXct("1000-01-01")), new_datey(1000, 01, 01, 0.00))
+  expect_identical(as_datey(as.POSIXct("2000-07-23")), new_datey(2000, 07, 23, 0.00))
+  expect_identical(as_datey(as.POSIXct("2999-12-31")), new_datey(2999, 12, 31, 0.00))
+  expect_identical(as_datey(as.POSIXct("2021-09-16 12:00")), new_datey(2021, 09, 16, 0.50))
   expect_identical(as_datey(as.POSIXct("0999-12-31"), strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(as.POSIXct("3000-01-01"), strict = FALSE), datey::NA_datey_)
 
-  expect_identical(as_datey(as.POSIXct("1000-01-01"), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
-  expect_identical(as_datey(as.POSIXct("2000-07-23"), day_fraction = 0.75), datey(2000, 07, 23, 0.75))
-  expect_identical(as_datey(as.POSIXct("2999-12-31"), day_fraction = 0.75), datey(2999, 12, 31, 0.75))
-  expect_identical(as_datey(as.POSIXct("2021-09-16 12:00"), day_fraction = 0.75), datey(2021, 09, 16, 0.75))
+  expect_identical(as_datey(as.POSIXct("1000-01-01"), day_fraction = 0.75), new_datey(1000, 01, 01, 0.75))
+  expect_identical(as_datey(as.POSIXct("2000-07-23"), day_fraction = 0.75), new_datey(2000, 07, 23, 0.75))
+  expect_identical(as_datey(as.POSIXct("2999-12-31"), day_fraction = 0.75), new_datey(2999, 12, 31, 0.75))
+  expect_identical(as_datey(as.POSIXct("2021-09-16 12:00"), day_fraction = 0.75), new_datey(2021, 09, 16, 0.75))
   expect_identical(as_datey(as.POSIXct("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(as.POSIXct("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
 })
@@ -338,17 +338,17 @@ test_that("`as_datey.POSIXct()` works", {
 # as_datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`as_datey.POSIXlt()` works", {
 
-  expect_identical(as_datey(as.POSIXlt("1000-01-01")), datey(1000, 01, 01, 0.00))
-  expect_identical(as_datey(as.POSIXlt("2000-07-23")), datey(2000, 07, 23, 0.00))
-  expect_identical(as_datey(as.POSIXlt("2999-12-31")), datey(2999, 12, 31, 0.00))
-  expect_identical(as_datey(as.POSIXlt("2021-09-16 12:00")), datey(2021, 09, 16, 0.50))
+  expect_identical(as_datey(as.POSIXlt("1000-01-01")), new_datey(1000, 01, 01, 0.00))
+  expect_identical(as_datey(as.POSIXlt("2000-07-23")), new_datey(2000, 07, 23, 0.00))
+  expect_identical(as_datey(as.POSIXlt("2999-12-31")), new_datey(2999, 12, 31, 0.00))
+  expect_identical(as_datey(as.POSIXlt("2021-09-16 12:00")), new_datey(2021, 09, 16, 0.50))
   expect_identical(as_datey(as.POSIXlt("0999-12-31"), strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(as.POSIXlt("3000-01-01"), strict = FALSE), datey::NA_datey_)
 
-  expect_identical(as_datey(as.POSIXlt("1000-01-01"), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
-  expect_identical(as_datey(as.POSIXlt("2000-07-23"), day_fraction = 0.75), datey(2000, 07, 23, 0.75))
-  expect_identical(as_datey(as.POSIXlt("2999-12-31"), day_fraction = 0.75), datey(2999, 12, 31, 0.75))
-  expect_identical(as_datey(as.POSIXlt("2021-09-16 12:00"), day_fraction = 0.75), datey(2021, 09, 16, 0.75))
+  expect_identical(as_datey(as.POSIXlt("1000-01-01"), day_fraction = 0.75), new_datey(1000, 01, 01, 0.75))
+  expect_identical(as_datey(as.POSIXlt("2000-07-23"), day_fraction = 0.75), new_datey(2000, 07, 23, 0.75))
+  expect_identical(as_datey(as.POSIXlt("2999-12-31"), day_fraction = 0.75), new_datey(2999, 12, 31, 0.75))
+  expect_identical(as_datey(as.POSIXlt("2021-09-16 12:00"), day_fraction = 0.75), new_datey(2021, 09, 16, 0.75))
   expect_identical(as_datey(as.POSIXlt("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
   expect_identical(as_datey(as.POSIXlt("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
 })
@@ -440,9 +440,9 @@ test_that("`as_datey.character()` works cyclically", {
 test_that("`as_XXX_day()` and `is_XXX_day()` both work", {
 
   testX <- function(y, m, d) {
-    d_0.00 <- datey(y, m, d, 0.00)
-    d_0.50 <- datey(y, m, d, 0.50)
-    d_1.00 <- datey(y, m, d, 1.00)
+    d_0.00 <- new_datey(y, m, d, 0.00)
+    d_0.50 <- new_datey(y, m, d, 0.50)
+    d_1.00 <- new_datey(y, m, d, 1.00)
 
     expect_identical(start_day(y, m, d), d_0.00)
     expect_identical(mid_day(y, m, d), d_0.50)
@@ -455,7 +455,7 @@ test_that("`as_XXX_day()` and `is_XXX_day()` both work", {
     expect_identical(is_start_day(d_1.00), TRUE)
     expect_identical(is_mid_day(d_1.00), FALSE)
 
-    d_0.25 <- datey(y, m, d, 0.25)
+    d_0.25 <- new_datey(y, m, d, 0.25)
     expect_identical(is_start_day(d_0.25), FALSE)
     expect_identical(is_mid_day(d_0.25), FALSE)
   }
@@ -468,9 +468,9 @@ test_that("`as_XXX_day()` and `is_XXX_day()` both work", {
 # as.double.datey <- function(x, ...) ==================================================
 # as.numeric dispatches to as.double.XXX
 test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()` all work", {
-  expect_identical(is.numeric(datey(2000, 1, 1, 0)), TRUE)
-  expect_identical(as.numeric(datey(2000, 1, 1, 0)), 2000)
-  expect_identical(as.double(datey(2000, 1, 1, 0)), 2000)
+  expect_identical(is.numeric(new_datey(2000, 1, 1, 0)), TRUE)
+  expect_identical(as.numeric(new_datey(2000, 1, 1, 0)), 2000)
+  expect_identical(as.double(new_datey(2000, 1, 1, 0)), 2000)
   expect_identical(is.numeric(NA_datey_), TRUE)
   expect_identical(as.numeric(NA_datey_), NA_real_)
   expect_identical(as.double(NA_datey_), NA_real_)
@@ -478,34 +478,34 @@ test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()` al
 
 # as.integer.datey <- function(x, ...) ==================================================
 test_that("`as.integer.datey()` works", {
-  expect_identical(as.integer(datey(2000, 1, 1, 0)), 2000L)
-  expect_identical(as.integer(datey(2000, 7, 1, 0)), 2000L)
-  expect_identical(as.integer(datey(2000, 7, 15, 0.75)), 2000L)
-  expect_identical(as.integer(datey(2000, 12, 31, 0.9993)), 2000L)
+  expect_identical(as.integer(new_datey(2000, 1, 1, 0)), 2000L)
+  expect_identical(as.integer(new_datey(2000, 7, 1, 0)), 2000L)
+  expect_identical(as.integer(new_datey(2000, 7, 15, 0.75)), 2000L)
+  expect_identical(as.integer(new_datey(2000, 12, 31, 0.9993)), 2000L)
   expect_identical(as.integer(NA_datey_), NA_integer_)
 })
 
 # is.na.datey <- function(x) ==================================================
 test_that("`is.na.datey()` works", {
   expect_identical(is.na(NA_datey_), TRUE)
-  expect_identical(is.na(datey(0999, 12, 31, 1.00, strict = FALSE)), TRUE)
-  expect_identical(is.na(datey(3000, 01, 01, 0.00, strict = FALSE)), TRUE)
+  expect_identical(is.na(new_datey(0999, 12, 31, 1.00, strict = FALSE)), TRUE)
+  expect_identical(is.na(new_datey(3000, 01, 01, 0.00, strict = FALSE)), TRUE)
 
-  expect_identical(is.na(datey(1000, 01, 01, 0.00)), FALSE)
-  expect_identical(is.na(datey(2020, 05, 23, 0.4567)), FALSE)
-  expect_identical(is.na(datey(2999, 12, 31, 0.9993)), FALSE)
+  expect_identical(is.na(new_datey(1000, 01, 01, 0.00)), FALSE)
+  expect_identical(is.na(new_datey(2020, 05, 23, 0.4567)), FALSE)
+  expect_identical(is.na(new_datey(2999, 12, 31, 0.9993)), FALSE)
 })
 
 # anyNA.datey = function(x, recursive=FALSE) ==================================================
 test_that("`anyNA.datey()` works", {
 
   na_1 <- NA_datey_
-  na_2 <- datey(0999, 12, 31, 1.00, strict = FALSE)
-  na_3 <- datey(3000, 01, 01, 0.00, strict = FALSE)
+  na_2 <- new_datey(0999, 12, 31, 1.00, strict = FALSE)
+  na_3 <- new_datey(3000, 01, 01, 0.00, strict = FALSE)
 
-  d_1 <- datey(1000, 01, 01, 0.00)
-  d_2 <- datey(2020, 05, 23, 0.4567)
-  d_3 <- datey(2999, 12, 31, 0.9993)
+  d_1 <- new_datey(1000, 01, 01, 0.00)
+  d_2 <- new_datey(2020, 05, 23, 0.4567)
+  d_3 <- new_datey(2999, 12, 31, 0.9993)
 
   expect_identical(anyNA(c(na_1)), TRUE)
   expect_identical(anyNA(c(na_2)), TRUE)
@@ -521,21 +521,21 @@ test_that("`anyNA.datey()` works", {
 
 # c.datey <- function(..., recursive = FALSE) ==================================================
 test_that("`c()` works on `datey`", {
-  expect_identical(is_datey(c(datey(2000, 1, 1, 0), datey(2000, 1, 1, 0))), TRUE)
-  expect_identical(is_datey(c(NA_datey_, datey(2000, 1, 1, 0))), TRUE)
+  expect_identical(is_datey(c(new_datey(2000, 1, 1, 0), new_datey(2000, 1, 1, 0))), TRUE)
+  expect_identical(is_datey(c(NA_datey_, new_datey(2000, 1, 1, 0))), TRUE)
 })
 
 # format.datey <- function(x, include_day_fraction = TRUE, ...) ==================================================
 test_that("`format.datey()` works on NA", {
 
   expect_identical(format(NA_datey_), NA_character_)
-  expect_identical(format(datey(0999, 12, 31, 1.00, strict = FALSE)), NA_character_)
-  expect_identical(format(datey(3000, 01, 01, 0.00, strict = FALSE)), NA_character_)
+  expect_identical(format(new_datey(0999, 12, 31, 1.00, strict = FALSE)), NA_character_)
+  expect_identical(format(new_datey(3000, 01, 01, 0.00, strict = FALSE)), NA_character_)
 })
 test_that("`format.datey()` works", {
 
   testX <- function(y, m, d, f, text) {
-    x <- datey(y, m, d, f)
+    x <- new_datey(y, m, d, f)
 
     expect_identical(format(x), text)
     expect_identical(format(x, include_day_fraction = TRUE), text)
@@ -610,12 +610,12 @@ test_that("`format.datey()` works", {
 test_that("`c()` works on `datey`", {
 
   na_1 <- NA_datey_
-  na_2 <- datey(0999, 12, 31, 1.00, strict = FALSE)
-  na_3 <- datey(3000, 01, 01, 0.00, strict = FALSE)
+  na_2 <- new_datey(0999, 12, 31, 1.00, strict = FALSE)
+  na_3 <- new_datey(3000, 01, 01, 0.00, strict = FALSE)
 
-  d_1 <- datey(1000, 01, 01, 0.00)
-  d_2 <- datey(2020, 05, 23, 0.4567)
-  d_3 <- datey(2999, 12, 31, 0.9993)
+  d_1 <- new_datey(1000, 01, 01, 0.00)
+  d_2 <- new_datey(2020, 05, 23, 0.4567)
+  d_3 <- new_datey(2999, 12, 31, 0.9993)
 
   expect_identical(is_datey(c(d_1)), TRUE)
   expect_identical(is_datey(c(d_2, d_1)), TRUE)
