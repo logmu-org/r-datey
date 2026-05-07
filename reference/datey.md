@@ -1,71 +1,105 @@
-# Create a `datey`
+# Creates a `datey`
 
-Create a `datey` from a year, month, day and, for `datey()`, a
-day-fraction.
+This package provides methods to create a `datey` from the following:
 
-In general, prefer the explicit `start_day()`, `mid_day()` and
-`end_day()` versions.
+- `double` and `integer` are interpreted as the specified calendar year,
+  with the fractional part representing the fraction of the year. For
+  instance, `datey(2000.5)` means halfway though the year 2000. (This
+  means that an `integer` argument always indicates the *start* of the
+  calendar year, e.g. `datey(2000L)` is the start of the year 2000.)
 
-To deconstruct a `datey`, use
-[`as_ymdf()`](https://logmu-org.github.io/r-datey/reference/as_ymdf.md).
+- `Date` and `POSIXct` and `POSIXlt` are interpreted as fractional
+  years. If no `day_fraction` argument is provided then the day fraction
+  is determined by the hours, minutes, and seconds. For instance,
+  `datey(as.POSIXct("2000-03-21 12:00"))` means the *middle* of
+  2000-03-21. Note that in standard use, a `Date` has no fractional part
+  and therefore means the *start* of the day. For instance,
+  `datey(as.Date("2000-03-21 12:00"))` means the *start* of 2000-03-21.
+
+- `character` – If `day_fraction` *is* provided then the text format
+  must be in ISO 8601 extended format, i.e. YYYY-MM-DD. If
+  `day_fraction` *is* provided then the text format must be
+  YYYY-MM-DD.FFF, where .FFF is the day fraction and must be present
+  even if the fraction is 0, e.g. "2000-01-01.0" for the start of 1
+  January 2000.
+
+- `datey` is interpreted as is but with the optional `day_fraction`
+  override. Note that a `day_fraction` of 1 will add a day to a day
+  boundary, *even if it was originally defined as an end day*.
 
 The lengths of vector arguments must be multiples of each other.
+
+This is an S3 generic.
 
 ## Usage
 
 ``` r
-datey(year, month, day, day_fraction, strict = TRUE)
+datey(x, day_fraction = NULL, strict = TRUE, ...)
 
-start_day(year, month, day, strict = TRUE)
+# Default S3 method
+datey(x, day_fraction = NULL, strict = TRUE, ...)
 
-mid_day(year, month, day, strict = TRUE)
+# S3 method for class 'datey'
+datey(x, day_fraction = NULL, strict = TRUE, ...)
 
-end_day(year, month, day, strict = TRUE)
+# S3 method for class 'integer'
+datey(x, day_fraction = NULL, strict = TRUE, ...)
+
+# S3 method for class 'double'
+datey(x, day_fraction = NULL, strict = TRUE, ...)
+
+# S3 method for class 'Date'
+datey(x, day_fraction = NULL, strict = TRUE, ...)
+
+# S3 method for class 'POSIXct'
+datey(x, day_fraction = NULL, strict = TRUE, ...)
+
+# S3 method for class 'POSIXlt'
+datey(x, day_fraction = NULL, strict = TRUE, ...)
+
+as_start_day(x, ...)
+
+as_mid_day(x, ...)
+
+as_end_day(x, ...)
 ```
 
 ## Arguments
 
-- year:
+- x:
 
-  Calendar year. Valid years are from 1000 (inclusive) to 3000
-  (exclusive). If provided as `double` then these *must be integers*.
-
-- month:
-
-  Month number in calendar year, with 1 representing January. If
-  provided as `double` then these *must be integers*.
-
-- day:
-
-  Day number in month, with 1 representing the first day of the month.
-  If provided as `double` then these *must be integers*.
+  The argument to convert to a `datey`.
 
 - day_fraction:
 
-  The fraction of the day, in \[0,1\]. 0 means the start of the day, 0.5
-  means the middle of the day, and 1 means the end of the day (which is
-  identical to the start of the next day).
+  The `day_fraction` override. Defaults to `NULL`.
+
+  - If `day_fraction` is *not* provided then `x` is used to derive both
+    the calendar year, month, day *and* the day fraction.
+
+  - If `day_fraction` *is* provided then `x` is used solely to derive
+    the calendar year, month and day, while `day_fraction` provides the
+    position in the day. `day_fraction` must lie in the inclusive
+    interval \[0,1\], with
+
+  - 0 meaning the start of the day,
+
+  - 0.5 meaning the middle of the day, and
+
+  - 1 meaning the end of the day (which is identical to the start of the
+    next day).
 
 - strict:
 
-  How to handle calendar years less than 1000 or greater than or equal
-  to 3000 and day fractions not in the interval \[0,1\].
+  How calendar years less than 1000 or greater than or equal to 3000 and
+  day fractions not in the interval \[0,1\] should be handled.
 
   - If `strict` is `TRUE` – the default – then execution is stopped.
 
   - If `strict` is `FALSE` then `NA` is returned.
 
-  (NA arguments result in NA regardless of `strict`.)
+  (NAs will result in NA regardless of this switch.)
 
-## Edge cases
+- ...:
 
-The following are special cases:
-
-1.  `(year = 999, month = 12, day = 31, day_fraction = 1`). This *will*
-    cause an error, even though in theory it represents the legal
-    `datey` 1000-01-01.0.
-
-2.  `(year = 2999, month = 12, day = 31, day_fraction = 1`). This will
-    *not* cause an error, even though in theory it represents the
-    illegal `datey` 3000-01-01.0. (The resulting `datey` will be invalid
-    though.)
+  Other arguments (not used in this package).

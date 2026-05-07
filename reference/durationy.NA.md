@@ -37,7 +37,7 @@ valid_duration_years_max
 
 ## Format
 
-An object of class `durationy` of length 1.
+An object of class `datey_type` (inherits from `durationy`) of length 1.
 
 An object of class `integer` of length 1.
 
@@ -58,12 +58,12 @@ other than a single value.
 
 ## See also
 
-as_durationy
+durationy
 
 ## Examples
 
 ``` r
-  x <- c(NA_durationy_, as_durationy(1.5))
+  x <- c(NA_durationy_, durationy(1.5))
   is.na(x) # c(TRUE, FALSE)
 #> [1]  TRUE FALSE
   anyNA(x) # TRUE

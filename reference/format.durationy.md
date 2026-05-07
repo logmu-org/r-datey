@@ -3,7 +3,7 @@
 A `durationy` is printed as a decimal.
 
 This format is readable by
-[`as_durationy.character()`](https://logmu-org.github.io/r-datey/reference/as_durationy.character.md).
+[`durationy.character()`](https://logmu-org.github.io/r-datey/reference/durationy.character.md).
 
 ## Usage
 
@@ -60,8 +60,8 @@ print(
 ## Examples
 
 ``` r
-  pos <- as_durationy(1)
-  neg <- as_durationy(-2.3)
+  pos <- durationy(1)
+  neg <- durationy(-2.3)
   format(pos) # "1 yr"
 #> [1] "1 yr"
   format(pos, include_plus = TRUE) # "1 yr"

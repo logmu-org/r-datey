@@ -5,20 +5,19 @@
 <url><loc>https://logmu-org.github.io/r-datey/authors.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/index.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/news/index.html</loc></url>
-<url><loc>https://logmu-org.github.io/r-datey/reference/Ops.datey.html</loc></url>
+<url><loc>https://logmu-org.github.io/r-datey/reference/Ops.datey_type.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/as.double.datey.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/as.double.durationy.html</loc></url>
-<url><loc>https://logmu-org.github.io/r-datey/reference/as_datey.character.html</loc></url>
-<url><loc>https://logmu-org.github.io/r-datey/reference/as_datey.html</loc></url>
-<url><loc>https://logmu-org.github.io/r-datey/reference/as_durationy.character.html</loc></url>
-<url><loc>https://logmu-org.github.io/r-datey/reference/as_durationy.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/as_ymdf.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/c.datey.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/c.durationy.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/datey-package.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/datey.NA.html</loc></url>
+<url><loc>https://logmu-org.github.io/r-datey/reference/datey.character.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/datey.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/durationy.NA.html</loc></url>
+<url><loc>https://logmu-org.github.io/r-datey/reference/durationy.character.html</loc></url>
+<url><loc>https://logmu-org.github.io/r-datey/reference/durationy.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/format.datey.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/format.durationy.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/index.html</loc></url>
@@ -26,5 +25,6 @@
 <url><loc>https://logmu-org.github.io/r-datey/reference/is_durationy.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/is_leap_year.html</loc></url>
 <url><loc>https://logmu-org.github.io/r-datey/reference/is_start_day.html</loc></url>
+<url><loc>https://logmu-org.github.io/r-datey/reference/point_in_day.html</loc></url>
 </urlset>
 

@@ -43,7 +43,7 @@ valid_years_end
 
 ## Format
 
-An object of class `datey` of length 1.
+An object of class `datey_type` (inherits from `datey`) of length 1.
 
 An object of class `integer` of length 1.
 
@@ -66,12 +66,12 @@ other than a single value.
 
 ## See also
 
-as_datey
+datey
 
 ## Examples
 
 ``` r
-  x <- c(NA_datey_, as_datey(2000))
+  x <- c(NA_datey_, datey(2000))
   is.na(x) # c(TRUE, FALSE)
 #> [1]  TRUE FALSE
   anyNA(x) # TRUE

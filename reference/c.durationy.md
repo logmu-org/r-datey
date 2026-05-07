@@ -3,7 +3,7 @@
 Combines (flattens) `durationy` vectors.
 
 If the first element in `c(...)` is not a `durationy` then this method
-will not be called. For instance, `c(NA, as_durationy(1))` is *not* a
+will not be called. For instance, `c(NA, durationy(1))` is *not* a
 `durationy`.
 
 ## Usage
@@ -38,6 +38,6 @@ first argument is a `durationy`.
 ## Examples
 
 ``` r
-  c(as_durationy(1), as_durationy("2.5 yr"))
+  c(durationy(1), durationy("2.5 yr"))
 #> [1] 1 yr   2.5 yr
 ```
