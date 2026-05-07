@@ -2,7 +2,7 @@
 % Please edit documentation in R/ops.R
 \name{Ops.datey_type}
 \alias{Ops.datey_type}
-\title{Generic operators for \code{datey}}
+\title{Generic operators for \code{datey} and \code{durationy}}
 \usage{
 \method{Ops}{datey_type}(e1, e2)
 }
@@ -12,5 +12,5 @@
 \item{e2}{Second parameter -- must be \code{datey} or \code{durationy}.}
 }
 \description{
-Generic operators for \code{datey}
+Generic operators for \code{datey} and \code{durationy}
 }

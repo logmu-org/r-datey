@@ -7,7 +7,6 @@
 # **** TO DO ****
 # sort(x, decreasing = FALSE, na.last = NA, ...)
 # is.unsorted
-# mean, max, min, other summary/stats methods
 # **** DONE ****
 # as.character
 # as.double (automatically includes is.numeric)
@@ -15,6 +14,7 @@
 # is.na,
 # anyNA
 # c
+# mean, max, min, etc [in summary.R]
 # **** TO CONSIDER ****
 # length, length<-
 # lengths
@@ -37,7 +37,7 @@
 
 datey_from_clicks <- function(clicks) {
   clicks <- unclass(clicks)
-  clicks <- as.integer(clicks)
+  if (!is.integer(clicks)) clicks <- as.integer(round(clicks))
   structure(clicks, class = c("datey_type", "datey"))
 }
 
