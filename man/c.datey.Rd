@@ -20,14 +20,14 @@
 Combines (flattens) \code{datey} vectors.
 
 If the first element in \code{c(...)} is not a \code{datey} then this method will not
-be called. For instance, \code{c(NA, as_datey("2000-01-01.0"))}
+be called. For instance, \code{c(NA, datey("2000-01-01.0"))}
 }
 \note{
 R currently only dispatches generic \code{c} to method \code{c.datey} if the
 first argument is a \code{datey}.
 }
 \examples{
-  c(as_datey(2000), as_datey("2020-01-01.0"))
+  c(datey(2000), datey("2020-01-01.0"))
   #cbind(1:6, as.datey(2001:2020))
   #rbind(1:6, as.datey(2001:2020))
 }

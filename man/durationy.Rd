@@ -19,7 +19,7 @@ durationy(x, strict = TRUE, ...)
 \method{durationy}{double}(x, strict = TRUE, ...)
 }
 \arguments{
-\item{x}{The argument.}
+\item{x}{The argument to convert to a \code{durationy}.}
 
 \item{strict}{How years greater than 2000 in magnitude should be
 handled.

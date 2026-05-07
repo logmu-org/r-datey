@@ -60,12 +60,12 @@ For convenience, the following constants are also available:
 For performance reasons, intermediate calculations may not check for NAs.
 }
 \examples{
-  x <- c(NA_datey_, as_datey(2000))
+  x <- c(NA_datey_, datey(2000))
   is.na(x) # c(TRUE, FALSE)
   anyNA(x) # TRUE
 }
 \seealso{
-as_datey
+datey
 }
 \keyword{NA}
 \keyword{datasets}
