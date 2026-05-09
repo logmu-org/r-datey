@@ -198,26 +198,5 @@ test_that("`format.durationy()`", {
   expect_identical(format(d_posmax, year_unit = "ABCDEFGHIJABCDEFGHIJ"), "2000 ABCDEFGHIJABCDEFGHIJ")
 })
 
-# c.durationy <- function(..., recursive = FALSE) ==================================================
-test_that("`c()` on `durationy`", {
-
-  na_1 <- NA_durationy_
-  na_2 <- durationy(2000.1, strict = FALSE)
-  na_3 <- durationy(-9999L, strict = FALSE)
-
-  d_1 <- durationy(0)
-  d_2 <- durationy(1.4567)
-  d_3 <- durationy(-100.1234)
-
-  expect_identical(is_durationy(c(d_1)), TRUE)
-  expect_identical(is_durationy(c(d_2, d_1)), TRUE)
-  expect_identical(is_durationy(c(d_3, d_2, d_1)), TRUE)
-  expect_identical(is_durationy(c(na_1)), TRUE)
-  expect_identical(is_durationy(c(na_2, na_1)), TRUE)
-  expect_identical(is_durationy(c(na_3, na_2, na_1)), TRUE)
-  expect_identical(is_durationy(c(na_1, d_2, d_3)), TRUE)
-  expect_identical(is_durationy(c(d_1, na_2, d_3)), TRUE)
-})
-
 # print.durationy <- function(x, include_day_fraction = TRUE, max = NULL, ...) ==================================================
 # NO EXPLICIT TEST

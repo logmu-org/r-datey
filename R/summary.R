@@ -8,22 +8,28 @@
 #' @param x The `datey` or `durationy`.
 #' @param na.rm	A logical (`TRUE` or `FALSE`) indicating whether NA values should be removed before the computation.
 #' @param ...	Ignored.
+#' @name mean
+
+#' @rdname mean
 #' @export
 mean.datey <- function (x, ..., na.rm = FALSE) {
   clicks <- convert_datey_to_valid_clicks(x)
   datey_from_clicks(mean(clicks, na.rm = na.rm))
 }
-#' @rdname mean.datey
+#' @rdname mean
 #' @export
 mean.durationy <- function (x, ..., na.rm = FALSE) {
   clicks <- convert_durationy_to_valid_clicks(x)
   durationy_from_clicks(mean(clicks, na.rm = na.rm))
 }
 
-#' Maximum, minimum or range of `datey` or `durationy`
+#' Minimum, maximum or range of `datey` or `durationy`
 #' @param ... The `datey` or `durationy` arguments.
 #' @param na.rm	A logical (`TRUE` or `FALSE`) indicating whether NA values should be removed before the computation.
-#' @exportS3Method base::Summary
+#' @name max_min
+
+#' @rdname max_min
+#' @export
 Summary.datey <- function (..., na.rm = FALSE) {
 
   if (!(.Generic %in% c("min", "max", "range")))
@@ -49,7 +55,7 @@ Summary.datey <- function (..., na.rm = FALSE) {
 
   datey_from_clicks(result_as_clicks)
 }
-#' @rdname Summary.datey
+#' @rdname max_min
 #' @export
 Summary.durationy <- function (..., na.rm = FALSE) {
 

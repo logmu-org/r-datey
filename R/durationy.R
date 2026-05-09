@@ -41,65 +41,34 @@ durationy_from_clicks <- function(clicks) {
   structure(clicks, class = c("datey_type", "durationy"))
 }
 
-#' Handling invalid durations
-#'
-#' @description
-#'
-#' A duration within the datey system is valid if it represents 2000 years or
-#' less.
-#'
-#' Larger durations are treated as NA.
-#'
-#' Use
-#'
-#' - `is.na()` to test whether `datey` is NA by element, and
-#' - `anyNA()` to test whether any element of a `datey` is NA.
-#'
-#' The `durationy` version of NA is `NA_durationy_`.
-#'
-#' For convenience, the constant `valid_max_duration` is the maximum valid
-#' duration in years (2000).
-#'
-#' For performance reasons, intermediate calculations may not check for NAs.
-#'
-#' @param x The `durationy` to test for validity.
-#' @param recursive	Unused.
-#' @return A single logical value, `TRUE` or `FALSE`, never `NA` and never
-#'   anything other than a single value.
-#' @keywords NA
-#' @seealso durationy
+#' The `durationy` version of NA
+#' @seealso [is_NA], [NA_datey_], [integer_constants]
 #' @examples
-#'   x <- c(NA_durationy_, durationy(1.5))
-#'   is.na(x) # c(TRUE, FALSE)
-#'   anyNA(x) # TRUE
-#' @name durationy.NA
-NULL
-
-#' @rdname durationy.NA
+#'   is_durationy(NA_durationy_) # TRUE
 #' @export
 NA_durationy_ <- durationy_from_clicks(NA_integer_)
-#' @rdname durationy.NA
+
+# `@name is_NA` is defined in datey.R
+#' @rdname is_NA
 #' @export
 is.na.durationy <- function(x) {
   clicks <- unclass(x)
   is.na(clicks) | abs(clicks) > 1068720000L
 }
-#' @rdname durationy.NA
+# `@name is_NA` is defined in datey.R
+#' @rdname is_NA
 #' @export
-anyNA.durationy = function(x, recursive = FALSE) any(is.na(x))
-#' @rdname durationy.NA
-#' @export
-valid_duration_years_max <- 2000L
+anyNA.durationy = function(x, recursive = FALSE) {
+  if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.")
+  any(is.na(x))
+}
 
-#' Check if an object is a `durationy`
-#'
-#' Checks whether an object is a `durationy`.
-#'
+# `@name is_type` is defined in datey.R
 #' @param x The object to test.
-#' @export
+#' @name is_type
 is_durationy <- function(x) typeof(x) == "integer" && inherits(x, "durationy")
 
-#' Creates a `durationy`
+#' Create a `durationy` from an annual duration
 #'
 #' @description
 #' This package provides methods to create a `durationy` from the following:
@@ -194,6 +163,10 @@ durationy.double <- function(x, strict = TRUE, ...) {
 #' Cannot be more than 20 characters (UTF-8 bytes) or contain control characters.
 #' Defaults to `"yr"`.
 #' @param ... Other arguments (not used in this package).
+#' @name text_to_durationy
+NULL
+
+#' @rdname text_to_durationy
 #' @export
 durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit = "yr", ...) {
   ensure_is_switch(strict)
@@ -203,64 +176,39 @@ durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit
   durationy_from_clicks(clicks)
 }
 
-#' A `durationy` as years
+#' Convert a `durationy` to duration in years
 #'
 #' @description
-#' A `durationy` converted to years.
+#' Converts a `durationy` to duration in years.
 #'
-#' Conversion to an integer rounds to the nearest whole year.
+#' Note the following:
+#'
+#' - `as.numeric()` is the same as `as.double()`.
+#' - `as.integer()` obtains the integer part,
+#'   e.g. `as.integer(durationy(1.9))` is `1`
+#'   and `as.integer(durationy(-1.9))` is `-1`.
+#'   `as.integer(x)` is the same as `as.integer(as.double(x))`.
 #'
 #' @param x The `durationy` to convert to years.
 #' @param ... Further arguments to be passed from or to other methods.
+#' @name as_years_durationy
+NULL
+
+#' @rdname as_years_durationy
 #' @export
 as.double.durationy <- function(x, ...) {
   clicks <- convert_durationy_to_valid_clicks(x)
   clicks / 534360
 }
-#' @rdname as.double.durationy
+#' @rdname as_years_durationy
 #' @export
 as.integer.durationy <- function(x, ...) {
   clicks <- convert_durationy_to_valid_clicks(x)
   # Integer division rounds down towards negative infinity,
-  # which is inconsistent with float-point. So we use floating point division
-  # first.
+  # which is inconsistent with floating point. So we use floating point
+  # division first before conversion to integer.
   #clicks %/% 534360L
   as.integer(clicks / 534360)
-}
-
-#' Concatenate `durationy` vectors
-#'
-#' @description
-#' Combines (flattens) `durationy` vectors.
-#'
-#' If the first element in `c(...)` is not a `durationy` then this method will not
-#' be called. For instance, `c(NA, durationy(1))` is *not* a `durationy`.
-#'
-#' @param ... The items to combine
-#' @param recursive Unused.
-#'
-#' @returns
-#'   [c()] returns a vector of `durationy`s.
-#'
-#'   \[cbind()\] and \[rbind()\] return a matrix, data.frame or list with dimensions
-#'
-#' @note
-#' R currently only dispatches generic `c` to method `c.durationy` if the
-#'   first argument is a `durationy`.
-#'
-#' @keywords classes manip
-#' @examples
-#'   c(durationy(1), durationy("2.5 yr"))
-#' @export
-c.durationy <- function(..., recursive = FALSE) {
-  args <- list(...)
-  if (!all(vapply(args, inherits, TRUE, "durationy")))
-    stop("All arguments must inherit from \"durationy\".")
-
-  # Concatenate the underlying numeric (integer) values
-  result <- NextMethod("c")
-
-  durationy_from_clicks(result)
 }
 
 #' Format or print a `durationy`
@@ -295,6 +243,10 @@ c.durationy <- function(..., recursive = FALSE) {
 #'   format(neg) # "−2.3 yr"
 #'   format(neg, use_true_minus = TRUE) # "−2.3 yr"
 #'   format(neg, year_unit = "a") # "-2.3 a"
+#' @name text_from_durationy
+NULL
+
+#' @rdname text_from_durationy
 #' @export
 format.durationy <- function(x, include_plus = FALSE, use_true_minus = TRUE, year_unit = "yr", ...) {
   ensure_is_durationy(x)
@@ -304,7 +256,7 @@ format.durationy <- function(x, include_plus = FALSE, use_true_minus = TRUE, yea
   cpp_durationyToRString(x, include_plus, use_true_minus, year_unit)
 }
 
-#' @rdname format.durationy
+#' @rdname text_from_durationy
 #' @export
 print.durationy <- function(x, include_plus = FALSE, use_true_minus = TRUE, year_unit = "yr", max = NULL, ...) {
   if (is.null(max)) max <- getOption("max.print", 9999L)

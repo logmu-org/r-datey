@@ -4,9 +4,38 @@
 #
 # Copyright (c) Tim Gordon
 
-#' Generic operators for `datey` and `durationy`
-#' @param e1 First (`datey`) parameter.
-#' @param e2 Second parameter -- must be `datey` or `durationy`.
+#' Operators for `datey` and `durationy`
+#'
+#' @description
+#'
+#' The unary `-` operator can be applied to a `durationy` to change its sign.
+
+#' The following are the available binary operators and their meaning.
+#'
+#' | Left | Operators | Right | Result | Notes |
+#' | :---: | :---: | :---: | :---: | :--- |
+#' | `datey` | `==` `!=` `<` `<=` `>` `>=` | `datey` | logical | Order relation for dates
+#' | `datey` | `-` | `datey` | `durationy` | Duration between two dates
+#' | `datey` | `+` `-` | `durationy` | `datey` | A date offset by a duration
+#' | `durationy` | `+` | `datey` | `datey` | A date offset by a duration
+#' | `durationy` | `==` `!=` `<` `<=` `>` `>=` | `durationy` | logical |  Order relation for durations
+#' | `durationy` | `+` `-` | `durationy` | `durationy` | Duration addition and substraction
+#' | `durationy` | `*` `/` | numeric | `durationy` | A scaled duration
+#' | numeric | `*` | `durationy` | `durationy` | A scaled duration
+#'
+#' @param e1 First parameter -- must be `datey` or `durationy`.
+#' @param e2 Second parameter (missing if a unary operator).
+#' @returns See above table. In essence
+#' - subtracting two `datey`s results in a `durationy`,
+#' - comparing two `T`s results in a logical,
+#' - adding or subtracting a `durationy` to or from a `T` results in a
+#'   `T`, and
+#' - scaling a `durationy` results in a `durationy`,
+#'
+#' where `T` is either `datey` or `durationy` in each of the above.
+#' @name ops
+
+#' @rdname ops
 #' @export
 Ops.datey_type <- function(e1, e2) {
 

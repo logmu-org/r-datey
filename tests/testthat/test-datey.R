@@ -153,12 +153,12 @@ test_that("`datey` and `start_day`, `mid_day` and `end_day` are consistent", {
   expect_identical(point_in_day(y, m, d, 1, strict = FALSE), end_day(y, m, d, strict = FALSE))
 })
 
-# as_ymdf <- function(datey) ==================================================
+# to_ymdf <- function(datey) ==================================================
 test_that("`datey` round-trips from ymdf and back", {
 
   testX <- function(year, month, day, day_fraction) {
     datey <- point_in_day(year, month, day, day_fraction)
-    ymdf <- as_ymdf(datey)
+    ymdf <- to_ymdf(datey)
     expect_identical(ymdf$year, as.integer(year))
     expect_identical(ymdf$month, as.integer(month))
     expect_identical(ymdf$day, as.integer(day))
@@ -604,27 +604,6 @@ test_that("`format.datey()`", {
 
   # Max legal
   testX(2999, 12, 31, 1463 / 1464, "2999-12-31.9993")
-})
-
-# c.datey <- function(..., recursive = FALSE) ==================================================
-test_that("`c()` on `datey`", {
-
-  na_1 <- NA_datey_
-  na_2 <- point_in_day(0999, 12, 31, 1.00, strict = FALSE)
-  na_3 <- point_in_day(3000, 01, 01, 0.00, strict = FALSE)
-
-  d_1 <- point_in_day(1000, 01, 01, 0.00)
-  d_2 <- point_in_day(2020, 05, 23, 0.4567)
-  d_3 <- point_in_day(2999, 12, 31, 0.9993)
-
-  expect_identical(is_datey(c(d_1)), TRUE)
-  expect_identical(is_datey(c(d_2, d_1)), TRUE)
-  expect_identical(is_datey(c(d_3, d_2, d_1)), TRUE)
-  expect_identical(is_datey(c(na_1)), TRUE)
-  expect_identical(is_datey(c(na_2, na_1)), TRUE)
-  expect_identical(is_datey(c(na_3, na_2, na_1)), TRUE)
-  expect_identical(is_datey(c(na_1, d_2, d_3)), TRUE)
-  expect_identical(is_datey(c(d_1, na_2, d_3)), TRUE)
 })
 
 # print.datey <- function(x, include_day_fraction = TRUE, max = NULL, ...) ==================================================

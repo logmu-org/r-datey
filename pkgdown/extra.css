@@ -33,3 +33,10 @@
   font-weight: bold;
   font-style: italic;
 }
+
+#toc h2 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 81.25%;
+  letter-spacing: 12.5%;
+}
