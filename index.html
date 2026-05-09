@@ -19,7 +19,7 @@
 <meta property="og:title" content="Annualised Fixed-Precision Dates and Durations for Actuarial Experience Analysis">
 <meta name="description" content="TODO.">
 <meta property="og:description" content="TODO.">
-<meta property="og:image" content="https://logmu-org.github.io/r-datey/logo.svg">
+<meta property="og:image" content="https://logmu-org.github.io/r-datey/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -38,8 +38,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="active nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/datey.html">Introduction</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Change log</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -63,30 +65,21 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.svg" class="logo" alt=""><h1 id="datey-">datey <a class="anchor" aria-label="anchor" href="#datey-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="datey-">datey <a class="anchor" aria-label="anchor" href="#datey-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The goal of datey is to …</p>
-<p>standardise annual, i.e. year-based calculations e.g. as required for actuarial mortality experience analyses or valuations.</p>
-<ul>
-<li>Fixed precision dates for calendar years [1000, 3000)</li>
-<li>Technically this is the Proleptic Gregorian calendar</li>
-</ul>
-<p>Guarantees:</p>
-<ul>
-<li>Can represent start and middle of any day leap year and non leap year</li>
-<li>Years divisible by 120</li>
-</ul>
-<p>You can convert from standard base R dates (<code>Date</code>, <code>POSIXct</code> and <code>POSIXlt</code>).</p>
-<p>Key argument is <code>day_fraction</code>. Simpler just to use <code>start_day</code>, <code>mid_day</code> or <code>end_day</code>.</p>
-<p>For instance</p>
-<ul>
-<li>start of E2R is typically included, so use <code>start_day</code>.</li>
-<li>if the individual survived then the end of the E2R is also typically included, so use <code>end_day</code>. This means that if the E2R comprises separate periods then they will interlock correctly (E2Rs being <a href="https://timgord.com/2025-08/mortality-measures-matter/#Insight2" class="external-link">measurable</a>)</li>
-<li>If the individual died then on average this is during the final day and so use <code>mid_day</code>.</li>
-</ul>
+<p><strong>datey</strong> provides a standard mapping of dates onto an annual grid.</p>
+<p>This matters in contexts where the primary unit is years and where definitions need to be precise.</p>
+<p>A classic example is actuarial mortality experience analysis or valuation of life assurance and annuities. Mortality rates are defined <em>per annum</em> but experience and valuation data is usually defined using dates (i.e. days).</p>
+<p>The benefits of using <strong>datey</strong> are:</p>
+<ol style="list-style-type: decimal">
+<li><p>A consistent framework for converting dates to and from a uniform annual grid based on the most common approach.</p></li>
+<li><p>Handling the often-overlooked issue of whether a date means the start, during or end of a day.</p></li>
+<li><p>Fixed precision arithmetic, which excludes bugs relating to floating point arithmetic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Specifically, the &lt;a href="https://en.wikipedia.org/wiki/Associative_property#Nonassociativity_of_floating-point_calculation" class="external-link"&gt;non-associativity&lt;/a&gt; of floating point arithmetic.&lt;/p&gt;'><sup>1</sup></a>.</p></li>
+</ol>
+<p>If you are mixing annual rates and dates, and working primarily in the annual domain, then it is worth considering using <strong>datey</strong>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -102,22 +95,28 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span>
 <span><span class="co">## basic example code</span></span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      speed           dist       </span></span>
-<span><span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span></span>
-<span><span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span></span>
-<span><span class="co">#&gt;  Median :15.0   Median : 36.00  </span></span>
-<span><span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span></span>
-<span><span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></span></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this.</p>
-<p>You can also embed plots in the man/figures folder, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" alt="" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub and CRAN.</p>
+<!--
+&#10;What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+&#10;
+``` r
+summary(cars)
+#>      speed           dist
+#>  Min.   : 4.0   Min.   :  2.00
+#>  1st Qu.:12.0   1st Qu.: 26.00
+#>  Median :15.0   Median : 36.00
+#>  Mean   :15.4   Mean   : 42.98
+#>  3rd Qu.:19.0   3rd Qu.: 56.00
+#>  Max.   :25.0   Max.   :120.00
+```
+&#10;You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+&#10;You can also embed plots in the man/figures folder, for example:
+&#10;<img src="man/figures/README-pressure-1.png" alt="" width="100%" />
+&#10;In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+-->
 </div>
 </div>
+
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -144,7 +143,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Tim Gordon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0006-3087-4384" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>
+<a href="http://timgord.com" class="external-link">Tim Gordon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0006-3087-4384" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
@@ -155,7 +155,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tim Gordon.</p>
+  <p>Developed by <a href="http://timgord.com" class="external-link">Tim Gordon</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

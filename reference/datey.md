@@ -1,4 +1,4 @@
-# Creates a `datey`
+# Create a `datey` from a calendar year (including its fractional part) or another date type
 
 This package provides methods to create a `datey` from the following:
 
@@ -56,12 +56,6 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 # S3 method for class 'POSIXlt'
 datey(x, day_fraction = NULL, strict = TRUE, ...)
-
-as_start_day(x, ...)
-
-as_mid_day(x, ...)
-
-as_end_day(x, ...)
 ```
 
 ## Arguments

@@ -1,4 +1,4 @@
-# Creates a `durationy`
+# Create a `durationy` from an annual duration
 
 This package provides methods to create a `durationy` from the
 following:

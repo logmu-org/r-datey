@@ -1,0 +1,61 @@
+# Introduction to datey
+
+``` r
+
+library(datey)
+```
+
+When converting dates, which are measured in days, to a system that
+assumes all years have the same length, something has to give.
+
+The most common approach, which simply because some years contain 365
+days and others have 366.
+
+(which is to assume that days are 1 year / N, where N is the number of
+days in the containing calendar year) - a consistent framework based on
+the most common approach,
+
+- Fixed precision dates for calendar years \[1000, 3000)
+- Technically this is the Proleptic Gregorian calendar
+
+Guarantees:
+
+- Can represent start and middle of any day leap year and non leap year
+- Years divisible by 120
+
+You can convert from standard base R dates (`Date`, `POSIXct` and
+`POSIXlt`).
+
+Key argument is `day_fraction`. Simpler just to use `start_day`,
+`mid_day` or `end_day`.
+
+For instance
+
+- start of E2R is typically included, so use `start_day`.
+- if the individual survived then the end of the E2R is also typically
+  included, so use `end_day`. This means that if the E2R comprises
+  separate periods then they will interlock correctly (E2Rs being
+  [measurable](https://timgord.com/2025-08/mortality-measures-matter/#Insight2))
+- If the individual died then on average this is during the final day
+  and so use `mid_day`.
+
+Guarantees:
+
+- Can represent start and middle of any day leap year and non leap year
+- Years divisible by 120
+
+You can convert from standard base R dates (`Date`, `POSIXct` and
+`POSIXlt`).
+
+Key argument is `day_fraction`. Simpler just to use `start_day`,
+`mid_day` or `end_day`.
+
+For instance
+
+- start of E2R is typically included, so use `start_day`.
+- if the individual survived then the end of the E2R is also typically
+  included, so use `end_day`. This means that if the E2R comprises
+  separate periods then they will interlock correctly (E2Rs being
+  [measurable](https://timgord.com/2025-08/mortality-measures-matter/#Insight2))
+- If the individual died then on average this is during the final day
+  and so use `mid_day`.

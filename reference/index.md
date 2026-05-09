@@ -1,124 +1,137 @@
 # Package index
 
-## All functions
+## Creation and conversion
 
-- [`Ops(`*`<datey_type>`*`)`](https://logmu-org.github.io/r-datey/reference/Ops.datey_type.md)
+- [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md) :
+
+  Create a `datey` from a calendar year (including its fractional part)
+  or another date type
+
+- [`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+  [`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+  [`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+  [`as_start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+  [`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+  [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
   :
 
-  Generic operators for `datey` and `durationy`
-
-- [`Summary(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/Summary.datey.md)
-  [`Summary(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/Summary.datey.md)
-  :
-
-  Maximum, minimum or range of `datey` or `durationy`
-
-- [`as.double(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/as.double.datey.md)
-  [`as.integer(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/as.double.datey.md)
-  :
-
-  A `datey` as years
-
-- [`as.double(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/as.double.durationy.md)
-  [`as.integer(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/as.double.durationy.md)
-  :
-
-  A `durationy` as years
-
-- [`as_ymdf()`](https://logmu-org.github.io/r-datey/reference/as_ymdf.md)
-  :
-
-  Get year, month day and day fraction for a `datey`
-
-- [`c(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/c.datey.md)
-  :
-
-  Concatenate `datey` vectors
-
-- [`c(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/c.durationy.md)
-  :
-
-  Concatenate `durationy` vectors
-
-- [`NA_datey_`](https://logmu-org.github.io/r-datey/reference/datey.NA.md)
-  [`is.na(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/datey.NA.md)
-  [`anyNA(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/datey.NA.md)
-  [`valid_years_start`](https://logmu-org.github.io/r-datey/reference/datey.NA.md)
-  [`valid_years_end`](https://logmu-org.github.io/r-datey/reference/datey.NA.md)
-  : Handling invalid dates
-
-- [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-  [`as_start_day()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-  [`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-  [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-  :
-
-  Creates a `datey`
-
-- [`datey(`*`<character>`*`)`](https://logmu-org.github.io/r-datey/reference/datey.character.md)
-  :
-
-  Parse text as a `datey`
-
-- [`NA_durationy_`](https://logmu-org.github.io/r-datey/reference/durationy.NA.md)
-  [`is.na(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/durationy.NA.md)
-  [`anyNA(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/durationy.NA.md)
-  [`valid_duration_years_max`](https://logmu-org.github.io/r-datey/reference/durationy.NA.md)
-  : Handling invalid durations
+  Create a `datey` for the start, middle or end of a day
 
 - [`durationy()`](https://logmu-org.github.io/r-datey/reference/durationy.md)
   :
 
-  Creates a `durationy`
+  Create a `durationy` from an annual duration
 
-- [`durationy(`*`<character>`*`)`](https://logmu-org.github.io/r-datey/reference/durationy.character.md)
+- [`as.double(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/as_years_datey.md)
+  [`as.integer(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/as_years_datey.md)
+  :
+
+  Convert a `datey` to calendar years (including fractional part)
+
+- [`as.double(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/as_years_durationy.md)
+  [`as.integer(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/as_years_durationy.md)
+  :
+
+  Convert a `durationy` to duration in years
+
+- [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
+  [`point_in_day()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
+  :
+
+  `datey` in terms of calendar year, month, day and day fraction
+  components
+
+## Text parsing and printing
+
+- [`datey(`*`<character>`*`)`](https://logmu-org.github.io/r-datey/reference/text_to_datey.md)
+  :
+
+  Parse text as a `datey`
+
+- [`durationy(`*`<character>`*`)`](https://logmu-org.github.io/r-datey/reference/text_to_durationy.md)
   :
 
   Parse text as a `durationy`
 
-- [`format(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/format.datey.md)
-  [`print(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/format.datey.md)
+- [`format(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey.md)
+  [`print(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey.md)
   :
 
   Format or print a `datey`
 
-- [`format(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/format.durationy.md)
-  [`print(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/format.durationy.md)
+- [`format(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_durationy.md)
+  [`print(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_durationy.md)
   :
 
   Format or print a `durationy`
 
-- [`is_datey()`](https://logmu-org.github.io/r-datey/reference/is_datey.md)
+## Checks
+
+- [`is_datey()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
+  [`is_durationy()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
   :
 
-  Check if an object is a `datey`
+  Is `x` a `datey` or a `durationy`?
 
-- [`is_durationy()`](https://logmu-org.github.io/r-datey/reference/is_durationy.md)
+- [`is_start_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
+  [`is_mid_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
   :
 
-  Check if an object is a `durationy`
+  Is a `datey` the start (or end) or middle of a day?
 
 - [`is_leap_year()`](https://logmu-org.github.io/r-datey/reference/is_leap_year.md)
   :
 
   Is `x` a leap year?
 
-- [`is_start_day()`](https://logmu-org.github.io/r-datey/reference/is_start_day.md)
-  [`is_mid_day()`](https://logmu-org.github.io/r-datey/reference/is_start_day.md)
+## Validity
+
+- [`is.na(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
+  [`anyNA(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
+  [`is.na(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
+  [`anyNA(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
   :
 
-  Test whether a `datey` is the start or middle of a day
+  Whether `datey` and `durationy` are NA
 
-- [`mean(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/mean.datey.md)
-  [`mean(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/mean.datey.md)
+- [`NA_datey_`](https://logmu-org.github.io/r-datey/reference/NA_datey_.md)
+  :
+
+  The `datey` version of NA
+
+- [`NA_durationy_`](https://logmu-org.github.io/r-datey/reference/NA_durationy_.md)
+  :
+
+  The `durationy` version of NA
+
+- [`valid_years_start`](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
+  [`valid_years_end`](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
+  [`valid_duration_years_max`](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
+  : Integer constants
+
+## Summary statistics and operators
+
+- [`mean(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/mean.md)
+  [`mean(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/mean.md)
   :
 
   Mean value of `datey` or `durationy`
 
-- [`point_in_day()`](https://logmu-org.github.io/r-datey/reference/point_in_day.md)
-  [`start_day()`](https://logmu-org.github.io/r-datey/reference/point_in_day.md)
-  [`mid_day()`](https://logmu-org.github.io/r-datey/reference/point_in_day.md)
-  [`end_day()`](https://logmu-org.github.io/r-datey/reference/point_in_day.md)
+- [`Summary(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/max_min.md)
+  [`Summary(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/max_min.md)
   :
 
-  Create a `datey`
+  Minimum, maximum or range of `datey` or `durationy`
+
+- [`Ops(`*`<datey_type>`*`)`](https://logmu-org.github.io/r-datey/reference/ops.md)
+  :
+
+  Operators for `datey` and `durationy`
+
+## Utility
+
+- [`c(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/combine.md)
+  [`c(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/combine.md)
+  :
+
+  Combine multiple `datey` or `durationy` vectors

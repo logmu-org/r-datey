@@ -1,33 +1,28 @@
 # datey
 
-The goal of datey is to …
+**datey** provides a standard mapping of dates onto an annual grid.
 
-standardise annual, i.e. year-based calculations e.g. as required for
-actuarial mortality experience analyses or valuations.
+This matters in contexts where the primary unit is years and where
+definitions need to be precise.
 
-- Fixed precision dates for calendar years \[1000, 3000)
-- Technically this is the Proleptic Gregorian calendar
+A classic example is actuarial mortality experience analysis or
+valuation of life assurance and annuities. Mortality rates are defined
+*per annum* but experience and valuation data is usually defined using
+dates (i.e. days).
 
-Guarantees:
+The benefits of using **datey** are:
 
-- Can represent start and middle of any day leap year and non leap year
-- Years divisible by 120
+1.  A consistent framework for converting dates to and from a uniform
+    annual grid based on the most common approach.
 
-You can convert from standard base R dates (`Date`, `POSIXct` and
-`POSIXlt`).
+2.  Handling the often-overlooked issue of whether a date means the
+    start, during or end of a day.
 
-Key argument is `day_fraction`. Simpler just to use `start_day`,
-`mid_day` or `end_day`.
+3.  Fixed precision arithmetic, which excludes bugs relating to floating
+    point arithmetic[^1].
 
-For instance
-
-- start of E2R is typically included, so use `start_day`.
-- if the individual survived then the end of the E2R is also typically
-  included, so use `end_day`. This means that if the E2R comprises
-  separate periods then they will interlock correctly (E2Rs being
-  [measurable](https://timgord.com/2025-08/mortality-measures-matter/#Insight2))
-- If the individual died then on average this is during the final day
-  and so use `mid_day`.
+If you are mixing annual rates and dates, and working primarily in the
+annual domain, then it is worth considering using **datey**.
 
 ## Installation
 
@@ -50,27 +45,6 @@ library(datey)
 ## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots in the man/figures folder, for example:
-
-![](reference/figures/README-pressure-1.png)
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+[^1]: Specifically, the
+    [non-associativity](https://en.wikipedia.org/wiki/Associative_property#Nonassociativity_of_floating-point_calculation)
+    of floating point arithmetic.

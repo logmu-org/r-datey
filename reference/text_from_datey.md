@@ -1,0 +1,41 @@
+# Format or print a `datey`
+
+A `datey` is printed as either
+
+- `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or
+
+- `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part (included even
+  if the day fraction is 0).
+
+Note that a `datey` created as the end of a day (or with day fraction 1)
+will print as the start of the following day.
+
+## Usage
+
+``` r
+# S3 method for class 'datey'
+format(x, include_day_fraction = TRUE, ...)
+
+# S3 method for class 'datey'
+print(x, include_day_fraction = TRUE, max = NULL, ...)
+```
+
+## Arguments
+
+- x:
+
+  The `datey` to print or format.
+
+- include_day_fraction:
+
+  Whether to include the fractional day part. Defaults to `FALSE`.
+
+- ...:
+
+  Further arguments to be passed from or to other methods.
+
+- max:
+
+  Numeric or `NULL`, specifying the maximal number of entries to be
+  printed. When `NULL`, `getOption("max.print")` used. Defaults to
+  `NULL`.
