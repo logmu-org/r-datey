@@ -1,4 +1,9 @@
 url: https://logmu-org.github.io/r-datey/
+
+authors:
+  "Tim Gordon":
+    href: http://timgord.com
+
 template:
   bootstrap: 5
   light-switch: yes
@@ -9,3 +14,49 @@ template:
     navbar-light-bg: hsl(262, 50%, 90%)
     navbar-dark-bg: hsl(262, 50%, 35%)
 
+reference:
+  - title: Creation and conversion
+    contents:
+      - datey
+      - xxx_day
+      - durationy
+      - as_years_datey
+      - as_years_durationy
+      - ymdf
+  - title: Text parsing and printing
+    contents:
+      - text_to_datey
+      - text_to_durationy
+      - text_from_datey
+      - text_from_durationy
+  - title: Checks
+    contents:
+      - is_type
+      - is_xxx_day
+      - is_leap_year
+  - title: Validity
+    contents:
+      - is_NA
+      - NA_datey_
+      - NA_durationy_
+      - integer_constants
+  - title: Summary statistics and operators
+    contents:
+      - mean
+      - max_min
+      - ops
+  - title: Utility
+    contents:
+      - combine
+
+navbar:
+  type: default
+  left:
+    - text: Home
+      href: index.html
+    - text: Introduction
+      href: articles/datey.html
+    - text: Reference
+      href: reference/index.html
+    - text: "Change log"
+      href: news/index.html

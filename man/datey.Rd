@@ -9,10 +9,8 @@
 \alias{datey.Date}
 \alias{datey.POSIXct}
 \alias{datey.POSIXlt}
-\alias{as_start_day}
-\alias{as_mid_day}
-\alias{as_end_day}
-\title{Creates a \code{datey}}
+\title{Create a \code{datey} from a calendar year (including its fractional part) or
+another date type}
 \usage{
 datey(x, day_fraction = NULL, strict = TRUE, ...)
 
@@ -29,12 +27,6 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 \method{datey}{POSIXct}(x, day_fraction = NULL, strict = TRUE, ...)
 
 \method{datey}{POSIXlt}(x, day_fraction = NULL, strict = TRUE, ...)
-
-as_start_day(x, ...)
-
-as_mid_day(x, ...)
-
-as_end_day(x, ...)
 }
 \arguments{
 \item{x}{The argument to convert to a \code{datey}.}

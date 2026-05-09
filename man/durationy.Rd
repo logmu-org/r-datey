@@ -6,7 +6,7 @@
 \alias{durationy.durationy}
 \alias{durationy.integer}
 \alias{durationy.double}
-\title{Creates a \code{durationy}}
+\title{Create a \code{durationy} from an annual duration}
 \usage{
 durationy(x, strict = TRUE, ...)
 
