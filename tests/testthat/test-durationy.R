@@ -57,6 +57,13 @@ test_that("`durationy.double()`", {
   expect_identical(durationy(2000.0000001, strict = FALSE), datey::NA_durationy_)
   expect_identical(durationy(-2000.0000001, strict = FALSE), datey::NA_durationy_)
 })
+test_that("`durationy.double()` in clicks", {
+
+  expect_identical(unclass(durationy(0.5 / 534360)), 0L)
+  expect_identical(unclass(durationy(1.5 / 534360)), 2L)
+  expect_identical(unclass(durationy(-0.5 / 534360)), 0L)
+  expect_identical(unclass(durationy(-1.5 / 534360)), -2L)
+})
 
 # durationy.character <- function(x, day_fraction = NULL, blank_is_NA = FALSE, strict = TRUE, ...) ==================================================
 test_that("`durationy.character()`", {

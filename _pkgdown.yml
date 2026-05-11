@@ -14,6 +14,20 @@ template:
     navbar-light-bg: hsl(262, 50%, 90%)
     navbar-dark-bg: hsl(262, 50%, 35%)
 
+navbar:
+  type: default
+  left:
+    - text: Home
+      href: index.html
+    - text: Get started
+      href: articles/datey.html
+    - text: Specification
+      href: articles/spec.html
+    - text: Reference
+      href: reference/index.html
+    - text: "Change log"
+      href: news/index.html
+
 reference:
   - title: Creation and conversion
     contents:
@@ -48,15 +62,3 @@ reference:
   - title: Utility
     contents:
       - combine
-
-navbar:
-  type: default
-  left:
-    - text: Home
-      href: index.html
-    - text: Introduction
-      href: articles/datey.html
-    - text: Reference
-      href: reference/index.html
-    - text: "Change log"
-      href: news/index.html

@@ -34,6 +34,12 @@
   font-style: italic;
 }
 
+/* Style TOC title */
+code {
+  font-size: 1em;
+}
+
+/* Style TOC title */
 #toc h2 {
   text-transform: uppercase;
   font-weight: bold;
