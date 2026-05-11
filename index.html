@@ -39,7 +39,8 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="index.html">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/datey.html">Introduction</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/datey.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/spec.html">Specification</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Change log</a></li>
       </ul>
@@ -70,16 +71,16 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><strong>datey</strong> provides a standard mapping of dates onto an annual grid.</p>
+<p>The <strong>datey</strong> package provides a standard mapping of dates onto an annual grid.</p>
 <p>This matters in contexts where the primary unit is years and where definitions need to be precise.</p>
 <p>A classic example is actuarial mortality experience analysis or valuation of life assurance and annuities. Mortality rates are defined <em>per annum</em> but experience and valuation data is usually defined using dates (i.e. days).</p>
 <p>The benefits of using <strong>datey</strong> are:</p>
 <ol style="list-style-type: decimal">
-<li><p>A consistent framework for converting dates to and from a uniform annual grid based on the most common approach.</p></li>
+<li><p>A consistent framework for converting dates to and from a uniform annual grid.</p></li>
 <li><p>Handling the often-overlooked issue of whether a date means the start, during or end of a day.</p></li>
 <li><p>Fixed precision arithmetic, which excludes bugs relating to floating point arithmetic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Specifically, the &lt;a href="https://en.wikipedia.org/wiki/Associative_property#Nonassociativity_of_floating-point_calculation" class="external-link"&gt;non-associativity&lt;/a&gt; of floating point arithmetic.&lt;/p&gt;'><sup>1</sup></a>.</p></li>
 </ol>
-<p>If you are mixing annual rates and dates, and working primarily in the annual domain, then it is worth considering using <strong>datey</strong>.</p>
+<p>Long story short: If you are working primarily with annual rates in the annual domain but your data specifies time using dates, then it is worth considering using <strong>datey</strong>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>

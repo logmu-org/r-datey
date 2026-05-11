@@ -1,9 +1,11 @@
-# Introduction to datey
+# Get started with datey
 
 ``` r
 
 library(datey)
 ```
+
+Link to other pages here
 
 When converting dates, which are measured in days, to a system that
 assumes all years have the same length, something has to give.

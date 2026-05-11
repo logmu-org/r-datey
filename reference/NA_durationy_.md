@@ -22,5 +22,5 @@ An object of class `datey_type` (inherits from `durationy`) of length 1.
 
 ``` r
   is_durationy(NA_durationy_) # TRUE
-#> Error in is_durationy(NA_durationy_): could not find function "is_durationy"
+#> [1] TRUE
 ```

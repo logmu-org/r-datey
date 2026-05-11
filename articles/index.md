@@ -2,7 +2,7 @@
 
 ### All vignettes
 
-- [Introduction to
+- [Get started with
   datey](https://logmu-org.github.io/r-datey/articles/datey.md):
 - [The datey
   specification](https://logmu-org.github.io/r-datey/articles/spec.md):
