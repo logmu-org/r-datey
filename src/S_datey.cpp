@@ -48,45 +48,42 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
 {
   if (!isValidYear(year) || !isValidMonth(month) || day < 1 || !isValidDayFraction(dayFraction))
   {
-    if (cpp11::is_na(year) || cpp11::is_na(month) || cpp11::is_na(day) || cpp11::is_na(dayFraction) )
+    // Special case: 0999-12-31 + day_fraction == 1 (*not* rounds to 1)
+    if (year == 999 && month == 12 && day == 31 && dayFraction == 1.0)
     {
+      year = 1000; month = 1; day = 1; dayFraction = 0.0;
+    }
+    else
+    {
+      if (cpp11::is_na(year) || cpp11::is_na(month) || cpp11::is_na(day) || cpp11::is_na(dayFraction) )
+      {
+        return NA_INTEGER;
+      }
+
+      if (strict)
+      {
+        const char *msg;
+        if (!isValidYear(year))
+        {
+          msg = "`year` argument is outside valid `datey` interval [1000,3000).";
+        }
+        else if (!isValidMonth(month))
+        {
+          msg = "`month` argument must be 1 to 12 inclusive.";
+        }
+        else if (day < 1)
+        {
+          msg = "`day` argument must be 1 to M, where M is the number of days in the month.";
+        }
+        else
+        {
+          msg = "`day_fraction` must be in the interval [0,1].";
+        }
+        cpp11::stop(msg);
+      }
+
       return NA_INTEGER;
     }
-
-    // Special case: 0999-12-31 + day_fraction rounds to 1
-    // We catch this even though it results in a legal datey.
-
-    //// Handling this inside the error check should not be on hot path
-    //if (year == 999 && month == 12 && day == 31 && roundBankers(dayFraction * ClicksPerDay365) == ClicksPerDay365)
-    //{
-    //  year = 1000; month = 1; day = 1; dayFraction = 0.0;
-    //}
-    //else
-    //{
-    if (strict)
-    {
-      const char *msg;
-      if (!isValidYear(year))
-      {
-        msg = "`year` argument is outside valid `datey` interval [1000,3000).";
-      }
-      else if (!isValidMonth(month))
-      {
-        msg = "`month` argument must be 1 to 12 inclusive.";
-      }
-      else if (day < 1)
-      {
-        msg = "`day` argument must be 1 to M, where M is the number of days in the month.";
-      }
-      else
-      {
-        msg = "`day_fraction` must be in the interval [0,1].";
-      }
-      cpp11::stop(msg);
-    }
-
-    return NA_INTEGER;
-    //}
   }
 
   double clicksPerDay;
@@ -116,11 +113,12 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
   }
 
   int dayCount = daysToStartOfMonth + dayLess1;
-  double clicksInYear = (dayCount + dayFraction) * clicksPerDay;
+
+  int fractionClicks = (int)roundBankers(dayFraction * clicksPerDay);
 
   // Special case: 2999-12-31 + day_fraction close to 1
   // We let this go, even though it results in an illegal datey.
-  return year * ClicksPerYear + (int)roundBankers(clicksInYear);
+  return year * ClicksPerYear + dayCount * clicksPerDay + fractionClicks;
 }
 
 std::tuple<int, int, int, double> dateyToYMDF(int datey)

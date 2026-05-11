@@ -23,6 +23,16 @@ test_that("`is_datey()`", {
 })
 
 # point_in_day <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
+test_that("`point_in_day()` clicks", {
+
+  expect_identical(unclass(point_in_day(0999, 12, 31, 1.00)), 534360000L)
+  expect_identical(unclass(point_in_day(1000, 01, 01, 0.00)), 534360000L)
+  expect_identical(unclass(point_in_day(2000, 01, 01, 0.00)), 1068720000L)
+  expect_identical(unclass(point_in_day(2000, 01, 01, 0.50)), 1068720730L)
+  expect_identical(unclass(point_in_day(2021, 03, 15, 1.00)), 1080049896L)
+  expect_identical(unclass(point_in_day(2021, 03, 16, 0.00)), 1080049896L)
+})
+# point_in_day <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
 test_that("`point_in_day()` with vector and scalar `day_fraction`s", {
 
   year <- c(1960, 2001, 2099);
@@ -127,8 +137,7 @@ test_that("`datey` is illegal but not error for 2999-12-31 plus `day_fraction = 
   expect_identical(unclass(point_in_day(2999, 12, 31, 1)), 3000L * 534360L)
 })
 test_that("`datey` errors in invalid inputs when `strict = TRUE`", {
-  expect_error(point_in_day(999, 12, 31, 0.9993))
-  expect_error(point_in_day(999, 12, 31, 1))
+  expect_error(point_in_day(999, 12, 31, 0.999998))
   expect_error(point_in_day(3000, 1, 1, 0))
   expect_error(point_in_day(3000, 1, 1, 0.0007))
 })
@@ -488,9 +497,10 @@ test_that("`as.integer.datey()`", {
 # is.na.datey <- function(x) ==================================================
 test_that("`is.na.datey()`", {
   expect_identical(is.na(NA_datey_), TRUE)
-  expect_identical(is.na(point_in_day(0999, 12, 31, 1.00, strict = FALSE)), TRUE)
+  expect_identical(is.na(point_in_day(0999, 12, 31, 0.999998, strict = FALSE)), TRUE)
   expect_identical(is.na(point_in_day(3000, 01, 01, 0.00, strict = FALSE)), TRUE)
 
+  expect_identical(is.na(point_in_day(0999, 12, 31, 1.00)), FALSE)
   expect_identical(is.na(point_in_day(1000, 01, 01, 0.00)), FALSE)
   expect_identical(is.na(point_in_day(2020, 05, 23, 0.4567)), FALSE)
   expect_identical(is.na(point_in_day(2999, 12, 31, 0.9993)), FALSE)
@@ -500,7 +510,7 @@ test_that("`is.na.datey()`", {
 test_that("`anyNA.datey()`", {
 
   na_1 <- NA_datey_
-  na_2 <- point_in_day(0999, 12, 31, 1.00, strict = FALSE)
+  na_2 <- point_in_day(0999, 12, 31, 0.999998, strict = FALSE)
   na_3 <- point_in_day(3000, 01, 01, 0.00, strict = FALSE)
 
   d_1 <- point_in_day(1000, 01, 01, 0.00)
@@ -529,7 +539,7 @@ test_that("`c()` on `datey`", {
 test_that("`format.datey()` on NA", {
 
   expect_identical(format(NA_datey_), NA_character_)
-  expect_identical(format(point_in_day(0999, 12, 31, 1.00, strict = FALSE)), NA_character_)
+  expect_identical(format(point_in_day(0999, 12, 31, 0.999998, strict = FALSE)), NA_character_)
   expect_identical(format(point_in_day(3000, 01, 01, 0.00, strict = FALSE)), NA_character_)
 })
 test_that("`format.datey()`", {

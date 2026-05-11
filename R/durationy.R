@@ -66,6 +66,7 @@ anyNA.durationy = function(x, recursive = FALSE) {
 # `@name is_type` is defined in datey.R
 #' @param x The object to test.
 #' @name is_type
+#' @export
 is_durationy <- function(x) typeof(x) == "integer" && inherits(x, "durationy")
 
 #' Create a `durationy` from an annual duration

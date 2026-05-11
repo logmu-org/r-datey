@@ -11,7 +11,8 @@
 
 <!-- badges: end -->
 
-**datey** provides a standard mapping of dates onto an annual grid.
+The **datey** package provides a standard mapping of dates onto an
+annual grid.
 
 This matters in contexts where the primary unit is years and where
 definitions need to be precise.
@@ -24,7 +25,7 @@ dates (i.e. days).
 The benefits of using **datey** are:
 
 1.  A consistent framework for converting dates to and from a uniform
-    annual grid based on the most common approach.
+    annual grid.
 
 2.  Handling the often-overlooked issue of whether a date means the
     start, during or end of a day.
@@ -32,8 +33,9 @@ The benefits of using **datey** are:
 3.  Fixed precision arithmetic, which excludes bugs relating to floating
     point arithmetic[^1].
 
-If you are mixing annual rates and dates, and working primarily in the
-annual domain, then it is worth considering using **datey**.
+Long story short: If you are working primarily with annual rates in the
+annual domain but your data specifies time using dates, then it is worth
+considering using **datey**.
 
 ## Installation
 

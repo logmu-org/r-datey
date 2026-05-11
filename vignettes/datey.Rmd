@@ -1,8 +1,8 @@
 ---
-title: "Introduction to datey"
+title: "Get started with datey"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to datey}
+  %\VignetteIndexEntry{Get started with datey}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,6 +17,9 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(datey)
 ```
+
+Link to other pages here
+
 
 When converting dates, which are measured in days, to a system that assumes all years have the same length, something has to give. 
 
