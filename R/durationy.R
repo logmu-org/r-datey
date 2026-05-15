@@ -161,7 +161,8 @@ durationy.double <- function(x, strict = TRUE, ...) {
 #' Defaults to `FALSE`.
 #' @param year_unit The year unit name to expect.
 #' If not blank then the value is expected to be followed by a space and this unit text.
-#' Cannot be more than 20 characters (UTF-8 bytes) or contain control characters.
+#' Cannot be more than 20 characters (UTF-8 bytes) or contain control
+#' characters.
 #' Defaults to `"yr"`.
 #' @param ... Other arguments (not used in this package).
 #' @name text_to_durationy

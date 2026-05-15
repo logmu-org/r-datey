@@ -21,10 +21,10 @@ navbar:
       href: index.html
     - text: Get started
       href: articles/datey.html
-    - text: Specification
-      href: articles/spec.html
     - text: Reference
       href: reference/index.html
+    - text: Specification
+      href: articles/spec.html
     - text: "Change log"
       href: news/index.html
 

@@ -96,39 +96,107 @@ test_that("datey and durationy arithmetic operators", {
   expect_identical(D_10 + D_5, D_15)
   # Δ - Δ => Δ
   expect_identical(D_15 - D_5, D_10)
-
-  # Δ * N => Δ
-  expect_identical(D_5 * 3, D_15)
-  # Δ / N => Δ
-  expect_identical(D_10 / 2L, D_5)
-
-  # N * Δ => Δ
-  expect_identical(3 * D_5, D_15)
 })
 
 test_that("undefined operators throw errors for dateys", {
 
   T1 <- datey(1999)
   T2 <- datey(2000)
+  N1 <- 1
+  N2 <- 2L
 
   expect_error(+T1)
   expect_error(-T1)
 
   expect_error(T1 + T2)
   expect_error(T1 * T2)
-  expect_error(T1 * 1)
-  expect_error(1 * T1)
+  expect_error(T1 * N1)
+  expect_error(T1 * N2)
+  expect_error(N1 * T1)
+  expect_error(N2 * T1)
 
-  expect_error(T1 + 1)
-  expect_error(T1 - 1L)
+  expect_error(T1 / N2)
+  expect_error(N1 / T1)
 })
-test_that("undefined operators throw errors for dateys", {
+test_that("undefined operators throw errors for durationys", {
 
   D1 <- durationy(1)
   D2 <- durationy(2)
 
   expect_error(D1 * D2)
-
-  expect_error(D1 + 1)
-  expect_error(D1 - 1L)
+  expect_error(D1 / D2)
 })
+test_that("datey / durationy operators with numerics", {
+
+  T_2000 <- datey(2000)
+  D_10 <- durationy(10)
+
+  # ✔ T  + - == != < <= > >=  N => ?
+  expect_identical(T_2000 + 1, 2001)
+  expect_identical(T_2000 - 1, 1999)
+  expect_identical(T_2000 == 2000, TRUE)
+  expect_identical(T_2000 != 2000, FALSE)
+  expect_identical(T_2000 < 2000, FALSE)
+  expect_identical(T_2000 <= 2000, TRUE)
+  expect_identical(T_2000 > 2000, FALSE)
+  expect_identical(T_2000 >= 2000, TRUE)
+  expect_identical(T_2000 == 1999, FALSE)
+  expect_identical(T_2000 != 1999, TRUE)
+  expect_identical(T_2000 < 1999, FALSE)
+  expect_identical(T_2000 <= 1999, FALSE)
+  expect_identical(T_2000 > 1999, TRUE)
+  expect_identical(T_2000 >= 1999, TRUE)
+
+  # ✔ N  + - == != < <= > >=  T => ?
+  expect_identical(1 + T_2000, 2001)
+  expect_identical(1 - T_2000, -1999)
+  expect_identical(2000 == T_2000, TRUE)
+  expect_identical(2000 != T_2000, FALSE)
+  expect_identical(2000 < T_2000, FALSE)
+  expect_identical(2000 <= T_2000, TRUE)
+  expect_identical(2000 > T_2000, FALSE)
+  expect_identical(2000 >= T_2000, TRUE)
+  expect_identical(1999 == T_2000, FALSE)
+  expect_identical(1999 != T_2000, TRUE)
+  expect_identical(1999 < T_2000, TRUE)
+  expect_identical(1999 <= T_2000, TRUE)
+  expect_identical(1999 > T_2000, FALSE)
+  expect_identical(1999 >= T_2000, FALSE)
+
+  # ✔ Δ  + - * / == != < <= > >=  N => ?
+  expect_identical(D_10 + 1, 11)
+  expect_identical(D_10 - 1, 9)
+  expect_identical(D_10 * 2, 20)
+  expect_identical(D_10 / 2, 5)
+  expect_identical(D_10 == 10, TRUE)
+  expect_identical(D_10 != 10, FALSE)
+  expect_identical(D_10 < 10, FALSE)
+  expect_identical(D_10 <= 10, TRUE)
+  expect_identical(D_10 > 10, FALSE)
+  expect_identical(D_10 >= 10, TRUE)
+  expect_identical(D_10 == 9, FALSE)
+  expect_identical(D_10 != 9, TRUE)
+  expect_identical(D_10 < 9, FALSE)
+  expect_identical(D_10 <= 9, FALSE)
+  expect_identical(D_10 > 9, TRUE)
+  expect_identical(D_10 >= 9, TRUE)
+
+  # ✔ N  + - * / == != < <= > >=  Δ => ?
+  expect_identical(1 + D_10, 11)
+  expect_identical(1 - D_10, -9)
+  expect_identical(2 * D_10, 20)
+  expect_identical(20 / D_10, 2)
+  expect_identical(10 == D_10, TRUE)
+  expect_identical(10 != D_10, FALSE)
+  expect_identical(10 < D_10, FALSE)
+  expect_identical(10 <= D_10, TRUE)
+  expect_identical(10 > D_10, FALSE)
+  expect_identical(10 >= D_10, TRUE)
+  expect_identical(9 == D_10, FALSE)
+  expect_identical(9 != D_10, TRUE)
+  expect_identical(9 < D_10, TRUE)
+  expect_identical(9 <= D_10, TRUE)
+  expect_identical(9 > D_10, FALSE)
+  expect_identical(9 >= D_10, FALSE)
+})
+

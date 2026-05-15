@@ -23,7 +23,8 @@ Defaults to \code{FALSE}.}
 
 \item{year_unit}{The year unit name to expect.
 If not blank then the value is expected to be followed by a space and this unit text.
-Cannot be more than 20 characters (UTF-8 bytes) or contain control characters.
+Cannot be more than 20 characters (UTF-8 bytes) or contain control
+characters.
 Defaults to \code{"yr"}.}
 
 \item{...}{Other arguments (not used in this package).}
