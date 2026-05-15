@@ -8,7 +8,7 @@
 \method{Ops}{datey_type}(e1, e2)
 }
 \arguments{
-\item{e1}{First parameter -- must be \code{datey} or \code{durationy}.}
+\item{e1}{First parameter.}
 
 \item{e2}{Second parameter (missing if a unary operator).}
 }
@@ -19,14 +19,18 @@ See above table. In essence
 \item comparing two \code{T}s results in a logical,
 \item adding or subtracting a \code{durationy} to or from a \code{T} results in a
 \code{T}, and
-\item scaling a \code{durationy} results in a \code{durationy},
+\item mixing \code{durationy} and \code{datey} with numeric operands first converts
+the \code{durationy} and \code{datey} to years and then results in standard numeric
+evaluation,
 }
 
 where \code{T} is either \code{datey} or \code{durationy} in each of the above.
 }
 \description{
 The unary \code{-} operator can be applied to a \code{durationy} to change its sign.
-The following are the available binary operators and their meaning.\tabular{ccccl}{
+
+The following are the available binary operations on \code{datey} and \code{durationy}
+only operands, and their meaning:\tabular{ccccl}{
    Left \tab Operators \tab Right \tab Result \tab Notes \cr
    \code{datey} \tab \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{datey} \tab logical \tab Order relation for dates \cr
    \code{datey} \tab \code{-} \tab \code{datey} \tab \code{durationy} \tab Duration between two dates \cr
@@ -34,7 +38,9 @@ The following are the available binary operators and their meaning.\tabular{cccc
    \code{durationy} \tab \code{+} \tab \code{datey} \tab \code{datey} \tab A date offset by a duration \cr
    \code{durationy} \tab \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{durationy} \tab logical \tab Order relation for durations \cr
    \code{durationy} \tab \code{+} \code{-} \tab \code{durationy} \tab \code{durationy} \tab Duration addition and substraction \cr
-   \code{durationy} \tab \code{*} \code{/} \tab numeric \tab \code{durationy} \tab A scaled duration \cr
-   numeric \tab \code{*} \tab \code{durationy} \tab \code{durationy} \tab A scaled duration \cr
+   \code{datey} \tab \code{+} \code{-} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab numeric \tab numeric \tab The \code{datey} is first converted to years \cr
+   numeric \tab \code{+} \code{-} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{datey} \tab numeric \tab The \code{datey} is first converted to years \cr
+   \code{durationy} \tab \code{+} \code{-} \code{*} \code{/} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab numeric \tab \code{durationy} \tab The \code{durationy} is first converted to years \cr
+   numeric \tab \code{+} \code{-} \code{*} \code{/} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{durationy} \tab \code{durationy} \tab The \code{durationy} is first converted to years \cr
 }
 }
