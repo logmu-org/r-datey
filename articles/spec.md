@@ -2,9 +2,8 @@
 
 ## Introduction
 
-The datey system enables high performance consistent fixed precision
-date and duration arithmetic on an annual grid across multiple
-platforms.
+The datey system provides fixed precision 32 bit date and duration
+arithmetic on an annual grid across multiple platforms.
 
 Replicating real-world date arithmetic or text representations is a non
 goal. Handling that complexity should take place *outside* the datey
@@ -13,9 +12,22 @@ outputs (and durations should be neither[^1]). The datey approach is to
 assume that input dates have been calculated appropriately and that its
 job is to handle intervals between those dates.
 
-This note uses [YYYY‑MM‑DD notation](https://xkcd.com/1179/) for dates,
-where YYYY is a four-digit year, MM is a two-digit month of the year, 01
-to 12, and DD is the two-digit day of the month, 01 to 31.
+## Definitions
+
+- `double` means IEEE 754 binary64, i.e. 64-bit binary floating-point.
+
+- `integer` means 32 bit two’s complement integer.
+
+- Dates are written using [YYYY‑MM‑DD notation](https://xkcd.com/1179/),
+  where YYYY is a four-digit year, MM is a two-digit month of the year,
+  01 to 12, and DD is the two-digit day of the month, 01 to 31.
+
+- Banker’s rounding[^2] means round a `double` to the nearest integer
+  unless the fractional part is ±0.5, in which case round it to the
+  nearest even integer. In the algorithms below, it also entails
+  conversion to `integer`, which is safe because in all cases the
+  algorithms guarantee that the value to convert lies within the range
+  of `integer`.
 
 ## The fixed precision annual grid
 
@@ -40,8 +52,7 @@ The datey system defines two types:
 
 2.  A `durationy` represents the difference between two dates.
 
-Both of these types are represented using clicks stored as 32-bit two’s
-complement integers.
+Both of these types are represented using clicks stored as `integer`.
 
 ## Dates
 
@@ -50,48 +61,49 @@ the notional year 0000 on the proleptic Gregorian calendar, i.e. the
 Gregorian calendar extended backwards from its introduction in 1582.
 
 A `datey` that would otherwise represent a date before calendar year
-1000 or after calendar year 2999 should be treated as invalid[^2] when
+1000 or after calendar year 2999 should be treated as invalid[^3] when
 mapping dates to or from a `datey`.
 
-### Mapping a YMD date *to* a `datey`
+### Mapping a date *to* a `datey`
 
 When mapping a date specified by calendar year, month and day to a
 `datey` the point within the day also needs to be specified. In typical
 use, it is expected that only the start, middle and end of a day will be
-specified, but a mapping include the day-fraction is provided for full
-generality.
+specified, but a mapping including the day-fraction is specified for
+full generality.
 
-The mapping to clicks is the function *datey_from_YMDF*(*year*, *month*,
-*day*, *day_fraction*), defined as follows
+The mapping as a function of `integer` *year*, *month* and *day*, and
+`double` *day_fraction* is as follows:
 
-1.  If any of *year*, *month*, *day* or *day_fraction* are invalid then
-    the result is invalid. Valid inputs are
+1.  Valid inputs are
 
-    - *year*: integer from 1000 to 2999 inclusive
-    - *month*: integer from 1 to 12 inclusive
-    - *day*: integer from 1 to the number of days in the month specified
-      by *year* and *month*
-    - *day_fraction*: double precision float point number from 0 to 1
-      inclusive
+    - *year*: `integer` from 1000 to 2999 inclusive
+    - *month*: `integer` from 1 to 12 inclusive
+    - *day*: `integer` from 1 to the number of days in the month
+      specified by *year* and *month*
+    - *day_fraction*: `double` from 0 to 1 inclusive
 
     In addition, the special case of 0999-12-31 and a *day_fraction*
     precisely equal to 1 should also be treated as valid.
 
+    If any of *year*, *month*, *day* or *day_fraction* are invalid then
+    the result is invalid.
+
 2.  Define *clicks_per_day* as 1460 if *year* is a leap year and 1464
     otherwise.
 
-3.  Define the integer *days_to_start_of_month* as the number of days
+3.  Define the `integer` *days_to_start_of_month* as the number of days
     from the start of the year to the start of *month* (allowing for
     whether *year* is a leap year).
 
-4.  Define the integer *day_count* as *days_to_start_of_month* + *day* −
-    1.
+4.  Define the `integer` *day_count* as *days_to_start_of_month* + *day*
+    − 1.
 
-5.  Define the integer *fraction_clicks* as *round*(*day_fraction* ×
-    *clicks_per_day*), where *round* means round to integer using
-    banker’s rounding[^3].
+5.  Define the `integer` *fraction_clicks* as *day_fraction* ×
+    *clicks_per_day* rounded to `integer` using banker’s rounding.
 
-6.  The resulting number of clicks is defined as the integer calculation
+6.  The resulting number of clicks is defined as the `integer`
+    calculation
 
     *year* × 534 360 + *day_count* × *clicks_per_day* +
     *fraction_clicks*
@@ -118,7 +130,7 @@ Worked examples:
 | Middle of 2000‑01‑01 | 1 068 720 730 | 2000 is a leap year and therefore there are 534 360 / 366 = 1460 clicks in each day. The middle of 2000‑01‑01 is half a day into the year 2000 and therefore the number of clicks is 2000 × 534 360 + 1460 / 2. |
 | End of 2021‑03‑15 | 1 080 049 896 | 2021 is a not a leap year and therefore there are 534 360 / 365 = 1464 clicks in each day. The number of days from the start of 2021 to the end of 2021‑03‑15 is 31 + 28 + 15 = 74. Hence the number of clicks is 2021 × 534 360 + 74 × 1460. |
 
-### Mapping a `datey` to a YMDF date
+### Mapping a `datey` to a date and day-fraction
 
 A `datey` is mapped from *clicks* to *year*, *month*, *day* and
 *day_fraction* as follows:
@@ -126,7 +138,7 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and
 1.  If *clicks* \< 1000 × 534 360 or *clicks* ≥ 3000 × 534 360 then the
     `datey` is invalid and therefore the result is also invalid.
 
-2.  *year* is *clicks* div 534 360, where div means integer division
+2.  *year* is *clicks* div 534 360, where div means `integer` division
     rounded down to the nearest integer.
 
 3.  Define *clicks_remaining* as *clicks* − *year* × 534 360.
@@ -135,7 +147,7 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and
     otherwise.
 
 5.  Define the *day_in_year* as *clicks_remaining* div *clicks_per_day*,
-    where div means integer division rounded down to the nearest
+    where div means `integer` division rounded down to the nearest
     integer.
 
 6.  Use *day_in_year* to determine *month* and *day*.
@@ -143,8 +155,8 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and
 7.  Define *day_fraction_clicks* as *clicks_remaining* − *day_in_year* ×
     *clicks_per_day*.
 
-8.  *day_fraction* is *day_fraction_clicks* / *clicks_per_day* (using
-    double precision division).
+8.  *day_fraction* is *day_fraction_clicks* / *clicks_per_day* using
+    `double` division.
 
 ## Durations
 
@@ -160,16 +172,15 @@ As well as being the difference between two `datey`s, a `durationy` can
 also be defined direct from a *duration in years* as follows:
 
 1.  If the *duration in years* is represented by a numerical type other
-    than double precision floating point then it must first be converted
-    to double precision floating point. If this entails a loss in
-    precision then this is an error.
+    than `double` then it must first be converted to `double`. If this
+    entails a loss in precision then this is an error.
 
 2.  If the *duration in years* is not a number (NaN) or greater in
     magnitude than 2000 then the resulting `durationy` is invalid.
 
 3.  Otherwise the resulting `durationy` number of clicks is the
-    *duration in years* multiplied by 534 360 and then rounded using
-    banker’s rounding[^4].
+    *duration in years* multiplied by 534 360 and then rounded to
+    `integer` using banker’s rounding.
 
 Worked examples:
 
@@ -182,13 +193,12 @@ Worked examples:
 
 ### Mapping a `durationy` to a duration in years
 
-A `durationy` is mapped to a duration in years as a double precision
-floating point number as follows:
+A `durationy` is mapped to a duration in years as `double` as follows:
 
 1.  If the `durationy` is invalid then the result is not a number (NaN).
 
-2.  Otherwise the result is clicks converted to double precision
-    floating point and then divided by 534 360.
+2.  Otherwise the result is clicks converted to `double` and then
+    divided by 534 360.
 
 ## Arithmetic operations
 
@@ -212,7 +222,7 @@ The unary plus (+) and minus (negation or −) operators are defined for a
 - The − operator changes the sign of the clicks.
 
 It is *not* required ot expected that the above operations will be
-checked for integer overflow – they can reasonably be supposed to be
+checked for `integer` overflow – they can reasonably be supposed to be
 safe within the domain of operation (i.e. date inputs that have already
 been checked for validity) and datey exists to facilitate performant
 calculations.
@@ -221,21 +231,19 @@ Duration scaling, i.e. number × `durationy`, `durationy` × number or
 `durationy` / number, is defined by
 
 1.  Scaling factors (i.e. ‘number’ in the above) represented by
-    numerical types other than double precision floating point must
-    first be converted to double precision floating point. If this
-    entails a loss in precision then this is an error.
+    numerical types other than `double` must first be converted to
+    `double`. If this entails a loss in precision then this is an error.
 
 2.  If the `durationy` is invalid then the result is invalid.
 
-3.  Otherwise convert the underlying clicks to double precision floating
-    point, carry out the specified floating point calculation and then
-    convert the resulting floating point clicks back to a `durationy` as
-    follows:
+3.  Otherwise convert the underlying clicks to `double`, carry out the
+    specified `double` calculation and then convert the resulting
+    `double` clicks back to a `durationy` as follows:
 
-    - If the floating point clicks is not a number (NaN) or its absolute
-      value is greater than 2000 × 534 360 then the result is invalid.
-    - Otherwise the result is the floating point clicks rounded to
-      integer using banker’s rounding[^5].
+    - If the `double` clicks is not a number (NaN) or its absolute value
+      is greater than 2000 × 534 360 then the result is invalid.
+    - Otherwise the result is the `double` clicks rounded to `integer`
+      using banker’s rounding.
 
 In contrast to operations involving solely `datey`s and `durationy`s,
 scaling operations should be checked for the validity of their result
@@ -288,7 +296,8 @@ where
 - Y is number of whole years
 - .FFFFFF is an optional fractional part of year.
 - UUU is the unit name for one year. If UUU is non-blank then it is
-  preceded by a space.
+  preceded by a space. UUU cannot be longer than 20 UTF-8 bytes or
+  contain control characters.
 
 For text *outputs*:
 
@@ -320,30 +329,10 @@ For text *inputs*:
     messy. And that’s before we’re asked what 2000-02-29 plus one year
     should be! Corralling this ambiguity is datey’s raison d’être.
 
-[^2]: This means that both 0 (the default in many languages) and −2³¹
+[^2]: Banker’s rounding is also known as ‘round to nearest, ties to
+    even’ or ‘round half to even’. It is the default rounding mode for
+    IEEE 754 binary floating-point.
+
+[^3]: This means that both 0 (the default in many languages) and −2³¹
     (used by some languages to indicate missing data or `NA`) are
     invalid `datey`s.
-
-[^3]: Banker’s rounding means round to the nearest integer unless the
-    fractional part is ±0.5, in which case round to the nearest even
-    integer. It is the default rounding mode for IEEE 754 binary
-    floating-point and the default rounding in many (but not all)
-    computing languages. Banker’s rounding is known as ‘round to
-    nearest, ties to even’, ‘round half to even’ or simply ‘round to
-    even’.
-
-[^4]: Banker’s rounding means round to the nearest integer unless the
-    fractional part is ±0.5, in which case round to the nearest even
-    integer. It is the default rounding mode for IEEE 754 binary
-    floating-point and the default rounding in many (but not all)
-    computing languages. Banker’s rounding is known as ‘round to
-    nearest, ties to even’, ‘round half to even’ or simply ‘round to
-    even’.
-
-[^5]: Banker’s rounding means round to the nearest integer unless the
-    fractional part is ±0.5, in which case round to the nearest even
-    integer. It is the default rounding mode for IEEE 754 binary
-    floating-point and the default rounding in many (but not all)
-    computing languages. Banker’s rounding is known as ‘round to
-    nearest, ties to even’, ‘round half to even’ or simply ‘round to
-    even’.

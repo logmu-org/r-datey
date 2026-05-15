@@ -37,8 +37,8 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/datey.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/spec.html">Specification</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/spec.html">Specification</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Change log</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -76,9 +76,18 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The datey system enables high performance consistent fixed precision date and duration arithmetic on an annual grid across multiple platforms.</p>
+<p>The datey system provides fixed precision 32 bit date and duration arithmetic on an annual grid across multiple platforms.</p>
 <p>Replicating real-world date arithmetic or text representations is a non goal. Handling that complexity should take place <em>outside</em> the datey system. In typical use, dates should be inputs to the datey system, not outputs (and durations should be neither<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;There is no unique way to map dates to an annual grid – days do not map cleanly to years. And things get even worse when dates and durations are mixed. For instance, the duration from 2000-01-01 to 2001-01-01 is 366 days but from 2000-03-01 to 2001-03-01 is 365 days, which is a clue that adding durations to dates can be messy. And that’s before we’re asked what 2000-02-29 plus one year should be! Corralling this ambiguity is datey’s raison d’être.&lt;/p&gt;"><sup>1</sup></a>). The datey approach is to assume that input dates have been calculated appropriately and that its job is to handle intervals between those dates.</p>
-<p>This note uses <a href="https://xkcd.com/1179/" class="external-link">YYYY‑MM‑DD notation</a> for dates, where YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.</p>
+</div>
+<div class="section level2">
+<h2 id="definitions">Definitions<a class="anchor" aria-label="anchor" href="#definitions"></a>
+</h2>
+<ul>
+<li><p><code>double</code> means IEEE 754 binary64, i.e. 64-bit binary floating-point.</p></li>
+<li><p><code>integer</code> means 32 bit two’s complement integer.</p></li>
+<li><p>Dates are written using <a href="https://xkcd.com/1179/" class="external-link">YYYY‑MM‑DD notation</a>, where YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.</p></li>
+<li><p>Banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding is also known as ‘round to nearest, ties to even’ or ‘round half to even’. It is the default rounding mode for IEEE 754 binary floating-point.&lt;/p&gt;"><sup>2</sup></a> means round a <code>double</code> to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to <code>integer</code>, which is safe because in all cases the algorithms guarantee that the value to convert lies within the range of <code>integer</code>.</p></li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="the-fixed-precision-annual-grid">The fixed precision annual grid<a class="anchor" aria-label="anchor" href="#the-fixed-precision-annual-grid"></a>
@@ -99,40 +108,41 @@
 <li><p>A <code>datey</code> represents a date.</p></li>
 <li><p>A <code>durationy</code> represents the difference between two dates.</p></li>
 </ol>
-<p>Both of these types are represented using clicks stored as 32-bit two’s complement integers.</p>
+<p>Both of these types are represented using clicks stored as <code>integer</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="dates">Dates<a class="anchor" aria-label="anchor" href="#dates"></a>
 </h2>
 <p>Dates are mapped to <code>datey</code>s as the number of clicks since the start of the notional year 0000 on the proleptic Gregorian calendar, i.e. the Gregorian calendar extended backwards from its introduction in 1582.</p>
-<p>A <code>datey</code> that would otherwise represent a date before calendar year 1000 or after calendar year 2999 should be treated as invalid<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This means that both 0 (the default in many languages) and −2&lt;sup&gt;31&lt;/sup&gt; (used by some languages to indicate missing data or &lt;code&gt;NA&lt;/code&gt;) are invalid &lt;code&gt;datey&lt;/code&gt;s.&lt;/p&gt;"><sup>2</sup></a> when mapping dates to or from a <code>datey</code>.</p>
+<p>A <code>datey</code> that would otherwise represent a date before calendar year 1000 or after calendar year 2999 should be treated as invalid<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This means that both 0 (the default in many languages) and −2&lt;sup&gt;31&lt;/sup&gt; (used by some languages to indicate missing data or &lt;code&gt;NA&lt;/code&gt;) are invalid &lt;code&gt;datey&lt;/code&gt;s.&lt;/p&gt;"><sup>3</sup></a> when mapping dates to or from a <code>datey</code>.</p>
 <div class="section level3">
-<h3 id="mapping-a-ymd-date-to-a-datey">Mapping a YMD date <em>to</em> a <code>datey</code><a class="anchor" aria-label="anchor" href="#mapping-a-ymd-date-to-a-datey"></a>
+<h3 id="mapping-a-date-to-a-datey">Mapping a date <em>to</em> a <code>datey</code><a class="anchor" aria-label="anchor" href="#mapping-a-date-to-a-datey"></a>
 </h3>
-<p>When mapping a date specified by calendar year, month and day to a <code>datey</code> the point within the day also needs to be specified. In typical use, it is expected that only the start, middle and end of a day will be specified, but a mapping include the day-fraction is provided for full generality.</p>
-<p>The mapping to clicks is the function <em>datey_from_YMDF</em>(<em>year</em>, <em>month</em>, <em>day</em>, <em>day_fraction</em>), defined as follows</p>
+<p>When mapping a date specified by calendar year, month and day to a <code>datey</code> the point within the day also needs to be specified. In typical use, it is expected that only the start, middle and end of a day will be specified, but a mapping including the day-fraction is specified for full generality.</p>
+<p>The mapping as a function of <code>integer</code> <em>year</em>, <em>month</em> and <em>day</em>, and <code>double</code> <em>day_fraction</em> is as follows:</p>
 <ol style="list-style-type: decimal">
 <li>
-<p>If any of <em>year</em>, <em>month</em>, <em>day</em> or <em>day_fraction</em> are invalid then the result is invalid. Valid inputs are</p>
+<p>Valid inputs are</p>
 <ul>
 <li>
-<em>year</em>: integer from 1000 to 2999 inclusive</li>
+<em>year</em>: <code>integer</code> from 1000 to 2999 inclusive</li>
 <li>
-<em>month</em>: integer from 1 to 12 inclusive</li>
+<em>month</em>: <code>integer</code> from 1 to 12 inclusive</li>
 <li>
-<em>day</em>: integer from 1 to the number of days in the month specified by <em>year</em> and <em>month</em>
+<em>day</em>: <code>integer</code> from 1 to the number of days in the month specified by <em>year</em> and <em>month</em>
 </li>
 <li>
-<em>day_fraction</em>: double precision float point number from 0 to 1 inclusive</li>
+<em>day_fraction</em>: <code>double</code> from 0 to 1 inclusive</li>
 </ul>
 <p>In addition, the special case of 0999-12-31 and a <em>day_fraction</em> precisely equal to 1 should also be treated as valid.</p>
+<p>If any of <em>year</em>, <em>month</em>, <em>day</em> or <em>day_fraction</em> are invalid then the result is invalid.</p>
 </li>
 <li><p>Define <em>clicks_per_day</em> as 1460 if <em>year</em> is a leap year and 1464 otherwise.</p></li>
-<li><p>Define the integer <em>days_to_start_of_month</em> as the number of days from the start of the year to the start of <em>month</em> (allowing for whether <em>year</em> is a leap year).</p></li>
-<li><p>Define the integer <em>day_count</em> as <em>days_to_start_of_month</em> + <em>day</em> − 1.</p></li>
-<li><p>Define the integer <em>fraction_clicks</em> as <em>round</em>(<em>day_fraction</em> × <em>clicks_per_day</em>), where <em>round</em> means round to integer using banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding means round to the nearest integer unless the fractional part is ±0.5, in which case round to the nearest even integer. It is the default rounding mode for IEEE 754 binary floating-point and the default rounding in many (but not all) computing languages. Banker’s rounding is known as ‘round to nearest, ties to even’, ‘round half to even’ or simply ‘round to even’.&lt;/p&gt;"><sup>3</sup></a>.</p></li>
+<li><p>Define the <code>integer</code> <em>days_to_start_of_month</em> as the number of days from the start of the year to the start of <em>month</em> (allowing for whether <em>year</em> is a leap year).</p></li>
+<li><p>Define the <code>integer</code> <em>day_count</em> as <em>days_to_start_of_month</em> + <em>day</em> − 1.</p></li>
+<li><p>Define the <code>integer</code> <em>fraction_clicks</em> as <em>day_fraction</em> × <em>clicks_per_day</em> rounded to <code>integer</code> using banker’s rounding.</p></li>
 <li>
-<p>The resulting number of clicks is defined as the integer calculation</p>
+<p>The resulting number of clicks is defined as the <code>integer</code> calculation</p>
 <p><em>year</em> × 534 360 + <em>day_count</em> × <em>clicks_per_day</em> + <em>fraction_clicks</em></p>
 <p>For avoidance of doubt, the special case of 2999-12-31 and a <em>day_fraction</em> that rounds to 1 should be returned as is.</p>
 </li>
@@ -173,18 +183,18 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="mapping-a-datey-to-a-ymdf-date">Mapping a <code>datey</code> to a YMDF date<a class="anchor" aria-label="anchor" href="#mapping-a-datey-to-a-ymdf-date"></a>
+<h3 id="mapping-a-datey-to-a-date-and-day-fraction">Mapping a <code>datey</code> to a date and day-fraction<a class="anchor" aria-label="anchor" href="#mapping-a-datey-to-a-date-and-day-fraction"></a>
 </h3>
 <p>A <code>datey</code> is mapped from <em>clicks</em> to <em>year</em>, <em>month</em>, <em>day</em> and <em>day_fraction</em> as follows:</p>
 <ol style="list-style-type: decimal">
 <li><p>If <em>clicks</em> &lt; 1000 × 534 360 or <em>clicks</em> ≥ 3000 × 534 360 then the <code>datey</code> is invalid and therefore the result is also invalid.</p></li>
-<li><p><em>year</em> is <em>clicks</em> div 534 360, where div means integer division rounded down to the nearest integer.</p></li>
+<li><p><em>year</em> is <em>clicks</em> div 534 360, where div means <code>integer</code> division rounded down to the nearest integer.</p></li>
 <li><p>Define <em>clicks_remaining</em> as <em>clicks</em> − <em>year</em> × 534 360.</p></li>
 <li><p>Define <em>clicks_per_day</em> as 1460 if <em>year</em> is a leap year and 1464 otherwise.</p></li>
-<li><p>Define the <em>day_in_year</em> as <em>clicks_remaining</em> div <em>clicks_per_day</em>, where div means integer division rounded down to the nearest integer.</p></li>
+<li><p>Define the <em>day_in_year</em> as <em>clicks_remaining</em> div <em>clicks_per_day</em>, where div means <code>integer</code> division rounded down to the nearest integer.</p></li>
 <li><p>Use <em>day_in_year</em> to determine <em>month</em> and <em>day</em>.</p></li>
 <li><p>Define <em>day_fraction_clicks</em> as <em>clicks_remaining</em> − <em>day_in_year</em> × <em>clicks_per_day</em>.</p></li>
-<li><p><em>day_fraction</em> is <em>day_fraction_clicks</em> / <em>clicks_per_day</em> (using double precision division).</p></li>
+<li><p><em>day_fraction</em> is <em>day_fraction_clicks</em> / <em>clicks_per_day</em> using <code>double</code> division.</p></li>
 </ol>
 </div>
 </div>
@@ -198,9 +208,9 @@
 </h3>
 <p>As well as being the difference between two <code>datey</code>s, a <code>durationy</code> can also be defined direct from a <em>duration in years</em> as follows:</p>
 <ol style="list-style-type: decimal">
-<li><p>If the <em>duration in years</em> is represented by a numerical type other than double precision floating point then it must first be converted to double precision floating point. If this entails a loss in precision then this is an error.</p></li>
+<li><p>If the <em>duration in years</em> is represented by a numerical type other than <code>double</code> then it must first be converted to <code>double</code>. If this entails a loss in precision then this is an error.</p></li>
 <li><p>If the <em>duration in years</em> is not a number (NaN) or greater in magnitude than 2000 then the resulting <code>durationy</code> is invalid.</p></li>
-<li><p>Otherwise the resulting <code>durationy</code> number of clicks is the <em>duration in years</em> multiplied by 534 360 and then rounded using banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding means round to the nearest integer unless the fractional part is ±0.5, in which case round to the nearest even integer. It is the default rounding mode for IEEE 754 binary floating-point and the default rounding in many (but not all) computing languages. Banker’s rounding is known as ‘round to nearest, ties to even’, ‘round half to even’ or simply ‘round to even’.&lt;/p&gt;"><sup>4</sup></a>.</p></li>
+<li><p>Otherwise the resulting <code>durationy</code> number of clicks is the <em>duration in years</em> multiplied by 534 360 and then rounded to <code>integer</code> using banker’s rounding.</p></li>
 </ol>
 <p>Worked examples:</p>
 <table class="table">
@@ -236,10 +246,10 @@
 <div class="section level3">
 <h3 id="mapping-a-durationy-to-a-duration-in-years">Mapping a <code>durationy</code> to a duration in years<a class="anchor" aria-label="anchor" href="#mapping-a-durationy-to-a-duration-in-years"></a>
 </h3>
-<p>A <code>durationy</code> is mapped to a duration in years as a double precision floating point number as follows:</p>
+<p>A <code>durationy</code> is mapped to a duration in years as <code>double</code> as follows:</p>
 <ol style="list-style-type: decimal">
 <li><p>If the <code>durationy</code> is invalid then the result is not a number (NaN).</p></li>
-<li><p>Otherwise the result is clicks converted to double precision floating point and then divided by 534 360.</p></li>
+<li><p>Otherwise the result is clicks converted to <code>double</code> and then divided by 534 360.</p></li>
 </ol>
 </div>
 </div>
@@ -305,16 +315,16 @@
 <li>The + operator returns its argument unchanged.</li>
 <li>The − operator changes the sign of the clicks.</li>
 </ul>
-<p>It is <em>not</em> required ot expected that the above operations will be checked for integer overflow – they can reasonably be supposed to be safe within the domain of operation (i.e. date inputs that have already been checked for validity) and datey exists to facilitate performant calculations.</p>
+<p>It is <em>not</em> required ot expected that the above operations will be checked for <code>integer</code> overflow – they can reasonably be supposed to be safe within the domain of operation (i.e. date inputs that have already been checked for validity) and datey exists to facilitate performant calculations.</p>
 <p>Duration scaling, i.e. number × <code>durationy</code>, <code>durationy</code> × number or <code>durationy</code> / number, is defined by</p>
 <ol style="list-style-type: decimal">
-<li><p>Scaling factors (i.e. ‘number’ in the above) represented by numerical types other than double precision floating point must first be converted to double precision floating point. If this entails a loss in precision then this is an error.</p></li>
+<li><p>Scaling factors (i.e. ‘number’ in the above) represented by numerical types other than <code>double</code> must first be converted to <code>double</code>. If this entails a loss in precision then this is an error.</p></li>
 <li><p>If the <code>durationy</code> is invalid then the result is invalid.</p></li>
 <li>
-<p>Otherwise convert the underlying clicks to double precision floating point, carry out the specified floating point calculation and then convert the resulting floating point clicks back to a <code>durationy</code> as follows:</p>
+<p>Otherwise convert the underlying clicks to <code>double</code>, carry out the specified <code>double</code> calculation and then convert the resulting <code>double</code> clicks back to a <code>durationy</code> as follows:</p>
 <ul>
-<li>If the floating point clicks is not a number (NaN) or its absolute value is greater than 2000 × 534 360 then the result is invalid.</li>
-<li>Otherwise the result is the floating point clicks rounded to integer using banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding means round to the nearest integer unless the fractional part is ±0.5, in which case round to the nearest even integer. It is the default rounding mode for IEEE 754 binary floating-point and the default rounding in many (but not all) computing languages. Banker’s rounding is known as ‘round to nearest, ties to even’, ‘round half to even’ or simply ‘round to even’.&lt;/p&gt;"><sup>5</sup></a>.</li>
+<li>If the <code>double</code> clicks is not a number (NaN) or its absolute value is greater than 2000 × 534 360 then the result is invalid.</li>
+<li>Otherwise the result is the <code>double</code> clicks rounded to <code>integer</code> using banker’s rounding.</li>
 </ul>
 </li>
 </ol>
@@ -357,7 +367,7 @@
 <li>S is a plus or minus sign, i.e. one of ‘+’ (U+002B), true minus ‘−’ (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).</li>
 <li>Y is number of whole years</li>
 <li>.FFFFFF is an optional fractional part of year.</li>
-<li>UUU is the unit name for one year. If UUU is non-blank then it is preceded by a space.</li>
+<li>UUU is the unit name for one year. If UUU is non-blank then it is preceded by a space. UUU cannot be longer than 20 UTF-8 bytes or contain control characters.</li>
 </ul>
 <p>For text <em>outputs</em>:</p>
 <ul>
