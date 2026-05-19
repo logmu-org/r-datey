@@ -38,7 +38,7 @@
 durationy_from_clicks <- function(clicks) {
   clicks <- unclass(clicks)
   if (!is.integer(clicks)) clicks <- as.integer(round(clicks))
-  structure(clicks, class = c("datey_type", "durationy"))
+  structure(clicks, class = c("durationy", "datey_type"))
 }
 
 #' The `durationy` version of NA
@@ -67,7 +67,7 @@ anyNA.durationy = function(x, recursive = FALSE) {
 #' @param x The object to test.
 #' @name is_type
 #' @export
-is_durationy <- function(x) typeof(x) == "integer" && inherits(x, "durationy")
+is_durationy <- function(x) typeof(x) == "integer" && isa(x, c("durationy", "datey_type"))
 
 #' Create a `durationy` from an annual duration
 #'

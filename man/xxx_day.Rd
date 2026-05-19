@@ -5,9 +5,6 @@
 \alias{start_day}
 \alias{mid_day}
 \alias{end_day}
-\alias{as_start_day}
-\alias{as_mid_day}
-\alias{as_end_day}
 \title{Create a \code{datey} for the start, middle or end of a day}
 \usage{
 start_day(year, month, day, strict = TRUE)
@@ -15,12 +12,6 @@ start_day(year, month, day, strict = TRUE)
 mid_day(year, month, day, strict = TRUE)
 
 end_day(year, month, day, strict = TRUE)
-
-as_start_day(x, ...)
-
-as_mid_day(x, ...)
-
-as_end_day(x, ...)
 }
 \arguments{
 \item{year}{Calendar year.
@@ -33,20 +24,18 @@ If provided as \code{double} then these \emph{must be integers}.}
 \item{day}{Day number in month, with 1 representing the first day of the month.
 If provided as \code{double} then these \emph{must be integers}.}
 
-\item{strict}{How to handle calendar years less than 1000 or greater than or equal to 3000 and day
+\item{strict}{How to handle calendar years less than 1000 or greater than 3000 and day
 fractions not in the interval [0,1].
 \itemize{
 \item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}
+}}
+
+\item{x}{A \code{datey} to coerce to the start, middle or end of a day.}
+
+\item{...}{A \code{datey} to coerce to the start, middle or end of a day.
 
 (NA arguments result in NA regardless of \code{strict}.)}
-
-\item{day_fraction}{The fraction of the day, in [0,1].
-0 means the start of the day,
-0.5 means the middle of the day, and
-1 means the end of the day
-(which is identical to the start of the next day).}
 }
 \description{
 Create a \code{datey} for the start, middle or end of the day

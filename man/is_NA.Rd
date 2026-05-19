@@ -52,7 +52,7 @@ are also provided.
 For performance reasons, intermediate calculations may not check for NAs.
 }
 \examples{
-  t <- c(NA_datey_, datey(2000), datey(999.99))
+  t <- c(NA_datey_, datey(2000), datey(999.99, strict = FALSE))
   is.na(t) # c(TRUE, FALSE, TRUE)
   anyNA(t) # TRUE
 

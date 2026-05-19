@@ -13,7 +13,7 @@ A standardised mapping of dates onto an annual grid with performant date and dur
 Useful links:
 \itemize{
   \item \url{https://github.com/logmu-org/r-datey}
-  \item \url{http://logmu.org/r-datey/}
+  \item \url{https://logmu.org/r-datey/}
   \item \url{https://logmu-org.github.io/r-datey/}
   \item Report bugs at \url{https://github.com/logmu-org/r-datey/issues}
 }

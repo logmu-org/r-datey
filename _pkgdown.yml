@@ -43,7 +43,6 @@ reference:
       - text_to_durationy
       - text_from_datey
       - text_from_durationy
-      - readr_col_type
   - title: Checks
     contents:
       - is_type
