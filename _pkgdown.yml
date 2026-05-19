@@ -33,6 +33,7 @@ reference:
     contents:
       - datey
       - xxx_day
+      - as_xxx_day
       - durationy
       - as_years_datey
       - as_years_durationy
