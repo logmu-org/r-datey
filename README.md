@@ -17,10 +17,10 @@ annual grid.
 This matters in contexts where the primary unit is years and where
 definitions need to be precise.
 
-A classic example is actuarial mortality experience analysis or
-valuation of life assurance and annuities. Mortality rates are defined
-*per annum* but experience and valuation data is usually defined using
-dates (i.e. days).
+Classic examples are mortality experience analysis and the valuation of
+life assurance and annuities. Mortality rates are defined *per annum*
+but experience and valuation data is usually defined using dates
+(i.e. days).
 
 The benefits of using **datey** are:
 

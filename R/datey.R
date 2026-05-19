@@ -38,7 +38,7 @@
 datey_from_clicks <- function(clicks) {
   clicks <- unclass(clicks)
   if (!is.integer(clicks)) clicks <- as.integer(round(clicks))
-  structure(clicks, class = c("datey_type", "datey"))
+  structure(clicks, class = c("datey", "datey_type"))
 }
 
 #' The `datey` version of NA
@@ -81,7 +81,7 @@ NA_datey_ <- datey_from_clicks(NA_integer_)
 #' @keywords NA
 #' @seealso [NA_datey_], [NA_datey_], [integer_constants]
 #' @examples
-#'   t <- c(NA_datey_, datey(2000), datey(999.99))
+#'   t <- c(NA_datey_, datey(2000), datey(999.99, strict = FALSE))
 #'   is.na(t) # c(TRUE, FALSE, TRUE)
 #'   anyNA(t) # TRUE
 #'
@@ -117,7 +117,7 @@ NULL
 
 #' @rdname is_type
 #' @export
-is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
+is_datey <- function(x) typeof(x) == "integer" && isa(x, c("datey", "datey_type"))
 
 #' Create or decompose a `datey` using calendar year, month, day and day fraction
 #'
@@ -237,17 +237,13 @@ from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 #' @param day
 #'   Day number in month, with 1 representing the first day of the month.
 #'   If provided as `double` then these *must be integers*.
-#' @param day_fraction
-#'   The fraction of the day, in \[0,1\].
-#'   0 means the start of the day,
-#'   0.5 means the middle of the day, and
-#'   1 means the end of the day
-#'   (which is identical to the start of the next day).
 #' @param strict
-#' How to handle calendar years less than 1000 or greater than or equal to 3000 and day
+#' How to handle calendar years less than 1000 or greater than 3000 and day
 #' fractions not in the interval \[0,1\].
 #' - If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' - If `strict` is `FALSE` then `NA` is returned.
+#' @param x A `datey` to coerce to the start, middle or end of a day.
+#' @param ... A `datey` to coerce to the start, middle or end of a day.
 #'
 #' (NA arguments result in NA regardless of `strict`.)
 #' @name xxx_day
@@ -255,13 +251,16 @@ NULL
 
 #' @rdname xxx_day
 #' @export
-start_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day, day_fraction = 0, strict)
+start_day <- function(year, month, day, strict = TRUE)
+  from_ymdf(year, month, day, day_fraction = 0, strict)
 #' @rdname xxx_day
 #' @export
-mid_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day, day_fraction = 0.5, strict)
+mid_day <- function(year, month, day, strict = TRUE)
+  from_ymdf(year, month, day, day_fraction = 0.5, strict)
 #' @rdname xxx_day
 #' @export
-end_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day, day_fraction = 1, strict)
+end_day <- function(year, month, day, strict = TRUE)
+  from_ymdf(year, month, day, day_fraction = 1, strict)
 
 #' Create a `datey` from a calendar year (including its fractional part) or
 #' another date type
@@ -282,7 +281,7 @@ end_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day,
 #' means the *start* of the day. For instance,
 #' `datey(as.Date("2000-03-21 12:00"))` means the *start* of 2000-03-21.
 #' - `character` -- If `day_fraction` *is* provided then the text format must
-#' be in ISO 8601 extended format, i.e. YYYY-MM-DD. If `day_fraction` *is*
+#' be in ISO 8601 extended format, i.e. YYYY-MM-DD. If `day_fraction` is *not*
 #' provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 #' fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 #' for the start of 1 January 2000.
@@ -294,8 +293,10 @@ end_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day,
 #'
 #' This is an S3 generic.
 #'
-#' @seealso [start_day()], [mid_day()] and [end_day()] to create a `datey`
-#' direct from year, month and day.
+#' @seealso Use [start_day()], [mid_day()] and [end_day()] to create a `datey`
+#' direct from year, month and day. Use [as_start_day()], [as_mid_day()] and
+#' [as_end_day()] to create a `datey` from a numeric or base R date type but
+#' specifying whether it should be the start, middle or end of the day.
 #'
 #' @param
 #' x The argument to convert to a `datey`.
@@ -313,7 +314,7 @@ end_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day,
 #' - 1 meaning the end of the day (which is identical to the start of the next
 #' day).
 #' @param strict
-#' How calendar years less than 1000 or greater than or equal to 3000 and day
+#' How calendar years less than 1000 or greater than 3000 and day
 #' fractions not in the interval \[0,1\] should be
 #' handled.
 #' - If `strict` is `TRUE` -- the default -- then execution is stopped.
@@ -438,7 +439,7 @@ datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 #' day).
 #' @param strict
 #' How non-compliant text (including calendar years less than
-#' 1000 or greater than or equal to 3000) should be handled.
+#' 1000 or greater than 3000) should be handled.
 #' - If `strict` is `TRUE` then execution is stopped.
 #' - If `strict` is `FALSE` then `NA` is returned.
 #' Defaults to `TRUE`.
@@ -469,17 +470,49 @@ datey.character <- function(x,
   datey_from_clicks(clicks)
 }
 
-#' @rdname xxx_day
-#' @export
-as_start_day <- function(x, ...) datey.datey(x, day_fraction = 0)
-#' @rdname xxx_day
-#' @export
-as_mid_day <- function(x, ...) datey.datey(x, day_fraction = 0.5)
-#' @rdname xxx_day
-#' @export
-as_end_day <- function(x, ...) datey.datey(x, day_fraction = 1)
+#' Coerce a calendar year (including fractional part) or
+#' another date type to a `datey` for the start, middle of end of the day
+#'
+#' @description
+#' Accepted types are:
+#'
+#' - Numeric, interpreted as calendar year, with the fractional part
+#' representing the fraction of the year. For instance, `datey(2000.5)` means
+#' halfway though the year 2000.
+#' - The base R date types (`Date` and `POSIXct` and `POSIXlt`).
+#' - `character`, in ISO 8601 extended format, i.e. YYYY-MM-DD.
+#' - `datey`, which is interpreted as is but with the start, middle or end day
+#' override.
+#'
+#' Beware that `as_end_day()` will add a day to a `datey` that is already on a
+#' day boundary, *even if it was originally defined as an end day*.
+#'
+#' @seealso Use [start_day()], [mid_day()] and [end_day()] to create a `datey`
+#' direct from year, month and day.
+#'
+#' @param
+#' x The argument to convert to a `datey`.
+#' @param strict
+#' How invalid results (given non-NA inputs) should be handled.
+#' - If `strict` is `TRUE` -- the default -- then execution is stopped.
+#' - If `strict` is `FALSE` then `NA` is returned.
+#'
+#' (NA inputs will result in NA regardless of this switch.)
+#' @name as_xxx_day
+NULL
 
-
+#' @rdname as_xxx_day
+#' @export
+as_start_day <- function(x, strict = TRUE)
+  datey(x, day_fraction = 0, strict = strict)
+#' @rdname as_xxx_day
+#' @export
+as_mid_day <- function(x, strict = TRUE)
+  datey(x, day_fraction = 0.5, strict = strict)
+#' @rdname as_xxx_day
+#' @export
+as_end_day <- function(x, strict = TRUE)
+  datey(x, day_fraction = 1, strict = strict)
 
 #' Is a `datey` the start (or end) or middle of a day?
 #'

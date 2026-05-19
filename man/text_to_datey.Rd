@@ -24,7 +24,7 @@ day).
 }}
 
 \item{strict}{How non-compliant text (including calendar years less than
-1000 or greater than or equal to 3000) should be handled.
+1000 or greater than 3000) should be handled.
 \itemize{
 \item If \code{strict} is \code{TRUE} then execution is stopped.
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.

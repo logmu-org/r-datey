@@ -44,7 +44,7 @@ the day. \code{day_fraction} must lie in the inclusive interval [0,1], with
 day).
 }}
 
-\item{strict}{How calendar years less than 1000 or greater than or equal to 3000 and day
+\item{strict}{How calendar years less than 1000 or greater than 3000 and day
 fractions not in the interval [0,1] should be
 handled.
 \itemize{
@@ -72,7 +72,7 @@ Note that in standard use, a \code{Date} has no fractional part and therefore
 means the \emph{start} of the day. For instance,
 \code{datey(as.Date("2000-03-21 12:00"))} means the \emph{start} of 2000-03-21.
 \item \code{character} -- If \code{day_fraction} \emph{is} provided then the text format must
-be in ISO 8601 extended format, i.e. YYYY-MM-DD. If \code{day_fraction} \emph{is}
+be in ISO 8601 extended format, i.e. YYYY-MM-DD. If \code{day_fraction} is \emph{not}
 provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
 fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
 for the start of 1 January 2000.
@@ -86,6 +86,8 @@ The lengths of vector arguments must be multiples of each other.
 This is an S3 generic.
 }
 \seealso{
-\code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}} to create a \code{datey}
-direct from year, month and day.
+Use \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}} to create a \code{datey}
+direct from year, month and day. Use \code{\link[=as_start_day]{as_start_day()}}, \code{\link[=as_mid_day]{as_mid_day()}} and
+\code{\link[=as_end_day]{as_end_day()}} to create a \code{datey} from a numeric or base R date type but
+specifying whether it should be the start, middle or end of the day.
 }
