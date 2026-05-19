@@ -6,10 +6,10 @@ annual grid.
 This matters in contexts where the primary unit is years and where
 definitions need to be precise.
 
-A classic example is actuarial mortality experience analysis or
-valuation of life assurance and annuities. Mortality rates are defined
-*per annum* but experience and valuation data is usually defined using
-dates (i.e. days).
+Classic examples are mortality experience analysis and the valuation of
+life assurance and annuities. Mortality rates are defined *per annum*
+but experience and valuation data is usually defined using dates
+(i.e. days).
 
 The benefits of using **datey** are:
 
@@ -22,9 +22,18 @@ The benefits of using **datey** are:
 3.  Fixed precision arithmetic, which excludes bugs relating to floating
     point arithmetic[^1].
 
-Long story short: If you are working primarily with annual rates in the
-annual domain but your data specifies time using dates, then it is worth
-considering using **datey**.
+PUT THIS FIRST: Long story short: If you are working primarily with
+annual rates in the annual domain but your data specifies time using
+dates, then it is worth considering using **datey**.
+
+See
+
+- surv package author’s comments
+  [here](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf).
+  Note that they use days to avoid this issue.
+
+- See [CRAN FAQ
+  7.31](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 
 ## Installation
 

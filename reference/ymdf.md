@@ -1,9 +1,11 @@
-# `datey` in terms of calendar year, month, day and day fraction components
+# Create or decompose a `datey` using calendar year, month, day and day fraction
+
+The lengths of vector arguments must be multiples of each other.
 
 `to_ymdf()` returns a list of the `year`, `month`, `day` and
 `day_fraction` breakdown of a `datey`, where
 
-- `year` is an `integer` in \[1000,3000),
+- `year` is an `integer` in \[1000,3000\],
 
 - `month` is an `integer` in \[1,12\],
 
@@ -19,28 +21,32 @@ then `to_ymdf()` will return the *start* of the *next* day with
 `day_fraction = 0`.
 
 `from_ymdf()` creates a `datey` from a calendar year, month, and day
-fraction.
-
-The lengths of vector arguments must be multiples of each other.
+fraction. In practice, prefer one of
+[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
+[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+or
+[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+for clarity.
 
 ## Usage
 
 ``` r
 to_ymdf(datey)
 
-point_in_day(year, month, day, day_fraction, strict = TRUE)
+from_ymdf(year, month, day, day_fraction, strict = TRUE)
 ```
 
 ## Arguments
 
 - datey:
 
-  The `datey` to be deconstructed by `from_ymdf()`.
+  A `datey` to be deconstructed.
 
 - year:
 
-  Calendar year. Valid years are from 1000 (inclusive) to 3000
-  (exclusive). If provided as `double` then these *must be integers*.
+  Calendar year. Valid years are from 1000 to 3000 (although the only
+  legal date in 3000 is the start of 3000-01-01). If provided as
+  `double` then these *must be integers*.
 
 - month:
 
@@ -60,8 +66,7 @@ point_in_day(year, month, day, day_fraction, strict = TRUE)
 
 - strict:
 
-  How to handle calendar years less than 1000 or greater than or equal
-  to 3000 and day fractions not in the interval \[0,1\].
+  How to handle invalid arguments.
 
   - If `strict` is `TRUE` – the default – then execution is stopped.
 
@@ -69,13 +74,7 @@ point_in_day(year, month, day, day_fraction, strict = TRUE)
 
   (NA arguments result in NA regardless of `strict`.)
 
-## Edge cases
+## See also
 
-The following are special cases:
-
-1.  `from_ymdf(999, 12, 31, 1)` *will* cause an error, even though in
-    theory it represents the legal `datey` 1000-01-01.0.
-
-2.  `from_ymdf(2999, 12, 31, 1)` will *not* cause an error, even though
-    in theory it represents the illegal `datey` 3000-01-01.0. The
-    resulting `datey` will be invalid though.
+Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
+to create a `datey` direct from years or a base R date.

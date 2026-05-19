@@ -8,10 +8,6 @@ The `durationy` version of NA
 NA_durationy_
 ```
 
-## Format
-
-An object of class `datey_type` (inherits from `durationy`) of length 1.
-
 ## See also
 
 [is_NA](https://logmu-org.github.io/r-datey/reference/is_NA.md),

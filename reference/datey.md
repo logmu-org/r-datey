@@ -18,7 +18,7 @@ This package provides methods to create a `datey` from the following:
 
 - `character` – If `day_fraction` *is* provided then the text format
   must be in ISO 8601 extended format, i.e. YYYY-MM-DD. If
-  `day_fraction` *is* provided then the text format must be
+  `day_fraction` is *not* provided then the text format must be
   YYYY-MM-DD.FFF, where .FFF is the day fraction and must be present
   even if the fraction is 0, e.g. "2000-01-01.0" for the start of 1
   January 2000.
@@ -85,8 +85,8 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 
 - strict:
 
-  How calendar years less than 1000 or greater than or equal to 3000 and
-  day fractions not in the interval \[0,1\] should be handled.
+  How calendar years less than 1000 or greater than 3000 and day
+  fractions not in the interval \[0,1\] should be handled.
 
   - If `strict` is `TRUE` – the default – then execution is stopped.
 
@@ -97,3 +97,18 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 - ...:
 
   Other arguments (not used in this package).
+
+## See also
+
+Use
+[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
+[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+and
+[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
+to create a `datey` direct from year, month and day. Use
+[`as_start_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md),
+[`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+and
+[`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+to create a `datey` from a numeric or base R date type but specifying
+whether it should be the start, middle or end of the day.

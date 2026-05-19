@@ -21,14 +21,6 @@ valid_years_end
 valid_duration_years_max
 ```
 
-## Format
-
-An object of class `integer` of length 1.
-
-An object of class `integer` of length 1.
-
-An object of class `integer` of length 1.
-
 ## See also
 
 [is_NA](https://logmu-org.github.io/r-datey/reference/is_NA.md),

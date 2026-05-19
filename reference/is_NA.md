@@ -1,10 +1,10 @@
-# Whether `datey` and `durationy` are NA
+# Whether `datey` or `durationy` are NA
 
 Valid datey system ranges:
 
-- Valid dates have calendar years in the interval \[1000, 3000).
+- Valid dates are from the start of 1000 to the start of 3000.
 
-- Valid durations have magnitude 2000 years or less.
+- Valid durations are 2000 years or less in magnitude.
 
 Values outside the above ranges are treated as NA.
 
@@ -72,9 +72,9 @@ anyNA(x, recursive = FALSE)
 ## Examples
 
 ``` r
-  t <- c(NA_datey_, datey(2000))
-  is.na(t) # c(TRUE, FALSE)
-#> [1]  TRUE FALSE
+  t <- c(NA_datey_, datey(2000), datey(999.99, strict = FALSE))
+  is.na(t) # c(TRUE, FALSE, TRUE)
+#> [1]  TRUE FALSE  TRUE
   anyNA(t) # TRUE
 #> [1] TRUE
 

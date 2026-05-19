@@ -10,12 +10,17 @@
 - [`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
   [`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
   [`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  [`as_start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  [`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
   :
 
   Create a `datey` for the start, middle or end of a day
+
+- [`as_start_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+  [`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+  [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+  :
+
+  Coerce a calendar year (including fractional part) or another date
+  type to a `datey` for the start, middle of end of the day
 
 - [`durationy()`](https://logmu-org.github.io/r-datey/reference/durationy.md)
   :
@@ -35,11 +40,11 @@
   Convert a `durationy` to duration in years
 
 - [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
-  [`point_in_day()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
+  [`from_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
   :
 
-  `datey` in terms of calendar year, month, day and day fraction
-  components
+  Create or decompose a `datey` using calendar year, month, day and day
+  fraction
 
 ## Text parsing and printing
 
@@ -92,7 +97,7 @@
   [`anyNA(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
   :
 
-  Whether `datey` and `durationy` are NA
+  Whether `datey` or `durationy` are NA
 
 - [`NA_datey_`](https://logmu-org.github.io/r-datey/reference/NA_datey_.md)
   :

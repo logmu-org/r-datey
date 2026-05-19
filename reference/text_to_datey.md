@@ -49,7 +49,7 @@ datey(x, day_fraction = NULL, strict = TRUE, blank_is_NA = FALSE, ...)
 - strict:
 
   How non-compliant text (including calendar years less than 1000 or
-  greater than or equal to 3000) should be handled.
+  greater than 3000) should be handled.
 
   - If `strict` is `TRUE` then execution is stopped.
 

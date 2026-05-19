@@ -2,27 +2,33 @@
 
 ## Introduction
 
-The datey system provides fixed precision 32 bit date and duration
-arithmetic on an annual grid across multiple platforms.
+The datey system provides a standard mapping of dates onto an annual
+grid.
 
-Replicating real-world date arithmetic or text representations is a non
-goal. Handling that complexity should take place *outside* the datey
-system. In typical use, dates should be inputs to the datey system, not
-outputs (and durations should be neither[^1]). The datey approach is to
-assume that input dates have been calculated appropriately and that its
-job is to handle intervals between those dates.
+This matters in contexts where the primary unit is years but input data
+uses dates (i.e. days)[^1].
 
-## Definitions
+The goal of datey is to provide performant date and duration-related
+arithmetic for intervals between input dates.
+
+The following are non goals and should be handled outside the datey
+system:
+
+1.  Real-world date arithmetic[^2], including calculating dates for
+    output.
+2.  Parsing and formatting dates.
+
+## Definitions used in this specification
 
 - `double` means IEEE 754 binary64, i.e. 64-bit binary floating-point.
 
-- `integer` means 32 bit two’s complement integer.
+- `integer` means 32 bit two’s complement signed integer.
 
 - Dates are written using [YYYY‑MM‑DD notation](https://xkcd.com/1179/),
   where YYYY is a four-digit year, MM is a two-digit month of the year,
   01 to 12, and DD is the two-digit day of the month, 01 to 31.
 
-- Banker’s rounding[^2] means round a `double` to the nearest integer
+- Banker’s rounding[^3] means round a `double` to the nearest integer
   unless the fractional part is ±0.5, in which case round it to the
   nearest even integer. In the algorithms below, it also entails
   conversion to `integer`, which is safe because in all cases the
@@ -54,15 +60,59 @@ The datey system defines two types:
 
 Both of these types are represented using clicks stored as `integer`.
 
-## Dates
+### Dates
 
 Dates are mapped to `datey`s as the number of clicks since the start of
 the notional year 0000 on the proleptic Gregorian calendar, i.e. the
 Gregorian calendar extended backwards from its introduction in 1582.
 
 A `datey` that would otherwise represent a date before calendar year
-1000 or after calendar year 2999 should be treated as invalid[^3] when
+1000 or after calendar year 2999 should be treated as invalid[^4] when
 mapping dates to or from a `datey`.
+
+### Durations
+
+A `durationy` represents a duration using clicks.
+
+A `durationy` that would otherwise represent a duration of magnitude
+more than 2000 years should be treated as invalid when mapping durations
+to or from a `durationy`.
+
+### Mapping *years* to a `datey` or `durationy`
+
+A `datey` can be defined direct as the *duration in years* from the
+start of the notional year 0000 and a `durationy` can be defined direct
+from a *duration in years* as follows:
+
+1.  If the *duration in years* is represented by a numerical type other
+    than `double` then it must first be converted to `double`. If this
+    entails a loss in precision then this is an error.
+
+2.  The result is invalid if any of the following apply:
+
+    - The *duration in years* is not a number (NaN).
+    - For a `datey`, if the *duration in years* is less than 1000 or
+      greater than 3000.
+    - For a `durationy`, if the absolute value of the *duration in
+      years* is greater than 2000.
+
+3.  Otherwise the resulting number of clicks is the *duration in years*
+    multiplied by 534 360 and then rounded to `integer` using banker’s
+    rounding.
+
+Worked examples:
+
+| Target type | Duration in years |        Clicks | Calculation      |
+|:------------|:-----------------:|--------------:|:-----------------|
+| `durationy` |         1         |       534 360 |                  |
+| `durationy` |       −2.75       |    −1 469 490 | −2.75 × 534 360  |
+| `durationy` |   0.5 / 534 360   |             0 | round(0.5)       |
+| `durationy` |   1.5 / 534 360   |             2 | round(1.5)       |
+| `durationy` |      2000.01      |       Invalid |                  |
+| `durationy` |     −2000.01      |       Invalid |                  |
+| `datey`     |      2000.5       | 1 068 987 180 | 2000.5 × 534 360 |
+| `datey`     |      999.99       |       Invalid |                  |
+| `datey`     |      3000.01      |       Invalid |                  |
 
 ### Mapping a date *to* a `datey`
 
@@ -158,49 +208,9 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and
 8.  *day_fraction* is *day_fraction_clicks* / *clicks_per_day* using
     `double` division.
 
-## Durations
+## Arithmetic and comparative operations
 
-A `durationy` represents a duration using clicks.
-
-A `durationy` that would otherwise represent a duration of magnitude
-more than 2000 years should be treated as invalid when mapping durations
-to or from a `durationy`.
-
-### Mapping a *duration in years* to a `durationy`
-
-As well as being the difference between two `datey`s, a `durationy` can
-also be defined direct from a *duration in years* as follows:
-
-1.  If the *duration in years* is represented by a numerical type other
-    than `double` then it must first be converted to `double`. If this
-    entails a loss in precision then this is an error.
-
-2.  If the *duration in years* is not a number (NaN) or greater in
-    magnitude than 2000 then the resulting `durationy` is invalid.
-
-3.  Otherwise the resulting `durationy` number of clicks is the
-    *duration in years* multiplied by 534 360 and then rounded to
-    `integer` using banker’s rounding.
-
-Worked examples:
-
-| Duration in years   |     Clicks | Calculation     |
-|:--------------------|-----------:|:----------------|
-| 1 year              |    534 360 |                 |
-| −2.75 years         | −1 469 490 | −2.75 × 534 360 |
-| 0.5 / 534 360 years |          0 | round(0.5)      |
-| 1.5 / 534 360 years |          2 | round(1.5)      |
-
-### Mapping a `durationy` to a duration in years
-
-A `durationy` is mapped to a duration in years as `double` as follows:
-
-1.  If the `durationy` is invalid then the result is not a number (NaN).
-
-2.  Otherwise the result is clicks converted to `double` and then
-    divided by 534 360.
-
-## Arithmetic operations
+### Pure `datey` and `duration` operations
 
 The following arithmetic operations are defined by applying the
 specified operators to the underlying argument clicks using 32-bit two’s
@@ -221,33 +231,30 @@ The unary plus (+) and minus (negation or −) operators are defined for a
 - The + operator returns its argument unchanged.
 - The − operator changes the sign of the clicks.
 
-It is *not* required ot expected that the above operations will be
+It is *not* required or expected that the above operations will be
 checked for `integer` overflow – they can reasonably be supposed to be
 safe within the domain of operation (i.e. date inputs that have already
 been checked for validity) and datey exists to facilitate performant
 calculations.
 
-Duration scaling, i.e. number × `durationy`, `durationy` × number or
-`durationy` / number, is defined by
+### Mixed `datey` / `durationy` and numeric operations
 
-1.  Scaling factors (i.e. ‘number’ in the above) represented by
-    numerical types other than `double` must first be converted to
-    `double`. If this entails a loss in precision then this is an error.
+For convenience, binary operations are also defined when one of the
+operands is a `datey` or `duration` and the other is numeric. The first
+step is to convert the `datey` or `duration` operand to years as
+follows:
 
-2.  If the `durationy` is invalid then the result is invalid.
+1.  If the `datey` or `durationy` is invalid then the result is not a
+    number (NaN).
+2.  Otherwise the result is clicks converted to `double` and then
+    divided by 534 360.
 
-3.  Otherwise convert the underlying clicks to `double`, carry out the
-    specified `double` calculation and then convert the resulting
-    `double` clicks back to a `durationy` as follows:
+If required the numeric operand should be converted to `double`. If this
+entails a loss in precision then this is an error.
 
-    - If the `double` clicks is not a number (NaN) or its absolute value
-      is greater than 2000 × 534 360 then the result is invalid.
-    - Otherwise the result is the `double` clicks rounded to `integer`
-      using banker’s rounding.
+The following standard operations are legal
 
-In contrast to operations involving solely `datey`s and `durationy`s,
-scaling operations should be checked for the validity of their result
-(and consequently not used in hot paths).
+[TABLE]
 
 ## Text representations
 
@@ -321,18 +328,22 @@ For text *inputs*:
 - Arbitrarily long inputs e.g. more than 100 UTF-8 bytes should be
   rejected.
 
-[^1]: There is no unique way to map dates to an annual grid – days do
-    not map cleanly to years. And things get even worse when dates and
-    durations are mixed. For instance, the duration from 2000-01-01 to
-    2001-01-01 is 366 days but from 2000-03-01 to 2001-03-01 is
-    365 days, which is a clue that adding durations to dates can be
-    messy. And that’s before we’re asked what 2000-02-29 plus one year
+[^1]: Classic examples are actuarial mortality experience analysis or
+    valuation of life assurance and annuities. Mortality rates are
+    defined per year but experience and valuation data use dates.
+
+[^2]: Even simple-sounding calculations involving dates and durations
+    can be problematic. Consider, for example, what ‘add 1 year’ should
+    mean. The duration from 2000-02-01 to 2001-02-01 is 366 days but
+    from 2000-03-01 to 2001-03-01 is 365 days, which means that there is
+    no simple definition of duration that accords with this standard
+    calculation. And that’s before we ask what 2000-02-29 plus 1 year
     should be! Corralling this ambiguity is datey’s raison d’être.
 
-[^2]: Banker’s rounding is also known as ‘round to nearest, ties to
+[^3]: Banker’s rounding is also known as ‘round to nearest, ties to
     even’ or ‘round half to even’. It is the default rounding mode for
     IEEE 754 binary floating-point.
 
-[^3]: This means that both 0 (the default in many languages) and −2³¹
+[^4]: This means that both 0 (the default in many languages) and −2³¹
     (used by some languages to indicate missing data or `NA`) are
     invalid `datey`s.
