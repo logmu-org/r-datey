@@ -48,13 +48,13 @@ datey_from_clicks <- function(clicks) {
 #' @export
 NA_datey_ <- datey_from_clicks(NA_integer_)
 
-#' Whether `datey` and `durationy` are NA
+#' Whether `datey` or `durationy` are NA
 #'
 #' @description
 #'
 #' Valid datey system ranges:
-#' - Valid dates have calendar years in the interval [1000,&#xA0;3000).
-#' - Valid durations have magnitude 2000 years or less.
+#' - Valid dates are from the start of 1000 to the start of 3000.
+#' - Valid durations are 2000 years or less in magnitude.
 #'
 #' Values outside the above ranges are treated as NA.
 #'
@@ -81,8 +81,8 @@ NA_datey_ <- datey_from_clicks(NA_integer_)
 #' @keywords NA
 #' @seealso [NA_datey_], [NA_datey_], [integer_constants]
 #' @examples
-#'   t <- c(NA_datey_, datey(2000))
-#'   is.na(t) # c(TRUE, FALSE)
+#'   t <- c(NA_datey_, datey(2000), datey(999.99))
+#'   is.na(t) # c(TRUE, FALSE, TRUE)
 #'   anyNA(t) # TRUE
 #'
 #'   d <- c(NA_durationy_, durationy(1.5))
@@ -95,12 +95,11 @@ NULL
 #' @export
 is.na.datey <- function(x) {
   clicks <- unclass(x)
-  is.na(clicks) | clicks < 534360000L | clicks >= 1603080000L
+  is.na(clicks) | clicks < 534360000L | clicks > 1603080000L
 }
 #' @rdname is_NA
 #' @export
 anyNA.datey = function(x, recursive = FALSE) {
-  if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.")
   any(is.na(x))
 }
 
@@ -120,13 +119,15 @@ NULL
 #' @export
 is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 
-#' `datey` in terms of calendar year, month, day and day fraction components
+#' Create or decompose a `datey` using calendar year, month, day and day fraction
 #'
 #' @description
 #'
+#' The lengths of vector arguments must be multiples of each other.
+#'
 #' `to_ymdf()` returns a list of the `year`, `month`, `day` and `day_fraction`
 #' breakdown of a `datey`, where
-#' - `year` is an `integer` in \[1000,3000),
+#' - `year` is an `integer` in \[1000,3000],
 #' - `month` is an `integer` in \[1,12],
 #' - `day` is an `integer` in \[1,N], where N is the number of days
 #' in the month specified by `year` and `month`, and
@@ -137,25 +138,17 @@ is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 #' `to_ymdf()` will return the *start* of the *next* day with `day_fraction =
 #' 0`.
 #'
-#' `from_ymdf()` creates a `datey` from
-#' a calendar year, month, and day fraction.
+#' `from_ymdf()` creates a `datey` from a calendar year, month, and day
+#' fraction. In practice, prefer one of [start_day()], [mid_day()] or
+#' [end_day()] for clarity.
 #'
-#' The lengths of vector arguments must be multiples of each other.
-#'
-#' # Edge cases
-#'
-#' The following are special cases:
-#'
-#' 1. `from_ymdf(999, 12, 31, 1)` *will* cause an error,
-#' even though in theory it represents the legal `datey` 1000-01-01.0.
-#'
-#' 1. `from_ymdf(2999, 12, 31, 1)` will *not* cause an error,
-#' even though in theory it represents the illegal `datey`
-#' 3000-01-01.0. The resulting `datey` will be invalid though.
+#' @seealso Use [datey()] to create a `datey` direct from years or a base R
+#' date.
 #'
 #' @param year
 #'   Calendar year.
-#'   Valid years are from 1000 (inclusive) to 3000 (exclusive).
+#'   Valid years are from 1000 to 3000 (although the only legal date in 3000
+#'   is the start of 3000-01-01).
 #'   If provided as `double` then these *must be integers*.
 #' @param month
 #'   Month number in calendar year, with 1 representing January.
@@ -170,13 +163,12 @@ is_datey <- function(x) typeof(x) == "integer" && inherits(x, "datey")
 #'   1 means the end of the day
 #'   (which is identical to the start of the next day).
 #' @param strict
-#' How to handle calendar years less than 1000 or greater than or equal to 3000 and day
-#' fractions not in the interval \[0,1\].
+#' How to handle invalid arguments.
 #' - If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' - If `strict` is `FALSE` then `NA` is returned.
 #'
 #' (NA arguments result in NA regardless of `strict`.)
-#' @param datey The `datey` to be deconstructed by `from_ymdf()`.
+#' @param datey A `datey` to be deconstructed.
 #' @name ymdf
 NULL
 
@@ -189,7 +181,7 @@ to_ymdf <- function(datey) {
 
 #' @rdname ymdf
 #' @export
-point_in_day <- function(year, month, day, day_fraction, strict = TRUE) {
+from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 
   day_fraction <- as_double_for_cpp(day_fraction)
 
@@ -230,23 +222,15 @@ point_in_day <- function(year, month, day, day_fraction, strict = TRUE) {
 #'
 #' The lengths of vector arguments must be multiples of each other.
 #'
+#' @seealso Use [datey()] to to create a `datey` direct from years or a base R
+#' date. These methods call [from_ymdf()].
+#'
 #' To deconstruct a `datey`, use [to_ymdf()].
-#'
-#' # Edge cases
-#'
-#' The following are special cases:
-#'
-#' 1. `end_day(999, 12, 31)` *will* cause an error,
-#' even though in theory it represents the legal `datey` 1000-01-01.0.
-#'
-#' 1. `end_day(2999, 12, 31)` will *not* cause an error,
-#' even though in theory it represents the illegal `datey`
-#' 3000-01-01.0. The resulting `datey` will be invalid though.
 #'
 #' @param year
 #'   Calendar year.
-#'   Valid years are from 1000 (inclusive) to 3000 (exclusive).
-#'   If provided as `double` then these *must be integers*.
+#'   Valid years are from 1000 to 3000 (although the only legal date in 3000
+#'   is the start of 3000-01-01).
 #' @param month
 #'   Month number in calendar year, with 1 representing January.
 #'   If provided as `double` then these *must be integers*.
@@ -271,13 +255,13 @@ NULL
 
 #' @rdname xxx_day
 #' @export
-start_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, day, day_fraction = 0, strict)
+start_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day, day_fraction = 0, strict)
 #' @rdname xxx_day
 #' @export
-mid_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, day, day_fraction = 0.5, strict)
+mid_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day, day_fraction = 0.5, strict)
 #' @rdname xxx_day
 #' @export
-end_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, day, day_fraction = 1, strict)
+end_day <- function(year, month, day, strict = TRUE) from_ymdf(year, month, day, day_fraction = 1, strict)
 
 #' Create a `datey` from a calendar year (including its fractional part) or
 #' another date type
@@ -309,6 +293,9 @@ end_day <- function(year, month, day, strict = TRUE) point_in_day(year, month, d
 #' The lengths of vector arguments must be multiples of each other.
 #'
 #' This is an S3 generic.
+#'
+#' @seealso [start_day()], [mid_day()] and [end_day()] to create a `datey`
+#' direct from year, month and day.
 #'
 #' @param
 #' x The argument to convert to a `datey`.
@@ -355,18 +342,20 @@ datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 #' @export
 datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
-  clicks <- ifelse(x >= 1000L & x < 3000L, x * 534360L, NA_integer_)
+  clicks <- ifelse(x >= 1000L & x <= 3000L, x * 534360L, NA_integer_)
+  if (strict && anyNA(clicks)) stop("The year is invalid.")
   x <- datey_from_clicks(clicks)
-  if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, ...)
+  if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, strict, ...)
   x
 }
 #' @rdname datey
 #' @export
 datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
-  clicks <- ifelse(x >= 1000 & x < 3000, round(x * 534360), NA_real_)
+  clicks <- ifelse(x >= 1000 & x <= 3000, round(x * 534360), NA_real_)
+  if (strict && anyNA(clicks)) stop("The year is invalid.")
   x <- datey_from_clicks(clicks)
-  if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, ...)
+  if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, strict, ...)
   x
 }
 #' @rdname datey
@@ -409,7 +398,7 @@ datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   year_fraction <- pmin(1, year_fraction)
 
   clicks <- year * 534360L + as.integer(round(year_fraction * 534360))
-  clicks <- ifelse(year < 1000L | year >= 3000L, NA_integer_, clicks)
+  clicks <- ifelse(clicks < 534360000L | year > 1603080000L, NA_integer_, clicks)
 
   x <- datey_from_clicks(clicks)
   datey.datey(x, day_fraction, strict)

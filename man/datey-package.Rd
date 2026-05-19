@@ -3,24 +3,29 @@
 \docType{package}
 \name{datey-package}
 \alias{datey-package}
-\title{datey: Annualised Fixed-Precision Dates and Durations for Actuarial Experience Analysis}
+\title{datey: Annualised Dates and Durations}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-TODO.
+A standardised mapping of dates onto an annual grid with performant date and duration-related arithmetic. This matters in contexts where the primary unit is years but the input data uses dates. Examples are actuarial mortality experience analysis or valuation of life assurance and annuities, for which mortality rates are defined per year but experience and valuation data use dates.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/logmu-org/r-datey}
   \item \url{http://logmu.org/r-datey/}
-  \item \url{http://logmu-org.github.io/r-datey/}
   \item \url{https://logmu-org.github.io/r-datey/}
+  \item Report bugs at \url{https://github.com/logmu-org/r-datey/issues}
 }
 
 }
 \author{
 \strong{Maintainer}: Tim Gordon \email{tim.gordon@btinternet.com} (\href{https://orcid.org/0009-0006-3087-4384}{ORCID})
+
+Authors:
+\itemize{
+  \item Tim Gordon \email{tim.gordon@btinternet.com} (\href{https://orcid.org/0009-0006-3087-4384}{ORCID})
+}
 
 }
 \keyword{internal}

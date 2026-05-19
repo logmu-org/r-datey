@@ -6,7 +6,7 @@
 \alias{anyNA.datey}
 \alias{is.na.durationy}
 \alias{anyNA.durationy}
-\title{Whether \code{datey} and \code{durationy} are NA}
+\title{Whether \code{datey} or \code{durationy} are NA}
 \usage{
 \method{is.na}{datey}(x)
 
@@ -31,8 +31,8 @@ never anything other than a single value.
 \description{
 Valid datey system ranges:
 \itemize{
-\item Valid dates have calendar years in the interval [1000, 3000).
-\item Valid durations have magnitude 2000 years or less.
+\item Valid dates are from the start of 1000 to the start of 3000.
+\item Valid durations are 2000 years or less in magnitude.
 }
 
 Values outside the above ranges are treated as NA.
@@ -52,8 +52,8 @@ are also provided.
 For performance reasons, intermediate calculations may not check for NAs.
 }
 \examples{
-  t <- c(NA_datey_, datey(2000))
-  is.na(t) # c(TRUE, FALSE)
+  t <- c(NA_datey_, datey(2000), datey(999.99))
+  is.na(t) # c(TRUE, FALSE, TRUE)
   anyNA(t) # TRUE
 
   d <- c(NA_durationy_, durationy(1.5))
