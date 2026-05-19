@@ -39,7 +39,15 @@ The benefits of using **datey** are:
 
 [^NonAssociativity]: Specifically, the [non-associativity](https://en.wikipedia.org/wiki/Associative_property#Nonassociativity_of_floating-point_calculation) of floating point arithmetic.
 
+PUT THIS FIRST:
 Long story short: If you are working primarily with annual rates in the annual domain but your data specifies time using dates, then it is worth considering using **datey**.
+
+See
+
+- surv package author's comments [here](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf). Note that they use days to avoid this issue.
+
+- See [CRAN FAQ 7.31](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
+
 
 ## Installation
 

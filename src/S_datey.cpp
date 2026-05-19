@@ -12,10 +12,10 @@ constexpr int DaysToStartByMonth366[13] = { 0, 31, 60, 91, 121, 152, 182, 213, 2
 
 bool isValidDatey(int datey)
 {
-  return datey >= ValidDateStartClicks && datey < ValidDateEndClicks;
+  return datey >= ValidDateStartClicks && datey <= ValidDateEndClicks;
 }
 
-bool isValidYear(int year)
+bool is1000To2999(int year)
 {
   return year >= ValidDateStartYear && year < ValidDateEndYear;
 }
@@ -46,14 +46,14 @@ bool isLeapYear(int year)
 
 int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
 {
-  if (!isValidYear(year) || !isValidMonth(month) || day < 1 || !isValidDayFraction(dayFraction))
+  if (!is1000To2999(year) || !isValidMonth(month) || day < 1 || !isValidDayFraction(dayFraction))
   {
-    // Special case: 0999-12-31 + day_fraction == 1 (*not* rounds to 1)
-    if (year == 999 && month == 12 && day == 31 && dayFraction == 1.0)
-    {
-      year = 1000; month = 1; day = 1; dayFraction = 0.0;
-    }
-    else
+    if (
+      // Special case: 0999-12-31 + day_fraction == 1 (*not* rounds to 1)
+      !(year == 999 && month == 12 && day == 31 && dayFraction == 1.0)
+      // Special case: 3000-01-01 + day_fraction == 0 (*not* rounds to 0)
+      && !(year == 3000 && month == 1 && day == 1 && dayFraction == 0.0)
+      )
     {
       if (cpp11::is_na(year) || cpp11::is_na(month) || cpp11::is_na(day) || cpp11::is_na(dayFraction) )
       {
@@ -63,17 +63,13 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
       if (strict)
       {
         const char *msg;
-        if (!isValidYear(year))
+        if (!is1000To2999(year))
         {
-          msg = "`year` argument is outside valid `datey` interval [1000,3000).";
+          msg = "`year` is outside [1000,2999] and date is not 0999-12-31.1 or 3000-01-01.0.";
         }
         else if (!isValidMonth(month))
         {
-          msg = "`month` argument must be 1 to 12 inclusive.";
-        }
-        else if (day < 1)
-        {
-          msg = "`day` argument must be 1 to M, where M is the number of days in the month.";
+          msg = "`month` must be 1 to 12 inclusive.";
         }
         else
         {
@@ -116,8 +112,6 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
 
   int fractionClicks = (int)roundBankers(dayFraction * clicksPerDay);
 
-  // Special case: 2999-12-31 + day_fraction close to 1
-  // We let this go, even though it results in an illegal datey.
   return year * ClicksPerYear + dayCount * clicksPerDay + fractionClicks;
 }
 
@@ -182,7 +176,6 @@ int dateyWithNewDayFraction(int datey, double dayFraction, bool strict)
     return NA_INTEGER;
   }
 
-
   int year = datey / ClicksPerYear;
   int clicksToY = year * ClicksPerYear;
   int clicksRemaining = datey - clicksToY;
@@ -193,7 +186,16 @@ int dateyWithNewDayFraction(int datey, double dayFraction, bool strict)
   int clicksYToD = day * clicksPerDay;
   int clicksDToF = roundBankers(dayFraction * clicksPerDay);
 
-  return clicksToY + clicksYToD + clicksDToF;
+  int clicks = clicksToY + clicksYToD + clicksDToF;
+
+  // 3000-01-01.0 + df > 0 can make illegal
+  if (clicks > ValidDateEndClicks)
+  {
+    if (strict) { cpp11::stop("Resulting datey is invalid."); }
+    return NA_INTEGER;
+  }
+
+  return clicks;
 }
 
 const double rDate_1000_01_01 = -354285.0;

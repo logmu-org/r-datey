@@ -24,8 +24,8 @@ as_end_day(x, ...)
 }
 \arguments{
 \item{year}{Calendar year.
-Valid years are from 1000 (inclusive) to 3000 (exclusive).
-If provided as \code{double} then these \emph{must be integers}.}
+Valid years are from 1000 to 3000 (although the only legal date in 3000
+is the start of 3000-01-01).}
 
 \item{month}{Month number in calendar year, with 1 representing January.
 If provided as \code{double} then these \emph{must be integers}.}
@@ -53,17 +53,10 @@ Create a \code{datey} for the start, middle or end of the day
 specified by calendar year, month and day.
 
 The lengths of vector arguments must be multiples of each other.
+}
+\seealso{
+Use \code{\link[=datey]{datey()}} to to create a \code{datey} direct from years or a base R
+date. These methods call \code{\link[=from_ymdf]{from_ymdf()}}.
 
 To deconstruct a \code{datey}, use \code{\link[=to_ymdf]{to_ymdf()}}.
 }
-\section{Edge cases}{
-The following are special cases:
-\enumerate{
-\item \code{end_day(999, 12, 31)} \emph{will} cause an error,
-even though in theory it represents the legal \code{datey} 1000-01-01.0.
-\item \code{end_day(2999, 12, 31)} will \emph{not} cause an error,
-even though in theory it represents the illegal \code{datey}
-3000-01-01.0. The resulting \code{datey} will be invalid though.
-}
-}
-

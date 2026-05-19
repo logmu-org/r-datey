@@ -3,18 +3,19 @@
 \name{ymdf}
 \alias{ymdf}
 \alias{to_ymdf}
-\alias{point_in_day}
-\title{\code{datey} in terms of calendar year, month, day and day fraction components}
+\alias{from_ymdf}
+\title{Create or decompose a \code{datey} using calendar year, month, day and day fraction}
 \usage{
 to_ymdf(datey)
 
-point_in_day(year, month, day, day_fraction, strict = TRUE)
+from_ymdf(year, month, day, day_fraction, strict = TRUE)
 }
 \arguments{
-\item{datey}{The \code{datey} to be deconstructed by \code{from_ymdf()}.}
+\item{datey}{A \code{datey} to be deconstructed.}
 
 \item{year}{Calendar year.
-Valid years are from 1000 (inclusive) to 3000 (exclusive).
+Valid years are from 1000 to 3000 (although the only legal date in 3000
+is the start of 3000-01-01).
 If provided as \code{double} then these \emph{must be integers}.}
 
 \item{month}{Month number in calendar year, with 1 representing January.
@@ -29,8 +30,7 @@ If provided as \code{double} then these \emph{must be integers}.}
 1 means the end of the day
 (which is identical to the start of the next day).}
 
-\item{strict}{How to handle calendar years less than 1000 or greater than or equal to 3000 and day
-fractions not in the interval [0,1].
+\item{strict}{How to handle invalid arguments.
 \itemize{
 \item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
@@ -39,10 +39,12 @@ fractions not in the interval [0,1].
 (NA arguments result in NA regardless of \code{strict}.)}
 }
 \description{
+The lengths of vector arguments must be multiples of each other.
+
 \code{to_ymdf()} returns a list of the \code{year}, \code{month}, \code{day} and \code{day_fraction}
 breakdown of a \code{datey}, where
 \itemize{
-\item \code{year} is an \code{integer} in [1000,3000),
+\item \code{year} is an \code{integer} in [1000,3000],
 \item \code{month} is an \code{integer} in [1,12],
 \item \code{day} is an \code{integer} in [1,N], where N is the number of days
 in the month specified by \code{year} and \code{month}, and
@@ -53,19 +55,11 @@ where e.g. 0 means the start and 0.5 means the middle of the day.
 If the \code{datey} was constructed using \code{end_day} or \code{day_fraction = 1} then
 \code{to_ymdf()} will return the \emph{start} of the \emph{next} day with \code{day_fraction = 0}.
 
-\code{from_ymdf()} creates a \code{datey} from
-a calendar year, month, and day fraction.
-
-The lengths of vector arguments must be multiples of each other.
+\code{from_ymdf()} creates a \code{datey} from a calendar year, month, and day
+fraction. In practice, prefer one of \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} or
+\code{\link[=end_day]{end_day()}} for clarity.
 }
-\section{Edge cases}{
-The following are special cases:
-\enumerate{
-\item \code{from_ymdf(999, 12, 31, 1)} \emph{will} cause an error,
-even though in theory it represents the legal \code{datey} 1000-01-01.0.
-\item \code{from_ymdf(2999, 12, 31, 1)} will \emph{not} cause an error,
-even though in theory it represents the illegal \code{datey}
-3000-01-01.0. The resulting \code{datey} will be invalid though.
+\seealso{
+Use \code{\link[=datey]{datey()}} to create a \code{datey} direct from years or a base R
+date.
 }
-}
-

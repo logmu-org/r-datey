@@ -1,28 +1,30 @@
 Package: datey
 Title: Annualised Dates and Durations
 Version: 0.0.0.9000
-Authors@R: person("Tim", "Gordon",
-    email = "tim.gordon@btinternet.com",
-    role = c("aut", "cre"),
-    comment = c(ORCID = "0009-0006-3087-4384"))
-Description: A standardised mapping of dates onto an annual grid with performant
-    date and duration-related arithmetic. This matters in contexts where the 
-    primary unit is years but the input data uses dates. Examples are actuarial 
-    mortality experience analysis or valuation of life assurance and annuities, 
-    for which mortality rates are defined per year but experience and valuation 
-    data use dates.
-URL: https://github.com/logmu-org/r-datey, http://logmu.org/r-datey/, http://logmu-org.github.io/r-datey/, https://logmu-org.github.io/r-datey/
-BugReports: https://github.com/logmu-org/r-datey/issues
+Authors@R: 
+    person("Tim", "Gordon", , "tim.gordon@btinternet.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0006-3087-4384"))
+Description: A standardised mapping of dates onto an annual grid with
+    performant date and duration-related arithmetic. This matters in
+    contexts where the primary unit is years but the input data uses
+    dates. Examples are actuarial mortality experience analysis or
+    valuation of life assurance and annuities, for which mortality rates
+    are defined per year but experience and valuation data use dates.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Depends: R (>= 4.0.0)
-Roxygen: list(markdown = TRUE)
+URL: https://github.com/logmu-org/r-datey, https://logmu.org/r-datey/,
+    https://logmu-org.github.io/r-datey/
+BugReports: https://github.com/logmu-org/r-datey/issues
+Depends: 
+    R (>= 4.0.0)
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
 LinkingTo:
     cpp11
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Config/roxygen2/markdown: TRUE
 Config/roxygen2/version: 8.0.0
+Config/testthat/edition: 3
+Encoding: UTF-8

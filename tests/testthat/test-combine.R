@@ -8,17 +8,17 @@
 test_that("`c()` on `datey`", {
 
   na_1 <- NA_datey_
-  na_2 <- point_in_day(0999, 12, 31, 1.00, strict = FALSE)
-  na_3 <- point_in_day(3000, 01, 01, 0.00, strict = FALSE)
+  na_2 <- from_ymdf(0999, 12, 31, 1459/1460, strict = FALSE)
+  na_3 <- from_ymdf(3000, 01, 01, 1/1464, strict = FALSE)
 
-  d_1 <- point_in_day(1000, 01, 01, 0.00)
-  d_2 <- point_in_day(2020, 05, 23, 0.4567)
-  d_3 <- point_in_day(2999, 12, 31, 0.9993)
+  d_1 <- from_ymdf(1000, 01, 01, 0.00)
+  d_2 <- from_ymdf(2020, 05, 23, 0.4567)
+  d_3 <- from_ymdf(2999, 12, 31, 0.9993)
 
-  vd_4 <- point_in_day(1800:1802, 07, 01, 0)
-  d_4a <- point_in_day(1800, 07, 01, 0)
-  d_4b <- point_in_day(1801, 07, 01, 0)
-  d_4c <- point_in_day(1802, 07, 01, 0)
+  vd_4 <- from_ymdf(1800:1802, 07, 01, 0)
+  d_4a <- from_ymdf(1800, 07, 01, 0)
+  d_4b <- from_ymdf(1801, 07, 01, 0)
+  d_4c <- from_ymdf(1802, 07, 01, 0)
 
   expect_identical(is_datey(c(d_1)), TRUE)
   expect_identical(is_datey(c(d_2, d_1)), TRUE)

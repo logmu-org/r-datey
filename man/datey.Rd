@@ -85,3 +85,7 @@ The lengths of vector arguments must be multiples of each other.
 
 This is an S3 generic.
 }
+\seealso{
+\code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}} to create a \code{datey}
+direct from year, month and day.
+}
