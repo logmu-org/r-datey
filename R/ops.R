@@ -1,4 +1,4 @@
-# S3 annualised fixed precision dates and durations for R
+# Date and duration arithmetic on an annual grid for R
 #
 # This file is licensed to you under the MIT License.
 #
@@ -142,5 +142,5 @@ Ops.datey_type <- function(e1, e2) {
     }
   }
 
-  stop("Binary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "` and `", deparse(substitute(e2)), "`.")
+  stop("Binary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "` and `", deparse(substitute(e2)), "`.", call. = FALSE)
 }

@@ -29,11 +29,7 @@ fractions not in the interval [0,1].
 \itemize{
 \item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}}
-
-\item{x}{A \code{datey} to coerce to the start, middle or end of a day.}
-
-\item{...}{A \code{datey} to coerce to the start, middle or end of a day.
+}
 
 (NA arguments result in NA regardless of \code{strict}.)}
 }

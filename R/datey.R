@@ -1,4 +1,4 @@
-# S3 annualised fixed precision dates and durations for R
+# Date and duration arithmetic on an annual grid for R
 #
 # This file is licensed to you under the MIT License.
 #
@@ -242,8 +242,6 @@ from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 #' fractions not in the interval \[0,1\].
 #' - If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' - If `strict` is `FALSE` then `NA` is returned.
-#' @param x A `datey` to coerce to the start, middle or end of a day.
-#' @param ... A `datey` to coerce to the start, middle or end of a day.
 #'
 #' (NA arguments result in NA regardless of `strict`.)
 #' @name xxx_day
@@ -344,7 +342,7 @@ datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000L & x <= 3000L, x * 534360L, NA_integer_)
-  if (strict && anyNA(clicks)) stop("The year is invalid.")
+  if (strict && anyNA(clicks)) stop("The year is invalid.", call. = FALSE)
   x <- datey_from_clicks(clicks)
   if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, strict, ...)
   x
@@ -354,7 +352,7 @@ datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   ensure_is_switch(strict)
   clicks <- ifelse(x >= 1000 & x <= 3000, round(x * 534360), NA_real_)
-  if (strict && anyNA(clicks)) stop("The year is invalid.")
+  if (strict && anyNA(clicks)) stop("The year is invalid.", call. = FALSE)
   x <- datey_from_clicks(clicks)
   if (!is.null(day_fraction)) x <- datey.datey(x, day_fraction, strict, ...)
   x
@@ -606,6 +604,10 @@ as.integer.datey <- function(x, ...) {
 #' @param ... Further arguments to be passed from or to other methods.
 #' @name text_from_datey
 NULL
+
+#' @rdname text_from_datey
+#' @export
+as.character.datey <- function(x, ...) format.datey(x)
 
 #' @rdname text_from_datey
 #' @export

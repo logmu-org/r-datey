@@ -2,10 +2,13 @@
 % Please edit documentation in R/datey.R
 \name{text_from_datey}
 \alias{text_from_datey}
+\alias{as.character.datey}
 \alias{format.datey}
 \alias{print.datey}
 \title{Format or print a \code{datey}}
 \usage{
+\method{as.character}{datey}(x, ...)
+
 \method{format}{datey}(x, include_day_fraction = TRUE, ...)
 
 \method{print}{datey}(x, include_day_fraction = TRUE, max = NULL, ...)
@@ -13,10 +16,10 @@
 \arguments{
 \item{x}{The \code{datey} to print or format.}
 
+\item{...}{Further arguments to be passed from or to other methods.}
+
 \item{include_day_fraction}{Whether to include the fractional day part.
 Defaults to \code{FALSE}.}
-
-\item{...}{Further arguments to be passed from or to other methods.}
 
 \item{max}{Numeric or \code{NULL}, specifying the maximal number of entries to be
 printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code{NULL}.}

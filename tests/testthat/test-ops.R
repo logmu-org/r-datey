@@ -1,4 +1,4 @@
-# S3 annualised fixed precision dates and durations for R
+# Date and duration arithmetic on an annual grid for R
 #
 # This file is licensed to you under the MIT License.
 #

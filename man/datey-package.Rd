@@ -3,11 +3,11 @@
 \docType{package}
 \name{datey-package}
 \alias{datey-package}
-\title{datey: Annualised Dates and Durations}
+\title{datey: Date and Duration Arithmetic on an Annual Grid}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A standardised mapping of dates onto an annual grid with performant date and duration-related arithmetic. This matters in contexts where the primary unit is years but the input data uses dates. Examples are actuarial mortality experience analysis or valuation of life assurance and annuities, for which mortality rates are defined per year but experience and valuation data use dates.
+A standardised mapping of dates onto an annual grid with performant date and duration-related arithmetic. This matters when the primary unit is years but the input data uses dates. Examples are actuarial mortality experience analysis or valuation of life assurance and annuities, for which mortality rates are defined per year but experience and valuation data use dates.
 }
 \seealso{
 Useful links:

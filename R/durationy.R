@@ -1,4 +1,4 @@
-# S3 annualised fixed precision dates and durations for R
+# Date and duration arithmetic on an annual grid for R
 #
 # This file is licensed to you under the MIT License.
 #
@@ -59,7 +59,7 @@ is.na.durationy <- function(x) {
 #' @rdname is_NA
 #' @export
 anyNA.durationy = function(x, recursive = FALSE) {
-  if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.")
+  if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.", call. = FALSE)
   any(is.na(x))
 }
 
@@ -111,7 +111,7 @@ durationy.integer <- function(x, strict = TRUE, ...) {
   if (strict)
   {
     if(any(x < -2000L | x > 2000L, na.rm = TRUE)) {
-      stop("Absolute value of years argument is greater than 2000.")
+      stop("Absolute value of years argument is greater than 2000.", call. = FALSE)
     }
   }
   clicks <- ifelse(x >= -2000L & x <= 2000L, x * 534360L, NA_integer_)
@@ -124,7 +124,7 @@ durationy.double <- function(x, strict = TRUE, ...) {
   if (strict)
   {
     if(any(is.nan(x)) || any(x < -2000 | x > 2000, na.rm = TRUE)) {
-      stop("Absolute value of years argument is greater than 2000.")
+      stop("Absolute value of years argument is greater than 2000.", call. = FALSE)
     }
   }
   clicks <- ifelse(x >= -2000 & x <= 2000, round(x * 534360), NA_real_)
@@ -247,6 +247,10 @@ as.integer.durationy <- function(x, ...) {
 #'   format(neg, year_unit = "a") # "-2.3 a"
 #' @name text_from_durationy
 NULL
+
+#' @rdname text_from_durationy
+#' @export
+as.character.durationy <- function(x, ...) format.durationy(x)
 
 #' @rdname text_from_durationy
 #' @export

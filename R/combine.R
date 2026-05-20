@@ -1,4 +1,4 @@
-# S3 annualised fixed precision dates and durations for R
+# Date and duration arithmetic on an annual grid for R
 #
 # This file is licensed to you under the MIT License.
 #
@@ -34,7 +34,7 @@ NULL
 c.datey <- function(..., recursive = FALSE) {
   args <- list(...)
   if (!all(vapply(args, is_datey, TRUE)))
-    stop("All arguments must be `datey`.")
+    stop("All arguments must be `datey`.", call. = FALSE)
 
   # Concatenate the underlying numeric (integer) values
   result <- NextMethod("c")
@@ -47,7 +47,7 @@ c.datey <- function(..., recursive = FALSE) {
 c.durationy <- function(..., recursive = FALSE) {
   args <- list(...)
   if (!all(vapply(args, is_durationy, TRUE)))
-    stop("All arguments must be `durationy`.")
+    stop("All arguments must be `durationy`.", call. = FALSE)
 
   # Concatenate the underlying numeric (integer) values
   result <- NextMethod("c")
