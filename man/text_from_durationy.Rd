@@ -2,10 +2,13 @@
 % Please edit documentation in R/durationy.R
 \name{text_from_durationy}
 \alias{text_from_durationy}
+\alias{as.character.durationy}
 \alias{format.durationy}
 \alias{print.durationy}
 \title{Format or print a \code{durationy}}
 \usage{
+\method{as.character}{durationy}(x, ...)
+
 \method{format}{durationy}(x, include_plus = FALSE, use_true_minus = TRUE, year_unit = "yr", ...)
 
 \method{print}{durationy}(
@@ -19,6 +22,8 @@
 }
 \arguments{
 \item{x}{The \code{durationy} to print or format.}
+
+\item{...}{Further arguments to be passed from or to other methods.}
 
 \item{include_plus}{Whether to include a plus ('+') sign for positive
 durations.
@@ -34,8 +39,6 @@ Defaults to \code{FALSE}.}
 If not blank then the value is followed by a space and the unit.
 Cannot be more than 20 characters (UTF-8 bytes) or contain control characters.
 Defaults to \code{"yr"}.}
-
-\item{...}{Further arguments to be passed from or to other methods.}
 
 \item{max}{Numeric or \code{NULL}, specifying the maximal number of entries to be
 printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code{NULL}.}

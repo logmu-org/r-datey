@@ -1,4 +1,4 @@
-# S3 annualised fixed precision dates and durations for R
+# Date and duration arithmetic on an annual grid for R
 #
 # This file is licensed to you under the MIT License.
 #
@@ -33,7 +33,7 @@ mean.durationy <- function (x, ..., na.rm = FALSE) {
 Summary.datey <- function (..., na.rm = FALSE) {
 
   if (!(.Generic %in% c("min", "max", "range")))
-    stop("Unrecognised summary method `", .Generic, "`.")
+    stop("Unrecognised summary method `", .Generic, "`.", call. = FALSE)
 
   args <- list(...)
 
@@ -45,7 +45,7 @@ Summary.datey <- function (..., na.rm = FALSE) {
   all_same <- all(vapply(classes, identical, logical(1), classes[[1]]))
 
   if (!all_same) {
-    stop("All arguments in '...' must be of the same class.")
+    stop("All arguments in '...' must be of the same class.", call. = FALSE)
   }
 
   args_as_clicks <- lapply(args, convert_datey_to_valid_clicks)
@@ -60,7 +60,7 @@ Summary.datey <- function (..., na.rm = FALSE) {
 Summary.durationy <- function (..., na.rm = FALSE) {
 
   if (!(.Generic %in% c("min", "max", "range")))
-    stop("Unrecognised summary method `", .Generic, "`.")
+    stop("Unrecognised summary method `", .Generic, "`.", call. = FALSE)
 
   args <- list(...)
 
@@ -72,7 +72,7 @@ Summary.durationy <- function (..., na.rm = FALSE) {
   all_same <- all(vapply(classes, identical, logical(1), classes[[1]]))
 
   if (!all_same) {
-    stop("All arguments in '...' must be of the same class.")
+    stop("All arguments in '...' must be of the same class.", call. = FALSE)
   }
 
   args_as_clicks <- lapply(args, convert_durationy_to_valid_clicks)
