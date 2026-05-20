@@ -58,13 +58,15 @@
 
   Parse text as a `durationy`
 
-- [`format(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey.md)
+- [`as.character(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey.md)
+  [`format(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey.md)
   [`print(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey.md)
   :
 
   Format or print a `datey`
 
-- [`format(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_durationy.md)
+- [`as.character(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_durationy.md)
+  [`format(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_durationy.md)
   [`print(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_durationy.md)
   :
 

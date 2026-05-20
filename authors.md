@@ -10,11 +10,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/logmu-org/r-datey/blob/main/DESCRIPTION)
 
-Gordon T (2026). *datey: Annualised Dates and Durations*. R package
-version 0.0.0.9000, <https://github.com/logmu-org/r-datey>.
+Gordon T (2026). *datey: Date and Duration Arithmetic on an Annual
+Grid*. R package version 0.0.0.9000,
+<https://github.com/logmu-org/r-datey>.
 
     @Manual{,
-      title = {datey: Annualised Dates and Durations},
+      title = {datey: Date and Duration Arithmetic on an Annual Grid},
       author = {Tim Gordon},
       year = {2026},
       note = {R package version 0.0.0.9000},

@@ -41,14 +41,6 @@ end_day(year, month, day, strict = TRUE)
 
   - If `strict` is `FALSE` then `NA` is returned.
 
-- x:
-
-  A `datey` to coerce to the start, middle or end of a day.
-
-- ...:
-
-  A `datey` to coerce to the start, middle or end of a day.
-
   (NA arguments result in NA regardless of `strict`.)
 
 ## See also

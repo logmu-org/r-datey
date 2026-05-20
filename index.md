@@ -1,10 +1,12 @@
 # datey
 
-The **datey** package provides a standard mapping of dates onto an
-annual grid.
+The **datey** package provides a standardisd mapping of dates onto an
+annual grid together with performant date and duration-related
+arithmetic.
 
-This matters in contexts where the primary unit is years and where
-definitions need to be precise.
+If you work primarily with mortality rates and time intervals defined by
+year but your input data uses dates, *and* precision is important, then
+it is worth considering using **datey**.
 
 Classic examples are mortality experience analysis and the valuation of
 life assurance and annuities. Mortality rates are defined *per annum*
@@ -21,10 +23,6 @@ The benefits of using **datey** are:
 
 3.  Fixed precision arithmetic, which excludes bugs relating to floating
     point arithmetic[^1].
-
-PUT THIS FIRST: Long story short: If you are working primarily with
-annual rates in the annual domain but your data specifies time using
-dates, then it is worth considering using **datey**.
 
 See
 

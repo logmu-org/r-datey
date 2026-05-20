@@ -14,6 +14,9 @@ will print as the start of the following day.
 
 ``` r
 # S3 method for class 'datey'
+as.character(x, ...)
+
+# S3 method for class 'datey'
 format(x, include_day_fraction = TRUE, ...)
 
 # S3 method for class 'datey'
@@ -26,13 +29,13 @@ print(x, include_day_fraction = TRUE, max = NULL, ...)
 
   The `datey` to print or format.
 
-- include_day_fraction:
-
-  Whether to include the fractional day part. Defaults to `FALSE`.
-
 - ...:
 
   Further arguments to be passed from or to other methods.
+
+- include_day_fraction:
+
+  Whether to include the fractional day part. Defaults to `FALSE`.
 
 - max:
 

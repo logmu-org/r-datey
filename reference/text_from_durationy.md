@@ -9,6 +9,9 @@ This format is readable by
 
 ``` r
 # S3 method for class 'durationy'
+as.character(x, ...)
+
+# S3 method for class 'durationy'
 format(x, include_plus = FALSE, use_true_minus = TRUE, year_unit = "yr", ...)
 
 # S3 method for class 'durationy'
@@ -28,6 +31,10 @@ print(
 
   The `durationy` to print or format.
 
+- ...:
+
+  Further arguments to be passed from or to other methods.
+
 - include_plus:
 
   Whether to include a plus ('+') sign for positive durations. Defaults
@@ -46,10 +53,6 @@ print(
   The year unit name to print. If not blank then the value is followed
   by a space and the unit. Cannot be more than 20 characters (UTF-8
   bytes) or contain control characters. Defaults to `"yr"`.
-
-- ...:
-
-  Further arguments to be passed from or to other methods.
 
 - max:
 
