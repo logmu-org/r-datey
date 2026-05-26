@@ -65,31 +65,47 @@ test_that("`c()` on `durationy`", {
 })
 
 # `[.datey` <- function(x, i, ...) ==================================================
-test_that("`[.datey`", {
+# `[<-.datey` <- function(x, i, value, ...) ==================================================
+test_that("`[.datey` and `[<-.datey`", {
 
   d_1 <- from_ymdf(1000, 01, 01, 0.00)
   d_2 <- from_ymdf(1999, 12, 31, 0.5)
   d_3 <- from_ymdf(2020, 05, 23, 0.4567)
   d_4 <- from_ymdf(2999, 12, 31, 0.9993)
 
+  d_5 <- start_day(2000, 1, 5)
+  d_6 <- start_day(2000, 1, 6)
+
   x <- c(d_1, d_2, d_3, d_4)
 
   expect_identical(x[c(1,4)], c(d_1, d_4))
   expect_identical(x[2:3], c(d_2, d_3))
   expect_identical(x[c(TRUE, FALSE, TRUE, FALSE)], c(d_1, d_3))
+
+  y <- x
+  y[2:3] <- c(d_5, d_6)
+  expect_identical(y, c(d_1, d_5, d_6, d_4))
 })
 
 # `[.durationy` <- function(x, i, ...) ==================================================
-test_that("`[.durationy`", {
+# `[<-.durationy` <- function(x, i, value, ...) ==================================================
+test_that("`[.durationy` and `[<-.durationy`", {
 
   d_1 <- durationy(0)
   d_2 <- durationy(1.4567)
   d_3 <- durationy(-100.1234)
   d_4 <- durationy(3.14159)
 
+  d_5 <- durationy(5)
+  d_6 <- durationy(6)
+
   x <- c(d_1, d_2, d_3, d_4)
 
   expect_identical(x[c(1,4)], c(d_1, d_4))
   expect_identical(x[2:3], c(d_2, d_3))
   expect_identical(x[c(TRUE, FALSE, TRUE, FALSE)], c(d_1, d_3))
+
+  y <- x
+  y[2:3] <- c(d_5, d_6)
+  expect_identical(y, c(d_1, d_5, d_6, d_4))
 })

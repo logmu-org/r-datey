@@ -14,8 +14,10 @@
 # is.na,
 # anyNA
 # c
+# `[`, `[<-`
 # mean, max, min, etc [in summary.R]
 # **** TO CONSIDER ****
+# seq.int (which dispatches methods for "seq")
 # length, length<-
 # lengths
 # dimnames, dimnames<-
@@ -29,10 +31,9 @@
 # is.array, is.matrix,
 # nchar
 # rep, rep.int rep_len
-# seq.int (which dispatches methods for "seq")
 # xtfrm
 # **** NOT REQUIRED ****
-# [, [[, $, [<-, [[<-, $<-
+# [[, $, [[<-, $<-
 # is.nan, is.finite is.infinite -- these automatically work
 
 datey_from_clicks <- function(clicks) {

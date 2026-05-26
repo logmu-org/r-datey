@@ -57,10 +57,11 @@ c.durationy <- function(..., recursive = FALSE) {
 #' Subset `datey` or `durationy` vectors
 #'
 #' @description
-#' Subsets `datey` or `durationy` vectors without dropping S3 class.
+#' Subsets `datey` or `durationy` vectors.
 #'
 #' @param x A `datey` or `durationy`.
 #' @param i Indices to extract.
+#' @param value Value to assign.
 #' @param ... Passed through.
 #'
 #' @returns
@@ -83,5 +84,19 @@ NULL
 #' @export
 `[.durationy` <- function(x, i, ...) {
   result <- NextMethod("[")
+  durationy_from_clicks(result)
+}
+
+#' @rdname subset
+#' @export
+`[<-.datey` <- function(x, i, value) {
+  result <- NextMethod("[<-")
+  datey_from_clicks(result)
+}
+
+#' @rdname subset
+#' @export
+`[<-.durationy` <- function(x, i, value) {
+  result <- NextMethod("[<-")
   durationy_from_clicks(result)
 }
