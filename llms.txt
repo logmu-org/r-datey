@@ -106,6 +106,12 @@ library(datey)
   Create or decompose a `datey` using calendar year, month, day and day
   fraction
 
+- [`seq(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/seq.md)
+  [`seq(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/seq.md)
+  :
+
+  Create `datey` or `durationy` sequence vector
+
 ## Text parsing and printing
 
 - [`datey(`*`<character>`*`)`](https://logmu-org.github.io/r-datey/reference/text_to_datey.md)
@@ -201,7 +207,15 @@ library(datey)
   [`c(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/combine.md)
   :
 
-  Combine multiple `datey` or `durationy` vectors
+  Combine multiple `datey` or `durationy` vectors ====================
+
+- [`` `[`( ``*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
+  [`` `[`( ``*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
+  [`` `[<-`( ``*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
+  [`` `[<-`( ``*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
+  :
+
+  Subset `datey` or `durationy` vectors
 
 # Articles
 

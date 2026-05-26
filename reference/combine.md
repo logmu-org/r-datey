@@ -1,4 +1,4 @@
-# Combine multiple `datey` or `durationy` vectors
+# Combine multiple `datey` or `durationy` vectors ====================
 
 Combines (flattens) `datey` or `durationy` into a single vector.
 
