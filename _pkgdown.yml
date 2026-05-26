@@ -63,3 +63,4 @@ reference:
   - title: Utility
     contents:
       - combine
+      - subset

@@ -38,7 +38,6 @@ c.datey <- function(..., recursive = FALSE) {
 
   # Concatenate the underlying numeric (integer) values
   result <- NextMethod("c")
-
   datey_from_clicks(result)
 }
 
@@ -51,6 +50,38 @@ c.durationy <- function(..., recursive = FALSE) {
 
   # Concatenate the underlying numeric (integer) values
   result <- NextMethod("c")
+  durationy_from_clicks(result)
+}
 
+
+#' Subset `datey` or `durationy` vectors
+#'
+#' @description
+#' Subsets `datey` or `durationy` vectors without dropping S3 class.
+#'
+#' @param x A `datey` or `durationy`.
+#' @param i Indices to extract.
+#' @param ... Passed through.
+#'
+#' @returns
+#'   The subset.
+#'
+#' @keywords classes setset
+#' @examples
+#'   c(datey(2000:2019), datey("2020-01-01.0"))
+#' @name subset
+NULL
+
+#' @rdname subset
+#' @export
+`[.datey` <- function(x, i, ...) {
+  result <- NextMethod("[")
+  datey_from_clicks(result)
+}
+
+#' @rdname subset
+#' @export
+`[.durationy` <- function(x, i, ...) {
+  result <- NextMethod("[")
   durationy_from_clicks(result)
 }
