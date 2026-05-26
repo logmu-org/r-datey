@@ -38,6 +38,7 @@ reference:
       - as_years_datey
       - as_years_durationy
       - ymdf
+      - seq
   - title: Text parsing and printing
     contents:
       - text_to_datey

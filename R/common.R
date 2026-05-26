@@ -4,7 +4,7 @@
 #
 # Copyright (c) Tim Gordon
 
-#' Combine multiple `datey` or `durationy` vectors
+#' Combine multiple `datey` or `durationy` vectors ====================
 #'
 #' @description
 #' Combines (flattens) `datey` or `durationy` into a single vector.
@@ -67,9 +67,12 @@ c.durationy <- function(..., recursive = FALSE) {
 #' @returns
 #'   The subset.
 #'
-#' @keywords classes setset
+#' @keywords classes subset
 #' @examples
-#'   c(datey(2000:2019), datey("2020-01-01.0"))
+#'   x <- datey(2001:2004) # 2001-01-01 2002-01-01 2003-01-01 2004-01-01
+#'   x[2:3] # 2002-01-01 2003-01-01
+#'   x[2:3] <- datey(1999) # 2001-01-01 1999-01-01 1999-01-01 2004-01-01
+#'
 #' @name subset
 NULL
 
@@ -99,4 +102,55 @@ NULL
 `[<-.durationy` <- function(x, i, value) {
   result <- NextMethod("[<-")
   durationy_from_clicks(result)
+}
+
+
+#' Create `datey` or `durationy` sequence vector
+#'
+#' @description
+#' Creates a `datey` or `durationy` vector by defining a sequence.
+#'
+#' @param from,to
+#'     The starting and (maximal) end values of the sequence.
+#'     Scalar `datey`s or `durationy`s.
+#' @param by A scalar`durationy` representing the increment of the sequence.
+#' @returns The sequence
+#'
+#' @keywords sequence
+#' @examples
+#'   seq(from = datey(2000), to = datey(2005), by = durationy(2))
+#'   # 2000-01-01 2002-01-01 2004-01-01
+#' @name seq
+NULL
+
+#' @rdname seq
+#' @export
+seq.datey <- function(from, to, by) {
+  ensure_is_scalar(from)
+  ensure_is_datey_scalar(to)
+  ensure_is_durationy_scalar(by)
+
+  from <- unclass(from)
+  to <- unclass(to)
+  by <- unclass(by)
+
+  clicks <- seq(from = from, to = to, by = by)
+
+  datey_from_clicks(clicks)
+}
+
+#' @rdname seq
+#' @export
+seq.durationy <- function(from, to, by) {
+  ensure_is_scalar(from)
+  ensure_is_durationy_scalar(to)
+  ensure_is_durationy_scalar(by)
+
+  from <- unclass(from)
+  to <- unclass(to)
+  by <- unclass(by)
+
+  clicks <- seq(from = from, to = to, by = by)
+
+  durationy_from_clicks(clicks)
 }
