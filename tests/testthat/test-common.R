@@ -109,3 +109,18 @@ test_that("`[.durationy` and `[<-.durationy`", {
   y[2:3] <- c(d_5, d_6)
   expect_identical(y, c(d_1, d_5, d_6, d_4))
 })
+
+# seq.datey ==================================================
+test_that("seq.datey", {
+
+  actual <- seq(from = datey(2000), to = datey(2005), by = durationy(2))
+  expected <- c(datey(2000), datey(2002), datey(2004))
+  expect_identical(actual, expected)
+})
+# seq.durationy ==================================================
+test_that("seq.durationy", {
+
+  actual <- seq(from = durationy(1), to = durationy(2), by = durationy(0.5))
+  expected <- c(durationy(1), durationy(1.5), durationy(2))
+  expect_identical(actual, expected)
+})
