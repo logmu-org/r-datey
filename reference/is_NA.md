@@ -17,10 +17,9 @@ a `datey` or `durationy` is NA.
 For convenience,
 
 - the constants
-  [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NA_datey_.md)
-  and
-  [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NA_datey_.md)
-  are the `datey` and `durationy` versions of NA respectively, and
+  [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md) and
+  [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md) are
+  the `datey` and `durationy` versions of NA respectively, and
 
 - [integer
   constants](https://logmu-org.github.io/r-datey/reference/integer_constants)
@@ -36,6 +35,12 @@ NAs.
 is.na(x)
 
 # S3 method for class 'datey'
+anyNA(x, recursive = FALSE)
+
+# S3 method for class 'datey_interval'
+is.na(x)
+
+# S3 method for class 'datey_interval'
 anyNA(x, recursive = FALSE)
 
 # S3 method for class 'durationy'
@@ -65,22 +70,22 @@ anyNA(x, recursive = FALSE)
 
 ## See also
 
-[NA_datey\_](https://logmu-org.github.io/r-datey/reference/NA_datey_.md),
-[NA_datey\_](https://logmu-org.github.io/r-datey/reference/NA_datey_.md),
+[NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
+[NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
 [integer_constants](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
 
 ## Examples
 
 ``` r
   t <- c(NA_datey_, datey(2000), datey(999.99, strict = FALSE))
-  is.na(t) # c(TRUE, FALSE, TRUE)
+  is.na(t)
 #> [1]  TRUE FALSE  TRUE
-  anyNA(t) # TRUE
+  anyNA(t)
 #> [1] TRUE
 
   d <- c(NA_durationy_, durationy(1.5))
-  is.na(d) # c(TRUE, FALSE)
+  is.na(d)
 #> [1]  TRUE FALSE
-  anyNA(d) # TRUE
+  anyNA(d)
 #> [1] TRUE
 ```

@@ -67,7 +67,7 @@ For performance reasons, intermediate calculations may not check for NAs."><meta
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Whether <code>datey</code> or <code>durationy</code> are NA</h1>
-      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/main/R/datey.R" class="external-link"><code>R/datey.R</code></a>, <a href="https://github.com/logmu-org/r-datey/blob/main/R/durationy.R" class="external-link"><code>R/durationy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/main/R/datey.R" class="external-link"><code>R/datey.R</code></a>, <a href="https://github.com/logmu-org/r-datey/blob/main/R/datey_interval.R" class="external-link"><code>R/datey_interval.R</code></a>, <a href="https://github.com/logmu-org/r-datey/blob/main/R/durationy.R" class="external-link"><code>R/durationy.R</code></a></small>
       <div class="d-none name"><code>is_NA.Rd</code></div>
     </div>
 
@@ -77,7 +77,7 @@ For performance reasons, intermediate calculations may not check for NAs."><meta
 </ul><p>Values outside the above ranges are treated as NA.</p>
 <p><code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> tests whether a <code>datey</code> or <code>durationy</code> is NA by element.</p>
 <p><code><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA()</a></code> tests whether any element of a <code>datey</code> or <code>durationy</code> is NA.</p>
-<p>For convenience,</p><ul><li><p>the constants <a href="NA_datey_.html">NA_datey_</a> and <a href="NA_datey_.html">NA_datey_</a> are the <code>datey</code> and <code>durationy</code>
+<p>For convenience,</p><ul><li><p>the constants <a href="NAs.html">NA_datey_</a> and <a href="NAs.html">NA_datey_</a> are the <code>datey</code> and <code>durationy</code>
 versions of NA respectively, and</p></li>
 <li><p><a href="integer_constants">integer constants</a> describing the above valid ranges
 are also provided.</p></li>
@@ -90,6 +90,12 @@ are also provided.</p></li>
 <span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'datey'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">x</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'datey_interval'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'datey_interval'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">x</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'durationy'</span></span>
@@ -120,21 +126,21 @@ never anything other than a single value.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><a href="NA_datey_.html">NA_datey_</a>, <a href="NA_datey_.html">NA_datey_</a>, <a href="integer_constants.html">integer_constants</a></p></div>
+    <div class="dont-index"><p><a href="NAs.html">NA_datey_</a>, <a href="NAs.html">NA_datey_</a>, <a href="integer_constants.html">integer_constants</a></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">NA_datey_</span>, <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span>, <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">999.99</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="co"># c(TRUE, FALSE, TRUE)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE  TRUE</span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">NA_durationy_</span>, <span class="fu"><a href="durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="co"># c(TRUE, FALSE)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE</span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>

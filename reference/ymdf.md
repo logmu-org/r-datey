@@ -78,3 +78,24 @@ from_ymdf(year, month, day, day_fraction, strict = TRUE)
 
 Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
 to create a `datey` direct from years or a base R date.
+
+## Examples
+
+``` r
+  t <- from_ymdf(1999, 12, 31, 0.5)
+  t
+#> [1] 1999-12-31.5
+  to_ymdf(t)
+#> $year
+#> [1] 1999
+#> 
+#> $month
+#> [1] 12
+#> 
+#> $day
+#> [1] 31
+#> 
+#> $day_fraction
+#> [1] 0.5
+#> 
+```

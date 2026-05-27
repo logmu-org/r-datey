@@ -52,3 +52,14 @@ call
 
 To deconstruct a `datey`, use
 [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md).
+
+## Examples
+
+``` r
+  start_day(1999, 12, 31)
+#> [1] 1999-12-31.0
+  mid_day(1999, 12, 31)
+#> [1] 1999-12-31.5
+  end_day(1999, 12, 31)
+#> [1] 2000-01-01.0
+```

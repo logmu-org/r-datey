@@ -9,6 +9,8 @@
 ``` r
 is_datey(x)
 
+is_datey_interval(x)
+
 is_durationy(x)
 ```
 

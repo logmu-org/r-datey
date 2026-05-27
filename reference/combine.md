@@ -1,12 +1,13 @@
-# Combine multiple `datey` or `durationy` vectors ====================
+# Combine multiple `datey`, `durationy` or `datey_interval` vectors
 
-Combines (flattens) `datey` or `durationy` into a single vector.
+Combines (flattens) `datey`, `durationy` or `datey_interval` into a
+single vector.
 
-All arguments must have the same class, i.e. they must be all `datey`s
-or all `durationy`s.
+All arguments must have the same class, i.e. all `datey`s, all
+`durationy`s or all `datey_interval`s.
 
-If the first element in `c(...)` is not a `datey` or `durationy` then
-this method will not be called. For instance,
+If the first element in `c(...)` is not a `datey`, `durationy` or
+`datey_interval` then this method will not be called. For instance,
 `c(NA, datey("2000-01-01.0"))` results in `c(NA_integer_, 1068720000L)`.
 
 ## Usage
@@ -16,6 +17,9 @@ this method will not be called. For instance,
 c(..., recursive = FALSE)
 
 # S3 method for class 'durationy'
+c(..., recursive = FALSE)
+
+# S3 method for class 'datey_interval'
 c(..., recursive = FALSE)
 ```
 
@@ -31,8 +35,8 @@ c(..., recursive = FALSE)
 
 ## Value
 
-[`c()`](https://rdrr.io/r/base/c.html) returns a `datey` or `durationy`
-depending on the first argument.
+[`c()`](https://rdrr.io/r/base/c.html) returns a `datey`, `durationy` or
+`datey_interval` depending on the first argument.
 
 ## Examples
 

@@ -1,4 +1,4 @@
-# Operators for `datey` and `durationy`
+# Operators for `datey`, `durationy` and `datey_interval`
 
 The unary `-` operator can be applied to a `durationy` to change its
 sign.
@@ -19,6 +19,8 @@ The following are the available binary operations on `datey` and
 | numeric | `+` `-` `==` `!=` `<` `<=` `>` `>=` | `datey` | numeric | The `datey` is first converted to years |
 | `durationy` | `+` `-` `*` `/` `==` `!=` `<` `<=` `>` `>=` | numeric | `durationy` | The `durationy` is first converted to years |
 | numeric | `+` `-` `*` `/` `==` `!=` `<` `<=` `>` `>=` | `durationy` | `durationy` | The `durationy` is first converted to years |
+| `datey` | `%to%` | `datey` | `datey_interval` | Syntactic sugar for [`datey_interval()`](https://logmu-org.github.io/r-datey/reference/datey_interval.md) |
+| `datey_interval` | `%includes%` | `datey` | logical | Whether the interval contains the date |
 
 ## Usage
 

@@ -104,6 +104,13 @@
 
         </dt>
         <dd>Create <code>datey</code> or <code>durationy</code> sequence vector</dd>
+
+        <dt>
+
+          <code><a href="datey_interval.html">datey_interval()</a></code> <code><a href="datey_interval.html">`%to%`</a></code>
+
+        </dt>
+        <dd>Create a <code>datey_interval</code></dd>
       </dl></div><div class="section level2">
       <h2 id="text-parsing-and-printing">Text parsing and printing<a class="anchor" aria-label="anchor" href="#text-parsing-and-printing"></a></h2>
 
@@ -141,8 +148,15 @@
 
         </dt>
         <dd>Format or print a <code>durationy</code></dd>
+
+        <dt>
+
+          <code><a href="text_from_datey_interval.html">as.character(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="text_from_datey_interval.html">format(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="text_from_datey_interval.html">print(<i>&lt;datey_interval&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Format or print a <code>datey_interval</code></dd>
       </dl></div><div class="section level2">
-      <h2 id="checks">Checks<a class="anchor" aria-label="anchor" href="#checks"></a></h2>
+      <h2 id="properties">Properties<a class="anchor" aria-label="anchor" href="#properties"></a></h2>
 
 
 
@@ -153,7 +167,7 @@
 
       <dl><dt>
 
-          <code><a href="is_type.html">is_datey()</a></code> <code><a href="is_type.html">is_durationy()</a></code>
+          <code><a href="is_type.html">is_datey()</a></code> <code><a href="is_type.html">is_datey_interval()</a></code> <code><a href="is_type.html">is_durationy()</a></code>
 
         </dt>
         <dd>Is <code>x</code> a <code>datey</code> or a <code>durationy</code>?</dd>
@@ -171,8 +185,29 @@
 
         </dt>
         <dd>Is <code>x</code> a leap year?</dd>
+
+        <dt>
+
+          <code><a href="interval_properties.html">is_empty_interval()</a></code> <code><a href="interval_properties.html">is_proper_interval()</a></code>
+
+        </dt>
+        <dd>Properties of a <code>datey_interval</code></dd>
+
+        <dt>
+
+          <code><a href="interval_start_end.html">`$`(<i>&lt;datey_interval&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Extract start or end from a <code>datey_interval</code></dd>
+
+        <dt>
+
+          <code><a href="interval_includes.html">interval_includes()</a></code> <code><a href="interval_includes.html">`%includes%`</a></code>
+
+        </dt>
+        <dd>Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
       </dl></div><div class="section level2">
-      <h2 id="validity">Validity<a class="anchor" aria-label="anchor" href="#validity"></a></h2>
+      <h2 id="na">NA<a class="anchor" aria-label="anchor" href="#na"></a></h2>
 
 
 
@@ -183,24 +218,17 @@
 
       <dl><dt>
 
-          <code><a href="is_NA.html">is.na(<i>&lt;datey&gt;</i>)</a></code> <code><a href="is_NA.html">anyNA(<i>&lt;datey&gt;</i>)</a></code> <code><a href="is_NA.html">is.na(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="is_NA.html">anyNA(<i>&lt;durationy&gt;</i>)</a></code>
+          <code><a href="is_NA.html">is.na(<i>&lt;datey&gt;</i>)</a></code> <code><a href="is_NA.html">anyNA(<i>&lt;datey&gt;</i>)</a></code> <code><a href="is_NA.html">is.na(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="is_NA.html">anyNA(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="is_NA.html">is.na(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="is_NA.html">anyNA(<i>&lt;durationy&gt;</i>)</a></code>
 
         </dt>
         <dd>Whether <code>datey</code> or <code>durationy</code> are NA</dd>
 
         <dt>
 
-          <code><a href="NA_datey_.html">NA_datey_</a></code>
+          <code><a href="NAs.html">NA_datey_</a></code> <code><a href="NAs.html">NA_datey_interval_</a></code> <code><a href="NAs.html">NA_durationy_</a></code>
 
         </dt>
-        <dd>The <code>datey</code> version of NA</dd>
-
-        <dt>
-
-          <code><a href="NA_durationy_.html">NA_durationy_</a></code>
-
-        </dt>
-        <dd>The <code>durationy</code> version of NA</dd>
+        <dd>The <code>datey</code>, <code>durationy</code> and <code>datey_interval</code> versions of NA</dd>
 
         <dt>
 
@@ -237,7 +265,7 @@
           <code><a href="ops.html">Ops(<i>&lt;datey_type&gt;</i>)</a></code>
 
         </dt>
-        <dd>Operators for <code>datey</code> and <code>durationy</code></dd>
+        <dd>Operators for <code>datey</code>, <code>durationy</code> and <code>datey_interval</code></dd>
       </dl></div><div class="section level2">
       <h2 id="utility">Utility<a class="anchor" aria-label="anchor" href="#utility"></a></h2>
 
@@ -250,17 +278,17 @@
 
       <dl><dt>
 
-          <code><a href="combine.html">c(<i>&lt;datey&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;durationy&gt;</i>)</a></code>
+          <code><a href="combine.html">c(<i>&lt;datey&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;datey_interval&gt;</i>)</a></code>
 
         </dt>
-        <dd>Combine multiple <code>datey</code> or <code>durationy</code> vectors ====================</dd>
+        <dd>Combine multiple <code>datey</code>, <code>durationy</code> or <code>datey_interval</code> vectors</dd>
 
         <dt>
 
-          <code><a href="subset.html">`[`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;durationy&gt;</i>)</a></code>
+          <code><a href="subset.html">`[`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey_interval&gt;</i>)</a></code>
 
         </dt>
-        <dd>Subset <code>datey</code> or <code>durationy</code> vectors</dd>
+        <dd>Subset <code>datey</code>, <code>durationy</code> or <code>datey_interval</code> vectors</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

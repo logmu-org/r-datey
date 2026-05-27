@@ -1,27 +1,25 @@
-# Format or print a `datey`
+# Format or print a `datey_interval`
 
-A `datey` is printed as either
+A `datey_interval` is printed as "\[start, end)", where start and end
+are printed either as
 
 - `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or
 
-- `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part
+- `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part.
 
 If `include_day_fraction` is `TRUE` then `.FFF` is included even if it
 is 0.
 
-Note that a `datey` created as the end of a day (or with day fraction 1)
-will print as the start of the following day.
-
 ## Usage
 
 ``` r
-# S3 method for class 'datey'
+# S3 method for class 'datey_interval'
 as.character(x, ...)
 
-# S3 method for class 'datey'
+# S3 method for class 'datey_interval'
 format(x, include_day_fraction = TRUE, ...)
 
-# S3 method for class 'datey'
+# S3 method for class 'datey_interval'
 print(x, include_day_fraction = TRUE, max = NULL, ...)
 ```
 
@@ -29,7 +27,7 @@ print(x, include_day_fraction = TRUE, max = NULL, ...)
 
 - x:
 
-  The `datey` to print or format.
+  The `datey_interval` to print or format.
 
 - ...:
 

@@ -1,6 +1,6 @@
-# Subset `datey` or `durationy` vectors
+# Subset `datey`, `durationy` or `datey_interval` vectors
 
-Subsets `datey` or `durationy` vectors.
+Subsets `datey`, `durationy` or `datey_interval` vectors.
 
 ## Usage
 
@@ -11,10 +11,16 @@ x[i, ...]
 # S3 method for class 'durationy'
 x[i, ...]
 
+# S3 method for class 'datey_interval'
+x[i, ...]
+
 # S3 method for class 'datey'
 x[i] <- value
 
 # S3 method for class 'durationy'
+x[i] <- value
+
+# S3 method for class 'datey_interval'
 x[i] <- value
 ```
 
@@ -22,7 +28,7 @@ x[i] <- value
 
 - x:
 
-  A `datey` or `durationy`.
+  A `datey`, `durationy` or `datey_interval`.
 
 - i:
 
@@ -43,8 +49,12 @@ The subset.
 ## Examples
 
 ``` r
-  x <- datey(2001:2004) # 2001-01-01 2002-01-01 2003-01-01 2004-01-01
-  x[2:3] # 2002-01-01 2003-01-01
+  x <- datey(2001:2004)
+  x
+#> [1] 2001-01-01.0 2002-01-01.0 2003-01-01.0 2004-01-01.0
+  x[2:3]
 #> [1] 2002-01-01.0 2003-01-01.0
-  x[2:3] <- datey(1999) # 2001-01-01 1999-01-01 1999-01-01 2004-01-01
+  x[2:3] <- datey(1999)
+  x
+#> [1] 2001-01-01.0 1999-01-01.0 1999-01-01.0 2004-01-01.0
 ```

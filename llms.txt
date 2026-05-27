@@ -112,6 +112,12 @@ library(datey)
 
   Create `datey` or `durationy` sequence vector
 
+- [`datey_interval()`](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
+  [`` `%to%` ``](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
+  :
+
+  Create a `datey_interval`
+
 ## Text parsing and printing
 
 - [`datey(`*`<character>`*`)`](https://logmu-org.github.io/r-datey/reference/text_to_datey.md)
@@ -138,9 +144,17 @@ library(datey)
 
   Format or print a `durationy`
 
-## Checks
+- [`as.character(`*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey_interval.md)
+  [`format(`*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey_interval.md)
+  [`print(`*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/text_from_datey_interval.md)
+  :
+
+  Format or print a `datey_interval`
+
+## Properties
 
 - [`is_datey()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
+  [`is_datey_interval()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
   [`is_durationy()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
   :
 
@@ -157,25 +171,41 @@ library(datey)
 
   Is `x` a leap year?
 
-## Validity
+- [`is_empty_interval()`](https://logmu-org.github.io/r-datey/reference/interval_properties.md)
+  [`is_proper_interval()`](https://logmu-org.github.io/r-datey/reference/interval_properties.md)
+  :
+
+  Properties of a `datey_interval`
+
+- [`` `$`( ``*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/interval_start_end.md)
+  :
+
+  Extract start or end from a `datey_interval`
+
+- [`interval_includes()`](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
+  [`` `%includes%` ``](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
+  :
+
+  Whether a `datey_interval` includes a `datey`
+
+## NA
 
 - [`is.na(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
   [`anyNA(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
+  [`is.na(`*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
+  [`anyNA(`*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
   [`is.na(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
   [`anyNA(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/is_NA.md)
   :
 
   Whether `datey` or `durationy` are NA
 
-- [`NA_datey_`](https://logmu-org.github.io/r-datey/reference/NA_datey_.md)
+- [`NA_datey_`](https://logmu-org.github.io/r-datey/reference/NAs.md)
+  [`NA_datey_interval_`](https://logmu-org.github.io/r-datey/reference/NAs.md)
+  [`NA_durationy_`](https://logmu-org.github.io/r-datey/reference/NAs.md)
   :
 
-  The `datey` version of NA
-
-- [`NA_durationy_`](https://logmu-org.github.io/r-datey/reference/NA_durationy_.md)
-  :
-
-  The `durationy` version of NA
+  The `datey`, `durationy` and `datey_interval` versions of NA
 
 - [`valid_years_start`](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
   [`valid_years_end`](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
@@ -199,23 +229,26 @@ library(datey)
 - [`Ops(`*`<datey_type>`*`)`](https://logmu-org.github.io/r-datey/reference/ops.md)
   :
 
-  Operators for `datey` and `durationy`
+  Operators for `datey`, `durationy` and `datey_interval`
 
 ## Utility
 
 - [`c(`*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/combine.md)
   [`c(`*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/combine.md)
+  [`c(`*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/combine.md)
   :
 
-  Combine multiple `datey` or `durationy` vectors ====================
+  Combine multiple `datey`, `durationy` or `datey_interval` vectors
 
 - [`` `[`( ``*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
   [`` `[`( ``*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
+  [`` `[`( ``*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
   [`` `[<-`( ``*`<datey>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
   [`` `[<-`( ``*`<durationy>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
+  [`` `[<-`( ``*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/subset.md)
   :
 
-  Subset `datey` or `durationy` vectors
+  Subset `datey`, `durationy` or `datey_interval` vectors
 
 # Articles
 

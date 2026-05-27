@@ -4,8 +4,8 @@
 
 `is_mid_day()` checks whether `x` is the middle of a day.
 
-Note that these properties are *not* necessarily preserved when a
-duration of *n* years is added or subtracted.
+These properties are *not* necessarily preserved when a duration of
+*n* years is added or subtracted.
 
 ## Usage
 
