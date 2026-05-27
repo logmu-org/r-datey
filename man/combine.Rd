@@ -4,11 +4,14 @@
 \alias{combine}
 \alias{c.datey}
 \alias{c.durationy}
-\title{Combine multiple \code{datey} or \code{durationy} vectors ====================}
+\alias{c.datey_interval}
+\title{Combine multiple \code{datey}, \code{durationy} or \code{datey_interval} vectors}
 \usage{
 \method{c}{datey}(..., recursive = FALSE)
 
 \method{c}{durationy}(..., recursive = FALSE)
+
+\method{c}{datey_interval}(..., recursive = FALSE)
 }
 \arguments{
 \item{...}{The items to combine.}
@@ -16,20 +19,21 @@
 \item{recursive}{Unused.}
 }
 \value{
-\code{\link[=c]{c()}} returns a \code{datey} or \code{durationy} depending on the first argument.
+\code{\link[=c]{c()}} returns a \code{datey}, \code{durationy} or \code{datey_interval} depending on the
+first argument.
 }
 \description{
-Combines (flattens) \code{datey} or \code{durationy} into a single vector.
+Combines (flattens) \code{datey}, \code{durationy} or \code{datey_interval} into a single
+vector.
 
-All arguments must have the same class, i.e. they must be all \code{datey}s or all
-\code{durationy}s.
+All arguments must have the same class, i.e. all \code{datey}s, all \code{durationy}s
+or all \code{datey_interval}s.
 
-If the first element in \code{c(...)} is not a \code{datey} or \code{durationy} then this
-method will not be called. For instance, \code{c(NA, datey("2000-01-01.0"))}
-results in \code{c(NA_integer_, 1068720000L)}.
+If the first element in \code{c(...)} is not a \code{datey}, \code{durationy} or
+\code{datey_interval} then this method will not be called. For instance,
+\code{c(NA, datey("2000-01-01.0"))} results in \code{c(NA_integer_, 1068720000L)}.
 }
 \examples{
   c(datey(2000:2019), datey("2020-01-01.0"))
 }
-\keyword{classes}
-\keyword{manip}
+\keyword{combine}

@@ -10,9 +10,9 @@
 constexpr int DaysToStartByMonth365[13] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 constexpr int DaysToStartByMonth366[13] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
 
-bool isValidDatey(int datey)
+bool isValidDatey(int clicks)
 {
-  return datey >= ValidDateStartClicks && datey <= ValidDateEndClicks;
+  return clicks >= ValidDateStartClicks && clicks <= ValidDateEndClicks;
 }
 
 bool is1000To2999(int year)
@@ -298,6 +298,44 @@ int firstJulianDayOfYear(int year)
   return k * (365 * 4 + 1) / 4 - cent + cent / 4;
 }
 
+// Leaves pChars pointing to `trailing `\0` end byte
+void writeValidDatey(int datey, bool includeDayFraction, char*& pChars)
+{
+  auto ymdf = dateyToYMDF(datey);
+
+  writeN(std::get<0>(ymdf), pChars, 4);
+  pChars[4] = '-';
+  writeN(std::get<1>(ymdf), pChars + 5, 2);
+  pChars[7] = '-';
+  writeN(std::get<2>(ymdf), pChars + 8, 2);
+
+  if (includeDayFraction)
+  {
+    pChars[10] = '.';
+
+    int f_times_10000 = (int)roundBankers(std::get<3>(ymdf) * 10000.0);
+
+    writeN(f_times_10000, pChars + 11, 4);
+
+    // Remove trailing zeros:
+    pChars += 15;
+    *pChars = '\0';
+
+    // Leave at least one trailing '0'
+    for (int i = 2; i >= 0; --i)
+    {
+      if (*(pChars - 1) != '0') { break; }
+      --pChars;
+      *pChars = '\0';
+    }
+  }
+  else
+  {
+    pChars += 10;
+    *pChars = '\0';
+  }
+}
+
 cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
 {
   if (!isValidDatey(datey)) { return NA_STRING; }
@@ -307,38 +345,9 @@ cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
   // YYYY-MM-DD.0###\0
   char chars[16];
 
-  auto ymdf = dateyToYMDF(datey);
+  char* pChars = chars;
 
-  writeN(std::get<0>(ymdf), chars, 4);
-  chars[4] = '-';
-  writeN(std::get<1>(ymdf), chars + 5, 2);
-  chars[7] = '-';
-  writeN(std::get<2>(ymdf), chars + 8, 2);
-
-  if (includeDayFraction)
-  {
-    chars[10] = '.';
-
-    int f_times_10000 = (int)roundBankers(std::get<3>(ymdf) * 10000.0);
-
-    writeN(f_times_10000, chars + 11, 4);
-
-    // Remove trailing zeros:
-    char *p = chars + 15;
-    *p = '\0';
-
-    // Leave at least one trailing '0'
-    for (int i = 2; i >= 0; --i)
-    {
-      --p;
-      if (*p != '0') { break; }
-      *p = '\0';
-    }
-  }
-  else
-  {
-    chars[10] = '\0';
-  }
+  writeValidDatey(datey, includeDayFraction, pChars);
 
   return cpp11::r_string(chars);
 }

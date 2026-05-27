@@ -39,6 +39,11 @@ specified by calendar year, month and day.
 
 The lengths of vector arguments must be multiples of each other.
 }
+\examples{
+  start_day(1999, 12, 31)
+  mid_day(1999, 12, 31)
+  end_day(1999, 12, 31)
+}
 \seealso{
 Use \code{\link[=datey]{datey()}} to to create a \code{datey} direct from years or a base R
 date. These methods call \code{\link[=from_ymdf]{from_ymdf()}}.

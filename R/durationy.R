@@ -16,8 +16,8 @@
 # c
 # `[`, `[<-`
 # mean, max, min, etc [in summary.R]
+# seq
 # **** TO CONSIDER ****
-# seq.int (which dispatches methods for "seq")
 # length, length<-
 # lengths
 # dimnames, dimnames<-
@@ -42,10 +42,8 @@ durationy_from_clicks <- function(clicks) {
   structure(clicks, class = c("durationy", "datey_type"))
 }
 
-#' The `durationy` version of NA
-#' @seealso [is_NA], [NA_datey_], [integer_constants]
-#' @examples
-#'   is_durationy(NA_durationy_) # TRUE
+# `@name NAs` is defined in datey.R
+#' @rdname NAs
 #' @export
 NA_durationy_ <- durationy_from_clicks(NA_integer_)
 
@@ -53,15 +51,17 @@ NA_durationy_ <- durationy_from_clicks(NA_integer_)
 #' @rdname is_NA
 #' @export
 is.na.durationy <- function(x) {
-  clicks <- unclass(x)
-  is.na(clicks) | abs(clicks) > 1068720000L
+  #clicks <- unclass(x)
+  #is.na(clicks) | abs(clicks) > 1068720000L
+  cpp_durationyIsNA(x)
 }
 # `@name is_NA` is defined in datey.R
 #' @rdname is_NA
 #' @export
 anyNA.durationy = function(x, recursive = FALSE) {
   if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.", call. = FALSE)
-  any(is.na(x))
+  #any(is.na(x))
+  cpp_durationyAnyNA(x)
 }
 
 # `@name is_type` is defined in datey.R

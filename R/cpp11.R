@@ -4,6 +4,14 @@ cpp_asSafeIntegers <- function(x) {
   .Call(`_datey_cpp_asSafeIntegers`, x)
 }
 
+cpp_dateyIsNA <- function(clicks) {
+  .Call(`_datey_cpp_dateyIsNA`, clicks)
+}
+
+cpp_dateyAnyNA <- function(clicks) {
+  .Call(`_datey_cpp_dateyAnyNA`, clicks)
+}
+
 cpp_dateyFromYMDF <- function(year, month, day, dayFraction, strict) {
   .Call(`_datey_cpp_dateyFromYMDF`, year, month, day, dayFraction, strict)
 }
@@ -12,12 +20,12 @@ cpp_dateyFromYMDF_dblYMD <- function(year, month, day, dayFraction, strict) {
   .Call(`_datey_cpp_dateyFromYMDF_dblYMD`, year, month, day, dayFraction, strict)
 }
 
-cpp_dateyToYMDF <- function(datey) {
-  .Call(`_datey_cpp_dateyToYMDF`, datey)
+cpp_dateyToYMDF <- function(clicks) {
+  .Call(`_datey_cpp_dateyToYMDF`, clicks)
 }
 
-cpp_dateyWithNewDayFraction <- function(datey, dayFraction, strict) {
-  .Call(`_datey_cpp_dateyWithNewDayFraction`, datey, dayFraction, strict)
+cpp_dateyWithNewDayFraction <- function(clicks, dayFraction, strict) {
+  .Call(`_datey_cpp_dateyWithNewDayFraction`, clicks, dayFraction, strict)
 }
 
 cpp_dateyFromRDate <- function(rDate, strict) {
@@ -28,8 +36,8 @@ cpp_dateyFromRDateAndFraction <- function(rDate, dayFraction, strict) {
   .Call(`_datey_cpp_dateyFromRDateAndFraction`, rDate, dayFraction, strict)
 }
 
-cpp_dateyToRString <- function(datey, includeDayFraction) {
-  .Call(`_datey_cpp_dateyToRString`, datey, includeDayFraction)
+cpp_dateyToRString <- function(clicks, includeDayFraction) {
+  .Call(`_datey_cpp_dateyToRString`, clicks, includeDayFraction)
 }
 
 cpp_dateyFromRStringOnly <- function(x, strict, blankIsNA) {
@@ -40,8 +48,52 @@ cpp_dateyFromRStringAndDayFraction <- function(x, dayFraction, strict, blankIsNA
   .Call(`_datey_cpp_dateyFromRStringAndDayFraction`, x, dayFraction, strict, blankIsNA)
 }
 
-cpp_durationyToRString <- function(durationy, includePlusSign, useTrueMinusSign, yearUnit) {
-  .Call(`_datey_cpp_durationyToRString`, durationy, includePlusSign, useTrueMinusSign, yearUnit)
+cpp_dateyInterval <- function(start, end, strict) {
+  .Call(`_datey_cpp_dateyInterval`, start, end, strict)
+}
+
+cpp_dateyIntervalStart <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalStart`, interval)
+}
+
+cpp_dateyIntervalEnd <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalEnd`, interval)
+}
+
+cpp_dateyIntervalIsNA <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalIsNA`, interval)
+}
+
+cpp_dateyIntervalAnyNA <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalAnyNA`, interval)
+}
+
+cpp_dateyIntervalIsEmpty <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalIsEmpty`, interval)
+}
+
+cpp_dateyIntervalIsProper <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalIsProper`, interval)
+}
+
+cpp_dateyIntervalIncludes <- function(interval, value) {
+  .Call(`_datey_cpp_dateyIntervalIncludes`, interval, value)
+}
+
+cpp_dateyIntervalToRString <- function(interval, includeDayFraction) {
+  .Call(`_datey_cpp_dateyIntervalToRString`, interval, includeDayFraction)
+}
+
+cpp_durationyIsNA <- function(clicks) {
+  .Call(`_datey_cpp_durationyIsNA`, clicks)
+}
+
+cpp_durationyAnyNA <- function(clicks) {
+  .Call(`_datey_cpp_durationyAnyNA`, clicks)
+}
+
+cpp_durationyToRString <- function(clicks, includePlusSign, useTrueMinusSign, yearUnit) {
+  .Call(`_datey_cpp_durationyToRString`, clicks, includePlusSign, useTrueMinusSign, yearUnit)
 }
 
 cpp_durationyFromRString <- function(x, strict, blankIsNA, yearUnit) {

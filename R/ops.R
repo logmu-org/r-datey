@@ -4,7 +4,7 @@
 #
 # Copyright (c) Tim Gordon
 
-#' Operators for `datey` and `durationy`
+#' Operators for `datey`, `durationy` and `datey_interval`
 #'
 #' @description
 #'
@@ -25,6 +25,8 @@
 #' | numeric | `+` `-` `==` `!=` `<` `<=` `>` `>=` | `datey` | numeric | The `datey` is first converted to years
 #' | `durationy` | `+` `-` `*` `/` `==` `!=` `<` `<=` `>` `>=` | numeric | `durationy` | The `durationy` is first converted to years
 #' | numeric | `+` `-` `*` `/` `==` `!=` `<` `<=` `>` `>=` | `durationy` | `durationy` | The `durationy` is first converted to years
+#' | `datey` | `%to%` | `datey` | `datey_interval` | Syntactic sugar for `datey_interval()`
+#' | `datey_interval` | `%includes%` | `datey` | logical | Whether the interval contains the date
 #'
 #' @param e1 First parameter.
 #' @param e2 Second parameter (missing if a unary operator).
@@ -69,9 +71,9 @@ Ops.datey_type <- function(e1, e2) {
 
     if (is_durationy(e1)) {
       # ✔ +Δ
-      if (.Generic == "+") return (e1)
+      if (.Generic == "+") return(e1)
       # ✔ -Δ
-      if (.Generic == "-") return (durationy_from_clicks(-unclass(e1)))
+      if (.Generic == "-") return(durationy_from_clicks(-unclass(e1)))
     }
 
     stop("Unary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.")
@@ -82,11 +84,11 @@ Ops.datey_type <- function(e1, e2) {
     if (is_datey(e2)) {
       # ✔ N  + - == != < <= > >=  T => ?
       if (.Generic %in% c("+", "-", "==", "!=", "<", "<=", ">", ">="))
-        return (get(.Generic)(e1, as.double(e2)))
+        return(get(.Generic)(e1, as.double(e2)))
     } else if (is_durationy(e2)) {
       # ✔ N  + - * / == != < <= > >=  Δ => ?
       if (.Generic %in% c("+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">="))
-        return (get(.Generic)(e1, as.double(e2)))
+        return(get(.Generic)(e1, as.double(e2)))
     }
 
   } else if (is_pure_numeric(e2))
@@ -94,11 +96,11 @@ Ops.datey_type <- function(e1, e2) {
     if (is_datey(e1)) {
       # ✔ T  + - == != < <= > >=  N => ?
       if (.Generic %in% c("+", "-", "==", "!=", "<", "<=", ">", ">="))
-        return (get(.Generic)(as.double(e1), e2))
+        return(get(.Generic)(as.double(e1), e2))
     } else if (is_durationy(e1)) {
       # ✔ Δ  + - * / == != < <= > >=  N => ?
       if (.Generic %in% c("+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">="))
-        return (get(.Generic)(as.double(e1), e2))
+        return(get(.Generic)(as.double(e1), e2))
     }
 
   } else {
@@ -110,33 +112,33 @@ Ops.datey_type <- function(e1, e2) {
 
       if (is_datey(e2)) {
         # ✔ T R T => logical
-        if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return (get(.Generic)(u1, u2))
+        if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return(get(.Generic)(u1, u2))
         # ✔ T - T => Δ
-        if (.Generic == "-") return (durationy_from_clicks(u1 - u2))
+        if (.Generic == "-") return(durationy_from_clicks(u1 - u2))
       } else if (is_durationy(e2)) {
         # ✔ T + Δ => T
-        if (.Generic == "+") return (datey_from_clicks(u1 + u2))
+        if (.Generic == "+") return(datey_from_clicks(u1 + u2))
         # ✔ T - Δ => T
-        if (.Generic == "-") return (datey_from_clicks(u1 - u2))
+        if (.Generic == "-") return(datey_from_clicks(u1 - u2))
       }
 
     } else if (is_durationy(e1)) {
 
       if (is_datey(e2)) {
         # ✔ Δ + T => T
-        if (.Generic == "+") return (datey_from_clicks(u1 + u2))
+        if (.Generic == "+") return(datey_from_clicks(u1 + u2))
       } else if (is_durationy(e2)) {
         # ✔ Δ R Δ => logical
-        if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return (get(.Generic)(u1, u2))
+        if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return(get(.Generic)(u1, u2))
         # ✔ Δ + Δ => Δ
-        if (.Generic == "+") return (durationy_from_clicks(u1 + u2))
+        if (.Generic == "+") return(durationy_from_clicks(u1 + u2))
         # ✔ Δ - Δ => Δ
-        if (.Generic == "-") return (durationy_from_clicks(u1 - u2))
+        if (.Generic == "-") return(durationy_from_clicks(u1 - u2))
       } else if (is_pure_numeric(e2)) {
         # ✔ Δ * N => Δ
-        if (.Generic == "*") return (durationy_from_clicks(u1 * u2))
+        if (.Generic == "*") return(durationy_from_clicks(u1 * u2))
         # ✔ Δ / N => Δ
-        if (.Generic == "/") return (durationy_from_clicks(u1 / u2))
+        if (.Generic == "/") return(durationy_from_clicks(u1 / u2))
       }
 
     }

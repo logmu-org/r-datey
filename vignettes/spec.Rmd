@@ -35,15 +35,15 @@ The following are non goals and should be handled outside the datey system:
 
 [^Undefined]: Even simple-sounding calculations involving dates and durations can be problematic. Consider, for example, what 'add 1 year' should mean. The duration from 2000-02-01 to 2001-02-01 is 366&#xA0;days but from 2000-03-01 to 2001-03-01 is 365&#xA0;days, which means that there is no simple definition of duration that accords with this standard calculation. And that's before we ask what 2000-02-29 plus 1&#xA0;year should be! Corralling this ambiguity is datey's raison d'être.
 
-## Definitions used in this specification
+## Definitions
 
 - `double` means IEEE&#xA0;754 binary64, i.e. 64-bit binary floating-point.
 
 - `integer` means 32 bit two's complement signed integer.
 
-- Dates are written using [YYYY&#x2011;MM&#x2011;DD notation](https://xkcd.com/1179/), where  YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.
+- Dates are written in this specification using [YYYY&#x2011;MM&#x2011;DD notation](https://xkcd.com/1179/), where  YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.
 
-- Banker's rounding[^BankersRoundingExtra] means round a `double` to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to `integer`, which is safe because in all cases the algorithms guarantee that the value to convert lies within the range of `integer`.
+- Banker's rounding[^BankersRoundingExtra] means round a `double` to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest *even* integer. In the algorithms below, it also entails conversion to `integer`, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of `integer`.
 
 [^BankersRoundingExtra]: Banker's rounding is also known as 'round to nearest, ties to even' or 'round half to even'. It is the default rounding mode for IEEE&#xA0;754 binary floating-point.
 
@@ -73,7 +73,7 @@ Both of these types are represented using clicks stored as `integer`.
 
 Dates are mapped to `datey`s as the number of clicks since the start of the notional year 0000 on the proleptic Gregorian calendar, i.e.  the Gregorian calendar extended backwards from its introduction in 1582.
 
-A `datey`  that would otherwise represent a date before calendar year 1000 or after calendar year 2999 should be treated as invalid[^DefaultOrNA] when mapping dates to or from a `datey`.
+A `datey`  that would otherwise represent a date before calendar year 1000 or after the start of calendar year 2999 should be treated as invalid[^DefaultOrNA] when mapping dates to or from a `datey`.
 
 [^DefaultOrNA]: This means that both 0 (the default in many languages) and −2<sup>31</sup> (used by some languages to indicate missing data or `NA`) are invalid `datey`s.
 
@@ -87,7 +87,7 @@ A `durationy`  that would otherwise represent a duration of magnitude more than 
 
 A `datey` can be defined direct as the *duration in years* from the start of the notional year 0000 and a `durationy` can be defined direct from a  *duration in years* as follows:
 
-1. If the *duration in years* is represented by a numerical type other than `double` then it must first be converted to `double`. If this entails a loss in precision then this is an error.
+1. If the *duration in years* is represented by a numerical type with lower precision than `double` then it must first be converted to `double`.
 
 1. The result is invalid if any of the following apply:
 
@@ -95,21 +95,23 @@ A `datey` can be defined direct as the *duration in years* from the start of the
     - For a `datey`, if the *duration in years* is less than 1000 or greater than 3000.
     - For a `durationy`, if the absolute value of the *duration in years* is greater than 2000.
 
-1. Otherwise the resulting number of clicks is the *duration in years* multiplied by 534&#x202F;360 and then rounded to `integer` using banker's rounding.
+1. Otherwise the resulting number of clicks is the *duration in years* multiplied by 534&#x202F;360,  then rounded using banker's rounding and finally converted to `integer` .
 
 Worked examples:
 
 |Target type| Duration in years | Clicks | Calculation
 |:---|:---:|---:|:---|
-|`durationy`|1 | 534&#x202F;360 |
-|`durationy`|−2.75 | −1&#x202F;469&#x202F;490| −2.75&#xA0;×&#xA0;534&#x202F;360|
-|`durationy`| 0.5&#xA0;/&#xA0;534&#x202F;360 | 0 | round(0.5)|
-|`durationy`| 1.5&#xA0;/&#xA0;534&#x202F;360 | 2 | round(1.5)|
-|`durationy`|2000.01 |Invalid||
-|`durationy`|−2000.01 |Invalid||
-|`datey`|2000.5 | 1&#x202F;068&#x202F;987&#x202F;180 | 2000.5&#xA0;×&#xA0;534&#x202F;360 |
 |`datey`|999.99 | Invalid | |
+|`datey`|1000 |  534&#x202F;360&#x202F;000 | 1000&#xA0;×&#xA0;534&#x202F;360 |
+|`datey`|1999.75 | 1&#x202F;068&#x202F;586&#x202F;410 | 1999.75&#xA0;×&#xA0;534&#x202F;360 |
+|`datey`|3000 | 1&#x202F;603&#x202F;080&#x202F;000 | 3000&#xA0;×&#xA0;534&#x202F;360 |
 |`datey`|3000.01 | Invalid | |
+|`durationy`|+1 | +534&#x202F;360 |
+|`durationy`|−2.75 | −1&#x202F;469&#x202F;490| −2.75&#xA0;×&#xA0;534&#x202F;360|
+|`durationy`| ±0.5&#xA0;/&#xA0;534&#x202F;360 | 0 | round(±0.5)|
+|`durationy`| +1.5&#xA0;/&#xA0;534&#x202F;360 | +2 | round(+1.5)|
+|`durationy`| −1.5&#xA0;/&#xA0;534&#x202F;360 | −2 | round(−1.5)|
+|`durationy`|±2000.01 |Invalid||
 
 
 ### Mapping a date *to* a `datey`
@@ -125,13 +127,15 @@ The mapping as a function of `integer` *year*, *month* and *day*, and `double` *
     - *day*: `integer` from 1 to the number of days in the month specified by *year* and *month*
     - *day_fraction*: `double` from 0 to 1 inclusive
 
-    In addition, the special case of 0999-12-31 and a *day_fraction* precisely equal to 1 should also be treated as valid.
+    The special cases (a)&#xA0;0999-12-31 with *day_fraction*&#xA0;=&#xA0;1 and (b)&#xA0;3000-01-01 with *day_fraction*&#xA0;=&#xA0;0 should also be treated as valid (and where equality is precise equality, i.e. not after rounding).
 
-    If any of *year*, *month*, *day* or *day_fraction* are invalid then the result is invalid. 
+    Other than the above special cases, if any of *year*, *month*, *day* or *day_fraction* are invalid then the result is invalid. 
+
+1. Determine whether *year* is a leap year using the proleptic Gregorian calendar.
 
 1. Define *clicks_per_day* as 1460 if *year* is a leap year and 1464 otherwise.
 
-1. Define the `integer` *days_to_start_of_month* as the number of days from the start of the year to the start of *month* (allowing for whether *year* is a leap year).
+1. Define the `integer` *days_to_start_of_month* as the number of days from the start of the year to the start of *month*, allowing for whether *year* is a leap year.
 
 1. Define the `integer` *day_count* as *days_to_start_of_month* + *day* − 1. 
 
@@ -141,13 +145,13 @@ The mapping as a function of `integer` *year*, *month* and *day*, and `double` *
 
     *year* × 534&#x202F;360  + *day_count* × *clicks_per_day* + *fraction_clicks*
 
-    For avoidance of doubt, the special case of 2999-12-31 and a *day_fraction* that rounds to 1 should be returned as is.
-
-For convenience, a datey implementation should also provide a mapping to a `datey` from the *start*, *middle* and *end* of a date using the above as follows.
+For convenience, a datey implementation should also provide a mapping to a `datey` from the *start*, *middle* and *end* of a date defined as:
 
 - *start_day*(*year*, *month*, *day*) := *datey_from_YMDF*(*year*, *month*, *day*, 0.0)
 - *mid_day*(*year*, *month*, *day*) := *datey_from_YMDF*(*year*, *month*, *day*, 0.5)
 - *end_day*(*year*, *month*, *day*) := *datey_from_YMDF*(*year*, *month*, *day*, 1.0)
+
+where *datey_from_YMDF* is the above algorithm as a function of *year*, *month*, *day* and *day_fraction*.
 
 Worked examples:
 
@@ -198,7 +202,10 @@ The unary plus (+) and minus (negation or −) operators are defined for a `dura
 - The + operator returns its argument unchanged.
 - The − operator changes the sign of the clicks.
 
-It is *not* required or expected that the above operations will be checked for `integer` overflow -- they can reasonably be supposed to be safe within the domain of operation (i.e. date inputs that have already been checked for validity) and datey exists to facilitate performant calculations.
+It is *not* required or expected that the above operations will be checked for `integer` overflow in *intermediate* calculations on the basis that
+
+- overflows are unlikely to occur within the domain of operation, i.e. times periods between date inputs that have already been checked for validity, and
+- a key rationale for datey is to facilitate *performant* calculations.
 
 ### Mixed `datey` / `durationy` and numeric operations
 
@@ -238,8 +245,8 @@ For text *outputs*:
 For text *inputs*:
 
 - Blank fractions should be treated as zero.
-- The fractional part is not constrained to be 3 decimal places.
 - Arbitrarily long inputs e.g. more than 100 UTF-8 bytes should be rejected.
+- Subject to this overall limit, the fractional part can contain an arbitrary number of digits.
 
 ### `durationy` text format
 
@@ -249,20 +256,19 @@ A valid `durationy` is represented in text in the format SY.FFFFFF UUU where
 
 - S is a plus or minus sign, i.e. one of '+' (U+002B), true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
 - Y is number of whole years
-- .FFFFFF is an optional fractional part of year.
+- .FFFFFF is an optional fractional part of year, including '.' to represent the decimal point.
 - UUU is the unit name for one year. If UUU is non-blank then it is preceded by a space. UUU cannot be longer than 20 UTF-8 bytes or contain control characters.
 
 For text *outputs*:
 
-- It is optional whether '+' (U+002B) plus sign is included for positive durations is optional. (Default is no '+').
-- It is optional whether to use the true minus sign '−' (U+002B) or the ASCII '-' (U+002D) hyphen-minus character. (Default is true minus sign.)
-- The fraction contains no more than 6 decimal places (because this is sufficient to distinguish all possible duration fractions at datey precision).
-- The unit is user-specifiable. (Default is 'yrs'.)
+- It is optional whether '+' (U+002B) plus sign is included for positive durations. (Default is omit '+').
+- It is optional whether to use the true minus sign '−' (U+002B) or the ASCII '-' (U+002D) hyphen-minus character. (Default is use true minus sign.)
+- The fraction contains contains at most 6 decimal places because this is sufficient to distinguish all possible duration fractions at datey precision.
+- The unit name is user-specifiable. (Default is 'yrs'.)
 
 For text *inputs*:
 
-- All plus or minus sign included above are parsed (including for zero durations).
-- The fractional part is not constrained to be 6 decimal places.
+- All plus or minus signs included above are parsed (including for zero durations).
 - The unit is user-specifiable. If non-blank then the unit text must be present and preceded by a space. (The default is ' yrs'.)
 - Arbitrarily long inputs e.g. more than 100 UTF-8 bytes should be rejected.
-
+- Subject to this overall limit, the fractional part can contain an arbitrary number of digits.

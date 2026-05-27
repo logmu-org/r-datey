@@ -3,7 +3,7 @@
 \name{ops}
 \alias{ops}
 \alias{Ops.datey_type}
-\title{Operators for \code{datey} and \code{durationy}}
+\title{Operators for \code{datey}, \code{durationy} and \code{datey_interval}}
 \usage{
 \method{Ops}{datey_type}(e1, e2)
 }
@@ -42,5 +42,7 @@ only operands, and their meaning:\tabular{ccccl}{
    numeric \tab \code{+} \code{-} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{datey} \tab numeric \tab The \code{datey} is first converted to years \cr
    \code{durationy} \tab \code{+} \code{-} \code{*} \code{/} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab numeric \tab \code{durationy} \tab The \code{durationy} is first converted to years \cr
    numeric \tab \code{+} \code{-} \code{*} \code{/} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{durationy} \tab \code{durationy} \tab The \code{durationy} is first converted to years \cr
+   \code{datey} \tab \verb{\%to\%} \tab \code{datey} \tab \code{datey_interval} \tab Syntactic sugar for \code{datey_interval()} \cr
+   \code{datey_interval} \tab \verb{\%includes\%} \tab \code{datey} \tab logical \tab Whether the interval contains the date \cr
 }
 }
