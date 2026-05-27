@@ -16,18 +16,19 @@ valid_duration_years_max
 \description{
 The following integer constants may make code clearer.\tabular{lll}{
    Constant \tab Value \tab Meaning \cr
-   \code{valid_years_start} \tab \code{1000L} \tab The first \emph{valid} calendar year for a \code{datey} \cr
-   \code{valid_years_end} \tab \code{3000L} \tab The first \emph{invalid} calendar year for a \code{datey} after after \cr
-   \code{valid_years_start} \tab  \tab  \cr
-   \code{valid_max_duration} \tab \code{2000L} \tab The maximum valid \cr
-   duration in years for a \code{durationy} \tab  \tab  \cr
+   \code{valid_years_start} \tab \code{1000L} \tab The first calendar year for a \code{datey} \cr
+   \code{valid_years_end} \tab \code{3000L} \tab The final valid calendar year for a \code{datey} (noting that only the start of this year is valid) \cr
+   \code{valid_duration_years_max} \tab \code{2000L} \tab The maximum valid duration in years for a \code{durationy} \cr
 }
 }
 \examples{
-  x <- c(NA_durationy_, durationy(1.5))
-  is.na(x) # c(TRUE, FALSE)
+  datey(valid_years_start - 0.001)
+  datey(valid_years_start)
+  datey(valid_years_end)
+  datey(valid_years_end + 0.001)
+  durationy(-(valid_duration_years_max + 0.001))
 }
 \seealso{
-\link{is_NA}, \link{NA_datey_}, \link{NA_durationy_}
+\link{is_NA}, \link{NAs}
 }
 \keyword{NA}

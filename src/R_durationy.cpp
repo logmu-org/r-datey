@@ -8,6 +8,34 @@
 
 using namespace cpp11;
 
+[[cpp11::register]]
+logicals cpp_durationyIsNA(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+
+  writable::logicals result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    result[i] = !isValidDurationy(clicks[i]);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+bool cpp_durationyAnyNA(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    if (!isValidDurationy(clicks[i])) { return true; }
+  }
+
+  return false;
+}
+
+
 std::string GetValidatedYearUnit(strings yearUnit)
 {
   if (yearUnit.size() != 1)
@@ -35,9 +63,9 @@ std::string GetValidatedYearUnit(strings yearUnit)
 }
 
 [[cpp11::register]]
-strings cpp_durationyToRString(integers durationy, bool includePlusSign, bool useTrueMinusSign, strings yearUnit)
+strings cpp_durationyToRString(integers clicks, bool includePlusSign, bool useTrueMinusSign, strings yearUnit)
 {
-  R_xlen_t n = durationy.size();
+  R_xlen_t n = clicks.size();
 
   writable::strings result(n);
 
@@ -45,7 +73,7 @@ strings cpp_durationyToRString(integers durationy, bool includePlusSign, bool us
 
   for(R_xlen_t i = 0; i < n; ++i)
   {
-    result[i] = durationyToRString(durationy[i], includePlusSign, useTrueMinusSign, s_yearUnit);
+    result[i] = durationyToRString(clicks[i], includePlusSign, useTrueMinusSign, s_yearUnit);
   }
 
   return result;

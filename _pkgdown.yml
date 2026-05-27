@@ -39,22 +39,26 @@ reference:
       - as_years_durationy
       - ymdf
       - seq
+      - datey_interval
   - title: Text parsing and printing
     contents:
       - text_to_datey
       - text_to_durationy
       - text_from_datey
       - text_from_durationy
-  - title: Checks
+      - text_from_datey_interval
+  - title: Properties
     contents:
       - is_type
       - is_xxx_day
       - is_leap_year
-  - title: Validity
+      - interval_properties
+      - interval_start_end
+      - interval_includes
+  - title: NA
     contents:
       - is_NA
-      - NA_datey_
-      - NA_durationy_
+      - NAs
       - integer_constants
   - title: Summary statistics and operators
     contents:

@@ -16,8 +16,8 @@
 # c
 # `[`, `[<-`
 # mean, max, min, etc [in summary.R]
+# seq
 # **** TO CONSIDER ****
-# seq.int (which dispatches methods for "seq")
 # length, length<-
 # lengths
 # dimnames, dimnames<-
@@ -42,10 +42,19 @@ datey_from_clicks <- function(clicks) {
   structure(clicks, class = c("datey", "datey_type"))
 }
 
-#' The `datey` version of NA
-#' @seealso [is_NA], [NA_durationy_], [integer_constants]
+#' The `datey`, `durationy` and `datey_interval` versions of NA
+#' @seealso [is_NA], [integer_constants]
 #' @examples
-#'   is_datey(NA_datey_) # TRUE
+#'   is_datey(NA_datey_)
+#'   is.na(NA_datey_)
+#'   is_durationy(NA_durationy_)
+#'   is.na(NA_durationy_)
+#'   is_datey(NA_datey_interval_)
+#'   is_datey_interval(NA_datey_interval_)
+#' @name NAs
+NULL
+
+#' @rdname NAs
 #' @export
 NA_datey_ <- datey_from_clicks(NA_integer_)
 
@@ -83,25 +92,28 @@ NA_datey_ <- datey_from_clicks(NA_integer_)
 #' @seealso [NA_datey_], [NA_datey_], [integer_constants]
 #' @examples
 #'   t <- c(NA_datey_, datey(2000), datey(999.99, strict = FALSE))
-#'   is.na(t) # c(TRUE, FALSE, TRUE)
-#'   anyNA(t) # TRUE
+#'   is.na(t)
+#'   anyNA(t)
 #'
 #'   d <- c(NA_durationy_, durationy(1.5))
-#'   is.na(d) # c(TRUE, FALSE)
-#'   anyNA(d) # TRUE
+#'   is.na(d)
+#'   anyNA(d)
 #' @name is_NA
 NULL
 
 #' @rdname is_NA
 #' @export
 is.na.datey <- function(x) {
-  clicks <- unclass(x)
-  is.na(clicks) | clicks < 534360000L | clicks > 1603080000L
+  #clicks <- unclass(x)
+  #is.na(clicks) | clicks < 534360000L | clicks > 1603080000L
+  cpp_dateyIsNA(x)
 }
 #' @rdname is_NA
 #' @export
 anyNA.datey = function(x, recursive = FALSE) {
-  any(is.na(x))
+  if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.", call. = FALSE)
+  #any(is.na(x))
+  cpp_dateyAnyNA(x)
 }
 
 #' Is `x` a `datey` or a `durationy`?
@@ -170,6 +182,10 @@ is_datey <- function(x) typeof(x) == "integer" && isa(x, c("datey", "datey_type"
 #'
 #' (NA arguments result in NA regardless of `strict`.)
 #' @param datey A `datey` to be deconstructed.
+#' @examples
+#'   t <- from_ymdf(1999, 12, 31, 0.5)
+#'   t
+#'   to_ymdf(t)
 #' @name ymdf
 NULL
 
@@ -245,6 +261,10 @@ from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 #' - If `strict` is `FALSE` then `NA` is returned.
 #'
 #' (NA arguments result in NA regardless of `strict`.)
+#' @examples
+#'   start_day(1999, 12, 31)
+#'   mid_day(1999, 12, 31)
+#'   end_day(1999, 12, 31)
 #' @name xxx_day
 NULL
 
@@ -520,7 +540,7 @@ as_end_day <- function(x, strict = TRUE)
 #'
 #' `is_mid_day()` checks whether `x` is the middle of a day.
 #'
-#' Note that these properties are *not* necessarily preserved when a duration of
+#' These properties are *not* necessarily preserved when a duration of
 #' *n*&#xA0;years is added or subtracted.
 #'
 #' @param x The `datey` to test.
@@ -592,8 +612,9 @@ as.integer.datey <- function(x, ...) {
 #' @description
 #' A `datey` is printed as either
 #' - `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or
-#' - `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part (included even if
-#' the day fraction is 0).
+#' - `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part
+#'
+#' If `include_day_fraction` is `TRUE` then `.FFF` is included even if it is 0.
 #'
 #' Note that a `datey` created as the end of a day (or with day fraction 1) will
 #' print as the start of the following day.

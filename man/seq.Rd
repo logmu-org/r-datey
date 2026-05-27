@@ -24,6 +24,5 @@ Creates a \code{datey} or \code{durationy} vector by defining a sequence.
 }
 \examples{
   seq(from = datey(2000), to = datey(2005), by = durationy(2))
-  # 2000-01-01 2002-01-01 2004-01-01
 }
 \keyword{sequence}

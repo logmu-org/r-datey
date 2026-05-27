@@ -4,8 +4,41 @@
 #
 # Copyright (c) Tim Gordon
 
+is_pure_numeric <- function(x) is.numeric(x) && !is.object(x)
+
+as_integer_for_cpp <- function(x) {
+  # Exclude anything other than base numerics
+  if (is.object(x) || !is.numeric(x)) {
+    arg_name <- deparse(substitute(x))
+    stop("The argument `", arg_name, "` must be numeric.", call. = FALSE)
+  }
+  if (is.double(x)) {
+    x <- cpp_asSafeIntegers(x)
+  }
+  x
+}
+
+as_double_for_cpp <- function(x) {
+  # Exclude anything other than base numerics
+  if (is.object(x) || !is.numeric(x)) {
+    arg_name <- deparse(substitute(x))
+    stop("The argument `", arg_name, "` must be numeric.", call. = FALSE)
+  }
+  as.double(x)
+}
+
+convert_datey_to_valid_clicks <- function(x) {
+  clicks <- unclass(x)
+  clicks <- ifelse(clicks >= 534360000L & clicks <= 1603080000L, clicks, NA_integer_)
+}
+
+convert_durationy_to_valid_clicks <- function(x) {
+  clicks <- unclass(x)
+  clicks <- ifelse(clicks >= -1068720000L & clicks <= 1068720000L, clicks, NA_integer_)
+}
+
 ensure_is_scalar <- function(x) {
-  if (is.null(x) | length(x) != 1L) {
+  if (is.null(x) || length(x) != 1L) {
     arg_name <- deparse(substitute(x))
     stop("The argument `", arg_name, "` must be a scalar.", call. = FALSE)
   }
@@ -33,15 +66,10 @@ ensure_is_datey <- function(x) {
 }
 
 ensure_is_datey_scalar <- function(x) {
-  if (!is_datey(x) | length(x) != 1L) {
+  if (!is_datey(x) || length(x) != 1L) {
     arg_name <- deparse(substitute(x))
     stop("The argument `", arg_name, "` must be a scalar `datey`.", call. = FALSE)
   }
-}
-
-convert_datey_to_valid_clicks <- function(x) {
-  clicks <- unclass(x)
-  clicks <- ifelse(clicks >= 534360000L & clicks <= 1603080000L, clicks, NA_integer_)
 }
 
 ensure_is_durationy <- function(x) {
@@ -52,36 +80,15 @@ ensure_is_durationy <- function(x) {
 }
 
 ensure_is_durationy_scalar <- function(x) {
-  if (!is_durationy(x) | length(x) != 1L) {
+  if (!is_durationy(x) || length(x) != 1L) {
     arg_name <- deparse(substitute(x))
     stop("The argument `", arg_name, "` must be a scalar `durationy`.", call. = FALSE)
   }
 }
 
-convert_durationy_to_valid_clicks <- function(x) {
-  clicks <- unclass(x)
-  clicks <- ifelse(clicks >= -1068720000L & clicks <= 1068720000L, clicks, NA_integer_)
-}
-
-is_pure_numeric <- function(x) is.numeric(x) && !is.object(x)
-
-as_integer_for_cpp <- function(x) {
-  # Exclude anything other than base numerics
-  if (is.object(x) || !is.numeric(x)) {
+ensure_is_datey_interval <- function(x) {
+  if (!is_datey_interval(x)) {
     arg_name <- deparse(substitute(x))
-    stop("The argument `", arg_name, "` must be numeric.", call. = FALSE)
+    stop("The argument `", arg_name, "` must be a `datey_interval`.", call. = FALSE)
   }
-  if (is.double(x)) {
-    x <- cpp_asSafeIntegers(x)
-  }
-  x
-}
-
-as_double_for_cpp <- function(x) {
-  # Exclude anything other than base numerics
-  if (is.object(x) || !is.numeric(x)) {
-    arg_name <- deparse(substitute(x))
-    stop("The argument `", arg_name, "` must be numeric.", call. = FALSE)
-  }
-  as.double(x)
 }

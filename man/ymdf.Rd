@@ -59,6 +59,11 @@ If the \code{datey} was constructed using \code{end_day} or \code{day_fraction =
 fraction. In practice, prefer one of \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} or
 \code{\link[=end_day]{end_day()}} for clarity.
 }
+\examples{
+  t <- from_ymdf(1999, 12, 31, 0.5)
+  t
+  to_ymdf(t)
+}
 \seealso{
 Use \code{\link[=datey]{datey()}} to create a \code{datey} direct from years or a base R
 date.

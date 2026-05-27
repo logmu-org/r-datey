@@ -30,6 +30,33 @@ integers cpp_asSafeIntegers(doubles x)
 }
 
 [[cpp11::register]]
+logicals cpp_dateyIsNA(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+
+  writable::logicals result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    result[i] = !isValidDatey(clicks[i]);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+bool cpp_dateyAnyNA(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    if (!isValidDatey(clicks[i])) { return true; }
+  }
+
+  return false;
+}
+
+[[cpp11::register]]
 integers cpp_dateyFromYMDF(
     integers year,
     integers month,
@@ -134,9 +161,9 @@ integers cpp_dateyFromYMDF_dblYMD(
 }
 
 [[cpp11::register]]
-list cpp_dateyToYMDF(integers datey)
+list cpp_dateyToYMDF(integers clicks)
 {
-  R_xlen_t n = datey.size();
+  R_xlen_t n = clicks.size();
 
   cpp11::writable::integers year(n);
   cpp11::writable::integers month(n);
@@ -145,7 +172,7 @@ list cpp_dateyToYMDF(integers datey)
 
   for(R_xlen_t i = 0; i < n; ++i)
   {
-    auto ymdf = dateyToYMDF(datey[i]);
+    auto ymdf = dateyToYMDF(clicks[i]);
 
     year[i] = std::get<0>(ymdf);
     month[i] = std::get<1>(ymdf);
@@ -164,9 +191,9 @@ list cpp_dateyToYMDF(integers datey)
 }
 
 [[cpp11::register]]
-integers cpp_dateyWithNewDayFraction(integers datey, doubles dayFraction, bool strict)
+integers cpp_dateyWithNewDayFraction(integers clicks, doubles dayFraction, bool strict)
 {
-  R_xlen_t n_dy = datey.size();
+  R_xlen_t n_dy = clicks.size();
   R_xlen_t n_f = dayFraction.size();
 
   if (n_f == 1)
@@ -177,7 +204,7 @@ integers cpp_dateyWithNewDayFraction(integers datey, doubles dayFraction, bool s
     double dayFraction_0 = dayFraction[0];
     for(R_xlen_t i = 0; i < n_dy; ++i)
     {
-      result[i] = dateyWithNewDayFraction(datey[i], dayFraction_0, strict);
+      result[i] = dateyWithNewDayFraction(clicks[i], dayFraction_0, strict);
     }
 
     return result;
@@ -205,7 +232,7 @@ integers cpp_dateyWithNewDayFraction(integers datey, doubles dayFraction, bool s
 
     for(R_xlen_t i = 0; i < n; ++i)
     {
-      result[i] = dateyWithNewDayFraction(datey[i_dy], dayFraction[i_f], strict);
+      result[i] = dateyWithNewDayFraction(clicks[i_dy], dayFraction[i_f], strict);
 
       if (++i_dy >= n_dy) { i_dy = 0;}
       if (++i_f >= n_f) { i_f = 0;}
@@ -282,15 +309,15 @@ integers cpp_dateyFromRDateAndFraction(doubles rDate, doubles dayFraction, bool 
 }
 
 [[cpp11::register]]
-strings cpp_dateyToRString(integers datey, bool includeDayFraction)
+strings cpp_dateyToRString(integers clicks, bool includeDayFraction)
 {
-  R_xlen_t n = datey.size();
+  R_xlen_t n = clicks.size();
 
   writable::strings result(n);
 
   for(R_xlen_t i = 0; i < n; ++i)
   {
-    result[i] = dateyToRString(datey[i], includeDayFraction);
+    result[i] = dateyToRString(clicks[i], includeDayFraction);
   }
 
   return result;
@@ -362,4 +389,3 @@ integers cpp_dateyFromRStringAndDayFraction(strings x, doubles dayFraction, bool
     return result;
   }
 }
-

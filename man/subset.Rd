@@ -4,20 +4,26 @@
 \alias{subset}
 \alias{[.datey}
 \alias{[.durationy}
+\alias{[.datey_interval}
 \alias{[<-.datey}
 \alias{[<-.durationy}
-\title{Subset \code{datey} or \code{durationy} vectors}
+\alias{[<-.datey_interval}
+\title{Subset \code{datey}, \code{durationy} or \code{datey_interval} vectors}
 \usage{
 \method{[}{datey}(x, i, ...)
 
 \method{[}{durationy}(x, i, ...)
 
+\method{[}{datey_interval}(x, i, ...)
+
 \method{[}{datey}(x, i) <- value
 
 \method{[}{durationy}(x, i) <- value
+
+\method{[}{datey_interval}(x, i) <- value
 }
 \arguments{
-\item{x}{A \code{datey} or \code{durationy}.}
+\item{x}{A \code{datey}, \code{durationy} or \code{datey_interval}.}
 
 \item{i}{Indices to extract.}
 
@@ -29,13 +35,14 @@
 The subset.
 }
 \description{
-Subsets \code{datey} or \code{durationy} vectors.
+Subsets \code{datey}, \code{durationy} or \code{datey_interval} vectors.
 }
 \examples{
-  x <- datey(2001:2004) # 2001-01-01 2002-01-01 2003-01-01 2004-01-01
-  x[2:3] # 2002-01-01 2003-01-01
-  x[2:3] <- datey(1999) # 2001-01-01 1999-01-01 1999-01-01 2004-01-01
+  x <- datey(2001:2004)
+  x
+  x[2:3]
+  x[2:3] <- datey(1999)
+  x
 
 }
-\keyword{classes}
 \keyword{subset}

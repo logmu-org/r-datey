@@ -28,9 +28,10 @@ printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code
 A \code{datey} is printed as either
 \itemize{
 \item \code{YYYY-MM-DD}, i.e. ISO 8601 extended date format, or
-\item \code{YYYY-MM-DD.FFF} where \code{.FFF} is the day fraction part (included even if
-the day fraction is 0).
+\item \code{YYYY-MM-DD.FFF} where \code{.FFF} is the day fraction part
 }
+
+If \code{include_day_fraction} is \code{TRUE} then \code{.FFF} is included even if it is 0.
 
 Note that a \code{datey} created as the end of a day (or with day fraction 1) will
 print as the start of the following day.

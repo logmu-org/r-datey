@@ -13,6 +13,20 @@ extern "C" SEXP _datey_cpp_asSafeIntegers(SEXP x) {
   END_CPP11
 }
 // R_datey.cpp
+logicals cpp_dateyIsNA(integers clicks);
+extern "C" SEXP _datey_cpp_dateyIsNA(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIsNA(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
+bool cpp_dateyAnyNA(integers clicks);
+extern "C" SEXP _datey_cpp_dateyAnyNA(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyAnyNA(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
 integers cpp_dateyFromYMDF(integers year, integers month, integers day, doubles dayFraction, bool strict);
 extern "C" SEXP _datey_cpp_dateyFromYMDF(SEXP year, SEXP month, SEXP day, SEXP dayFraction, SEXP strict) {
   BEGIN_CPP11
@@ -27,17 +41,17 @@ extern "C" SEXP _datey_cpp_dateyFromYMDF_dblYMD(SEXP year, SEXP month, SEXP day,
   END_CPP11
 }
 // R_datey.cpp
-list cpp_dateyToYMDF(integers datey);
-extern "C" SEXP _datey_cpp_dateyToYMDF(SEXP datey) {
+list cpp_dateyToYMDF(integers clicks);
+extern "C" SEXP _datey_cpp_dateyToYMDF(SEXP clicks) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_dateyToYMDF(cpp11::as_cpp<cpp11::decay_t<integers>>(datey)));
+    return cpp11::as_sexp(cpp_dateyToYMDF(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
   END_CPP11
 }
 // R_datey.cpp
-integers cpp_dateyWithNewDayFraction(integers datey, doubles dayFraction, bool strict);
-extern "C" SEXP _datey_cpp_dateyWithNewDayFraction(SEXP datey, SEXP dayFraction, SEXP strict) {
+integers cpp_dateyWithNewDayFraction(integers clicks, doubles dayFraction, bool strict);
+extern "C" SEXP _datey_cpp_dateyWithNewDayFraction(SEXP clicks, SEXP dayFraction, SEXP strict) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_dateyWithNewDayFraction(cpp11::as_cpp<cpp11::decay_t<integers>>(datey), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction), cpp11::as_cpp<cpp11::decay_t<bool>>(strict)));
+    return cpp11::as_sexp(cpp_dateyWithNewDayFraction(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction), cpp11::as_cpp<cpp11::decay_t<bool>>(strict)));
   END_CPP11
 }
 // R_datey.cpp
@@ -55,10 +69,10 @@ extern "C" SEXP _datey_cpp_dateyFromRDateAndFraction(SEXP rDate, SEXP dayFractio
   END_CPP11
 }
 // R_datey.cpp
-strings cpp_dateyToRString(integers datey, bool includeDayFraction);
-extern "C" SEXP _datey_cpp_dateyToRString(SEXP datey, SEXP includeDayFraction) {
+strings cpp_dateyToRString(integers clicks, bool includeDayFraction);
+extern "C" SEXP _datey_cpp_dateyToRString(SEXP clicks, SEXP includeDayFraction) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_dateyToRString(cpp11::as_cpp<cpp11::decay_t<integers>>(datey), cpp11::as_cpp<cpp11::decay_t<bool>>(includeDayFraction)));
+    return cpp11::as_sexp(cpp_dateyToRString(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks), cpp11::as_cpp<cpp11::decay_t<bool>>(includeDayFraction)));
   END_CPP11
 }
 // R_datey.cpp
@@ -75,11 +89,88 @@ extern "C" SEXP _datey_cpp_dateyFromRStringAndDayFraction(SEXP x, SEXP dayFracti
     return cpp11::as_sexp(cpp_dateyFromRStringAndDayFraction(cpp11::as_cpp<cpp11::decay_t<strings>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(dayFraction), cpp11::as_cpp<cpp11::decay_t<bool>>(strict), cpp11::as_cpp<cpp11::decay_t<bool>>(blankIsNA)));
   END_CPP11
 }
-// R_durationy.cpp
-strings cpp_durationyToRString(integers durationy, bool includePlusSign, bool useTrueMinusSign, strings yearUnit);
-extern "C" SEXP _datey_cpp_durationyToRString(SEXP durationy, SEXP includePlusSign, SEXP useTrueMinusSign, SEXP yearUnit) {
+// R_datey_interval.cpp
+doubles cpp_dateyInterval(integers start, integers end, bool strict);
+extern "C" SEXP _datey_cpp_dateyInterval(SEXP start, SEXP end, SEXP strict) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_durationyToRString(cpp11::as_cpp<cpp11::decay_t<integers>>(durationy), cpp11::as_cpp<cpp11::decay_t<bool>>(includePlusSign), cpp11::as_cpp<cpp11::decay_t<bool>>(useTrueMinusSign), cpp11::as_cpp<cpp11::decay_t<strings>>(yearUnit)));
+    return cpp11::as_sexp(cpp_dateyInterval(cpp11::as_cpp<cpp11::decay_t<integers>>(start), cpp11::as_cpp<cpp11::decay_t<integers>>(end), cpp11::as_cpp<cpp11::decay_t<bool>>(strict)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+integers cpp_dateyIntervalStart(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalStart(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalStart(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+integers cpp_dateyIntervalEnd(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalEnd(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalEnd(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+logicals cpp_dateyIntervalIsNA(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalIsNA(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalIsNA(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+bool cpp_dateyIntervalAnyNA(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalAnyNA(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalAnyNA(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+logicals cpp_dateyIntervalIsEmpty(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalIsEmpty(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalIsEmpty(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+logicals cpp_dateyIntervalIsProper(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalIsProper(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalIsProper(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+logicals cpp_dateyIntervalIncludes(doubles interval, integers value);
+extern "C" SEXP _datey_cpp_dateyIntervalIncludes(SEXP interval, SEXP value) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalIncludes(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval), cpp11::as_cpp<cpp11::decay_t<integers>>(value)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+strings cpp_dateyIntervalToRString(doubles interval, bool includeDayFraction);
+extern "C" SEXP _datey_cpp_dateyIntervalToRString(SEXP interval, SEXP includeDayFraction) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalToRString(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval), cpp11::as_cpp<cpp11::decay_t<bool>>(includeDayFraction)));
+  END_CPP11
+}
+// R_durationy.cpp
+logicals cpp_durationyIsNA(integers clicks);
+extern "C" SEXP _datey_cpp_durationyIsNA(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_durationyIsNA(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_durationy.cpp
+bool cpp_durationyAnyNA(integers clicks);
+extern "C" SEXP _datey_cpp_durationyAnyNA(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_durationyAnyNA(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_durationy.cpp
+strings cpp_durationyToRString(integers clicks, bool includePlusSign, bool useTrueMinusSign, strings yearUnit);
+extern "C" SEXP _datey_cpp_durationyToRString(SEXP clicks, SEXP includePlusSign, SEXP useTrueMinusSign, SEXP yearUnit) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_durationyToRString(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks), cpp11::as_cpp<cpp11::decay_t<bool>>(includePlusSign), cpp11::as_cpp<cpp11::decay_t<bool>>(useTrueMinusSign), cpp11::as_cpp<cpp11::decay_t<strings>>(yearUnit)));
   END_CPP11
 }
 // R_durationy.cpp
@@ -114,16 +205,29 @@ extern "C" SEXP _datey_cpp_isLeapYear_datey(SEXP datey) {
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_asSafeIntegers",                 (DL_FUNC) &_datey_cpp_asSafeIntegers,                 1},
+    {"_datey_cpp_dateyAnyNA",                     (DL_FUNC) &_datey_cpp_dateyAnyNA,                     1},
     {"_datey_cpp_dateyFromRDate",                 (DL_FUNC) &_datey_cpp_dateyFromRDate,                 2},
     {"_datey_cpp_dateyFromRDateAndFraction",      (DL_FUNC) &_datey_cpp_dateyFromRDateAndFraction,      3},
     {"_datey_cpp_dateyFromRStringAndDayFraction", (DL_FUNC) &_datey_cpp_dateyFromRStringAndDayFraction, 4},
     {"_datey_cpp_dateyFromRStringOnly",           (DL_FUNC) &_datey_cpp_dateyFromRStringOnly,           3},
     {"_datey_cpp_dateyFromYMDF",                  (DL_FUNC) &_datey_cpp_dateyFromYMDF,                  5},
     {"_datey_cpp_dateyFromYMDF_dblYMD",           (DL_FUNC) &_datey_cpp_dateyFromYMDF_dblYMD,           5},
+    {"_datey_cpp_dateyInterval",                  (DL_FUNC) &_datey_cpp_dateyInterval,                  3},
+    {"_datey_cpp_dateyIntervalAnyNA",             (DL_FUNC) &_datey_cpp_dateyIntervalAnyNA,             1},
+    {"_datey_cpp_dateyIntervalEnd",               (DL_FUNC) &_datey_cpp_dateyIntervalEnd,               1},
+    {"_datey_cpp_dateyIntervalIncludes",          (DL_FUNC) &_datey_cpp_dateyIntervalIncludes,          2},
+    {"_datey_cpp_dateyIntervalIsEmpty",           (DL_FUNC) &_datey_cpp_dateyIntervalIsEmpty,           1},
+    {"_datey_cpp_dateyIntervalIsNA",              (DL_FUNC) &_datey_cpp_dateyIntervalIsNA,              1},
+    {"_datey_cpp_dateyIntervalIsProper",          (DL_FUNC) &_datey_cpp_dateyIntervalIsProper,          1},
+    {"_datey_cpp_dateyIntervalStart",             (DL_FUNC) &_datey_cpp_dateyIntervalStart,             1},
+    {"_datey_cpp_dateyIntervalToRString",         (DL_FUNC) &_datey_cpp_dateyIntervalToRString,         2},
+    {"_datey_cpp_dateyIsNA",                      (DL_FUNC) &_datey_cpp_dateyIsNA,                      1},
     {"_datey_cpp_dateyToRString",                 (DL_FUNC) &_datey_cpp_dateyToRString,                 2},
     {"_datey_cpp_dateyToYMDF",                    (DL_FUNC) &_datey_cpp_dateyToYMDF,                    1},
     {"_datey_cpp_dateyWithNewDayFraction",        (DL_FUNC) &_datey_cpp_dateyWithNewDayFraction,        3},
+    {"_datey_cpp_durationyAnyNA",                 (DL_FUNC) &_datey_cpp_durationyAnyNA,                 1},
     {"_datey_cpp_durationyFromRString",           (DL_FUNC) &_datey_cpp_durationyFromRString,           4},
+    {"_datey_cpp_durationyIsNA",                  (DL_FUNC) &_datey_cpp_durationyIsNA,                  1},
     {"_datey_cpp_durationyToRString",             (DL_FUNC) &_datey_cpp_durationyToRString,             4},
     {"_datey_cpp_isLeapYear_datey",               (DL_FUNC) &_datey_cpp_isLeapYear_datey,               1},
     {"_datey_cpp_isLeapYear_double",              (DL_FUNC) &_datey_cpp_isLeapYear_double,              1},

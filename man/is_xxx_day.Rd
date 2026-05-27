@@ -18,6 +18,6 @@ is_mid_day(x)
 
 \code{is_mid_day()} checks whether \code{x} is the middle of a day.
 
-Note that these properties are \emph{not} necessarily preserved when a duration of
+These properties are \emph{not} necessarily preserved when a duration of
 \emph{n} years is added or subtracted.
 }
