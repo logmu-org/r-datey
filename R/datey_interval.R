@@ -21,22 +21,25 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #' Create a `datey_interval`
 #'
 #' @description
-#' Creates the `datey_interval` [`start`, `end`).
+#' Create a `datey_interval` representing [`start`, `end`).
 #'
-#' The operator syntax may be clearer, i.e. `start %to% end`.
+#' These are closed-open ('clopen') intervals `start` <= t < `end`, i.e. the
+#' interval includes `start` but excludes `end`.
+#'
+#' There are two equivalent syntaxes,
+#' - operator: `start %to% end`, and
+#' - function: `datey_interval(start, end)`.
 #'
 #' @param start,end The start (inclusive) and end of the interval (exclusive).
-#' These can be any type that is convertible to a `datey`. Must have the same
-#' numbers of elements or be multiples of each other.
+#' These can be any type that is convertible to a `datey`. These have the same
+#' numbers of elements or their lengths must be multiples of each other.
 #' @param strict
 #' How NAs should be handled.
 #' - If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' - If `strict` is `FALSE` then `NA` is returned if `start` and/or `end` is NA.
 #' @examples
-#'   t_1 <- start_day(2001, 1, 1)
-#'   t_2 <- start_day(2002, 2, 2)
-#'   datey_interval(t_1, t_2)
-#'   t_1 %to% t_2
+#'   datey(1999) %to% mid_day(2025, 7, 15)
+#'   datey(1999) %to% datey(2000:2002)
 #' @export
 datey_interval <- function(start, end, strict = TRUE) {
   punned_double <- cpp_dateyInterval(start, end, strict)
@@ -63,10 +66,10 @@ datey_interval <- function(start, end, strict = TRUE) {
 #'   interval <- datey_interval(t_1, t_2)
 #'   interval$start
 #'   interval$end
-#' @name interval_start_end
+#' @name interval_properties
 #' @export
 `$.datey_interval` <- function(x, name) {
-  ensure_is_datey_interval(x)
+  #ensure_is_datey_interval(x)
   if (length(name) == 1L && !is.na(name) && is.character(name)) {
     if (name == "start") return(datey_from_clicks(cpp_dateyIntervalStart(x)))
     if (name == "end") return(datey_from_clicks(cpp_dateyIntervalEnd(x)))
@@ -124,18 +127,18 @@ anyNA.datey_interval = function(x, recursive = FALSE) {
 #'   is_proper_interval(a %to% a)
 #'   is_proper_interval(b %to% a)
 #'   is_proper_interval(NA_datey_interval_)
-#' @name interval_properties
+#' @name interval_nature
 NULL
 
-#' @rdname interval_properties
+#' @rdname interval_nature
 #' @export
 is_empty_interval <- function(interval) {
   ensure_is_datey_interval(interval)
   cpp_dateyIntervalIsEmpty(interval)
 }
-#' @rdname interval_properties
+#' @rdname interval_nature
 #' @export
-is_proper_interval <- function(interval, ignore_NA = FALSE) {
+is_proper_interval <- function(interval) {
   ensure_is_datey_interval(interval)
   cpp_dateyIntervalIsProper(interval)
 }

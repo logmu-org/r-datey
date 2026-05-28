@@ -28,7 +28,7 @@ handled.
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
 }
 
-(NAs will result in NA regardless of this switch.)}
+NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
 
 \item{...}{Other arguments (not used in this package).}
 }

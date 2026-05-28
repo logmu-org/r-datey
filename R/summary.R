@@ -7,7 +7,11 @@
 #' Mean value of `datey` or `durationy`
 #' @param x The `datey` or `durationy`.
 #' @param na.rm	A logical (`TRUE` or `FALSE`) indicating whether NA values should be removed before the computation.
-#' @param ...	Ignored.
+#' @param ...	Other arguments (not used in this package).
+#' @examples
+#'     t <- datey(2000:2003)
+#'     t
+#'     mean(t)
 #' @name mean
 
 #' @rdname mean
@@ -26,6 +30,12 @@ mean.durationy <- function (x, ..., na.rm = FALSE) {
 #' Minimum, maximum or range of `datey` or `durationy`
 #' @param ... The `datey` or `durationy` arguments.
 #' @param na.rm	A logical (`TRUE` or `FALSE`) indicating whether NA values should be removed before the computation.
+#' @examples
+#'     t <- datey(2000:2003)
+#'     t
+#'     min(t)
+#'     max(t)
+#'     range(t)
 #' @name max_min
 
 #' @rdname max_min

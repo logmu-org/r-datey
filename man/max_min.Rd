@@ -18,3 +18,10 @@
 \description{
 Minimum, maximum or range of \code{datey} or \code{durationy}
 }
+\examples{
+    t <- datey(2000:2003)
+    t
+    min(t)
+    max(t)
+    range(t)
+}

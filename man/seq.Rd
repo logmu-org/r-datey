@@ -6,23 +6,27 @@
 \alias{seq.durationy}
 \title{Create \code{datey} or \code{durationy} sequence vector}
 \usage{
-\method{seq}{datey}(from, to, by)
+\method{seq}{datey}(from, to, by, ...)
 
-\method{seq}{durationy}(from, to, by)
+\method{seq}{durationy}(from, to, by, ...)
 }
 \arguments{
-\item{from, to}{The starting and (maximal) end values of the sequence.
-Scalar \code{datey}s or \code{durationy}s.}
+\item{from}{The first value in the sequence.
+A scalar \code{datey} or \code{durationy}.}
 
-\item{by}{A scalar\code{durationy} representing the increment of the sequence.}
-}
-\value{
-The sequence
+\item{to}{The sequence stops before values exceed \code{to}.
+A scalar \code{datey} or \code{durationy}.}
+
+\item{by}{The increment of the sequence.
+A scalar \code{datey} or \code{durationy}.}
+
+\item{...}{Other arguments (not used in this package).}
 }
 \description{
 Creates a \code{datey} or \code{durationy} vector by defining a sequence.
 }
 \examples{
   seq(from = datey(2000), to = datey(2005), by = durationy(2))
+  seq(from = datey(2000), to = datey(1999), by = durationy(-0.25))
 }
 \keyword{sequence}

@@ -27,7 +27,7 @@
 
 \item{i}{Indices to extract.}
 
-\item{...}{Passed through.}
+\item{...}{Other arguments.}
 
 \item{value}{Value to assign.}
 }

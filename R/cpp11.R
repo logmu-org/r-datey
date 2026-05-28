@@ -24,6 +24,22 @@ cpp_dateyToYMDF <- function(clicks) {
   .Call(`_datey_cpp_dateyToYMDF`, clicks)
 }
 
+cpp_dateyToY <- function(clicks) {
+  .Call(`_datey_cpp_dateyToY`, clicks)
+}
+
+cpp_dateyToM <- function(clicks) {
+  .Call(`_datey_cpp_dateyToM`, clicks)
+}
+
+cpp_dateyToD <- function(clicks) {
+  .Call(`_datey_cpp_dateyToD`, clicks)
+}
+
+cpp_dateyToF <- function(clicks) {
+  .Call(`_datey_cpp_dateyToF`, clicks)
+}
+
 cpp_dateyWithNewDayFraction <- function(clicks, dayFraction, strict) {
   .Call(`_datey_cpp_dateyWithNewDayFraction`, clicks, dayFraction, strict)
 }

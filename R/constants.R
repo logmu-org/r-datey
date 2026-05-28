@@ -19,11 +19,11 @@
 #' @keywords NA
 #' @seealso [is_NA], [NAs]
 #' @examples
-#'   datey(valid_years_start - 0.001)
+#'   datey(valid_years_start - 0.001, strict = FALSE)
 #'   datey(valid_years_start)
 #'   datey(valid_years_end)
-#'   datey(valid_years_end + 0.001)
-#'   durationy(-(valid_duration_years_max + 0.001))
+#'   datey(valid_years_end + 0.001, strict = FALSE)
+#'   durationy(-(valid_duration_years_max + 0.001), strict = FALSE)
 #' @name integer_constants
 
 

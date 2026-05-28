@@ -189,6 +189,58 @@ list cpp_dateyToYMDF(integers clicks)
 
   return result;
 }
+[[cpp11::register]]
+integers cpp_dateyToY(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+  cpp11::writable::integers result(n);
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    int clicks_i = clicks[i];
+    result[i] = isValidDatey(clicks_i) ? clicks_i / ClicksPerYear : NA_INTEGER;
+  }
+
+  return result;
+}
+[[cpp11::register]]
+integers cpp_dateyToM(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+  cpp11::writable::integers result(n);
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    auto ymdf = dateyToYMDF(clicks[i]);
+    result[i] = std::get<1>(ymdf);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+integers cpp_dateyToD(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+  cpp11::writable::integers result(n);
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    auto ymdf = dateyToYMDF(clicks[i]);
+    result[i] = std::get<2>(ymdf);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+doubles cpp_dateyToF(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+  cpp11::writable::doubles result(n);
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    auto ymdf = dateyToYMDF(clicks[i]);
+    result[i] = std::get<3>(ymdf);
+  }
+
+  return result;
+}
 
 [[cpp11::register]]
 integers cpp_dateyWithNewDayFraction(integers clicks, doubles dayFraction, bool strict)

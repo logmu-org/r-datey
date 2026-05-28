@@ -36,7 +36,7 @@ If provided as \code{double} then these \emph{must be integers}.}
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
 }
 
-(NA arguments result in NA regardless of \code{strict}.)}
+NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
 }
 \description{
 The lengths of vector arguments must be multiples of each other.
@@ -52,6 +52,9 @@ in the month specified by \code{year} and \code{month}, and
 where e.g. 0 means the start and 0.5 means the middle of the day.
 }
 
+Alternatively, if you want only one or two components, use the list-like
+syntax \link[=datey_properties]{\verb{$year}, \verb{$month}, \verb{$day} or \verb{$day_fraction}}.
+
 If the \code{datey} was constructed using \code{end_day} or \code{day_fraction = 1} then
 \code{to_ymdf()} will return the \emph{start} of the \emph{next} day with \code{day_fraction = 0}.
 
@@ -60,11 +63,17 @@ fraction. In practice, prefer one of \code{\link[=start_day]{start_day()}}, \cod
 \code{\link[=end_day]{end_day()}} for clarity.
 }
 \examples{
-  t <- from_ymdf(1999, 12, 31, 0.5)
+  t <- from_ymdf(2001, 2, 3, 0.5)
   t
   to_ymdf(t)
+  t$year
+  t$month
+  t$day
+  t$day_fraction
 }
 \seealso{
-Use \code{\link[=datey]{datey()}} to create a \code{datey} direct from years or a base R
-date.
+Use \code{\link[=datey]{datey()}} to create a \code{datey} direct from years or a base R date.
+
+Use the syntax \href{datey_properties}{\verb{$year}, \verb{$month}, \verb{$day} or \verb{$day_fraction}}
+to extract one component at a time.
 }

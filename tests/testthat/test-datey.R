@@ -161,11 +161,17 @@ test_that("`datey` and `start_day`, `mid_day` and `end_day` are consistent", {
   expect_identical(from_ymdf(y, m, d, 1, strict = FALSE), end_day(y, m, d, strict = FALSE))
 })
 
-# to_ymdf <- function(datey) ==================================================
+# to_ymdf and datey$xxx ==================================================
 test_that("`datey` round-trips from ymdf and back", {
 
   testX <- function(year, month, day, day_fraction) {
     datey <- from_ymdf(year, month, day, day_fraction)
+
+    expect_identical(datey$year, as.integer(year))
+    expect_identical(datey$month, as.integer(month))
+    expect_identical(datey$day, as.integer(day))
+    expect_equal(datey$day_fraction, as.double(day_fraction))
+
     ymdf <- to_ymdf(datey)
     expect_identical(ymdf$year, as.integer(year))
     expect_identical(ymdf$month, as.integer(month))

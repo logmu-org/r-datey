@@ -48,6 +48,34 @@ extern "C" SEXP _datey_cpp_dateyToYMDF(SEXP clicks) {
   END_CPP11
 }
 // R_datey.cpp
+integers cpp_dateyToY(integers clicks);
+extern "C" SEXP _datey_cpp_dateyToY(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToY(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
+integers cpp_dateyToM(integers clicks);
+extern "C" SEXP _datey_cpp_dateyToM(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToM(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
+integers cpp_dateyToD(integers clicks);
+extern "C" SEXP _datey_cpp_dateyToD(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToD(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
+doubles cpp_dateyToF(integers clicks);
+extern "C" SEXP _datey_cpp_dateyToF(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToF(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
 integers cpp_dateyWithNewDayFraction(integers clicks, doubles dayFraction, bool strict);
 extern "C" SEXP _datey_cpp_dateyWithNewDayFraction(SEXP clicks, SEXP dayFraction, SEXP strict) {
   BEGIN_CPP11
@@ -222,7 +250,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_dateyIntervalStart",             (DL_FUNC) &_datey_cpp_dateyIntervalStart,             1},
     {"_datey_cpp_dateyIntervalToRString",         (DL_FUNC) &_datey_cpp_dateyIntervalToRString,         2},
     {"_datey_cpp_dateyIsNA",                      (DL_FUNC) &_datey_cpp_dateyIsNA,                      1},
+    {"_datey_cpp_dateyToD",                       (DL_FUNC) &_datey_cpp_dateyToD,                       1},
+    {"_datey_cpp_dateyToF",                       (DL_FUNC) &_datey_cpp_dateyToF,                       1},
+    {"_datey_cpp_dateyToM",                       (DL_FUNC) &_datey_cpp_dateyToM,                       1},
     {"_datey_cpp_dateyToRString",                 (DL_FUNC) &_datey_cpp_dateyToRString,                 2},
+    {"_datey_cpp_dateyToY",                       (DL_FUNC) &_datey_cpp_dateyToY,                       1},
     {"_datey_cpp_dateyToYMDF",                    (DL_FUNC) &_datey_cpp_dateyToYMDF,                    1},
     {"_datey_cpp_dateyWithNewDayFraction",        (DL_FUNC) &_datey_cpp_dateyWithNewDayFraction,        3},
     {"_datey_cpp_durationyAnyNA",                 (DL_FUNC) &_datey_cpp_durationyAnyNA,                 1},

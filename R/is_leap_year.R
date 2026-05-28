@@ -17,7 +17,7 @@
 #' - date types `datey`, `Date`, `POSIXct` and `POSIXlt`.
 #'
 #' @param x A vector date type or numeric year.
-#' @param ... Additional arguments (unused by this package).
+#' @param ... Other arguments (not used in this package).
 #' @export
 #' @return
 #'   `NA` if `x` is not interpretable as a year or date, or outside \[1000,3000),

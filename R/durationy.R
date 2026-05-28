@@ -92,7 +92,7 @@ is_durationy <- function(x) typeof(x) == "integer" && isa(x, c("durationy", "dat
 #' - If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' - If `strict` is `FALSE` then `NA` is returned.
 #'
-#' (NAs will result in NA regardless of this switch.)
+#' NA arguments result in NA (and do not stop execution) regardless of `strict`.
 #' @param ... Other arguments (not used in this package).
 #' @export
 durationy <- function(x, strict = TRUE, ...) UseMethod("durationy")
@@ -109,6 +109,7 @@ durationy.durationy <- function(x, strict = TRUE, ...) {
 #' @export
 durationy.integer <- function(x, strict = TRUE, ...) {
   ensure_is_switch(strict)
+  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
   if (strict)
   {
     if(any(x < -2000L | x > 2000L, na.rm = TRUE)) {
@@ -122,6 +123,7 @@ durationy.integer <- function(x, strict = TRUE, ...) {
 #' @export
 durationy.double <- function(x, strict = TRUE, ...) {
   ensure_is_switch(strict)
+  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
   if (strict)
   {
     if(any(is.nan(x)) || any(x < -2000 | x > 2000, na.rm = TRUE)) {
@@ -175,6 +177,7 @@ durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit
   ensure_is_switch(strict)
   ensure_is_switch(blank_is_NA)
   ensure_is_text_scalar(year_unit)
+  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
   clicks <- cpp_durationyFromRString(x, strict, blank_is_NA, year_unit)
   durationy_from_clicks(clicks)
 }
@@ -193,20 +196,24 @@ durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit
 #'   `as.integer(x)` is the same as `as.integer(as.double(x))`.
 #'
 #' @param x The `durationy` to convert to years.
-#' @param ... Further arguments to be passed from or to other methods.
+#' @param ... Other arguments (not used in this package).
 #' @name as_years_durationy
 NULL
 
 #' @rdname as_years_durationy
 #' @export
 as.double.durationy <- function(x, ...) {
+  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
   clicks <- convert_durationy_to_valid_clicks(x)
   clicks / 534360
 }
 #' @rdname as_years_durationy
 #' @export
 as.integer.durationy <- function(x, ...) {
-  clicks <- convert_durationy_to_valid_clicks(x)
+  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
+
+
+    clicks <- convert_durationy_to_valid_clicks(x)
   # Integer division rounds down towards negative infinity,
   # which is inconsistent with floating point. So we use floating point
   # division first before conversion to integer.
@@ -236,7 +243,7 @@ as.integer.durationy <- function(x, ...) {
 #' Defaults to `"yr"`.
 #' @param  max Numeric or `NULL`, specifying the maximal number of entries to be
 #' printed. When `NULL`, `getOption("max.print")` used. Defaults to `NULL`.
-#' @param ... Further arguments to be passed from or to other methods.
+#' @param ... Other arguments.
 #' @examples
 #'   pos <- durationy(1)
 #'   neg <- durationy(-2.3)

@@ -29,17 +29,37 @@ navbar:
       href: news/index.html
 
 reference:
-  - title: Creation and conversion
+  - title: Useful date methods
     contents:
-      - datey
       - xxx_day
       - as_xxx_day
+      - datey
+      - datey_properties
+  - title: Date intervals
+    contents:
+      - datey_interval
+      - interval_nature
+      - interval_properties
+      - interval_includes
+  - title: General creation methods
+    contents:
+      - ymdf
       - durationy
+      - seq
+  - title: Conversion to years
+    contents:
       - as_years_datey
       - as_years_durationy
-      - ymdf
-      - seq
-      - datey_interval
+  - title: Operators and statistics
+    contents:
+      - ops
+      - mean
+      - max_min
+  - title: Properties
+    contents:
+      - is_type
+      - is_xxx_day
+      - is_leap_year
   - title: Text parsing and printing
     contents:
       - text_to_datey
@@ -47,25 +67,12 @@ reference:
       - text_from_datey
       - text_from_durationy
       - text_from_datey_interval
-  - title: Properties
+  - title: Utilities
     contents:
-      - is_type
-      - is_xxx_day
-      - is_leap_year
-      - interval_properties
-      - interval_start_end
-      - interval_includes
-  - title: NA
+      - combine
+      - subset
+  - title: NA handling
     contents:
       - is_NA
       - NAs
       - integer_constants
-  - title: Summary statistics and operators
-    contents:
-      - mean
-      - max_min
-      - ops
-  - title: Utility
-    contents:
-      - combine
-      - subset
