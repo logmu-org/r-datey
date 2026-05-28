@@ -13,10 +13,15 @@
 \arguments{
 \item{x}{The \code{datey} or \code{durationy}.}
 
-\item{...}{Ignored.}
+\item{...}{Other arguments (not used in this package).}
 
 \item{na.rm}{A logical (\code{TRUE} or \code{FALSE}) indicating whether NA values should be removed before the computation.}
 }
 \description{
 Mean value of \code{datey} or \code{durationy}
+}
+\examples{
+    t <- datey(2000:2003)
+    t
+    mean(t)
 }

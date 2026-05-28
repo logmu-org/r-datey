@@ -13,7 +13,7 @@
 \arguments{
 \item{x}{The \code{datey} to convert to years.}
 
-\item{...}{Further arguments to be passed from or to other methods.}
+\item{...}{Other arguments (not used in this package).}
 }
 \description{
 Converts a \code{datey} to calendar years. The fractional part represents the

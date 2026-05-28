@@ -31,7 +31,7 @@ fractions not in the interval [0,1].
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
 }
 
-(NA arguments result in NA regardless of \code{strict}.)}
+NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
 }
 \description{
 Create a \code{datey} for the start, middle or end of the day
@@ -45,8 +45,10 @@ The lengths of vector arguments must be multiples of each other.
   end_day(1999, 12, 31)
 }
 \seealso{
-Use \code{\link[=datey]{datey()}} to to create a \code{datey} direct from years or a base R
-date. These methods call \code{\link[=from_ymdf]{from_ymdf()}}.
+Use \code{\link[=as_start_day]{as_start_day()}}, \code{\link[=as_mid_day]{as_mid_day()}} or \code{\link[=as_end_day]{as_end_day()}} to to create a
+\code{datey} from a base R date or datetime.
+
+Use \code{\link[=datey]{datey()}} to to create a \code{datey} direct from fractional calendar years.
 
 To deconstruct a \code{datey}, use \code{\link[=to_ymdf]{to_ymdf()}}.
 }

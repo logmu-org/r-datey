@@ -5,7 +5,7 @@
 \alias{is_datey}
 \alias{is_datey_interval}
 \alias{is_durationy}
-\title{Is \code{x} a \code{datey} or a \code{durationy}?}
+\title{Is \code{x} a \code{datey}, \code{durationy} or \code{datey_interval}?}
 \usage{
 is_datey(x)
 
@@ -17,7 +17,17 @@ is_durationy(x)
 \item{x}{The object to test.}
 }
 \description{
-\code{is_datey()} checks whether an object is a \code{datey}.
-
-\code{is_durationy()} checks whether an object is a \code{durationy}.
+These methods will always return a scalar logical \code{TRUE} or \code{FALSE}:
+\itemize{
+\item \code{is_datey()} tests whether an object is a \code{datey}.
+\item \code{is_durationy()} tests whether an object is a \code{durationy}.
+\item \code{is_datey_interval()} tests whether an object is a \code{datey_interval}.
+}
+}
+\examples{
+t <- datey(2000:2001)
+t
+is_datey(t)
+is_datey(NULL)
+is_datey(NA)
 }

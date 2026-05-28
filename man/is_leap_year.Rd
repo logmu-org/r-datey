@@ -30,7 +30,7 @@ is_leap_year(x, ...)
 \arguments{
 \item{x}{A vector date type or numeric year.}
 
-\item{...}{Additional arguments (unused by this package).}
+\item{...}{Other arguments (not used in this package).}
 }
 \value{
 \code{NA} if \code{x} is not interpretable as a year or date, or outside [1000,3000),

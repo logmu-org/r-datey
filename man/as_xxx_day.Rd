@@ -5,8 +5,8 @@
 \alias{as_start_day}
 \alias{as_mid_day}
 \alias{as_end_day}
-\title{Coerce a calendar year (including fractional part) or
-another date type to a \code{datey} for the start, middle of end of the day}
+\title{Create a \code{datey} aligned to the start, middle of end of the day
+specified by a fractional calendar year or another date type.}
 \usage{
 as_start_day(x, strict = TRUE)
 
@@ -17,13 +17,13 @@ as_end_day(x, strict = TRUE)
 \arguments{
 \item{x}{The argument to convert to a \code{datey}.}
 
-\item{strict}{How invalid results (given non-NA inputs) should be handled.
+\item{strict}{How invalid \emph{non-NA} inputs should be handled.
 \itemize{
 \item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
 \item If \code{strict} is \code{FALSE} then \code{NA} is returned.
 }
 
-(NA inputs will result in NA regardless of this switch.)}
+NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
 }
 \description{
 Accepted types are:
@@ -39,6 +39,12 @@ override.
 
 Beware that \code{as_end_day()} will add a day to a \code{datey} that is already on a
 day boundary, \emph{even if it was originally defined as an end day}.
+}
+\examples{
+  R_date <- as.Date("2025-07-01")
+  as_start_day(R_date)
+  as_mid_day(R_date)
+  as_end_day(R_date)
 }
 \seealso{
 Use \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}} to create a \code{datey}

@@ -11,8 +11,8 @@ start \%to\% end
 }
 \arguments{
 \item{start, end}{The start (inclusive) and end of the interval (exclusive).
-These can be any type that is convertible to a \code{datey}. Must have the same
-numbers of elements or be multiples of each other.}
+These can be any type that is convertible to a \code{datey}. These have the same
+numbers of elements or their lengths must be multiples of each other.}
 
 \item{strict}{How NAs should be handled.
 \itemize{
@@ -21,13 +21,18 @@ numbers of elements or be multiples of each other.}
 }}
 }
 \description{
-Creates the \code{datey_interval} [\code{start}, \code{end}).
+Create a \code{datey_interval} representing [\code{start}, \code{end}).
 
-The operator syntax may be clearer, i.e. \code{start \%to\% end}.
+These are closed-open ('clopen') intervals \code{start} <= t < \code{end}, i.e. the
+interval includes \code{start} but excludes \code{end}.
+
+There are two equivalent syntaxes,
+\itemize{
+\item operator: \code{start \%to\% end}, and
+\item function: \code{datey_interval(start, end)}.
+}
 }
 \examples{
-  t_1 <- start_day(2001, 1, 1)
-  t_2 <- start_day(2002, 2, 2)
-  datey_interval(t_1, t_2)
-  t_1 \%to\% t_2
+  datey(1999) \%to\% mid_day(2025, 7, 15)
+  datey(1999) \%to\% datey(2000:2002)
 }

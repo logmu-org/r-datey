@@ -23,7 +23,7 @@
 \arguments{
 \item{x}{The \code{durationy} to print or format.}
 
-\item{...}{Further arguments to be passed from or to other methods.}
+\item{...}{Other arguments.}
 
 \item{include_plus}{Whether to include a plus ('+') sign for positive
 durations.

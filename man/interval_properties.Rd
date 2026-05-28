@@ -2,37 +2,24 @@
 % Please edit documentation in R/datey_interval.R
 \name{interval_properties}
 \alias{interval_properties}
-\alias{is_empty_interval}
-\alias{is_proper_interval}
-\title{Properties of a \code{datey_interval}}
+\alias{$.datey_interval}
+\title{Extract start or end from a \code{datey_interval}}
 \usage{
-is_empty_interval(interval)
-
-is_proper_interval(interval, ignore_NA = FALSE)
+\method{$}{datey_interval}(x, name)
 }
 \arguments{
-\item{interval}{The \code{datey_interval} to test.}
+\item{x}{The \code{datey_interval}.}
+
+\item{name}{Must be \code{start} or \code{end}.}
 }
 \description{
-Test whether a \code{datey_interval} is empty or proper:
-\itemize{
-\item An \emph{empty} interval does not start before its end.
-\item A \emph{proper} interval does not end before its start.
-}
-
-An NA interval is treated as empty and improper, so these methods are
-guaranteed to return \code{TRUE} or \code{FALSE} provided the argument is a
-\code{datey_interval}.
+Extract the start or end of a \code{datey_interval} using the syntax
+\verb{$start} or \verb{$end} respectively.
 }
 \examples{
-  a <- datey(1999)
-  b <- datey(2000)
-  is_empty_interval(a \%to\% b)
-  is_empty_interval(a \%to\% a)
-  is_empty_interval(b \%to\% a)
-  is_empty_interval(NA_datey_interval_)
-  is_proper_interval(a \%to\% b)
-  is_proper_interval(a \%to\% a)
-  is_proper_interval(b \%to\% a)
-  is_proper_interval(NA_datey_interval_)
+  t_1 <- start_day(2001, 1, 1)
+  t_2 <- start_day(2002, 2, 2)
+  interval <- datey_interval(t_1, t_2)
+  interval$start
+  interval$end
 }

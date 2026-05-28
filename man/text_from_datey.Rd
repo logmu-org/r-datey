@@ -16,7 +16,7 @@
 \arguments{
 \item{x}{The \code{datey} to print or format.}
 
-\item{...}{Further arguments to be passed from or to other methods.}
+\item{...}{Other arguments.}
 
 \item{include_day_fraction}{Whether to include the fractional day part.
 Defaults to \code{FALSE}.}
