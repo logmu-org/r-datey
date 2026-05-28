@@ -33,7 +33,7 @@ print(x, include_day_fraction = TRUE, max = NULL, ...)
 
 - ...:
 
-  Further arguments to be passed from or to other methods.
+  Other arguments.
 
 - include_day_fraction:
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="creation-and-conversion">Creation and conversion<a class="anchor" aria-label="anchor" href="#creation-and-conversion"></a></h2>
+      <h2 id="useful-date-methods">Useful date methods<a class="anchor" aria-label="anchor" href="#useful-date-methods"></a></h2>
 
 
 
@@ -50,13 +50,6 @@
 
 
       <dl><dt>
-
-          <code><a href="datey.html">datey()</a></code>
-
-        </dt>
-        <dd>Create a <code>datey</code> from a calendar year (including its fractional part) or another date type</dd>
-
-        <dt>
 
           <code><a href="xxx_day.html">start_day()</a></code> <code><a href="xxx_day.html">mid_day()</a></code> <code><a href="xxx_day.html">end_day()</a></code>
 
@@ -68,7 +61,74 @@
           <code><a href="as_xxx_day.html">as_start_day()</a></code> <code><a href="as_xxx_day.html">as_mid_day()</a></code> <code><a href="as_xxx_day.html">as_end_day()</a></code>
 
         </dt>
-        <dd>Coerce a calendar year (including fractional part) or another date type to a <code>datey</code> for the start, middle of end of the day</dd>
+        <dd>Create a <code>datey</code> aligned to the start, middle of end of the day specified by a fractional calendar year or another date type.</dd>
+
+        <dt>
+
+          <code><a href="datey.html">datey()</a></code>
+
+        </dt>
+        <dd>Create a <code>datey</code> from a calendar year (including its fractional part) or another date type</dd>
+
+        <dt>
+
+          <code><a href="datey_properties.html">`$`(<i>&lt;datey&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Extract year, month, day or day_fraction from a <code>datey</code></dd>
+      </dl></div><div class="section level2">
+      <h2 id="date-intervals">Date intervals<a class="anchor" aria-label="anchor" href="#date-intervals"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="datey_interval.html">datey_interval()</a></code> <code><a href="datey_interval.html">`%to%`</a></code>
+
+        </dt>
+        <dd>Create a <code>datey_interval</code></dd>
+
+        <dt>
+
+          <code><a href="interval_nature.html">is_empty_interval()</a></code> <code><a href="interval_nature.html">is_proper_interval()</a></code>
+
+        </dt>
+        <dd>Properties of a <code>datey_interval</code></dd>
+
+        <dt>
+
+          <code><a href="interval_properties.html">`$`(<i>&lt;datey_interval&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Extract start or end from a <code>datey_interval</code></dd>
+
+        <dt>
+
+          <code><a href="interval_includes.html">interval_includes()</a></code> <code><a href="interval_includes.html">`%includes%`</a></code>
+
+        </dt>
+        <dd>Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
+      </dl></div><div class="section level2">
+      <h2 id="general-creation-methods">General creation methods<a class="anchor" aria-label="anchor" href="#general-creation-methods"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="ymdf.html">to_ymdf()</a></code> <code><a href="ymdf.html">from_ymdf()</a></code>
+
+        </dt>
+        <dd>Create or decompose a <code>datey</code> using calendar year, month, day and day fraction</dd>
 
         <dt>
 
@@ -78,6 +138,22 @@
         <dd>Create a <code>durationy</code> from an annual duration</dd>
 
         <dt>
+
+          <code><a href="seq.html">seq(<i>&lt;datey&gt;</i>)</a></code> <code><a href="seq.html">seq(<i>&lt;durationy&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Create <code>datey</code> or <code>durationy</code> sequence vector</dd>
+      </dl></div><div class="section level2">
+      <h2 id="conversion-to-years">Conversion to years<a class="anchor" aria-label="anchor" href="#conversion-to-years"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="as_years_datey.html">as.double(<i>&lt;datey&gt;</i>)</a></code> <code><a href="as_years_datey.html">as.integer(<i>&lt;datey&gt;</i>)</a></code>
 
@@ -90,27 +166,66 @@
 
         </dt>
         <dd>Convert a <code>durationy</code> to duration in years</dd>
+      </dl></div><div class="section level2">
+      <h2 id="operators-and-statistics">Operators and statistics<a class="anchor" aria-label="anchor" href="#operators-and-statistics"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="ops.html">Ops(<i>&lt;datey_type&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Operators for <code>datey</code>, <code>durationy</code> and <code>datey_interval</code></dd>
 
         <dt>
 
-          <code><a href="ymdf.html">to_ymdf()</a></code> <code><a href="ymdf.html">from_ymdf()</a></code>
+          <code><a href="mean.html">mean(<i>&lt;datey&gt;</i>)</a></code> <code><a href="mean.html">mean(<i>&lt;durationy&gt;</i>)</a></code>
 
         </dt>
-        <dd>Create or decompose a <code>datey</code> using calendar year, month, day and day fraction</dd>
+        <dd>Mean value of <code>datey</code> or <code>durationy</code></dd>
 
         <dt>
 
-          <code><a href="seq.html">seq(<i>&lt;datey&gt;</i>)</a></code> <code><a href="seq.html">seq(<i>&lt;durationy&gt;</i>)</a></code>
+          <code><a href="max_min.html">Summary(<i>&lt;datey&gt;</i>)</a></code> <code><a href="max_min.html">Summary(<i>&lt;durationy&gt;</i>)</a></code>
 
         </dt>
-        <dd>Create <code>datey</code> or <code>durationy</code> sequence vector</dd>
+        <dd>Minimum, maximum or range of <code>datey</code> or <code>durationy</code></dd>
+      </dl></div><div class="section level2">
+      <h2 id="properties">Properties<a class="anchor" aria-label="anchor" href="#properties"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="is_type.html">is_datey()</a></code> <code><a href="is_type.html">is_datey_interval()</a></code> <code><a href="is_type.html">is_durationy()</a></code>
+
+        </dt>
+        <dd>Is <code>x</code> a <code>datey</code>, <code>durationy</code> or <code>datey_interval</code>?</dd>
 
         <dt>
 
-          <code><a href="datey_interval.html">datey_interval()</a></code> <code><a href="datey_interval.html">`%to%`</a></code>
+          <code><a href="is_xxx_day.html">is_start_day()</a></code> <code><a href="is_xxx_day.html">is_mid_day()</a></code>
 
         </dt>
-        <dd>Create a <code>datey_interval</code></dd>
+        <dd>Is a <code>datey</code> the start (or end) or middle of a day?</dd>
+
+        <dt>
+
+          <code><a href="is_leap_year.html">is_leap_year()</a></code>
+
+        </dt>
+        <dd>Is <code>x</code> a leap year?</dd>
       </dl></div><div class="section level2">
       <h2 id="text-parsing-and-printing">Text parsing and printing<a class="anchor" aria-label="anchor" href="#text-parsing-and-printing"></a></h2>
 
@@ -156,7 +271,7 @@
         </dt>
         <dd>Format or print a <code>datey_interval</code></dd>
       </dl></div><div class="section level2">
-      <h2 id="properties">Properties<a class="anchor" aria-label="anchor" href="#properties"></a></h2>
+      <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
 
 
 
@@ -167,47 +282,19 @@
 
       <dl><dt>
 
-          <code><a href="is_type.html">is_datey()</a></code> <code><a href="is_type.html">is_datey_interval()</a></code> <code><a href="is_type.html">is_durationy()</a></code>
+          <code><a href="combine.html">c(<i>&lt;datey&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;datey_interval&gt;</i>)</a></code>
 
         </dt>
-        <dd>Is <code>x</code> a <code>datey</code> or a <code>durationy</code>?</dd>
+        <dd>Combine multiple <code>datey</code>, <code>durationy</code> or <code>datey_interval</code> vectors</dd>
 
         <dt>
 
-          <code><a href="is_xxx_day.html">is_start_day()</a></code> <code><a href="is_xxx_day.html">is_mid_day()</a></code>
+          <code><a href="subset.html">`[`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey_interval&gt;</i>)</a></code>
 
         </dt>
-        <dd>Is a <code>datey</code> the start (or end) or middle of a day?</dd>
-
-        <dt>
-
-          <code><a href="is_leap_year.html">is_leap_year()</a></code>
-
-        </dt>
-        <dd>Is <code>x</code> a leap year?</dd>
-
-        <dt>
-
-          <code><a href="interval_properties.html">is_empty_interval()</a></code> <code><a href="interval_properties.html">is_proper_interval()</a></code>
-
-        </dt>
-        <dd>Properties of a <code>datey_interval</code></dd>
-
-        <dt>
-
-          <code><a href="interval_start_end.html">`$`(<i>&lt;datey_interval&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Extract start or end from a <code>datey_interval</code></dd>
-
-        <dt>
-
-          <code><a href="interval_includes.html">interval_includes()</a></code> <code><a href="interval_includes.html">`%includes%`</a></code>
-
-        </dt>
-        <dd>Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
+        <dd>Subset <code>datey</code>, <code>durationy</code> or <code>datey_interval</code> vectors</dd>
       </dl></div><div class="section level2">
-      <h2 id="na">NA<a class="anchor" aria-label="anchor" href="#na"></a></h2>
+      <h2 id="na-handling">NA handling<a class="anchor" aria-label="anchor" href="#na-handling"></a></h2>
 
 
 
@@ -236,59 +323,6 @@
 
         </dt>
         <dd>Integer constants</dd>
-      </dl></div><div class="section level2">
-      <h2 id="summary-statistics-and-operators">Summary statistics and operators<a class="anchor" aria-label="anchor" href="#summary-statistics-and-operators"></a></h2>
-
-
-
-      <dl></dl></div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="mean.html">mean(<i>&lt;datey&gt;</i>)</a></code> <code><a href="mean.html">mean(<i>&lt;durationy&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Mean value of <code>datey</code> or <code>durationy</code></dd>
-
-        <dt>
-
-          <code><a href="max_min.html">Summary(<i>&lt;datey&gt;</i>)</a></code> <code><a href="max_min.html">Summary(<i>&lt;durationy&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Minimum, maximum or range of <code>datey</code> or <code>durationy</code></dd>
-
-        <dt>
-
-          <code><a href="ops.html">Ops(<i>&lt;datey_type&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Operators for <code>datey</code>, <code>durationy</code> and <code>datey_interval</code></dd>
-      </dl></div><div class="section level2">
-      <h2 id="utility">Utility<a class="anchor" aria-label="anchor" href="#utility"></a></h2>
-
-
-
-      <dl></dl></div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="combine.html">c(<i>&lt;datey&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="combine.html">c(<i>&lt;datey_interval&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Combine multiple <code>datey</code>, <code>durationy</code> or <code>datey_interval</code> vectors</dd>
-
-        <dt>
-
-          <code><a href="subset.html">`[`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[`(<i>&lt;datey_interval&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;durationy&gt;</i>)</a></code> <code><a href="subset.html">`[&lt;-`(<i>&lt;datey_interval&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Subset <code>datey</code>, <code>durationy</code> or <code>datey_interval</code> vectors</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

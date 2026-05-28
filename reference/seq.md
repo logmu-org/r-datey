@@ -6,30 +6,36 @@ Creates a `datey` or `durationy` vector by defining a sequence.
 
 ``` r
 # S3 method for class 'datey'
-seq(from, to, by)
+seq(from, to, by, ...)
 
 # S3 method for class 'durationy'
-seq(from, to, by)
+seq(from, to, by, ...)
 ```
 
 ## Arguments
 
-- from, to:
+- from:
 
-  The starting and (maximal) end values of the sequence. Scalar `datey`s
-  or `durationy`s.
+  The first value in the sequence. A scalar `datey` or `durationy`.
+
+- to:
+
+  The sequence stops before values exceed `to`. A scalar `datey` or
+  `durationy`.
 
 - by:
 
-  A scalar`durationy` representing the increment of the sequence.
+  The increment of the sequence. A scalar `datey` or `durationy`.
 
-## Value
+- ...:
 
-The sequence
+  Other arguments (not used in this package).
 
 ## Examples
 
 ``` r
   seq(from = datey(2000), to = datey(2005), by = durationy(2))
 #> [1] 2000-01-01.0 2002-01-01.0 2004-01-01.0
+  seq(from = datey(2000), to = datey(1999), by = durationy(-0.25))
+#> [1] 2000-01-01.0  1999-10-01.75 1999-07-02.5  1999-04-02.25 1999-01-01.0 
 ```

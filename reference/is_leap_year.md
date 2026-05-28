@@ -45,7 +45,7 @@ is_leap_year(x, ...)
 
 - ...:
 
-  Additional arguments (unused by this package).
+  Other arguments (not used in this package).
 
 ## Value
 

@@ -27,14 +27,14 @@ valid_duration_years_max
 ## Examples
 
 ``` r
-  datey(valid_years_start - 0.001)
-#> Error: The year is invalid.
+  datey(valid_years_start - 0.001, strict = FALSE)
+#> [1] <NA>
   datey(valid_years_start)
 #> [1] 1000-01-01.0
   datey(valid_years_end)
 #> [1] 3000-01-01.0
-  datey(valid_years_end + 0.001)
-#> Error: The year is invalid.
-  durationy(-(valid_duration_years_max + 0.001))
-#> Error: Absolute value of years argument is greater than 2000.
+  datey(valid_years_end + 0.001, strict = FALSE)
+#> [1] <NA>
+  durationy(-(valid_duration_years_max + 0.001), strict = FALSE)
+#> [1] <NA>
 ```

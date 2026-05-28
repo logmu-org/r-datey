@@ -33,7 +33,7 @@ print(
 
 - ...:
 
-  Further arguments to be passed from or to other methods.
+  Other arguments.
 
 - include_plus:
 

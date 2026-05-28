@@ -25,7 +25,7 @@ This is an S3 generic."><meta property="og:image" content="https://logmu-org.git
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,7 @@ number of years, rounded to fixed precision of a <code>durationy</code>. This me
 <dd><p>How years greater than 2000 in magnitude should be
 handled.</p><ul><li><p>If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.</p></li>
 <li><p>If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p></li>
-</ul><p>(NAs will result in NA regardless of this switch.)</p></dd>
+</ul><p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

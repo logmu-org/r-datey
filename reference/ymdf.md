@@ -16,6 +16,10 @@ The lengths of vector arguments must be multiples of each other.
   the day, where e.g. 0 means the start and 0.5 means the middle of the
   day.
 
+Alternatively, if you want only one or two components, use the list-like
+syntax [`$year`, `$month`, `$day` or
+`$day_fraction`](https://logmu-org.github.io/r-datey/reference/datey_properties.md).
+
 If the `datey` was constructed using `end_day` or `day_fraction = 1`
 then `to_ymdf()` will return the *start* of the *next* day with
 `day_fraction = 0`.
@@ -72,30 +76,43 @@ from_ymdf(year, month, day, day_fraction, strict = TRUE)
 
   - If `strict` is `FALSE` then `NA` is returned.
 
-  (NA arguments result in NA regardless of `strict`.)
+  NA arguments result in NA (and do not stop execution) regardless of
+  `strict`.
 
 ## See also
 
 Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
 to create a `datey` direct from years or a base R date.
 
+Use the syntax [`$year`, `$month`, `$day` or
+`$day_fraction`](https://logmu-org.github.io/r-datey/reference/datey_properties)
+to extract one component at a time.
+
 ## Examples
 
 ``` r
-  t <- from_ymdf(1999, 12, 31, 0.5)
+  t <- from_ymdf(2001, 2, 3, 0.5)
   t
-#> [1] 1999-12-31.5
+#> [1] 2001-02-03.5
   to_ymdf(t)
 #> $year
-#> [1] 1999
+#> [1] 2001
 #> 
 #> $month
-#> [1] 12
+#> [1] 2
 #> 
 #> $day
-#> [1] 31
+#> [1] 3
 #> 
 #> $day_fraction
 #> [1] 0.5
 #> 
+  t$year
+#> [1] 2001
+  t$month
+#> [1] 2
+  t$day
+#> [1] 3
+  t$day_fraction
+#> [1] 0.5
 ```

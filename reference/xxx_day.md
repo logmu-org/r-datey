@@ -41,14 +41,20 @@ end_day(year, month, day, strict = TRUE)
 
   - If `strict` is `FALSE` then `NA` is returned.
 
-  (NA arguments result in NA regardless of `strict`.)
+  NA arguments result in NA (and do not stop execution) regardless of
+  `strict`.
 
 ## See also
 
+Use
+[`as_start_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md),
+[`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+or
+[`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+to to create a `datey` from a base R date or datetime.
+
 Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-to to create a `datey` direct from years or a base R date. These methods
-call
-[`from_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md).
+to to create a `datey` direct from fractional calendar years.
 
 To deconstruct a `datey`, use
 [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md).

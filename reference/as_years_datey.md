@@ -37,4 +37,4 @@ as.integer(x, ...)
 
 - ...:
 
-  Further arguments to be passed from or to other methods.
+  Other arguments (not used in this package).

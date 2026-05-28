@@ -1,8 +1,15 @@
 # Create a `datey_interval`
 
-Creates the `datey_interval` \[`start`, `end`).
+Create a `datey_interval` representing \[`start`, `end`).
 
-The operator syntax may be clearer, i.e. `start %to% end`.
+These are closed-open ('clopen') intervals `start` \<= t \< `end`, i.e.
+the interval includes `start` but excludes `end`.
+
+There are two equivalent syntaxes,
+
+- operator: `start %to% end`, and
+
+- function: `datey_interval(start, end)`.
 
 ## Usage
 
@@ -17,8 +24,8 @@ start %to% end
 - start, end:
 
   The start (inclusive) and end of the interval (exclusive). These can
-  be any type that is convertible to a `datey`. Must have the same
-  numbers of elements or be multiples of each other.
+  be any type that is convertible to a `datey`. These have the same
+  numbers of elements or their lengths must be multiples of each other.
 
 - strict:
 
@@ -32,10 +39,9 @@ start %to% end
 ## Examples
 
 ``` r
-  t_1 <- start_day(2001, 1, 1)
-  t_2 <- start_day(2002, 2, 2)
-  datey_interval(t_1, t_2)
-#> [1] [2001-01-01.0, 2002-02-02.0)
-  t_1 %to% t_2
-#> [1] [2001-01-01.0, 2002-02-02.0)
+  datey(1999) %to% mid_day(2025, 7, 15)
+#> [1] [1999-01-01.0, 2025-07-15.5)
+  datey(1999) %to% datey(2000:2002)
+#> [1] [1999-01-01.0, 2000-01-01.0) [1999-01-01.0, 2001-01-01.0)
+#> [3] [1999-01-01.0, 2002-01-01.0)
 ```

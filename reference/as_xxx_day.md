@@ -1,4 +1,4 @@
-# Coerce a calendar year (including fractional part) or another date type to a `datey` for the start, middle of end of the day
+# Create a `datey` aligned to the start, middle of end of the day specified by a fractional calendar year or another date type.
 
 Accepted types are:
 
@@ -34,13 +34,14 @@ as_end_day(x, strict = TRUE)
 
 - strict:
 
-  How invalid results (given non-NA inputs) should be handled.
+  How invalid *non-NA* inputs should be handled.
 
   - If `strict` is `TRUE` – the default – then execution is stopped.
 
   - If `strict` is `FALSE` then `NA` is returned.
 
-  (NA inputs will result in NA regardless of this switch.)
+  NA arguments result in NA (and do not stop execution) regardless of
+  `strict`.
 
 ## See also
 
@@ -50,3 +51,15 @@ Use
 and
 [`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
 to create a `datey` direct from year, month and day.
+
+## Examples
+
+``` r
+  R_date <- as.Date("2025-07-01")
+  as_start_day(R_date)
+#> [1] 2025-07-01.0
+  as_mid_day(R_date)
+#> [1] 2025-07-01.5
+  as_end_day(R_date)
+#> [1] 2025-07-02.0
+```

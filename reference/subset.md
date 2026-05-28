@@ -36,7 +36,7 @@ x[i] <- value
 
 - ...:
 
-  Passed through.
+  Other arguments.
 
 - value:
 

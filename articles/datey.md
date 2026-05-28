@@ -7,50 +7,38 @@ library(datey)
 
 Link to other pages here
 
-When converting dates, which are measured in days, to a system that
-assumes all years have the same length, something has to give.
+There are sound reasons for working in annual units, but it is a
+(convenient) fiction because not all years have the same length.
 
-The most common approach, which simply because some years contain 365
-days and others have 366.
+So when we want to convert dates, which are measured in days, to an
+annual system, something has to give.
 
-(which is to assume that days are 1 year / N, where N is the number of
-days in the containing calendar year) - a consistent framework based on
-the most common approach,
+The best we can do is make this conversion well-defined and consistent,
+which is what **datey** aims to do.
 
-- Fixed precision dates for calendar years \[1000, 3000)
-- Technically this is the Proleptic Gregorian calendar
+To this end **datey** adopts what seems to be the most common approach,
+which is to treat days as 1/366 of a year in a leap year and 1/365 of a
+year otherwise.
 
-Guarantees:
+More specifically, **datey**
 
-- Can represent start and middle of any day leap year and non leap year
-- Years divisible by 120
+- handles dates from the start of 1000 to the end of 2999,
+- accurately represents the start and middle of any day as a fraction of
+  a calendar year, and
+- accurately represents 1/120 of a calendar year
 
-You can convert from standard base R dates (`Date`, `POSIXct` and
-`POSIXlt`).
+It achieves this by using fixed precision with units of
+1/(4 × 365 × 366) of a year. The full specification is \[here\]\[spec\].
 
-Key argument is `day_fraction`. Simpler just to use `start_day`,
-`mid_day` or `end_day`.
+You can convert from standard base R dates `Date`, `POSIXct` and
+`POSIXlt`.
 
-For instance
+Typically use `start_day`, `mid_day` or `end_day`.
 
-- start of E2R is typically included, so use `start_day`.
-- if the individual survived then the end of the E2R is also typically
-  included, so use `end_day`. This means that if the E2R comprises
-  separate periods then they will interlock correctly (E2Rs being
-  [measurable](https://timgord.com/2025-08/mortality-measures-matter/#Insight2))
-- If the individual died then on average this is during the final day
-  and so use `mid_day`.
+Date intervals are \[a,b). Standard because they behave sensibly under
+partition, e.g
 
-Guarantees:
-
-- Can represent start and middle of any day leap year and non leap year
-- Years divisible by 120
-
-You can convert from standard base R dates (`Date`, `POSIXct` and
-`POSIXlt`).
-
-Key argument is `day_fraction`. Simpler just to use `start_day`,
-`mid_day` or `end_day`.
+\[a,c) == \[a,b) + \[b,c) for a ≤ b ≤ c
 
 For instance
 

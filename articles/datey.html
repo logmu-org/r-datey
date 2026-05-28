@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,50 +78,31 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span></code></pre></div>
 <p>Link to other pages here</p>
-<p>When converting dates, which are measured in days, to a system that
-assumes all years have the same length, something has to give.</p>
-<p>The most common approach, which simply because some years contain 365
-days and others have 366.</p>
-<p>(which is to assume that days are 1 year / N, where N is the number
-of days in the containing calendar year) - a consistent framework based
-on the most common approach,</p>
+<p>There are sound reasons for working in annual units, but it is a
+(convenient) fiction because not all years have the same length.</p>
+<p>So when we want to convert dates, which are measured in days, to an
+annual system, something has to give.</p>
+<p>The best we can do is make this conversion well-defined and
+consistent, which is what <strong>datey</strong> aims to do.</p>
+<p>To this end <strong>datey</strong> adopts what seems to be the most
+common approach, which is to treat days as 1/366 of a year in a leap
+year and 1/365 of a year otherwise.</p>
+<p>More specifically, <strong>datey</strong></p>
 <ul>
-<li>Fixed precision dates for calendar years [1000, 3000)</li>
-<li>Technically this is the Proleptic Gregorian calendar</li>
+<li>handles dates from the start of 1000 to the end of 2999,</li>
+<li>accurately represents the start and middle of any day as a fraction
+of a calendar year, and</li>
+<li>accurately represents 1/120 of a calendar year</li>
 </ul>
-<p>Guarantees:</p>
-<ul>
-<li>Can represent start and middle of any day leap year and non leap
-year</li>
-<li>Years divisible by 120</li>
-</ul>
-<p>You can convert from standard base R dates (<code>Date</code>,
-<code>POSIXct</code> and <code>POSIXlt</code>).</p>
-<p>Key argument is <code>day_fraction</code>. Simpler just to use
-<code>start_day</code>, <code>mid_day</code> or
+<p>It achieves this by using fixed precision with units of
+1/(4 × 365 × 366) of a year. The full specification is [here][spec].</p>
+<p>You can convert from standard base R dates <code>Date</code>,
+<code>POSIXct</code> and <code>POSIXlt</code>.</p>
+<p>Typically use <code>start_day</code>, <code>mid_day</code> or
 <code>end_day</code>.</p>
-<p>For instance</p>
-<ul>
-<li>start of E2R is typically included, so use
-<code>start_day</code>.</li>
-<li>if the individual survived then the end of the E2R is also typically
-included, so use <code>end_day</code>. This means that if the E2R
-comprises separate periods then they will interlock correctly (E2Rs
-being <a href="https://timgord.com/2025-08/mortality-measures-matter/#Insight2" class="external-link">measurable</a>)</li>
-<li>If the individual died then on average this is during the final day
-and so use <code>mid_day</code>.</li>
-</ul>
-<p>Guarantees:</p>
-<ul>
-<li>Can represent start and middle of any day leap year and non leap
-year</li>
-<li>Years divisible by 120</li>
-</ul>
-<p>You can convert from standard base R dates (<code>Date</code>,
-<code>POSIXct</code> and <code>POSIXlt</code>).</p>
-<p>Key argument is <code>day_fraction</code>. Simpler just to use
-<code>start_day</code>, <code>mid_day</code> or
-<code>end_day</code>.</p>
+<p>Date intervals are [a,b). Standard because they behave sensibly under
+partition, e.g</p>
+<p>[a,c) == [a,b) + [b,c) for a ≤ b ≤ c</p>
 <p>For instance</p>
 <ul>
 <li>start of E2R is typically included, so use

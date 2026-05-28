@@ -1,48 +1,33 @@
-# Properties of a `datey_interval`
+# Extract start or end from a `datey_interval`
 
-Test whether a `datey_interval` is empty or proper:
-
-- An *empty* interval does not start before its end.
-
-- A *proper* interval does not end before its start.
-
-An NA interval is treated as empty and improper, so these methods are
-guaranteed to return `TRUE` or `FALSE` provided the argument is a
-`datey_interval`.
+Extract the start or end of a `datey_interval` using the syntax `$start`
+or `$end` respectively.
 
 ## Usage
 
 ``` r
-is_empty_interval(interval)
-
-is_proper_interval(interval, ignore_NA = FALSE)
+# S3 method for class 'datey_interval'
+x$name
 ```
 
 ## Arguments
 
-- interval:
+- x:
 
-  The `datey_interval` to test.
+  The `datey_interval`.
+
+- name:
+
+  Must be `start` or `end`.
 
 ## Examples
 
 ``` r
-  a <- datey(1999)
-  b <- datey(2000)
-  is_empty_interval(a %to% b)
-#> [1] FALSE
-  is_empty_interval(a %to% a)
-#> [1] TRUE
-  is_empty_interval(b %to% a)
-#> [1] TRUE
-  is_empty_interval(NA_datey_interval_)
-#> [1] TRUE
-  is_proper_interval(a %to% b)
-#> [1] TRUE
-  is_proper_interval(a %to% a)
-#> [1] TRUE
-  is_proper_interval(b %to% a)
-#> [1] FALSE
-  is_proper_interval(NA_datey_interval_)
-#> [1] FALSE
+  t_1 <- start_day(2001, 1, 1)
+  t_2 <- start_day(2002, 2, 2)
+  interval <- datey_interval(t_1, t_2)
+  interval$start
+#> [1] 2001-01-01.0
+  interval$end
+#> [1] 2002-02-02.0
 ```

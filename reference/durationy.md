@@ -45,7 +45,8 @@ durationy(x, strict = TRUE, ...)
 
   - If `strict` is `FALSE` then `NA` is returned.
 
-  (NAs will result in NA regardless of this switch.)
+  NA arguments result in NA (and do not stop execution) regardless of
+  `strict`.
 
 - ...:
 
