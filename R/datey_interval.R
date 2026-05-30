@@ -42,6 +42,8 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #'   datey(1999) %to% datey(2000:2002)
 #' @export
 datey_interval <- function(start, end, strict = TRUE) {
+  start <- datey(start, strict = strict)
+  end <- datey(end, strict = strict)
   punned_double <- cpp_dateyInterval(start, end, strict)
   datey_interval_from_punned_double(punned_double)
 }
@@ -102,6 +104,17 @@ anyNA.datey_interval = function(x, recursive = FALSE) {
   if (!isFALSE(recursive)) stop("The recursive argument must be FALSE.", call. = FALSE)
   cpp_dateyIntervalAnyNA(x)
 }
+
+#' All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
+#'
+#' @description
+#' The `datey_interval` [1000-01-01.0, 3000-01-01.0).
+#'
+#' This is the value used when a `datey_interval` is combined with a logical
+#' using the `&` operator.
+#' @examples
+#'   all_of_time
+all_of_time <- datey_interval(1000,3000)
 
 #' Properties of a `datey_interval`
 #'

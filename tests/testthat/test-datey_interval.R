@@ -7,6 +7,7 @@
 # datey_interval constants ==================================================
 test_that("`NA_datey_interval_` is a `datey`", expect_identical(is_datey_interval(NA_datey_interval_), TRUE))
 test_that("`NA_datey_interval_` is NA", expect_identical(is.na(NA_datey_interval_), TRUE))
+test_that("`all_of_time`", expect_identical(all_of_time, datey_interval(valid_years_start,valid_years_end)))
 
 # is_datey_interval <- function(x) ==================================================
 test_that("`is_datey_interval()`", {

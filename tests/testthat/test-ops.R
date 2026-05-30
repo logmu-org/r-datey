@@ -200,3 +200,13 @@ test_that("datey / durationy operators with numerics", {
   expect_identical(9 >= D_10, FALSE)
 })
 
+test_that("intersection for datey_interval", {
+
+  YOU ARE HERE
+
+  D1 <- durationy(1)
+  D2 <- durationy(2)
+
+  expect_error(D1 * D2)
+  expect_error(D1 / D2)
+})
