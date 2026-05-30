@@ -141,6 +141,23 @@ Ops.datey_type <- function(e1, e2) {
         if (.Generic == "/") return(durationy_from_clicks(u1 / u2))
       }
 
+    } else if (is_datey_interval(e1) ||is_datey_interval(e2)) {
+
+      if (is_pure_logical(e1)) {
+        e1 <- ifelse(e1, all_of_time, NA_datey_interval_)
+      }
+      if (is_pure_logical(e2)) {
+        e2 <- ifelse(e2, all_of_time, NA_datey_interval_)
+      }
+      if (is_datey_interval(e1) && is_datey_interval(e2)) {
+        if (.Generic == "&") {
+          start <- datey_from_clicks(max(unclass(e1$start), unclass(e2$start)))
+          end <- datey_from_clicks(min(unclass(e1$end), unclass(e2$end)))
+
+          return(datey_interval(start, end, strict = FALSE))
+        }
+      }
+
     }
   }
 
