@@ -202,11 +202,14 @@ test_that("datey / durationy operators with numerics", {
 
 test_that("intersection for datey_interval", {
 
-  YOU ARE HERE
+  T1 <- datey(2001)
+  T2 <- datey(2002)
+  T3 <- datey(2003)
+  T4 <- datey(2004)
 
-  D1 <- durationy(1)
-  D2 <- durationy(2)
+  I13 <- datey_interval(T1, T3)
+  I24 <- datey_interval(T2, T4)
+  I23 <- datey_interval(T2, T3)
 
-  expect_error(D1 * D2)
-  expect_error(D1 / D2)
+  expect_identical(I13 & I24, I23)
 })

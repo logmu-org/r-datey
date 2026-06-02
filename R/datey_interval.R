@@ -112,9 +112,10 @@ anyNA.datey_interval = function(x, recursive = FALSE) {
 #'
 #' This is the value used when a `datey_interval` is combined with a logical
 #' using the `&` operator.
+#' @export
 #' @examples
 #'   all_of_time
-all_of_time <- datey_interval(1000,3000)
+all_of_time <- NULL
 
 #' Properties of a `datey_interval`
 #'
