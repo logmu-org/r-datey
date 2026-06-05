@@ -1,5 +1,4 @@
-#ifndef INCLUDED_DATEY
-#define INCLUDED_DATEY
+#pragma once
 
 #include <tuple>
 #include <cpp11.hpp>
@@ -90,5 +89,3 @@ inline std::tuple<int, int> getStartEndFromDouble(double punnedDouble)
 }
 double dateyInterval(int start, int end, bool strict);
 cpp11::r_string dateyIntervalToRString(double dateyInterval, bool includeDayFraction);
-
-#endif
