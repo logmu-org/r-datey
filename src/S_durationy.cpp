@@ -175,7 +175,7 @@ int durationyFromRString(
   if (cpp11::is_na(rString)) { return NA_INTEGER; }
 
   // [sign][max 4 digits]['.'fraction][space+unit]
-  std::string s = (std::string)rString;
+  std::string s = static_cast<std::string>(rString);
 
   auto size = s.size();
 
