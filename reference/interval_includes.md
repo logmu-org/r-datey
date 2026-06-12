@@ -1,4 +1,4 @@
-# Whether a `datey_interval` includes a `datey`
+# `all_proper(x)` tests whether all the elements of `x` are proper. `all_collapsed(x)` tests whether all the elements of `x` are collapsed. `any_collapsed(x)` tests whether at least one of the elements of `x` is collapsed. Whether a `datey_interval` includes a `datey`
 
 Test whether a `datey_interval`, \[start, end) includes a `datey`, i.e.
 start ≤ value and value \< end.

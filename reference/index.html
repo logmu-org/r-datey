@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/why-datey.html">Why datey?</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/datey.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/spec.html">Specification</a></li>
@@ -95,10 +96,10 @@
 
         <dt>
 
-          <code><a href="interval_nature.html">is_empty_interval()</a></code> <code><a href="interval_nature.html">is_proper_interval()</a></code>
+          <code><a href="interval_nature.html">is_proper()</a></code> <code><a href="interval_nature.html">all_proper()</a></code> <code><a href="interval_nature.html">is_collapsed()</a></code> <code><a href="interval_nature.html">all_collapsed()</a></code> <code><a href="interval_nature.html">any_collapsed()</a></code>
 
         </dt>
-        <dd>Properties of a <code>datey_interval</code></dd>
+        <dd>Properties of an interval.</dd>
 
         <dt>
 
@@ -112,7 +113,14 @@
           <code><a href="interval_includes.html">interval_includes()</a></code> <code><a href="interval_includes.html">`%includes%`</a></code>
 
         </dt>
-        <dd>Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
+        <dd><code>all_proper(x)</code> tests whether all the elements of <code>x</code> are proper. <code>all_collapsed(x)</code> tests whether all the elements of <code>x</code> are collapsed. <code>any_collapsed(x)</code> tests whether at least one of the elements of <code>x</code> is collapsed. Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
+
+        <dt>
+
+          <code><a href="all_of_time.html">all_of_time</a></code>
+
+        </dt>
+        <dd>All valid <code>datey</code> calendar years, i.e. 1000 to 2999 inclusive.</dd>
       </dl></div><div class="section level2">
       <h2 id="general-creation-methods">General creation methods<a class="anchor" aria-label="anchor" href="#general-creation-methods"></a></h2>
 

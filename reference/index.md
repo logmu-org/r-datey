@@ -35,11 +35,12 @@
 
   Create a `datey_interval`
 
-- [`is_empty_interval()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  [`is_proper_interval()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  :
-
-  Properties of a `datey_interval`
+- [`is_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`all_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`is_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`all_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`any_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  : Properties of an interval.
 
 - [`` `$`( ``*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/interval_properties.md)
   :
@@ -50,7 +51,16 @@
   [`` `%includes%` ``](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
   :
 
-  Whether a `datey_interval` includes a `datey`
+  `all_proper(x)` tests whether all the elements of `x` are proper.
+  `all_collapsed(x)` tests whether all the elements of `x` are
+  collapsed. `any_collapsed(x)` tests whether at least one of the
+  elements of `x` is collapsed. Whether a `datey_interval` includes a
+  `datey`
+
+- [`all_of_time`](https://logmu-org.github.io/r-datey/reference/all_of_time.md)
+  :
+
+  All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
 
 ## General creation methods
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/why-datey.html">Why datey?</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/datey.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/spec.html">Specification</a></li>
@@ -41,15 +42,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="datey-development-version">datey (development version)<a class="anchor" aria-label="anchor" href="#datey-development-version"></a></h2>
-<ul><li>Development version</li>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="datey-010">datey 0.1.0<a class="anchor" aria-label="anchor" href="#datey-010"></a></h2>
+<p>Initial CRAN release.</p>
+<ul><li>
+<code>datey</code> and <code>durationy</code> represent dates and durations on a fixed-precision annual grid, with exact, associative arithmetic (<code>+</code>, <code>-</code>, comparisons, <code><a href="../reference/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/base/range.html" class="external-link">range()</a></code>, etc.).</li>
+<li>
+<code><a href="../reference/xxx_day.html">start_day()</a></code>, <code><a href="../reference/xxx_day.html">mid_day()</a></code>, <code><a href="../reference/xxx_day.html">end_day()</a></code> and <code><a href="../reference/ymdf.html">from_ymdf()</a></code> map calendar year/month/day (and day-fraction) to a <code>datey</code>; <code><a href="../reference/ymdf.html">to_ymdf()</a></code> and the <code>as_*_day()</code>/<code>is_*_day()</code> helpers provide the reverse mapping and checks.</li>
+<li>Conversion to and from <code>Date</code>, <code>POSIXct</code>, <code>POSIXlt</code>, and to/from years via <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>/<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>.</li>
+<li>
+<code>NA_datey_</code>, <code>NA_durationy_</code> and <code>NA_datey_interval_</code> provide type-correct <code>NA</code>s, with full <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>/<code><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA()</a></code> support.</li>
+<li>Text parsing and formatting for <code>datey</code>, <code>durationy</code> and <code>datey_interval</code>.</li>
+<li>
+<code>pillar_shaft()</code> methods for readable printing of <code>datey</code>/<code>durationy</code>/ <code>datey_interval</code> columns in tibbles.</li>
+<li>
+<code><a href="../reference/is_leap_year.html">is_leap_year()</a></code> for integer years and <code>datey</code>s.</li>
+<li>
+<code>datey_interval</code> (constructed with <code><a href="../reference/datey_interval.html">datey_interval()</a></code> or <code>%to%</code>) represents a half-open <code>[start, end)</code> date interval, with <code>%includes%</code>, <code><a href="../reference/interval_nature.html">is_collapsed()</a></code>, <code><a href="../reference/interval_nature.html">is_proper()</a></code>, intersection via <code>&amp;</code>, and the constants <code>all_of_time</code> and <code>NA_datey_interval_</code>.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1" id="datey-001">datey 0.0.1<a class="anchor" aria-label="anchor" href="#datey-001"></a></h2>
-<ul><li>Initial release</li>
-</ul></div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">

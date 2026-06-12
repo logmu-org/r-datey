@@ -1,48 +1,106 @@
-# Properties of a `datey_interval`
+# Properties of an interval.
 
-Test whether a `datey_interval` is empty or proper:
+Test whether intervals, \[*a*,*b*), are 'proper' or 'collapsed':
 
-- An *empty* interval does not start before its end.
+- A *proper* interval does not end before its start, i.e. *a* ≤ *b*.
 
-- A *proper* interval does not end before its start.
+- An *collapsed* interval does not start before its end, i.e. *a* ≥ *b*.
 
-An NA interval is treated as empty and improper, so these methods are
-guaranteed to return `TRUE` or `FALSE` provided the argument is a
-`datey_interval`.
+An NA interval is treated as collapsed and improper.
+
+These definitions imply the following:
+
+- A collapsed interval could be empty or improper.
+
+- To test for an empty interval, i.e. \[*a*,*a*), test that it is both
+  proper and collapsed.
+
+These methods are guaranteed to return `TRUE` or `FALSE`, i.e. not `NA`
+(provided the argument is an interval).
+
+Vector versions mapping each element of `x` to `TRUE` or `FALSE`:
+
+`is_proper(x)` tests whether the elements of `x` are proper.
+`is_collapsed(x)` tests whether the elements of `x` are collapsed.
+
+Scalar versions mapping `x` to a scalar `TRUE` or `FALSE`:
+
+`all_proper(x)` tests whether all the elements of `x` are proper.
+`all_collapsed(x)` tests whether all the elements of `x` are collapsed.
+`any_collapsed(x)` tests whether at least one of the elements of `x` is
+collapsed.
+
+These are S3 generic functions.
 
 ## Usage
 
 ``` r
-is_empty_interval(interval)
+is_proper(x)
 
-is_proper_interval(interval)
+# Default S3 method
+is_proper(x)
+
+# S3 method for class 'datey_interval'
+is_proper(x)
+
+all_proper(x)
+
+# Default S3 method
+all_proper(x)
+
+# S3 method for class 'datey_interval'
+all_proper(x)
+
+is_collapsed(x)
+
+# Default S3 method
+is_collapsed(x)
+
+# S3 method for class 'datey_interval'
+is_collapsed(x)
+
+all_collapsed(x)
+
+# Default S3 method
+all_collapsed(x)
+
+# S3 method for class 'datey_interval'
+all_collapsed(x)
+
+any_collapsed(x)
+
+# Default S3 method
+any_collapsed(x)
+
+# S3 method for class 'datey_interval'
+any_collapsed(x)
 ```
 
 ## Arguments
 
-- interval:
+- x:
 
-  The `datey_interval` to test.
+  The interval to test.
 
 ## Examples
 
 ``` r
   a <- datey(1999)
   b <- datey(2000)
-  is_empty_interval(a %to% b)
+  is_collapsed(a %to% b)
 #> [1] FALSE
-  is_empty_interval(a %to% a)
+  is_collapsed(a %to% a)
 #> [1] TRUE
-  is_empty_interval(b %to% a)
+  is_collapsed(b %to% a)
 #> [1] TRUE
-  is_empty_interval(NA_datey_interval_)
+  is_collapsed(NA_datey_interval_)
 #> [1] TRUE
-  is_proper_interval(a %to% b)
+  is_proper(a %to% b)
 #> [1] TRUE
-  is_proper_interval(a %to% a)
+  is_proper(a %to% a)
 #> [1] TRUE
-  is_proper_interval(b %to% a)
+  is_proper(b %to% a)
 #> [1] FALSE
-  is_proper_interval(NA_datey_interval_)
+  is_proper(NA_datey_interval_)
 #> [1] FALSE
 ```

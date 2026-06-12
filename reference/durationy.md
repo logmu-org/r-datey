@@ -9,6 +9,8 @@ following:
   rounded to fixed precision of a `durationy`. This means that
   `durationy(0.5)` is precise but `durationy(0.01)` is not.
 
+- `datey_interval` – the duration of the interval.
+
 - `durationy` – value is unchanged.
 
 This is an S3 generic.
@@ -28,6 +30,9 @@ durationy(x, strict = TRUE, ...)
 durationy(x, strict = TRUE, ...)
 
 # S3 method for class 'double'
+durationy(x, strict = TRUE, ...)
+
+# S3 method for class 'datey_interval'
 durationy(x, strict = TRUE, ...)
 ```
 
