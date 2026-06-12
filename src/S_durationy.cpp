@@ -4,7 +4,7 @@
 //
 // Copyright (c) Tim Gordon
 
-#include "datey.hpp"
+#include "datey.h"
 #include <math.h>
 
 bool isValidDurationy(int clicks)

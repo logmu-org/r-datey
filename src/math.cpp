@@ -5,7 +5,7 @@
 // Copyright (c) Tim Gordon
 
 #include <math.h>
-#include "datey.hpp"
+#include "datey.h"
 
 double roundBankers(double x)
 {

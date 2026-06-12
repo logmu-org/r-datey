@@ -5,7 +5,6 @@
 # Copyright (c) Tim Gordon
 
 # TODO:
-# intersection
 # seq_datey_interval
 
 datey_interval_from_punned_double <- function(punned_double) {
@@ -84,12 +83,8 @@ datey_interval <- function(start, end, strict = TRUE) {
 # `@name NAs` is defined in datey.R
 #' @rdname NAs
 #' @export
-# Ideally we'd use this:
-#NA_datey_interval_ <- datey_interval(NA_datey_, NA_datey_, strict = FALSE)
-# but the C++ function it references does not exist when this is assigned.
-# So we are forced to rely on NA_real_, which means we've hard-coded the
-# representation.
-NA_datey_interval_ <- datey_interval_from_punned_double(NA_real_)
+# Computed in .onLoad (R/zzz.R), as `datey_interval()` calls compiled code.
+NA_datey_interval_ <- NULL
 
 # `@name is_NA` is defined in datey.R
 #' @rdname is_NA
@@ -117,45 +112,119 @@ anyNA.datey_interval = function(x, recursive = FALSE) {
 #'   all_of_time
 all_of_time <- NULL
 
-#' Properties of a `datey_interval`
+#' Properties of an interval.
 #'
 #' @description
-#' Test whether a `datey_interval` is empty or proper:
+#' Test whether intervals, [*a*,*b*), are 'proper' or 'collapsed':
 #'
-#' - An *empty* interval does not start before its end.
-#' - A *proper* interval does not end before its start.
+#' - A *proper* interval does not end before its start, i.e. *a*&#xA0;≤&#xA0;*b*.
+#' - An *collapsed* interval does not start before its end, i.e. *a*&#xA0;≥&#xA0;*b*.
 #'
-#' An NA interval is treated as empty and improper, so these methods are
-#' guaranteed to return `TRUE` or `FALSE` provided the argument is a
-#' `datey_interval`.
+#' An NA interval is treated as collapsed and improper.
 #'
-#' @param interval The `datey_interval` to test.
+#' These definitions imply the following:
+#'
+#' - A collapsed interval could be empty or improper.
+#' - To test for an empty interval, i.e. [*a*,*a*), test that it is both proper and collapsed.
+#'
+#' These methods are guaranteed to return `TRUE` or `FALSE`, i.e. not `NA`
+#' (provided the argument is an interval).
+#'
+#' Vector versions mapping each element of `x` to `TRUE` or `FALSE`:
+#'
+#' `is_proper(x)` tests whether the elements of `x` are proper.
+#' `is_collapsed(x)` tests whether the elements of `x` are collapsed.
+#'
+#' Scalar versions mapping `x` to a scalar `TRUE` or `FALSE`:
+#'
+#' `all_proper(x)` tests whether all the elements of `x` are proper.
+#' `all_collapsed(x)` tests whether all the elements of `x` are collapsed.
+#' `any_collapsed(x)` tests whether at least one of the elements of `x` is collapsed.
+#'
+#' These are S3 generic functions.
+#'
+#' @param x The interval to test.
 #' @examples
 #'   a <- datey(1999)
 #'   b <- datey(2000)
-#'   is_empty_interval(a %to% b)
-#'   is_empty_interval(a %to% a)
-#'   is_empty_interval(b %to% a)
-#'   is_empty_interval(NA_datey_interval_)
-#'   is_proper_interval(a %to% b)
-#'   is_proper_interval(a %to% a)
-#'   is_proper_interval(b %to% a)
-#'   is_proper_interval(NA_datey_interval_)
+#'   is_collapsed(a %to% b)
+#'   is_collapsed(a %to% a)
+#'   is_collapsed(b %to% a)
+#'   is_collapsed(NA_datey_interval_)
+#'   is_proper(a %to% b)
+#'   is_proper(a %to% a)
+#'   is_proper(b %to% a)
+#'   is_proper(NA_datey_interval_)
 #' @name interval_nature
 NULL
 
 #' @rdname interval_nature
 #' @export
-is_empty_interval <- function(interval) {
-  ensure_is_datey_interval(interval)
-  cpp_dateyIntervalIsEmpty(interval)
+is_proper <- function(x) UseMethod("is_proper")
+#' @rdname interval_nature
+#' @export
+is_proper.default <- function(x) NA
+#' @rdname interval_nature
+#' @export
+is_proper.datey_interval <- function(x) {
+  ensure_is_datey_interval(x)
+  cpp_dateyIntervalIsProper(x)
 }
 #' @rdname interval_nature
 #' @export
-is_proper_interval <- function(interval) {
-  ensure_is_datey_interval(interval)
-  cpp_dateyIntervalIsProper(interval)
+all_proper <- function(x) UseMethod("all_proper")
+#' @rdname interval_nature
+#' @export
+all_proper.default <- function(x) NA
+#' @rdname interval_nature
+#' @export
+all_proper.datey_interval <- function(x) {
+  ensure_is_datey_interval(x)
+  cpp_dateyIntervalAllProper(x)
 }
+#' @rdname interval_nature
+#' @export
+is_collapsed <- function(x) UseMethod("is_collapsed")
+#' @rdname interval_nature
+#' @export
+is_collapsed.default <- function(x) NA
+#' @rdname interval_nature
+#' @export
+is_collapsed.datey_interval <- function(x) {
+  ensure_is_datey_interval(x)
+  cpp_dateyIntervalIsCollapsed(x)
+}
+#' @rdname interval_nature
+#' @export
+all_collapsed <- function(x) UseMethod("all_collapsed")
+#' @rdname interval_nature
+#' @export
+all_collapsed.default <- function(x) NA
+#' @rdname interval_nature
+#' @export
+all_collapsed.datey_interval <- function(x) {
+  ensure_is_datey_interval(x)
+  cpp_dateyIntervalAllCollapsed(x)
+}
+#' @rdname interval_nature
+#' @export
+any_collapsed <- function(x) UseMethod("any_collapsed")
+#' @rdname interval_nature
+#' @export
+any_collapsed.default <- function(x) NA
+#' @rdname interval_nature
+#' @export
+any_collapsed.datey_interval <- function(x) {
+  ensure_is_datey_interval(x)
+  cpp_dateyIntervalAnyCollapsed(x)
+}
+
+
+#' `all_proper(x)` tests whether all the elements of `x` are proper.
+#' `all_collapsed(x)` tests whether all the elements of `x` are collapsed.
+#' `any_collapsed(x)` tests whether at least one of the elements of `x` is collapsed.
+
+
 
 #' Whether a `datey_interval` includes a `datey`
 #'

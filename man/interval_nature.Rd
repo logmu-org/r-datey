@@ -2,37 +2,96 @@
 % Please edit documentation in R/datey_interval.R
 \name{interval_nature}
 \alias{interval_nature}
-\alias{is_empty_interval}
-\alias{is_proper_interval}
-\title{Properties of a \code{datey_interval}}
+\alias{is_proper}
+\alias{is_proper.default}
+\alias{is_proper.datey_interval}
+\alias{all_proper}
+\alias{all_proper.default}
+\alias{all_proper.datey_interval}
+\alias{is_collapsed}
+\alias{is_collapsed.default}
+\alias{is_collapsed.datey_interval}
+\alias{all_collapsed}
+\alias{all_collapsed.default}
+\alias{all_collapsed.datey_interval}
+\alias{any_collapsed}
+\alias{any_collapsed.default}
+\alias{any_collapsed.datey_interval}
+\title{Properties of an interval.}
 \usage{
-is_empty_interval(interval)
+is_proper(x)
 
-is_proper_interval(interval)
+\method{is_proper}{default}(x)
+
+\method{is_proper}{datey_interval}(x)
+
+all_proper(x)
+
+\method{all_proper}{default}(x)
+
+\method{all_proper}{datey_interval}(x)
+
+is_collapsed(x)
+
+\method{is_collapsed}{default}(x)
+
+\method{is_collapsed}{datey_interval}(x)
+
+all_collapsed(x)
+
+\method{all_collapsed}{default}(x)
+
+\method{all_collapsed}{datey_interval}(x)
+
+any_collapsed(x)
+
+\method{any_collapsed}{default}(x)
+
+\method{any_collapsed}{datey_interval}(x)
 }
 \arguments{
-\item{interval}{The \code{datey_interval} to test.}
+\item{x}{The interval to test.}
 }
 \description{
-Test whether a \code{datey_interval} is empty or proper:
+Test whether intervals, [\emph{a},\emph{b}), are 'proper' or 'collapsed':
 \itemize{
-\item An \emph{empty} interval does not start before its end.
-\item A \emph{proper} interval does not end before its start.
+\item A \emph{proper} interval does not end before its start, i.e. \emph{a} ≤ \emph{b}.
+\item An \emph{collapsed} interval does not start before its end, i.e. \emph{a} ≥ \emph{b}.
 }
 
-An NA interval is treated as empty and improper, so these methods are
-guaranteed to return \code{TRUE} or \code{FALSE} provided the argument is a
-\code{datey_interval}.
+An NA interval is treated as collapsed and improper.
+
+These definitions imply the following:
+\itemize{
+\item A collapsed interval could be empty or improper.
+\item To test for an empty interval, i.e. [\emph{a},\emph{a}), test that it is both proper and collapsed.
+}
+
+These methods are guaranteed to return \code{TRUE} or \code{FALSE}, i.e. not \code{NA}
+(provided the argument is an interval).
+
+Vector versions mapping each element of \code{x} to \code{TRUE} or \code{FALSE}:
+
+\code{is_proper(x)} tests whether the elements of \code{x} are proper.
+\code{is_collapsed(x)} tests whether the elements of \code{x} are collapsed.
+
+Scalar versions mapping \code{x} to a scalar \code{TRUE} or \code{FALSE}:
+
+\code{all_proper(x)} tests whether all the elements of \code{x} are proper.
+\code{all_collapsed(x)} tests whether all the elements of \code{x} are collapsed.
+\code{any_collapsed(x)} tests whether at least one of the elements of \code{x} is collapsed.
+
+These are S3 generic functions.
 }
 \examples{
   a <- datey(1999)
   b <- datey(2000)
-  is_empty_interval(a \%to\% b)
-  is_empty_interval(a \%to\% a)
-  is_empty_interval(b \%to\% a)
-  is_empty_interval(NA_datey_interval_)
-  is_proper_interval(a \%to\% b)
-  is_proper_interval(a \%to\% a)
-  is_proper_interval(b \%to\% a)
-  is_proper_interval(NA_datey_interval_)
+  is_collapsed(a \%to\% b)
+  is_collapsed(a \%to\% a)
+  is_collapsed(b \%to\% a)
+  is_collapsed(NA_datey_interval_)
+  is_proper(a \%to\% b)
+  is_proper(a \%to\% a)
+  is_proper(b \%to\% a)
+  is_proper(NA_datey_interval_)
 }

@@ -4,7 +4,7 @@
 //
 // Copyright (c) Tim Gordon
 
-#include "datey.hpp"
+#include "datey.h"
 
 using namespace cpp11;
 

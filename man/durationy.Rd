@@ -6,6 +6,7 @@
 \alias{durationy.durationy}
 \alias{durationy.integer}
 \alias{durationy.double}
+\alias{durationy.datey_interval}
 \title{Create a \code{durationy} from an annual duration}
 \usage{
 durationy(x, strict = TRUE, ...)
@@ -17,6 +18,8 @@ durationy(x, strict = TRUE, ...)
 \method{durationy}{integer}(x, strict = TRUE, ...)
 
 \method{durationy}{double}(x, strict = TRUE, ...)
+
+\method{durationy}{datey_interval}(x, strict = TRUE, ...)
 }
 \arguments{
 \item{x}{The argument to convert to a \code{durationy}.}
@@ -40,6 +43,7 @@ number of years.
 \item \code{double} -- the value is interpreted as the specified
 number of years, rounded to fixed precision of a \code{durationy}. This means that
 \code{durationy(0.5)} is precise but \code{durationy(0.01)} is not.
+\item \code{datey_interval} -- the duration of the interval.
 \item \code{durationy} -- value is unchanged.
 }
 

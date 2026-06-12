@@ -4,12 +4,12 @@
 //
 // Copyright (c) Tim Gordon
 
-#include "datey.hpp"
+#include "datey.h"
 
 using namespace cpp11;
 
 [[cpp11::register]]
-logicals cpp_isLeapYear_integer(integers year)
+logicals cpp_isLeapYear_integer(const integers& year)
 {
   R_xlen_t n = year.size();
   writable::logicals results(n);
@@ -32,7 +32,7 @@ logicals cpp_isLeapYear_integer(integers year)
   return results;
 }
 [[cpp11::register]]
-logicals cpp_isLeapYear_double(doubles year)
+logicals cpp_isLeapYear_double(const doubles& year)
 {
   R_xlen_t n = year.size();
   writable::logicals results(n);
@@ -59,7 +59,7 @@ logicals cpp_isLeapYear_double(doubles year)
   return results;
 }
 [[cpp11::register]]
-logicals cpp_isLeapYear_datey(integers datey)
+logicals cpp_isLeapYear_datey(const integers& datey)
 {
   R_xlen_t n = datey.size();
   writable::logicals results(n);

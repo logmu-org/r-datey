@@ -80,6 +80,7 @@ is_durationy <- function(x) typeof(x) == "integer" && isa(x, c("durationy", "dat
 #' - `double` -- the value is interpreted as the specified
 #' number of years, rounded to fixed precision of a `durationy`. This means that
 #' `durationy(0.5)` is precise but `durationy(0.01)` is not.
+#' - `datey_interval` -- the duration of the interval.
 #' - `durationy` -- value is unchanged.
 #'
 #' This is an S3 generic.
@@ -132,6 +133,22 @@ durationy.double <- function(x, strict = TRUE, ...) {
   }
   clicks <- ifelse(x >= -2000 & x <= 2000, round(x * 534360), NA_real_)
   durationy_from_clicks(clicks)
+}
+#' @rdname durationy
+#' @export
+durationy.datey_interval <- function(x, strict = TRUE, ...) {
+  ensure_is_switch(strict)
+  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
+  if (strict)
+  {
+    if(anyNA(x)) {
+      stop("Invalid datey_interval.", call. = FALSE)
+    }
+  }
+  start <- datey_from_clicks(cpp_dateyIntervalStart(x))
+  end <- datey_from_clicks(cpp_dateyIntervalEnd(x))
+
+  end - start
 }
 
 #' Parse text as a `durationy`

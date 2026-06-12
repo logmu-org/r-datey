@@ -4,9 +4,9 @@
 #
 # Copyright (c) Tim Gordon
 
+is_pure_logical <- function(x) is.logical(x) && !is.object(x)
 is_pure_numeric <- function(x) is.numeric(x) && !is.object(x)
 
-is_pure_logical <- function(x) is.logical(x) && !is.object(x)
 
 as_integer_for_cpp <- function(x) {
   # Exclude anything other than base numerics
