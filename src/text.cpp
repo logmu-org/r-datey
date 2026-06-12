@@ -4,7 +4,7 @@
 //
 // Copyright (c) Tim Gordon
 
-#include "datey.hpp"
+#include "datey.h"
 
 bool isDigit(int c) { return c >= '0' && c <= '9'; }
 

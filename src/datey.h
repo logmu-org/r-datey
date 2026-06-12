@@ -87,5 +87,21 @@ inline std::tuple<int, int> getStartEndFromDouble(double punnedDouble)
   auto end = static_cast<int>(static_cast<uint32_t>(bits));
   return std::make_tuple(start, end);
 }
+
+inline bool isProperDateyInterval(double punnedDouble)
+{
+  auto x = getStartEndFromDouble(punnedDouble);
+  int start = std::get<0>(x);
+  int end = std::get<1>(x);
+  return isValidDatey(start) && isValidDatey(end) && start <= end;
+}
+inline bool isCollapsedDateyInterval(double punnedDouble)
+{
+  auto x = getStartEndFromDouble(punnedDouble);
+  int start = std::get<0>(x);
+  int end = std::get<1>(x);
+  return !isValidDatey(start) || !isValidDatey(end) || start >= end;
+}
+
 double dateyInterval(int start, int end, bool strict);
 cpp11::r_string dateyIntervalToRString(double dateyInterval, bool includeDayFraction);

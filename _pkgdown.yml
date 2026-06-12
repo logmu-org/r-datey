@@ -11,14 +11,16 @@ template:
     base_font: Lisnoti
     primary: '#7E57C2'
     secondary: '#FF5722'
-    navbar-light-bg: hsl(262, 50%, 90%)
-    navbar-dark-bg: hsl(262, 50%, 35%)
+    navbar-light-bg: hsl(14, 100%, 96%)
+    navbar-dark-bg: hsl(14, 100%, 18%)
 
 navbar:
   type: default
   left:
     - text: Home
       href: index.html
+    - text: Why datey?
+      href: articles/why-datey.html
     - text: Get started
       href: articles/datey.html
     - text: Reference
@@ -41,6 +43,7 @@ reference:
       - interval_nature
       - interval_properties
       - interval_includes
+      - all_of_time
   - title: General creation methods
     contents:
       - ymdf

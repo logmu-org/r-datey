@@ -153,17 +153,38 @@ extern "C" SEXP _datey_cpp_dateyIntervalAnyNA(SEXP interval) {
   END_CPP11
 }
 // R_datey_interval.cpp
-logicals cpp_dateyIntervalIsEmpty(doubles interval);
-extern "C" SEXP _datey_cpp_dateyIntervalIsEmpty(SEXP interval) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(cpp_dateyIntervalIsEmpty(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
-  END_CPP11
-}
-// R_datey_interval.cpp
 logicals cpp_dateyIntervalIsProper(doubles interval);
 extern "C" SEXP _datey_cpp_dateyIntervalIsProper(SEXP interval) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_dateyIntervalIsProper(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+bool cpp_dateyIntervalAllProper(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalAllProper(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalAllProper(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+logicals cpp_dateyIntervalIsCollapsed(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalIsCollapsed(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalIsCollapsed(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+bool cpp_dateyIntervalAllCollapsed(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalAllCollapsed(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalAllCollapsed(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+bool cpp_dateyIntervalAnyCollapsed(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalAnyCollapsed(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalAnyCollapsed(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
   END_CPP11
 }
 // R_datey_interval.cpp
@@ -209,24 +230,24 @@ extern "C" SEXP _datey_cpp_durationyFromRString(SEXP x, SEXP strict, SEXP blankI
   END_CPP11
 }
 // R_is_leap_year.cpp
-logicals cpp_isLeapYear_integer(integers year);
+logicals cpp_isLeapYear_integer(const integers& year);
 extern "C" SEXP _datey_cpp_isLeapYear_integer(SEXP year) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_isLeapYear_integer(cpp11::as_cpp<cpp11::decay_t<integers>>(year)));
+    return cpp11::as_sexp(cpp_isLeapYear_integer(cpp11::as_cpp<cpp11::decay_t<const integers&>>(year)));
   END_CPP11
 }
 // R_is_leap_year.cpp
-logicals cpp_isLeapYear_double(doubles year);
+logicals cpp_isLeapYear_double(const doubles& year);
 extern "C" SEXP _datey_cpp_isLeapYear_double(SEXP year) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_isLeapYear_double(cpp11::as_cpp<cpp11::decay_t<doubles>>(year)));
+    return cpp11::as_sexp(cpp_isLeapYear_double(cpp11::as_cpp<cpp11::decay_t<const doubles&>>(year)));
   END_CPP11
 }
 // R_is_leap_year.cpp
-logicals cpp_isLeapYear_datey(integers datey);
+logicals cpp_isLeapYear_datey(const integers& datey);
 extern "C" SEXP _datey_cpp_isLeapYear_datey(SEXP datey) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_isLeapYear_datey(cpp11::as_cpp<cpp11::decay_t<integers>>(datey)));
+    return cpp11::as_sexp(cpp_isLeapYear_datey(cpp11::as_cpp<cpp11::decay_t<const integers&>>(datey)));
   END_CPP11
 }
 
@@ -241,10 +262,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_dateyFromYMDF",                  (DL_FUNC) &_datey_cpp_dateyFromYMDF,                  5},
     {"_datey_cpp_dateyFromYMDF_dblYMD",           (DL_FUNC) &_datey_cpp_dateyFromYMDF_dblYMD,           5},
     {"_datey_cpp_dateyInterval",                  (DL_FUNC) &_datey_cpp_dateyInterval,                  3},
+    {"_datey_cpp_dateyIntervalAllCollapsed",      (DL_FUNC) &_datey_cpp_dateyIntervalAllCollapsed,      1},
+    {"_datey_cpp_dateyIntervalAllProper",         (DL_FUNC) &_datey_cpp_dateyIntervalAllProper,         1},
+    {"_datey_cpp_dateyIntervalAnyCollapsed",      (DL_FUNC) &_datey_cpp_dateyIntervalAnyCollapsed,      1},
     {"_datey_cpp_dateyIntervalAnyNA",             (DL_FUNC) &_datey_cpp_dateyIntervalAnyNA,             1},
     {"_datey_cpp_dateyIntervalEnd",               (DL_FUNC) &_datey_cpp_dateyIntervalEnd,               1},
     {"_datey_cpp_dateyIntervalIncludes",          (DL_FUNC) &_datey_cpp_dateyIntervalIncludes,          2},
-    {"_datey_cpp_dateyIntervalIsEmpty",           (DL_FUNC) &_datey_cpp_dateyIntervalIsEmpty,           1},
+    {"_datey_cpp_dateyIntervalIsCollapsed",       (DL_FUNC) &_datey_cpp_dateyIntervalIsCollapsed,       1},
     {"_datey_cpp_dateyIntervalIsNA",              (DL_FUNC) &_datey_cpp_dateyIntervalIsNA,              1},
     {"_datey_cpp_dateyIntervalIsProper",          (DL_FUNC) &_datey_cpp_dateyIntervalIsProper,          1},
     {"_datey_cpp_dateyIntervalStart",             (DL_FUNC) &_datey_cpp_dateyIntervalStart,             1},

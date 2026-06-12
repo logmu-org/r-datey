@@ -84,12 +84,24 @@ cpp_dateyIntervalAnyNA <- function(interval) {
   .Call(`_datey_cpp_dateyIntervalAnyNA`, interval)
 }
 
-cpp_dateyIntervalIsEmpty <- function(interval) {
-  .Call(`_datey_cpp_dateyIntervalIsEmpty`, interval)
-}
-
 cpp_dateyIntervalIsProper <- function(interval) {
   .Call(`_datey_cpp_dateyIntervalIsProper`, interval)
+}
+
+cpp_dateyIntervalAllProper <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalAllProper`, interval)
+}
+
+cpp_dateyIntervalIsCollapsed <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalIsCollapsed`, interval)
+}
+
+cpp_dateyIntervalAllCollapsed <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalAllCollapsed`, interval)
+}
+
+cpp_dateyIntervalAnyCollapsed <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalAnyCollapsed`, interval)
 }
 
 cpp_dateyIntervalIncludes <- function(interval, value) {

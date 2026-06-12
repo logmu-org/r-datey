@@ -3,7 +3,10 @@
 \name{interval_includes}
 \alias{interval_includes}
 \alias{\%includes\%}
-\title{Whether a \code{datey_interval} includes a \code{datey}}
+\title{\code{all_proper(x)} tests whether all the elements of \code{x} are proper.
+\code{all_collapsed(x)} tests whether all the elements of \code{x} are collapsed.
+\code{any_collapsed(x)} tests whether at least one of the elements of \code{x} is collapsed.
+Whether a \code{datey_interval} includes a \code{datey}}
 \usage{
 interval_includes(interval, value)
 

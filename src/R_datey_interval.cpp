@@ -4,7 +4,7 @@
 //
 // Copyright (c) Tim Gordon
 
-#include "datey.hpp"
+#include "datey.h"
 
 using namespace cpp11;
 
@@ -121,23 +121,6 @@ bool cpp_dateyIntervalAnyNA(doubles interval)
 }
 
 [[cpp11::register]]
-logicals cpp_dateyIntervalIsEmpty(doubles interval)
-{
-  R_xlen_t n = interval.size();
-
-  writable::logicals result(n);
-
-  for(R_xlen_t i = 0; i < n; ++i)
-  {
-    auto x = getStartEndFromDouble(interval[i]);
-    int start = std::get<0>(x);
-    int end = std::get<1>(x);
-    result[i] = !isValidDatey(start) || !isValidDatey(end) || start >= end;
-  }
-
-  return result;
-}
-[[cpp11::register]]
 logicals cpp_dateyIntervalIsProper(doubles interval)
 {
   R_xlen_t n = interval.size();
@@ -146,14 +129,72 @@ logicals cpp_dateyIntervalIsProper(doubles interval)
 
   for(R_xlen_t i = 0; i < n; ++i)
   {
-    auto x = getStartEndFromDouble(interval[i]);
-    int start = std::get<0>(x);
-    int end = std::get<1>(x);
-    result[i] = isValidDatey(start) && isValidDatey(end) && start <= end;
+    result[i] = isProperDateyInterval(interval[i]);
   }
 
   return result;
 }
+[[cpp11::register]]
+bool cpp_dateyIntervalAllProper(doubles interval)
+{
+  R_xlen_t n = interval.size();
+
+  writable::logicals result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    bool isProper = isProperDateyInterval(interval[i]);
+    if (!isProper) { return false; }
+  }
+
+  return true;
+}
+
+[[cpp11::register]]
+logicals cpp_dateyIntervalIsCollapsed(doubles interval)
+{
+  R_xlen_t n = interval.size();
+
+  writable::logicals result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    result[i] = isCollapsedDateyInterval(interval[i]);
+  }
+
+  return result;
+}
+[[cpp11::register]]
+bool cpp_dateyIntervalAllCollapsed(doubles interval)
+{
+  R_xlen_t n = interval.size();
+
+  writable::logicals result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    bool isCollapsed = isCollapsedDateyInterval(interval[i]);
+    if (!isCollapsed) { return false; }
+  }
+
+  return true;
+}
+[[cpp11::register]]
+bool cpp_dateyIntervalAnyCollapsed(doubles interval)
+{
+  R_xlen_t n = interval.size();
+
+  writable::logicals result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    bool isCollapsed = isCollapsedDateyInterval(interval[i]);
+    if (isCollapsed) { return true; }
+  }
+
+  return false;
+}
+
 [[cpp11::register]]
 logicals cpp_dateyIntervalIncludes(doubles interval, integers value)
 {

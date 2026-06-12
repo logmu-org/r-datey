@@ -4,7 +4,7 @@
 //
 // Copyright (c) Tim Gordon
 
-#include "datey.hpp"
+#include "datey.h"
 
 double dateyInterval(int start, int end, bool strict)
 {

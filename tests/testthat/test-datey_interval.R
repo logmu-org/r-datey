@@ -67,26 +67,48 @@ test_that("`datey_interval` is.NA / anyNA", {
   expect_identical(anyNA(c(valid, valid, valid, valid)), FALSE)
 })
 
-# is_empty_interval / is_proper_interval ==================================================
-test_that("`datey_interval` is_empty_interval / is_proper_interval", {
+# is_collapsed / is_proper ==================================================
+test_that("`datey_interval` is_collapsed / is_proper", {
   a <- datey(1999)
   b <- datey(2000)
 
-  expect_identical(is_empty_interval(a %to% b), FALSE)
-  expect_identical(is_empty_interval(a %to% a), TRUE)
-  expect_identical(is_empty_interval(b %to% a), TRUE)
-  expect_identical(is_empty_interval(NA_datey_interval_), TRUE)
+  content <- a %to% b
+  empty <- a %to% a
+  improper <- b %to% a
+
+
+  expect_identical(is_proper(content), TRUE)
+  expect_identical(is_proper(empty), TRUE)
+  expect_identical(is_proper(improper), FALSE)
+  expect_identical(is_proper(NA_datey_interval_), FALSE)
 
   # 4×
-  expect_identical(is_empty_interval(c(a %to% b, a %to% a, b %to% a, NA_datey_interval_)), c(FALSE, TRUE, TRUE, TRUE))
+  expect_identical(is_proper(c(content, empty, improper, NA_datey_interval_)), c(TRUE, TRUE, FALSE, FALSE))
+  expect_identical(all_proper(c(content, empty, improper, NA_datey_interval_)), FALSE)
+  expect_identical(all_proper(c(content, empty, improper, content)), FALSE)
+  expect_identical(all_proper(c(content, empty, empty, NA_datey_interval_)), FALSE)
+  expect_identical(all_proper(c(content, empty, NA_datey_interval_, content)), FALSE)
+  expect_identical(all_proper(c(content, empty, content, empty)), TRUE)
 
-  expect_identical(is_proper_interval(a %to% b), TRUE)
-  expect_identical(is_proper_interval(a %to% a), TRUE)
-  expect_identical(is_proper_interval(b %to% a), FALSE)
-  expect_identical(is_proper_interval(NA_datey_interval_), FALSE)
+  expect_identical(is_collapsed(content), FALSE)
+  expect_identical(is_collapsed(empty), TRUE)
+  expect_identical(is_collapsed(improper), TRUE)
+  expect_identical(is_collapsed(NA_datey_interval_), TRUE)
 
   # 4×
-  expect_identical(is_proper_interval(c(a %to% b, a %to% a, b %to% a, NA_datey_interval_)), c(TRUE, TRUE, FALSE, FALSE))
+  expect_identical(is_collapsed(c(content, empty, improper, NA_datey_interval_)), c(FALSE, TRUE, TRUE, TRUE))
+
+  expect_identical(all_collapsed(c(content, empty, improper, NA_datey_interval_)), FALSE)
+  expect_identical(all_collapsed(c(empty, empty, improper, NA_datey_interval_)), TRUE)
+  expect_identical(all_collapsed(c(empty, empty, empty, empty)), TRUE)
+  expect_identical(all_collapsed(c(improper, improper, improper, improper)), TRUE)
+  expect_identical(all_collapsed(c(NA_datey_interval_, NA_datey_interval_, NA_datey_interval_, NA_datey_interval_)), TRUE)
+
+  expect_identical(any_collapsed(c(content, empty, improper, NA_datey_interval_)), TRUE)
+  expect_identical(any_collapsed(c(content, content, content, content)), FALSE)
+  expect_identical(any_collapsed(c(content, empty, content, content)), TRUE)
+  expect_identical(any_collapsed(c(content, content, improper, content)), TRUE)
+  expect_identical(any_collapsed(c(content, content, content, NA_datey_interval_)), TRUE)
 })
 
 # interval_includes / %includes% ==================================================
