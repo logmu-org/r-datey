@@ -76,7 +76,7 @@ Ops.datey_type <- function(e1, e2) {
       if (.Generic == "-") return(durationy_from_clicks(-unclass(e1)))
     }
 
-    stop("Unary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.")
+    stop("Unary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.", call. = FALSE))
   }
 
   if (is_pure_numeric(e1)) {
