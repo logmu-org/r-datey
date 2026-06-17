@@ -1,10 +1,10 @@
-# Create a `datey` aligned to the start, middle of end of the day specified by a fractional calendar year or another date type.
+# Create a `datey` aligned to the start, middle or end of the day specified by a fractional calendar year or another date type.
 
 Accepted types are:
 
 - Numeric, interpreted as calendar year, with the fractional part
   representing the fraction of the year. For instance, `datey(2000.5)`
-  means halfway though the year 2000.
+  means halfway through the year 2000.
 
 - The base R date types (`Date` and `POSIXct` and `POSIXlt`).
 

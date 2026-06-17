@@ -25,7 +25,7 @@ seq(from, to, by, ...)
 
 - by:
 
-  The increment of the sequence. A scalar `datey` or `durationy`.
+  The increment of the sequence. A scalar `durationy`.
 
 - ...:
 
@@ -33,7 +33,8 @@ seq(from, to, by, ...)
 
 ## Value
 
-The sequence as a vector of `datey`.
+The sequence as a vector of `datey` (for `seq.datey`) or `durationy`
+(for `seq.durationy`).
 
 ## Examples
 

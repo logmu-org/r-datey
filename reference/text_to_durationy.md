@@ -1,6 +1,6 @@
 # Parse text as a `durationy`
 
-This function parses text a `durationy`.
+This function parses text as a `durationy`.
 
 If the text is NA then NA is returned.
 
@@ -9,7 +9,7 @@ Valid text is of the form "DDD.DDD" or "DDD.DDD UUU" where
 - "DDD.DDD" is the duration in years with "D" being decimal digits (and
   the fractional part is not required for whole years), and
 
-- "UUU" is the unit text (which defaults to "yrs"). If blank then there
+- "UUU" is the unit text (which defaults to "yr"). If blank then there
   is no space after the duration in years.
 
 If `blank_is_NA` is `TRUE` then blanks are treated as `NA`.

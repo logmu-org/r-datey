@@ -14,7 +14,7 @@
   [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
   :
 
-  Create a `datey` aligned to the start, middle of end of the day
+  Create a `datey` aligned to the start, middle or end of the day
   specified by a fractional calendar year or another date type.
 
 - [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md) :

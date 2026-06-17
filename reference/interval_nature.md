@@ -1,10 +1,11 @@
 # Properties of an interval.
 
-Test whether intervals, \[*a*,*b*), are 'proper' or 'collapsed':
+Test whether intervals, \\\[a,b)\\, are 'proper' or 'collapsed':
 
-- A *proper* interval does not end before its start, i.e. *a* ≤ *b*.
+- A *proper* interval does not end before its start, i.e. \\a \le b\\.
 
-- An *collapsed* interval does not start before its end, i.e. *a* ≥ *b*.
+- A *collapsed* interval does not start before its end, i.e. \\a \ge
+  b\\.
 
 An NA interval is treated as collapsed and improper.
 
@@ -12,7 +13,7 @@ These definitions imply the following:
 
 - A collapsed interval could be empty or improper.
 
-- To test for an empty interval, i.e. \[*a*,*a*), test that it is both
+- To test for an empty interval, i.e. \\\[a,a)\\, test that it is both
   proper and collapsed.
 
 These methods are guaranteed to return `TRUE` or `FALSE`, i.e. not `NA`

@@ -1,7 +1,7 @@
 # Whether a `datey_interval` includes a `datey`
 
-Test whether a `datey_interval`, \[start, end) includes a `datey`, i.e.
-start ≤ value and value \< end.
+Test whether a `datey_interval`, \\\[a,b)\\, includes a `datey` \\t\\,
+i.e. \\a \le t\\ and \\t \lt b\\.
 
 The `%includes%` operator is syntactic sugar for `interval_includes()`.
 

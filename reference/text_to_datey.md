@@ -1,8 +1,8 @@
 # Parse text as a `datey`
 
-This function parses text a `datey`.
+This function parses text as a `datey`.
 
-If the text is NA then NA is returned
+If the text is NA then NA is returned.
 
 If `day_fraction` *is* provided then the text must be in ISO 8601
 extended format, i.e. "YYYY-MM-DD".

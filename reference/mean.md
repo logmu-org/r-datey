@@ -1,6 +1,9 @@
 # Mean value of `datey` or `durationy`
 
-Mean value of `datey` or `durationy`
+Gets the mean value of a vector of `datey` or `durationy` as a scalar.
+
+This will entail rounding if the mean of the underlying click counts is
+not an integer.
 
 ## Usage
 
@@ -26,6 +29,10 @@ mean(x, ..., na.rm = FALSE)
 
   A logical (`TRUE` or `FALSE`) indicating whether NA values should be
   removed before the computation.
+
+## Value
+
+A scalar of `datey` or `duration` as appropriate.
 
 ## Examples
 

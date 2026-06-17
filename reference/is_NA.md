@@ -22,7 +22,7 @@ For convenience,
   are the `datey` and `durationy` versions of NA respectively, and
 
 - [integer
-  constants](https://logmu-org.github.io/r-datey/reference/integer_constants)
+  constants](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
   describing the above valid ranges are also provided.
 
 For performance reasons, intermediate calculations may not check for

@@ -26,7 +26,7 @@ x$name
 ## Value
 
 A vector of `integer` for `year`, `month` and `day`; a vector of
-`integer` for `day_fraction`.
+`double` for `day_fraction`.
 
 ## See also
 

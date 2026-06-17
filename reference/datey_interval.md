@@ -38,7 +38,7 @@ start %to% end
 
 ## Value
 
-A vector of `datey`.
+A vector of `datey_interval`.
 
 ## Examples
 

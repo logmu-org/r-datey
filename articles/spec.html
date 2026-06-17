@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -458,12 +458,12 @@
 <li>It is optional whether ‘+’ (U+002B) plus sign is included for positive durations. (Default is omit ‘+’).</li>
 <li>It is optional whether to use the true minus sign ‘−’ (U+002B) or the ASCII ‘-’ (U+002D) hyphen-minus character. (Default is use true minus sign.)</li>
 <li>The fraction contains contains at most 6 decimal places because this is sufficient to distinguish all possible duration fractions at <strong>datey</strong> precision.</li>
-<li>The unit name is user-specifiable. (Default is ‘yrs’.)</li>
+<li>The unit name is user-specifiable. (Default is ‘yr’.)</li>
 </ul>
 <p>For text <em>inputs</em>:</p>
 <ul>
 <li>All plus or minus signs included above are parsed (including for zero durations).</li>
-<li>The unit is user-specifiable. If non-blank then the unit text must be present and preceded by a space. (The default is ’ yrs’.)</li>
+<li>The unit is user-specifiable. If non-blank then the unit text must be present and preceded by a space. (The default is ’ yr’.)</li>
 <li>Arbitrarily long inputs e.g. more than 100 UTF-8 bytes should be rejected.</li>
 <li>Subject to this overall limit, the fractional part can contain an arbitrary number of digits.</li>
 </ul>

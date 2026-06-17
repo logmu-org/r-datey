@@ -89,7 +89,7 @@ Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
 to create a `datey` direct from years or a base R date.
 
 Use the syntax [`$year`, `$month`, `$day` or
-`$day_fraction`](https://logmu-org.github.io/r-datey/reference/datey_properties)
+`$day_fraction`](https://logmu-org.github.io/r-datey/reference/datey_properties.md)
 to extract one component at a time.
 
 ## Examples

@@ -4,7 +4,7 @@ This package provides methods to create a `datey` from the following:
 
 - `double` and `integer` are interpreted as the specified calendar year,
   with the fractional part representing the fraction of the year. For
-  instance, `datey(2000.5)` means halfway though the year 2000. (This
+  instance, `datey(2000.5)` means halfway through the year 2000. (This
   means that an `integer` argument always indicates the *start* of the
   calendar year, e.g. `datey(2000L)` is the start of the year 2000.)
 

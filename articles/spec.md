@@ -329,14 +329,14 @@ For text *outputs*:
 - The fraction contains contains at most 6 decimal places because this
   is sufficient to distinguish all possible duration fractions at
   **datey** precision.
-- The unit name is user-specifiable. (Default is ‘yrs’.)
+- The unit name is user-specifiable. (Default is ‘yr’.)
 
 For text *inputs*:
 
 - All plus or minus signs included above are parsed (including for zero
   durations).
 - The unit is user-specifiable. If non-blank then the unit text must be
-  present and preceded by a space. (The default is ’ yrs’.)
+  present and preceded by a space. (The default is ’ yr’.)
 - Arbitrarily long inputs e.g. more than 100 UTF-8 bytes should be
   rejected.
 - Subject to this overall limit, the fractional part can contain an
