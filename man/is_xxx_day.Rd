@@ -13,6 +13,9 @@ is_mid_day(x)
 \arguments{
 \item{x}{The \code{datey} to test.}
 }
+\value{
+A vector of \code{logical}. Invalid \code{datey} elements will return \code{NA}.
+}
 \description{
 \code{is_start_day()} checks whether \code{x} is the start or end of a day.
 
@@ -20,4 +23,36 @@ is_mid_day(x)
 
 These properties are \emph{not} necessarily preserved when a duration of
 \emph{n} years is added or subtracted.
+}
+\examples{
+# Start and end days:
+t <- start_day(2000, 1, 1)
+t
+is_start_day(t) # TRUE
+is_mid_day(t)   # FALSE
+t <- end_day(2000, 1, 1)
+t
+is_start_day(t) # TRUE
+is_mid_day(t)   # FALSE
+
+# Mid day:
+t <- mid_day(2000, 1, 1)
+t
+is_start_day(t) # FALSE
+is_mid_day(t)   # TRUE
+
+# Neither a start nor mid day:
+t <- from_ymdf(2000, 1, 1, 0.25)
+t
+is_start_day(t) # FALSE
+is_mid_day(t)   # FALSE
+
+# Invalids return NA
+is_start_day(NA_datey_) # NA
+is_mid_day(NA_datey_)   # NA
+
+# Properties are not preserved:
+t <- start_day(2000,7,1) # Leap year
+is_start_day(t) # TRUE
+is_start_day(t + durationy(1)) # FALSE
 }

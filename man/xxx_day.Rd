@@ -26,12 +26,13 @@ If provided as \code{double} then these \emph{must be integers}.}
 
 \item{strict}{How to handle calendar years less than 1000 or greater than 3000 and day
 fractions not in the interval [0,1].
-\itemize{
-\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}
+If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
 
 NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
+}
+\value{
+A vector of \code{datey}.
 }
 \description{
 Create a \code{datey} for the start, middle or end of the day
@@ -45,10 +46,10 @@ The lengths of vector arguments must be multiples of each other.
   end_day(1999, 12, 31)
 }
 \seealso{
-Use \code{\link[=as_start_day]{as_start_day()}}, \code{\link[=as_mid_day]{as_mid_day()}} or \code{\link[=as_end_day]{as_end_day()}} to to create a
+Use \code{\link[=as_start_day]{as_start_day()}}, \code{\link[=as_mid_day]{as_mid_day()}} or \code{\link[=as_end_day]{as_end_day()}} to create a
 \code{datey} from a base R date or datetime.
 
-Use \code{\link[=datey]{datey()}} to to create a \code{datey} direct from fractional calendar years.
+Use \code{\link[=datey]{datey()}} to create a \code{datey} direct from fractional calendar years.
 
 To deconstruct a \code{datey}, use \code{\link[=to_ymdf]{to_ymdf()}}.
 }

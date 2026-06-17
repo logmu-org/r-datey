@@ -165,12 +165,7 @@ cpp11::r_string durationyToRString(
   return cpp11::r_string(chars);
 }
 
-int durationyFromRString(
-  cpp11::r_string rString,
-  bool strict,
-  bool blankIsNA,
-  std::string yearUnit
-)
+int durationyFromRString(cpp11::r_string rString, bool strict, bool blankIsNA, std::string yearUnit)
 {
   if (cpp11::is_na(rString)) { return NA_INTEGER; }
 
@@ -179,7 +174,11 @@ int durationyFromRString(
 
   auto size = s.size();
 
-  if (blankIsNA && size == 0) { return NA_INTEGER; }
+  if (size == 0)
+  {
+    if (blankIsNA) { return NA_INTEGER; }
+    cpp11::stop("Blank durationy text (and blank_is_NA is FALSE).");
+  }
 
   int clicks = NA_INTEGER;
   const char *failReason = nullptr;
@@ -237,7 +236,15 @@ int durationyFromRString(
       }
     }
 
-    // 3. Handle year fraction ".FFFF"
+    // 3. Error if too many non-fractional digits
+    if (clicks != NA_INTEGER && isDigit(*p))
+    {
+      clicks = NA_INTEGER;
+      failReason = "Cannot be more than 2000 years.";
+    }
+
+
+    // 4. Handle year fraction ".FFFF"
     if (clicks != NA_INTEGER && *p =='.')
     {
       ++p;
@@ -268,7 +275,7 @@ int durationyFromRString(
       }
   }
 
-    // 4. Handle unit
+    // 5. Handle unit
     if (clicks != NA_INTEGER && yearUnit.size() != 0)
     {
       if (*p != ' ')
@@ -305,7 +312,7 @@ int durationyFromRString(
 
   if (strict && clicks == NA_INTEGER)
   {
-    std::string msg = "Invalid durationy text. ";
+    std::string msg = "Invalid durationy text. "; // Space is for concatenation!
     msg += failReason;
     cpp11::stop(msg);
   }

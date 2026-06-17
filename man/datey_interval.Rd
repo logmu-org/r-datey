@@ -15,10 +15,11 @@ These can be any type that is convertible to a \code{datey}. These have the same
 numbers of elements or their lengths must be multiples of each other.}
 
 \item{strict}{How NAs should be handled.
-\itemize{
-\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned if \code{start} and/or \code{end} is NA.
-}}
+If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned if \code{start} and/or \code{end} is NA.}
+}
+\value{
+A vector of \code{datey}.
 }
 \description{
 Create a \code{datey_interval} representing [\code{start}, \code{end}).
@@ -26,11 +27,14 @@ Create a \code{datey_interval} representing [\code{start}, \code{end}).
 These are closed-open ('clopen') intervals \code{start} <= t < \code{end}, i.e. the
 interval includes \code{start} but excludes \code{end}.
 
-There are two equivalent syntaxes,
+There are two syntaxes:
 \itemize{
-\item operator: \code{start \%to\% end}, and
-\item function: \code{datey_interval(start, end)}.
+\item operator: \code{start \%to\% end}
+\item function: \code{datey_interval(start, end)}
 }
+
+These are equivalent other than \code{strict} is always on for the operator
+version.
 }
 \examples{
   datey(1999) \%to\% mid_day(2025, 7, 15)

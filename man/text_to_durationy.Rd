@@ -12,11 +12,9 @@
 
 \item{strict}{How non-compliant text (including values greater than
 2000 in magnitude) should be handled.
-\itemize{
-\item If \code{strict} is \code{TRUE} then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-Defaults to \code{TRUE}.
-}}
+If \code{strict} is \code{TRUE} then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
+Defaults to \code{TRUE}.}
 
 \item{blank_is_NA}{Whether blanks should be treated as \code{NA}.
 Defaults to \code{FALSE}.}
@@ -29,18 +27,43 @@ Defaults to \code{"yr"}.}
 
 \item{...}{Other arguments (not used in this package).}
 }
+\value{
+A vector of \code{durationy}.
+}
 \description{
-If \code{day_fraction} \emph{is} provided then the text must be in ISO 8601 extended
-format, i.e. "YYYY-MM-DD".
+This function parses text  a \code{durationy}.
 
-If \code{day_fraction} is \emph{not} provided then the text must be formatted as
-"YYYY-MM-DD.FFF", where ".FFF" is the optional day fraction. This means that
-e.g. "2000-01-01" represents the \emph{start} of 1 January 2000.
+If the text is NA then NA is returned.
+
+Valid text is of the form "DDD.DDD" or "DDD.DDD UUU"
+where
+\itemize{
+\item "DDD.DDD" is the duration in years with "D" being decimal digits
+(and the fractional part is not required for whole years), and
+\item "UUU" is the unit text (which defaults to "yrs"). If blank then there is
+no space after the duration in years.
+}
 
 If \code{blank_is_NA} is \code{TRUE} then blanks are treated as \code{NA}.
 
 If \code{strict} is \code{TRUE} (which is the default) then non-compliant text will
 stop execution.
+}
+\examples{
+durationy("10 yr")
+durationy("+10 yr")
+durationy("-10 yr")
+durationy("10", year_unit = "")
+durationy("10 a", year_unit = "a")
 
-The lengths of vector arguments must be multiples of each other.
+# Handling blanks:
+try(durationy(""))
+durationy("", blank_is_NA = TRUE)
+
+# Invalids:
+try(durationy("abc"))
+try(durationy("2000.000001 yr"))
+durationy("abc", strict = FALSE) # NA
+durationy("2000.000001 yr", strict = FALSE) # NA
+durationy("2000.000000 yr") # This is valid
 }

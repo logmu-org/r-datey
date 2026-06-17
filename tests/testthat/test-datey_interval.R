@@ -29,27 +29,48 @@ test_that("`datey_interval()`, `%to%`, $start and $end", {
   t_2 <- start_day(2002, 2, 2)
   t_3 <- start_day(2003, 3, 3)
   t_4 <- start_day(2004, 4, 4)
+
+  a <- datey(1000 + 0:9 * 100.123) # [1000.0, ...)
+  b <- datey(3000 - 0:9 * 100.567) # (..., 3000.0]
+
   interval <- datey_interval(t_1, t_2)
   intervals <- datey_interval(c(t_1, t_3), c(t_2, t_4))
   intervals_same_start <- datey_interval(t_1, c(t_2, t_4))
   intervals_same_end <- datey_interval(c(t_1, t_3), t_2)
+  interval_ab <- datey_interval(a, b)
 
   expect_identical(t_1 %to% t_2, interval)
-
   expect_identical(interval$start, t_1)
   expect_identical(interval$end, t_2)
+  expect_identical(interval$duration, t_2 - t_1)
+  expect_identical(durationy(interval), t_2 - t_1)
 
   expect_identical(intervals$start, c(t_1, t_3))
   expect_identical(intervals$end, c(t_2, t_4))
+  expect_identical(intervals$duration, c(t_2, t_4) - c(t_1, t_3))
+  expect_identical(durationy(intervals), c(t_2, t_4) - c(t_1, t_3))
 
   expect_identical(intervals_same_start$start, c(t_1, t_1))
   expect_identical(intervals_same_start$end, c(t_2, t_4))
+  expect_identical(intervals_same_start$duration, c(t_2, t_4) - c(t_1, t_1))
+  expect_identical(durationy(intervals_same_start), c(t_2, t_4) - c(t_1, t_1))
 
   expect_identical(intervals_same_end$start, c(t_1, t_3))
   expect_identical(intervals_same_end$end, c(t_2, t_2))
+  expect_identical(intervals_same_end$duration, c(t_2, t_2) - c(t_1, t_3))
+  expect_identical(durationy(intervals_same_end), c(t_2, t_2) - c(t_1, t_3))
+
+  expect_identical(a %to% b, interval_ab)
+  expect_identical(interval_ab$start, a)
+  expect_identical(interval_ab$end, b)
+  expect_identical(interval_ab$duration, b - a)
+  expect_identical(durationy(interval_ab), b - a)
 
   expect_identical(NA_datey_interval_$start, NA_datey_)
   expect_identical(NA_datey_interval_$end, NA_datey_)
+  expect_identical(NA_datey_interval_$duration, NA_durationy_)
+  expect_identical(durationy(NA_datey_interval_, strict = FALSE), NA_durationy_)
+  expect_error(durationy(NA_datey_interval_))
 })
 
 # `datey_interval` is.NA / anyNA ==================================================

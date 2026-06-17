@@ -3,10 +3,7 @@
 \name{interval_includes}
 \alias{interval_includes}
 \alias{\%includes\%}
-\title{\code{all_proper(x)} tests whether all the elements of \code{x} are proper.
-\code{all_collapsed(x)} tests whether all the elements of \code{x} are collapsed.
-\code{any_collapsed(x)} tests whether at least one of the elements of \code{x} is collapsed.
-Whether a \code{datey_interval} includes a \code{datey}}
+\title{Whether a \code{datey_interval} includes a \code{datey}}
 \usage{
 interval_includes(interval, value)
 
@@ -17,6 +14,10 @@ interval \%includes\% value
 
 \item{value}{The \code{datey} to test for inclusion.}
 }
+\value{
+A vector of \code{logical} corresponding to whether the interval
+includes the value. Always TRUE or FALSE -- NAs result in FALSE.
+}
 \description{
 Test whether a \code{datey_interval}, [start, end) includes a \code{datey}, i.e.
 start ≤ value and value < end.
@@ -25,4 +26,24 @@ The \verb{\%includes\%} operator is syntactic sugar for \code{interval_includes(
 
 An NA interval is treated as empty and an NA date is treated as not being in
 any interval, so these methods are guaranteed to return \code{TRUE} or \code{FALSE}.
+}
+\examples{
+  t_2000 <- datey(2000)
+  t_2001 <- datey(2001)
+  t_2002 <- datey(2002)
+  t_2003 <- datey(2003)
+  t_2004 <- datey(2004)
+
+  interval <- t_2000 \%to\% t_2003
+  interval \%includes\% t_2000
+  interval \%includes\% t_2001 # Start of interval *is* included
+  interval \%includes\% t_2002
+  interval \%includes\% t_2003 # End of interval *not* included
+  interval \%includes\% t_2004
+  interval \%includes\% NA_datey_        # NAs are FALSE
+  NA_datey_interval_ \%includes\% t_2004 # NAs are FALSE
+  interval_includes(NA_datey_interval_, t_2002) # NAs are FALSE
+
+  # Function syntax:
+  interval_includes(interval, t_2002)
 }

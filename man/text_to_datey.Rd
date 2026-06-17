@@ -25,18 +25,26 @@ day).
 
 \item{strict}{How non-compliant text (including calendar years less than
 1000 or greater than 3000) should be handled.
-\itemize{
-\item If \code{strict} is \code{TRUE} then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-Defaults to \code{TRUE}.
-}}
+If \code{strict} is \code{TRUE} then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
+Defaults to \code{TRUE}.}
 
-\item{blank_is_NA}{Whether blanks should be treated as \code{NA}.
+\item{blank_is_NA}{Whether "" should be treated as \code{NA}.
+If \code{blank_is_NA} is \code{FALSE} then execution is stopped
+(regardless of \code{strict}).
+If \code{blank_is_NA} is \code{TRUE} then "" results in \code{NA}.
 Defaults to \code{FALSE}.}
 
 \item{...}{Other arguments (not used in this package).}
 }
+\value{
+A vector of \code{datey}.
+}
 \description{
+This function parses text  a \code{datey}.
+
+If the text is NA then NA is returned
+
 If \code{day_fraction} \emph{is} provided then the text must be in ISO 8601 extended
 format, i.e. "YYYY-MM-DD".
 
@@ -44,10 +52,31 @@ If \code{day_fraction} is \emph{not} provided then the text must be formatted as
 "YYYY-MM-DD.FFF", where ".FFF" is the optional day fraction. This means that
 e.g. "2000-01-01" represents the \emph{start} of 1 January 2000.
 
-If \code{blank_is_NA} is \code{TRUE} then blanks are treated as \code{NA}.
+If \code{strict} is \code{TRUE} (which is the default) then non-compliant text
+(other than blank or NA) will stop execution.
 
-If \code{strict} is \code{TRUE} (which is the default) then non-compliant text will
-stop execution.
+If \code{blank_is_NA} is \code{TRUE} then blanks are treated as \code{NA} (regardless of \code{strict}).
 
-The lengths of vector arguments must be multiples of each other.
+The lengths of vector arguments \code{x} and \code{day_fraction} must be multiples of
+each other.
+}
+\examples{
+datey("2000-01-01")
+datey("2000-01-01", day_fraction = 0)
+datey("2000-01-01.5")
+datey("2000-01-01", day_fraction = 0.5)
+
+# Day fraction cannot be present
+# both in the text and as an argument:
+try(datey("2000-01-01.0", day_fraction = 0))
+
+# Handling blanks:
+try(datey(""))
+datey("", blank_is_NA = TRUE)
+
+# Invalids:
+try(datey("abc"))
+try(datey("0999-01-01"))
+datey("abc", strict = FALSE) # NA
+datey("0999-01-01", strict = FALSE) # NA
 }

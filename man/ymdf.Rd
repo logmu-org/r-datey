@@ -31,12 +31,18 @@ If provided as \code{double} then these \emph{must be integers}.}
 (which is identical to the start of the next day).}
 
 \item{strict}{How to handle invalid arguments.
-\itemize{
-\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}
+If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
 
 NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
+}
+\value{
+\code{from_ymdf} returns a vector of \code{datey}.
+\code{to_ymdf} returns a list of
+integer vector \code{year},
+integer vector \code{month},
+integer vector \code{day}, and
+double vector \code{day_fraction}.
 }
 \description{
 The lengths of vector arguments must be multiples of each other.

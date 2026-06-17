@@ -15,6 +15,11 @@
 
 \item{na.rm}{A logical (\code{TRUE} or \code{FALSE}) indicating whether NA values should be removed before the computation.}
 }
+\value{
+\code{min} and \code{max} return a \code{datey} scalar.
+\code{range} returns a two element \code{datey} vector,
+the first element being the minimum and the second the maximum.
+}
 \description{
 Minimum, maximum or range of \code{datey} or \code{durationy}
 }

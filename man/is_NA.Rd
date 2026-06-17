@@ -23,16 +23,14 @@
 \method{anyNA}{durationy}(x, recursive = FALSE)
 }
 \arguments{
-\item{x}{The \code{datey} or \code{durationy} to test for NA}
+\item{x}{The \code{datey} or \code{durationy} to test for NA.}
 
-\item{recursive}{Currently required to be \code{FALSE} (the default)}
+\item{recursive}{Currently required to be \code{FALSE} (the default).}
 }
 \value{
-\itemize{
-\item \code{is.na()} returns a vector of logical the same length as \code{x}.
-\item \code{anyNA()} always returns \code{TRUE} or \code{FALSE}, never \code{NA} and
+\code{is.na()} returns a vector of logical the same length as \code{x}.
+\code{anyNA()} always returns \code{TRUE} or \code{FALSE}, never \code{NA} and
 never anything other than a single value.
-}
 }
 \description{
 Valid datey system ranges:
@@ -49,7 +47,7 @@ Values outside the above ranges are treated as NA.
 
 For convenience,
 \itemize{
-\item the constants \link{NA_datey_} and \link{NA_datey_} are the \code{datey} and \code{durationy}
+\item the constants \link{NA_datey_} and \link{NA_durationy_} are the \code{datey} and \code{durationy}
 versions of NA respectively, and
 \item \href{integer_constants}{integer constants} describing the above valid ranges
 are also provided.
@@ -67,6 +65,6 @@ For performance reasons, intermediate calculations may not check for NAs.
   anyNA(d)
 }
 \seealso{
-\link{NA_datey_}, \link{NA_datey_}, \link{integer_constants}
+\link{NA_datey_}, \link{NA_durationy_}, \link{integer_constants}
 }
 \keyword{NA}

@@ -87,6 +87,26 @@ integers cpp_dateyIntervalEnd(doubles interval)
 
   return result;
 }
+[[cpp11::register]]
+integers cpp_dateyIntervalDuration(doubles interval)
+{
+  R_xlen_t n = interval.size();
+
+  writable::integers result(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    auto startend = getStartEndFromDouble(interval[i]);
+    int start = std::get<0>(startend);
+    int end = std::get<1>(startend);
+    int duration = isValidDatey(start) && isValidDatey(end)
+      ? end - start
+      : NA_INTEGER;
+    result[i] = duration;
+  }
+
+  return result;
+}
 
 [[cpp11::register]]
 logicals cpp_dateyIntervalIsNA(doubles interval)

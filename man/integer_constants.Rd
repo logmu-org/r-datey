@@ -31,4 +31,3 @@ The following integer constants may make code clearer.\tabular{lll}{
 \seealso{
 \link{is_NA}, \link{NAs}
 }
-\keyword{NA}

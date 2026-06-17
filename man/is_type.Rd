@@ -16,6 +16,11 @@ is_durationy(x)
 \arguments{
 \item{x}{The object to test.}
 }
+\value{
+A logical scalar indicating whether \code{x} a \code{datey}, \code{durationy} or
+\code{datey_interval} as appropriate.
+Always \code{FALSE} or \code{TRUE}; never \code{NULL} or \code{NA}.
+}
 \description{
 These methods will always return a scalar logical \code{TRUE} or \code{FALSE}:
 \itemize{
@@ -30,4 +35,16 @@ t
 is_datey(t)
 is_datey(NULL)
 is_datey(NA)
+
+d <- durationy(0:2)
+d
+is_durationy(d)
+is_durationy(NULL)
+is_durationy(NA)
+
+interval <- datey(2000:2001) \%to\% datey(2001:2002)
+interval
+is_datey_interval(interval)
+is_datey_interval(NULL)
+is_datey_interval(NA)
 }

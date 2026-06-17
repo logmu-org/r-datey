@@ -12,6 +12,10 @@
 
 \item{name}{Must be \code{year}, \code{month}, \code{day} or \code{day_fraction}.}
 }
+\value{
+A vector of \code{integer} for \code{year}, \code{month} and \code{day};
+a vector of \code{integer} for \code{day_fraction}.
+}
 \description{
 Extract the year, month, day or day_fraction of a \code{datey} using the syntax
 \verb{$year}, \verb{$month}, \verb{$day} or \verb{$day_fraction} respectively.

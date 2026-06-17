@@ -15,6 +15,9 @@
 
 \item{...}{Other arguments (not used in this package).}
 }
+\value{
+A vector of \code{double}.
+}
 \description{
 Converts a \code{durationy} to duration in years.
 

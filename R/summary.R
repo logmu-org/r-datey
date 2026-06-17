@@ -30,6 +30,10 @@ mean.durationy <- function (x, ..., na.rm = FALSE) {
 #' Minimum, maximum or range of `datey` or `durationy`
 #' @param ... The `datey` or `durationy` arguments.
 #' @param na.rm	A logical (`TRUE` or `FALSE`) indicating whether NA values should be removed before the computation.
+#' @returns
+#' `min` and `max` return a `datey` scalar.
+#' `range` returns a two element `datey` vector,
+#' the first element being the minimum and the second the maximum.
 #' @examples
 #'     t <- datey(2000:2003)
 #'     t

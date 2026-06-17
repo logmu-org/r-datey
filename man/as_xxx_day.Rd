@@ -18,12 +18,13 @@ as_end_day(x, strict = TRUE)
 \item{x}{The argument to convert to a \code{datey}.}
 
 \item{strict}{How invalid \emph{non-NA} inputs should be handled.
-\itemize{
-\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}
+If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
 
 NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
+}
+\value{
+A vector of \code{datey}.
 }
 \description{
 Accepted types are:
