@@ -55,3 +55,43 @@ See above table. In essence
   numeric evaluation,
 
 where `T` is either `datey` or `durationy` in each of the above.
+
+## Examples
+
+``` r
+t_2000 <- datey(2000)
+t_2001 <- datey(2001)
+d_0.5 <- durationy(0.5)
+
+t_2000
+#> [1] 2000-01-01.0
+t_2001
+#> [1] 2001-01-01.0
+d_0.5
+#> [1] 0.5 yr
+
+t_2001 - t_2000 # `datey` - `datey` is a `durationy`
+#> [1] 1 yr
+t_2000 + d_0.5  # `datey` + `durationy` is a `datey`
+#> [1] 2000-07-02.0
+t_2001 - d_0.5  # `datey` - `durationy` is a `datey`
+#> [1] 2000-07-02.0
+t_2000 + 0.5    # Arithmetic with numerics results in a double
+#> [1] 2000.5
+d_0.5 + d_0.5   # `durationy` + `durationy` is a `durationy`
+#> [1] 1 yr
+d_0.5 + 0.5     # Arithmetic with numerics results in a double
+#> [1] 1
+d_0.5 * 2       # Arithmetic with numerics results in a double
+#> [1] 1
+
+interval <- t_2000 %to% t_2001
+interval
+#> [1] [2000-01-01.0, 2001-01-01.0)
+interval %includes% t_2000 # TRUE -- start *is* included in an interval
+#> [1] TRUE
+interval %includes% (t_2000 + d_0.5) # TRUE
+#> [1] TRUE
+interval %includes% t_2001 # FALSE -- end is *not* included in an interval
+#> [1] FALSE
+```

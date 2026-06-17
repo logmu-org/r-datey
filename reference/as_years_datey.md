@@ -1,7 +1,7 @@
 # Convert a `datey` to calendar years (including fractional part)
 
-Converts a `datey` to calendar years. The fractional part represents the
-proportion of the calendar year that has elapsed.
+Converts a `datey` to calendar years, including a fractional part that
+represents the proportion of the calendar year that has elapsed.
 
 For example,
 
@@ -38,3 +38,7 @@ as.integer(x, ...)
 - ...:
 
   Other arguments (not used in this package).
+
+## Value
+
+A vector of `double`.

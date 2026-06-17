@@ -23,6 +23,12 @@ Summary(..., na.rm = FALSE)
   A logical (`TRUE` or `FALSE`) indicating whether NA values should be
   removed before the computation.
 
+## Value
+
+`min` and `max` return a `datey` scalar. `range` returns a two element
+`datey` vector, the first element being the minimum and the second the
+maximum.
+
 ## Examples
 
 ``` r

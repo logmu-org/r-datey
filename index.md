@@ -15,23 +15,21 @@ but experience and valuation data is usually defined using dates
 
 The benefits of using **datey** are:
 
-1.  A consistent framework for converting dates to and from a uniform
-    annual grid.
+1.  **A consistent framework for mapping dates to annual units.** Even
+    the mighty
+    [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation)
+    has come a cropper over inconsistencies on this point.
 
-2.  Handling the often-overlooked issue of whether a date means the
+2.  **Fixed precision arithmetic.**, This excludes bugs relating to
+    floating point arithmetic, which have been sufficiently common to
+    jusyify [a CRAN
+    FAQ](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f).
+    In a mortality-specific context, see [Terry Therneau’s
+    note](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
+    on the problems floating point can cause for the R surv package.[^1]
+
+3.  Handling the often-overlooked issue of whether a date means the
     start, during or end of a day.
-
-3.  Fixed precision arithmetic, which excludes bugs relating to floating
-    point arithmetic[^1].
-
-See
-
-- surv package author’s comments
-  [here](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf).
-  Note that they use days to avoid this issue.
-
-- See [CRAN FAQ
-  7.31](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
 
 ## Installation
 
@@ -54,6 +52,5 @@ library(datey)
 ## basic example code
 ```
 
-[^1]: Specifically, the
-    [non-associativity](https://en.wikipedia.org/wiki/Associative_property#Nonassociativity_of_floating-point_calculation)
-    of floating point arithmetic.
+[^1]: That author’s preferred solution is to use day counts, which is
+    also a fixed precision approach.

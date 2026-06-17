@@ -45,7 +45,7 @@ print(
   Whether to use the [true minus sign ('−',
   U+2212)](https://www.compart.com/en/unicode/U+2212) sign as opposed to
   the [ASCII hyphen (-,
-  U+2212)](https://www.compart.com/en/unicode/U+002D). Defaults to
+  U+002D)](https://www.compart.com/en/unicode/U+002D). Defaults to
   `FALSE`.
 
 - year_unit:
@@ -59,6 +59,10 @@ print(
   Numeric or `NULL`, specifying the maximal number of entries to be
   printed. When `NULL`, `getOption("max.print")` used. Defaults to
   `NULL`.
+
+## Value
+
+`as.character` and `format` return a vector of `character`.
 
 ## Examples
 

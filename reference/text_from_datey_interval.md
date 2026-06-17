@@ -35,10 +35,14 @@ print(x, include_day_fraction = TRUE, max = NULL, ...)
 
 - include_day_fraction:
 
-  Whether to include the fractional day part. Defaults to `FALSE`.
+  Whether to include the fractional day part. Defaults to `TRUE`.
 
 - max:
 
   Numeric or `NULL`, specifying the maximal number of entries to be
   printed. When `NULL`, `getOption("max.print")` used. Defaults to
   `NULL`.
+
+## Value
+
+`as.character` and `format` return a vector of `character`.

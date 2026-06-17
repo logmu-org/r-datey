@@ -150,24 +150,25 @@ Note that a <code>day_fraction</code> of 1 will add a day to a day boundary,
 
 
 <dt id="arg-day-fraction">day_fraction<a class="anchor" aria-label="anchor" href="#arg-day-fraction"></a></dt>
-<dd><p>The <code>day_fraction</code> override. Defaults to <code>NULL</code>.</p><ul><li><p>If <code>day_fraction</code> is <em>not</em> provided then <code>x</code> is used to derive both
-the calendar year, month, day <em>and</em> the day fraction.</p></li>
-<li><p>If <code>day_fraction</code> <em>is</em> provided then <code>x</code> is used solely to derive the
+<dd><p>The <code>day_fraction</code> override. Defaults to <code>NULL</code>.</p>
+<p>If <code>day_fraction</code> is <em>not</em> provided then <code>x</code> is used to derive both
+the calendar year, month, day <em>and</em> the day fraction.</p>
+<p>If <code>day_fraction</code> <em>is</em> provided then <code>x</code> is used solely to derive the
 calendar year, month and day, while <code>day_fraction</code> provides the position in
-the day. <code>day_fraction</code> must lie in the inclusive interval [0,1], with</p></li>
-<li><p>0 meaning the start of the day,</p></li>
-<li><p>0.5 meaning the middle of the day, and</p></li>
-<li><p>1 meaning the end of the day (which is identical to the start of the next
-day).</p></li>
-</ul></dd>
+the day. <code>day_fraction</code> must lie in the inclusive interval [0,1], with
+0 meaning the start of the day,
+0.5 meaning the middle of the day, and
+1 meaning the end of the day (which is identical to the start of the next
+day).</p></dd>
 
 
 <dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
 <dd><p>How calendar years less than 1000 or greater than 3000 and day
 fractions not in the interval [0,1] should be
-handled.</p><ul><li><p>If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.</p></li>
-<li><p>If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p></li>
-</ul><p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
+handled.
+If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.
+If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p>
+<p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -175,13 +176,44 @@ handled.</p><ul><li><p>If <code>strict</code> is <code>TRUE</code> – the defau
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A vector of <code>datey</code>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Use <code><a href="xxx_day.html">start_day()</a></code>, <code><a href="xxx_day.html">mid_day()</a></code> and <code><a href="xxx_day.html">end_day()</a></code> to create a <code>datey</code>
 direct from year, month and day. Use <code><a href="as_xxx_day.html">as_start_day()</a></code>, <code><a href="as_xxx_day.html">as_mid_day()</a></code> and
 <code><a href="as_xxx_day.html">as_end_day()</a></code> to create a <code>datey</code> from a numeric or base R date type but
-specifying whether it should be the start, middle or end of the day.</p></div>
+specifying whether it should be the start, middle or end of the day.</p>
+<p>See <a href="text_to_datey.html">text_to_datey</a> for parsing and creating <code>datey</code> text.</p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2000-01-01.0</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fl">2000.5</span><span class="op">)</span> <span class="co"># Middle of a leap year</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2000-07-02.0</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fl">2001.5</span><span class="op">)</span> <span class="co"># Middle of a non-leap year</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2001-07-02.5</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-02"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2020-01-02.0</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">"2020-01-02 12:00:00"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2020-01-02.5</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXlt</a></span><span class="op">(</span><span class="st">"2020-01-02 12:00:00"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2020-01-02.5</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use `strict` to control error behaviour for invalid `datey`s:</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">datey</span><span class="op">(</span><span class="fl">999.9</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error : The year is invalid.</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">datey</span><span class="op">(</span><span class="fl">3000.1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error : The year is invalid.</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fl">999.9</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;NA&gt;</span>
+<span class="r-in"><span><span class="fu">datey</span><span class="op">(</span><span class="fl">3000.1</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;NA&gt;</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

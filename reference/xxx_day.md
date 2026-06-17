@@ -35,14 +35,16 @@ end_day(year, month, day, strict = TRUE)
 - strict:
 
   How to handle calendar years less than 1000 or greater than 3000 and
-  day fractions not in the interval \[0,1\].
-
-  - If `strict` is `TRUE` – the default – then execution is stopped.
-
-  - If `strict` is `FALSE` then `NA` is returned.
+  day fractions not in the interval \[0,1\]. If `strict` is `TRUE` – the
+  default – then execution is stopped. If `strict` is `FALSE` then `NA`
+  is returned.
 
   NA arguments result in NA (and do not stop execution) regardless of
   `strict`.
+
+## Value
+
+A vector of `datey`.
 
 ## See also
 
@@ -51,10 +53,10 @@ Use
 [`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
 or
 [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
-to to create a `datey` from a base R date or datetime.
+to create a `datey` from a base R date or datetime.
 
 Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-to to create a `datey` direct from fractional calendar years.
+to create a `datey` direct from fractional calendar years.
 
 To deconstruct a `datey`, use
 [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md).

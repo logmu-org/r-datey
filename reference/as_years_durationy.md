@@ -31,3 +31,7 @@ as.integer(x, ...)
 - ...:
 
   Other arguments (not used in this package).
+
+## Value
+
+A vector of `double`.

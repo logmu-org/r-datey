@@ -31,6 +31,10 @@ seq(from, to, by, ...)
 
   Other arguments (not used in this package).
 
+## Value
+
+The sequence as a vector of `datey`.
+
 ## Examples
 
 ``` r

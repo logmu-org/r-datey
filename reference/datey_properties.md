@@ -23,6 +23,11 @@ x$name
 
   Must be `year`, `month`, `day` or `day_fraction`.
 
+## Value
+
+A vector of `integer` for `year`, `month` and `day`; a vector of
+`integer` for `day_fraction`.
+
 ## See also
 
 If you need more than one component then

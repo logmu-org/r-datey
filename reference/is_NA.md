@@ -18,8 +18,8 @@ For convenience,
 
 - the constants
   [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md) and
-  [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md) are
-  the `datey` and `durationy` versions of NA respectively, and
+  [NA_durationy\_](https://logmu-org.github.io/r-datey/reference/NAs.md)
+  are the `datey` and `durationy` versions of NA respectively, and
 
 - [integer
   constants](https://logmu-org.github.io/r-datey/reference/integer_constants)
@@ -54,24 +54,23 @@ anyNA(x, recursive = FALSE)
 
 - x:
 
-  The `datey` or `durationy` to test for NA
+  The `datey` or `durationy` to test for NA.
 
 - recursive:
 
-  Currently required to be `FALSE` (the default)
+  Currently required to be `FALSE` (the default).
 
 ## Value
 
-- [`is.na()`](https://rdrr.io/r/base/NA.html) returns a vector of
-  logical the same length as `x`.
-
-- [`anyNA()`](https://rdrr.io/r/base/NA.html) always returns `TRUE` or
-  `FALSE`, never `NA` and never anything other than a single value.
+[`is.na()`](https://rdrr.io/r/base/NA.html) returns a vector of logical
+the same length as `x`. [`anyNA()`](https://rdrr.io/r/base/NA.html)
+always returns `TRUE` or `FALSE`, never `NA` and never anything other
+than a single value.
 
 ## See also
 
 [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
-[NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
+[NA_durationy\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
 [integer_constants](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
 
 ## Examples

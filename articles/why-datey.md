@@ -5,7 +5,7 @@
 library(datey)
 ```
 
-## Years are the unit, but dates are the data
+## The unit is years, but the data are dates
 
 Mortality rates, valuation assumptions and many other actuarial
 quantities are defined *per year*. The data they are applied to – dates
@@ -13,18 +13,16 @@ of birth, dates of death, policy anniversaries, valuation dates – are
 measured in days.
 
 Converting between the two seems like it should be trivial, but it
-isn’t.
+isn’t. Consider these calculations:
 
-- Consider “add one year to 2024‑02‑29”. There is no date 2025‑02‑29, so
-  what should the answer be – 2025‑02‑28 or 2025‑03‑01? Both are
-  defensible, and different tools (and different people) choose
-  differently.
+- “Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so what should
+  the answer be – 2025‑02‑28 or 2025‑03‑01? Both are defensible, and
+  different tools (and different people) choose differently.
 
-- Now consider two consecutive “add half a year” steps starting from
-  2000‑01‑01: do they land on the same date as a single “add one year”
-  step? With most day-based arithmetic, the answer is no – the result
-  depends on *how* you split the year up, and on the order in which you
-  do the additions.
+- “Add half a year” twice starting from 2000‑01‑01. Does this land on
+  the same point in time as a single “add one year” step? With most
+  day-based arithmetic, the answer is no – the result depends on how you
+  split the year up, and on the order in which you do the additions.
 
 For a single *ad hoc* calculation this kind of ambiguity is a curiosity.
 For an actuarial model that combines exposure periods, runs
@@ -32,20 +30,22 @@ sensitivities, and is reconciled and audited, it’s a problem: the same
 logical calculation, expressed two different but equivalent ways, can
 produce two different numbers.
 
-## **datey**’s answer: a fixed annual grid
+## The **datey** approach: a fixed annual grid
 
-**datey** does not try to be a general-purpose calendar library –
+**datey** does not try to be a general-purpose calendar library with
+support for time zones, locales, calendar arithmetic and so on –
 packages like [clock](https://clock.r-lib.org/) and
-[lubridate](https://lubridate.tidyverse.org/) already do that, with full
-support for time zones, locales, calendar arithmetic and so on.
+[lubridate](https://lubridate.tidyverse.org/) already do that.
 
 Instead, **datey** picks *one* standardised, precise mapping from dates
 onto an annual grid, and guarantees that arithmetic on that grid is
 exact and associative. Every `datey` and `durationy` is stored
-internally as a count of *clicks*, where a click is 1 / 534 360 of a
-year (chosen so that 1/365 and 1/366 of a year, and useful fractions of
-days and years, are represented exactly). With this approach, date and
-duration calculations reduce to plain old integer arithmetic on clicks.
+internally as a count of *clicks*, where one click is 1 / 534 360 of a
+year, a number chosen so that 1/365 and 1/366 of a year, and useful
+fractions of days and years, are represented exactly.
+
+With this approach, date and duration calculations reduce to plain old
+integer arithmetic which is both precise and associative.
 
 The practical consequence is that the two-steps-vs-one-step problem
 above simply does not arise:

@@ -1,5 +1,9 @@
 # Parse text as a `datey`
 
+This function parses text a `datey`.
+
+If the text is NA then NA is returned
+
 If `day_fraction` *is* provided then the text must be in ISO 8601
 extended format, i.e. "YYYY-MM-DD".
 
@@ -7,12 +11,14 @@ If `day_fraction` is *not* provided then the text must be formatted as
 "YYYY-MM-DD.FFF", where ".FFF" is the optional day fraction. This means
 that e.g. "2000-01-01" represents the *start* of 1 January 2000.
 
-If `blank_is_NA` is `TRUE` then blanks are treated as `NA`.
-
 If `strict` is `TRUE` (which is the default) then non-compliant text
-will stop execution.
+(other than blank or NA) will stop execution.
 
-The lengths of vector arguments must be multiples of each other.
+If `blank_is_NA` is `TRUE` then blanks are treated as `NA` (regardless
+of `strict`).
+
+The lengths of vector arguments `x` and `day_fraction` must be multiples
+of each other.
 
 ## Usage
 
@@ -49,16 +55,54 @@ datey(x, day_fraction = NULL, strict = TRUE, blank_is_NA = FALSE, ...)
 - strict:
 
   How non-compliant text (including calendar years less than 1000 or
-  greater than 3000) should be handled.
-
-  - If `strict` is `TRUE` then execution is stopped.
-
-  - If `strict` is `FALSE` then `NA` is returned. Defaults to `TRUE`.
+  greater than 3000) should be handled. If `strict` is `TRUE` then
+  execution is stopped. If `strict` is `FALSE` then `NA` is returned.
+  Defaults to `TRUE`.
 
 - blank_is_NA:
 
-  Whether blanks should be treated as `NA`. Defaults to `FALSE`.
+  Whether "" should be treated as `NA`. If `blank_is_NA` is `FALSE` then
+  execution is stopped (regardless of `strict`). If `blank_is_NA` is
+  `TRUE` then "" results in `NA`. Defaults to `FALSE`.
 
 - ...:
 
   Other arguments (not used in this package).
+
+## Value
+
+A vector of `datey`.
+
+## Examples
+
+``` r
+datey("2000-01-01")
+#> [1] 2000-01-01.0
+datey("2000-01-01", day_fraction = 0)
+#> [1] 2000-01-01.0
+datey("2000-01-01.5")
+#> [1] 2000-01-01.5
+datey("2000-01-01", day_fraction = 0.5)
+#> [1] 2000-01-01.5
+
+# Day fraction cannot be present
+# both in the text and as an argument:
+try(datey("2000-01-01.0", day_fraction = 0))
+#> Error : Invalid datey text. Should be "YYYY-MM-DD".
+
+# Handling blanks:
+try(datey(""))
+#> Error : Blank datey text (and blank_is_NA is FALSE).
+datey("", blank_is_NA = TRUE)
+#> [1] <NA>
+
+# Invalids:
+try(datey("abc"))
+#> Error : Invalid datey text. Should be "YYYY-MM-DD[.FFF]", where "[.FFF]" is optional fraction with at least 1 digit.
+try(datey("0999-01-01"))
+#> Error : `year` is outside [1000,2999] and date is not 3000-01-01.0.
+datey("abc", strict = FALSE) # NA
+#> [1] <NA>
+datey("0999-01-01", strict = FALSE) # NA
+#> [1] <NA>
+```

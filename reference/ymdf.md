@@ -70,14 +70,18 @@ from_ymdf(year, month, day, day_fraction, strict = TRUE)
 
 - strict:
 
-  How to handle invalid arguments.
-
-  - If `strict` is `TRUE` – the default – then execution is stopped.
-
-  - If `strict` is `FALSE` then `NA` is returned.
+  How to handle invalid arguments. If `strict` is `TRUE` – the default –
+  then execution is stopped. If `strict` is `FALSE` then `NA` is
+  returned.
 
   NA arguments result in NA (and do not stop execution) regardless of
   `strict`.
+
+## Value
+
+`from_ymdf` returns a vector of `datey`. `to_ymdf` returns a list of
+integer vector `year`, integer vector `month`, integer vector `day`, and
+double vector `day_fraction`.
 
 ## See also
 

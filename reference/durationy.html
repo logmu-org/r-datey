@@ -5,7 +5,8 @@ number of years.
 double – the value is interpreted as the specified
 number of years, rounded to fixed precision of a durationy. This means that
 durationy(0.5) is precise but durationy(0.01) is not.
-datey_interval – the duration of the interval.
+datey_interval – the duration of the interval. If strict is FALSE
+then this is the same as datey_interval$duration.
 durationy – value is unchanged.
 
 
@@ -15,7 +16,8 @@ number of years.
 double – the value is interpreted as the specified
 number of years, rounded to fixed precision of a durationy. This means that
 durationy(0.5) is precise but durationy(0.01) is not.
-datey_interval – the duration of the interval.
+datey_interval – the duration of the interval. If strict is FALSE
+then this is the same as datey_interval$duration.
 durationy – value is unchanged.
 
 
@@ -68,7 +70,8 @@ number of years.</p></li>
 <li><p><code>double</code> – the value is interpreted as the specified
 number of years, rounded to fixed precision of a <code>durationy</code>. This means that
 <code>durationy(0.5)</code> is precise but <code>durationy(0.01)</code> is not.</p></li>
-<li><p><code>datey_interval</code> – the duration of the interval.</p></li>
+<li><p><code>datey_interval</code> – the duration of the interval. If <code>strict</code> is <code>FALSE</code>
+then this is the same as <code>datey_interval$duration</code>.</p></li>
 <li><p><code>durationy</code> – value is unchanged.</p></li>
 </ul><p>This is an S3 generic.</p>
     </div>
@@ -103,16 +106,38 @@ number of years, rounded to fixed precision of a <code>durationy</code>. This me
 
 <dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
 <dd><p>How years greater than 2000 in magnitude should be
-handled.</p><ul><li><p>If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.</p></li>
-<li><p>If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p></li>
-</ul><p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
+handled.
+If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.
+If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p>
+<p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Other arguments (not used in this package).</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A vector of <code>durationy</code>.</p>
+    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">durationy</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>    <span class="co"># One year</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 yr</span>
+<span class="r-in"><span><span class="fu">durationy</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>  <span class="co"># Half a year</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5 yr</span>
+<span class="r-in"><span><span class="fu">durationy</span><span class="op">(</span><span class="op">-</span><span class="fl">2.3</span><span class="op">)</span> <span class="co"># Negative duration</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] −2.3 yr</span>
+<span class="r-in"><span><span class="fu">durationy</span><span class="op">(</span><span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2001</span><span class="op">)</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2002</span><span class="op">)</span><span class="op">)</span> <span class="co"># From an interval</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Invalid durations:</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">durationy</span><span class="op">(</span><span class="fl">3000.1</span><span class="op">)</span><span class="op">)</span> <span class="co"># default is strict = TRUE</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error : Absolute value of years argument is greater than 2000.</span>
+<span class="r-in"><span><span class="fu">durationy</span><span class="op">(</span><span class="fl">3000.1</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;NA&gt;</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -79,24 +79,23 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="years-are-the-unit-but-dates-are-the-data">Years are the unit, but dates are the data<a class="anchor" aria-label="anchor" href="#years-are-the-unit-but-dates-are-the-data"></a>
+<h2 id="the-unit-is-years-but-the-data-are-dates">The unit is years, but the data are dates<a class="anchor" aria-label="anchor" href="#the-unit-is-years-but-the-data-are-dates"></a>
 </h2>
 <p>Mortality rates, valuation assumptions and many other actuarial
 quantities are defined <em>per year</em>. The data they are applied to –
 dates of birth, dates of death, policy anniversaries, valuation dates –
 are measured in days.</p>
 <p>Converting between the two seems like it should be trivial, but it
-isn’t.</p>
+isn’t. Consider these calculations:</p>
 <ul>
-<li><p>Consider “add one year to 2024‑02‑29”. There is no date
-2025‑02‑29, so what should the answer be – 2025‑02‑28 or 2025‑03‑01?
-Both are defensible, and different tools (and different people) choose
-differently.</p></li>
-<li><p>Now consider two consecutive “add half a year” steps starting
-from 2000‑01‑01: do they land on the same date as a single “add one
-year” step? With most day-based arithmetic, the answer is no – the
-result depends on <em>how</em> you split the year up, and on the order
-in which you do the additions.</p></li>
+<li><p>“Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so what
+should the answer be – 2025‑02‑28 or 2025‑03‑01? Both are defensible,
+and different tools (and different people) choose differently.</p></li>
+<li><p>“Add half a year” twice starting from 2000‑01‑01. Does this land
+on the same point in time as a single “add one year” step? With most
+day-based arithmetic, the answer is no – the result depends on how you
+split the year up, and on the order in which you do the
+additions.</p></li>
 </ul>
 <p>For a single <em>ad hoc</em> calculation this kind of ambiguity is a
 curiosity. For an actuarial model that combines exposure periods, runs
@@ -105,22 +104,21 @@ logical calculation, expressed two different but equivalent ways, can
 produce two different numbers.</p>
 </div>
 <div class="section level2">
-<h2 id="dateys-answer-a-fixed-annual-grid">
-<strong>datey</strong>’s answer: a fixed annual grid<a class="anchor" aria-label="anchor" href="#dateys-answer-a-fixed-annual-grid"></a>
+<h2 id="the-datey-approach-a-fixed-annual-grid">The <strong>datey</strong> approach: a fixed annual grid<a class="anchor" aria-label="anchor" href="#the-datey-approach-a-fixed-annual-grid"></a>
 </h2>
 <p><strong>datey</strong> does not try to be a general-purpose calendar
-library – packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and
-<a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a> already do
-that, with full support for time zones, locales, calendar arithmetic and
-so on.</p>
+library with support for time zones, locales, calendar arithmetic and so
+on – packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a> already do
+that.</p>
 <p>Instead, <strong>datey</strong> picks <em>one</em> standardised,
 precise mapping from dates onto an annual grid, and guarantees that
 arithmetic on that grid is exact and associative. Every
 <code>datey</code> and <code>durationy</code> is stored internally as a
-count of <em>clicks</em>, where a click is 1 / 534 360 of a year (chosen
-so that 1/365 and 1/366 of a year, and useful fractions of days and
-years, are represented exactly). With this approach, date and duration
-calculations reduce to plain old integer arithmetic on clicks.</p>
+count of <em>clicks</em>, where one click is 1 / 534 360 of a year, a
+number chosen so that 1/365 and 1/366 of a year, and useful fractions of
+days and years, are represented exactly.</p>
+<p>With this approach, date and duration calculations reduce to plain
+old integer arithmetic which is both precise and associative.</p>
 <p>The practical consequence is that the two-steps-vs-one-step problem
 above simply does not arise:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">

@@ -75,6 +75,12 @@ is_datey_interval() tests whether an object is a datey_interval.
 <dd><p>The object to test.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A logical scalar indicating whether <code>x</code> a <code>datey</code>, <code>durationy</code> or
+<code>datey_interval</code> as appropriate.
+Always <code>FALSE</code> or <code>TRUE</code>; never <code>NULL</code> or <code>NA</code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -86,6 +92,26 @@ is_datey_interval() tests whether an object is a datey_interval.
 <span class="r-in"><span><span class="fu">is_datey</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="fu">is_datey</span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 yr 1 yr 2 yr</span>
+<span class="r-in"><span><span class="fu">is_durationy</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="fu">is_durationy</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">is_durationy</span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">:</span><span class="fl">2001</span><span class="op">)</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2001</span><span class="op">:</span><span class="fl">2002</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">interval</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] [2000-01-01.0, 2001-01-01.0) [2001-01-01.0, 2002-01-01.0)</span>
+<span class="r-in"><span><span class="fu">is_datey_interval</span><span class="op">(</span><span class="va">interval</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="fu">is_datey_interval</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">is_datey_interval</span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 </code></pre></div>
     </div>

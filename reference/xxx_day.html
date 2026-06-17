@@ -83,16 +83,21 @@ If provided as <code>double</code> then these <em>must be integers</em>.</p></dd
 
 <dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
 <dd><p>How to handle calendar years less than 1000 or greater than 3000 and day
-fractions not in the interval [0,1].</p><ul><li><p>If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.</p></li>
-<li><p>If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p></li>
-</ul><p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
+fractions not in the interval [0,1].
+If <code>strict</code> is <code>TRUE</code> – the default – then execution is stopped.
+If <code>strict</code> is <code>FALSE</code> then <code>NA</code> is returned.</p>
+<p>NA arguments result in NA (and do not stop execution) regardless of <code>strict</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A vector of <code>datey</code>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Use <code><a href="as_xxx_day.html">as_start_day()</a></code>, <code><a href="as_xxx_day.html">as_mid_day()</a></code> or <code><a href="as_xxx_day.html">as_end_day()</a></code> to to create a
+    <div class="dont-index"><p>Use <code><a href="as_xxx_day.html">as_start_day()</a></code>, <code><a href="as_xxx_day.html">as_mid_day()</a></code> or <code><a href="as_xxx_day.html">as_end_day()</a></code> to create a
 <code>datey</code> from a base R date or datetime.</p>
-<p>Use <code><a href="datey.html">datey()</a></code> to to create a <code>datey</code> direct from fractional calendar years.</p>
+<p>Use <code><a href="datey.html">datey()</a></code> to create a <code>datey</code> direct from fractional calendar years.</p>
 <p>To deconstruct a <code>datey</code>, use <code><a href="ymdf.html">to_ymdf()</a></code>.</p></div>
     </div>
 

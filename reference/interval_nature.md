@@ -82,6 +82,12 @@ any_collapsed(x)
 
   The interval to test.
 
+## Value
+
+- `is_XXX` functions return a logical vector corresponding the property.
+
+- `all_XXX` and `any_XXX` functions return a logical scalar.
+
 ## Examples
 
 ``` r

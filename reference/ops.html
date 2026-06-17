@@ -113,6 +113,45 @@ evaluation,</p></li>
 </ul><p>where <code>T</code> is either <code>datey</code> or <code>durationy</code> in each of the above.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">t_2000</span> <span class="op">&lt;-</span> <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">t_2001</span> <span class="op">&lt;-</span> <span class="fu"><a href="datey.html">datey</a></span><span class="op">(</span><span class="fl">2001</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d_0.5</span> <span class="op">&lt;-</span> <span class="fu"><a href="durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">t_2000</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2000-01-01.0</span>
+<span class="r-in"><span><span class="va">t_2001</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2001-01-01.0</span>
+<span class="r-in"><span><span class="va">d_0.5</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5 yr</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">t_2001</span> <span class="op">-</span> <span class="va">t_2000</span> <span class="co"># `datey` - `datey` is a `durationy`</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 yr</span>
+<span class="r-in"><span><span class="va">t_2000</span> <span class="op">+</span> <span class="va">d_0.5</span>  <span class="co"># `datey` + `durationy` is a `datey`</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2000-07-02.0</span>
+<span class="r-in"><span><span class="va">t_2001</span> <span class="op">-</span> <span class="va">d_0.5</span>  <span class="co"># `datey` - `durationy` is a `datey`</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2000-07-02.0</span>
+<span class="r-in"><span><span class="va">t_2000</span> <span class="op">+</span> <span class="fl">0.5</span>    <span class="co"># Arithmetic with numerics results in a double</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2000.5</span>
+<span class="r-in"><span><span class="va">d_0.5</span> <span class="op">+</span> <span class="va">d_0.5</span>   <span class="co"># `durationy` + `durationy` is a `durationy`</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 yr</span>
+<span class="r-in"><span><span class="va">d_0.5</span> <span class="op">+</span> <span class="fl">0.5</span>     <span class="co"># Arithmetic with numerics results in a double</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span><span class="va">d_0.5</span> <span class="op">*</span> <span class="fl">2</span>       <span class="co"># Arithmetic with numerics results in a double</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="va">t_2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="va">t_2001</span></span></span>
+<span class="r-in"><span><span class="va">interval</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] [2000-01-01.0, 2001-01-01.0)</span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2000</span> <span class="co"># TRUE -- start *is* included in an interval</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="op">(</span><span class="va">t_2000</span> <span class="op">+</span> <span class="va">d_0.5</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2001</span> <span class="co"># FALSE -- end is *not* included in an interval</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

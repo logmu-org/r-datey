@@ -2,16 +2,16 @@
 
 ## Introduction
 
-The datey system provides a standard mapping of dates onto an annual
+The **datey** system provides a standard mapping of dates onto an annual
 grid.
 
 This matters in contexts where the primary unit is years but input data
 uses dates (i.e. days)[^1].
 
-The goal of datey is to provide performant date and duration-related
+The goal of **datey** is to provide performant date and duration-related
 arithmetic for intervals between input dates.
 
-The following are non goals and should be handled outside the datey
+The following are non goals and should be handled outside the **datey**
 system:
 
 1.  Real-world date arithmetic[^2], including calculating dates for
@@ -38,7 +38,7 @@ system:
 
 ## The fixed precision annual grid
 
-The datey system assumes the following:
+The **datey** system assumes the following:
 
 1.  All calendar years have the same duration.
 
@@ -49,11 +49,11 @@ The datey system assumes the following:
 
 Any other variation arising from, for instance, time zones, daylight
 saving time or leap seconds is out of scope – allowance for these must
-be done *outside* the datey system.
+be done *outside* the **datey** system.
 
 ## Types
 
-The datey system defines two types:
+The **datey** system defines two types:
 
 1.  A `datey` represents a date.
 
@@ -64,12 +64,11 @@ Both of these types are represented using clicks stored as `integer`.
 ### Dates
 
 Dates are mapped to `datey`s as the number of clicks since the start of
-the notional year 0000 on the proleptic Gregorian calendar, i.e. the
-Gregorian calendar extended backwards from its introduction in 1582.
+the notional year 0000 on the proleptic[^4] Gregorian calendar.
 
 A `datey` that would otherwise represent a date before calendar year
 1000 or after the start of calendar year 2999 should be treated as
-invalid[^4] when mapping dates to or from a `datey`.
+invalid[^5] when mapping dates to or from a `datey`.
 
 ### Durations
 
@@ -166,8 +165,9 @@ The mapping as a function of `integer` *year*, *month* and *day*, and
     *year* × 534 360 + *day_count* × *clicks_per_day* +
     *fraction_clicks*
 
-For convenience, a datey implementation should also provide a mapping to
-a `datey` from the *start*, *middle* and *end* of a date defined as:
+For convenience, a **datey** implementation should also provide a
+mapping to a `datey` from the *start*, *middle* and *end* of a date
+defined as:
 
 - *start_day*(*year*, *month*, *day*) := *datey_from_YMDF*(*year*,
   *month*, *day*, 0.0)
@@ -245,7 +245,8 @@ basis that
 - overflows are unlikely to occur within the domain of operation,
   i.e. times periods between date inputs that have already been checked
   for validity, and
-- a key rationale for datey is to facilitate *performant* calculations.
+- a key rationale for **datey** is to facilitate *performant*
+  calculations.
 
 ### Mixed `datey` / `durationy` and numeric operations
 
@@ -268,9 +269,9 @@ The following standard operations are legal
 
 ## Text representations
 
-The datey system provides a simple, standardised text input and output
-format. For more complicated scenarios, dates should be parsed or
-formatted *outside* the datey system.
+The **datey** system provides a simple, standardised text input and
+output format. For more complicated scenarios, dates should be parsed or
+formatted *outside* the **datey** system.
 
 ### `datey` text format
 
@@ -287,7 +288,7 @@ where
 For text *outputs*:
 
 - The fraction contains no more than 3 decimal places (because this is
-  sufficient to distinguish all possible day fractions at datey
+  sufficient to distinguish all possible day fractions at **datey**
   precision).
 - It is an option as to whether a zero day fraction is stated explicitly
   (e.g. ‘2000-01-01.0’).
@@ -326,8 +327,8 @@ For text *outputs*:
   ASCII ‘-’ (U+002D) hyphen-minus character. (Default is use true minus
   sign.)
 - The fraction contains contains at most 6 decimal places because this
-  is sufficient to distinguish all possible duration fractions at datey
-  precision.
+  is sufficient to distinguish all possible duration fractions at
+  **datey** precision.
 - The unit name is user-specifiable. (Default is ‘yrs’.)
 
 For text *inputs*:
@@ -351,12 +352,16 @@ For text *inputs*:
     from 2000-03-01 to 2001-03-01 is 365 days, which means that there is
     no simple definition of duration that accords with this standard
     calculation. And that’s before we ask what 2000-02-29 plus 1 year
-    should be! Corralling this ambiguity is datey’s raison d’être.
+    should be! Corralling this ambiguity is **datey**’s raison d’être.
 
 [^3]: Banker’s rounding is also known as ‘round to nearest, ties to
     even’ or ‘round half to even’. It is the default rounding mode for
     IEEE 754 binary floating-point.
 
-[^4]: This means that both 0 (the default in many languages) and −2³¹
+[^4]: The proleptic Gregorian calendar is the Gregorian calendar
+    extended *backwards* from its introduction in 1582 in accordance
+    with the same rules that it is projectected.
+
+[^5]: This means that both 0 (the default in many languages) and −2³¹
     (used by some languages to indicate missing data or `NA`) are
     invalid `datey`s.

@@ -9,7 +9,8 @@ following:
   rounded to fixed precision of a `durationy`. This means that
   `durationy(0.5)` is precise but `durationy(0.01)` is not.
 
-- `datey_interval` – the duration of the interval.
+- `datey_interval` – the duration of the interval. If `strict` is
+  `FALSE` then this is the same as `datey_interval$duration`.
 
 - `durationy` – value is unchanged.
 
@@ -44,11 +45,9 @@ durationy(x, strict = TRUE, ...)
 
 - strict:
 
-  How years greater than 2000 in magnitude should be handled.
-
-  - If `strict` is `TRUE` – the default – then execution is stopped.
-
-  - If `strict` is `FALSE` then `NA` is returned.
+  How years greater than 2000 in magnitude should be handled. If
+  `strict` is `TRUE` – the default – then execution is stopped. If
+  `strict` is `FALSE` then `NA` is returned.
 
   NA arguments result in NA (and do not stop execution) regardless of
   `strict`.
@@ -56,3 +55,25 @@ durationy(x, strict = TRUE, ...)
 - ...:
 
   Other arguments (not used in this package).
+
+## Value
+
+A vector of `durationy`.
+
+## Examples
+
+``` r
+durationy(1)    # One year
+#> [1] 1 yr
+durationy(0.5)  # Half a year
+#> [1] 0.5 yr
+durationy(-2.3) # Negative duration
+#> [1] −2.3 yr
+durationy(datey(2001) %to% datey(2002)) # From an interval
+
+# Invalid durations:
+try(durationy(3000.1)) # default is strict = TRUE
+#> Error : Absolute value of years argument is greater than 2000.
+durationy(3000.1, strict = FALSE)
+#> [1] <NA>
+```

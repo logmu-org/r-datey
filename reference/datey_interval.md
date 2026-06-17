@@ -5,11 +5,14 @@ Create a `datey_interval` representing \[`start`, `end`).
 These are closed-open ('clopen') intervals `start` \<= t \< `end`, i.e.
 the interval includes `start` but excludes `end`.
 
-There are two equivalent syntaxes,
+There are two syntaxes:
 
-- operator: `start %to% end`, and
+- operator: `start %to% end`
 
-- function: `datey_interval(start, end)`.
+- function: `datey_interval(start, end)`
+
+These are equivalent other than `strict` is always on for the operator
+version.
 
 ## Usage
 
@@ -29,12 +32,13 @@ start %to% end
 
 - strict:
 
-  How NAs should be handled.
+  How NAs should be handled. If `strict` is `TRUE` – the default – then
+  execution is stopped. If `strict` is `FALSE` then `NA` is returned if
+  `start` and/or `end` is NA.
 
-  - If `strict` is `TRUE` – the default – then execution is stopped.
+## Value
 
-  - If `strict` is `FALSE` then `NA` is returned if `start` and/or `end`
-    is NA.
+A vector of `datey`.
 
 ## Examples
 

@@ -34,14 +34,16 @@ as_end_day(x, strict = TRUE)
 
 - strict:
 
-  How invalid *non-NA* inputs should be handled.
-
-  - If `strict` is `TRUE` – the default – then execution is stopped.
-
-  - If `strict` is `FALSE` then `NA` is returned.
+  How invalid *non-NA* inputs should be handled. If `strict` is `TRUE` –
+  the default – then execution is stopped. If `strict` is `FALSE` then
+  `NA` is returned.
 
   NA arguments result in NA (and do not stop execution) regardless of
   `strict`.
+
+## Value
+
+A vector of `datey`.
 
 ## See also
 

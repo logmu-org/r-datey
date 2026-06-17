@@ -68,29 +68,22 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 
   The `day_fraction` override. Defaults to `NULL`.
 
-  - If `day_fraction` is *not* provided then `x` is used to derive both
-    the calendar year, month, day *and* the day fraction.
+  If `day_fraction` is *not* provided then `x` is used to derive both
+  the calendar year, month, day *and* the day fraction.
 
-  - If `day_fraction` *is* provided then `x` is used solely to derive
-    the calendar year, month and day, while `day_fraction` provides the
-    position in the day. `day_fraction` must lie in the inclusive
-    interval \[0,1\], with
-
-  - 0 meaning the start of the day,
-
-  - 0.5 meaning the middle of the day, and
-
-  - 1 meaning the end of the day (which is identical to the start of the
-    next day).
+  If `day_fraction` *is* provided then `x` is used solely to derive the
+  calendar year, month and day, while `day_fraction` provides the
+  position in the day. `day_fraction` must lie in the inclusive interval
+  \[0,1\], with 0 meaning the start of the day, 0.5 meaning the middle
+  of the day, and 1 meaning the end of the day (which is identical to
+  the start of the next day).
 
 - strict:
 
   How calendar years less than 1000 or greater than 3000 and day
-  fractions not in the interval \[0,1\] should be handled.
-
-  - If `strict` is `TRUE` – the default – then execution is stopped.
-
-  - If `strict` is `FALSE` then `NA` is returned.
+  fractions not in the interval \[0,1\] should be handled. If `strict`
+  is `TRUE` – the default – then execution is stopped. If `strict` is
+  `FALSE` then `NA` is returned.
 
   NA arguments result in NA (and do not stop execution) regardless of
   `strict`.
@@ -98,6 +91,10 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 - ...:
 
   Other arguments (not used in this package).
+
+## Value
+
+A vector of `datey`.
 
 ## See also
 
@@ -113,3 +110,34 @@ and
 [`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
 to create a `datey` from a numeric or base R date type but specifying
 whether it should be the start, middle or end of the day.
+
+See
+[text_to_datey](https://logmu-org.github.io/r-datey/reference/text_to_datey.md)
+for parsing and creating `datey` text.
+
+## Examples
+
+``` r
+datey(2000)
+#> [1] 2000-01-01.0
+datey(2000.5) # Middle of a leap year
+#> [1] 2000-07-02.0
+datey(2001.5) # Middle of a non-leap year
+#> [1] 2001-07-02.5
+datey(as.Date("2020-01-02"))
+#> [1] 2020-01-02.0
+datey(as.POSIXct("2020-01-02 12:00:00"))
+#> [1] 2020-01-02.5
+datey(as.POSIXlt("2020-01-02 12:00:00"))
+#> [1] 2020-01-02.5
+
+# Use `strict` to control error behaviour for invalid `datey`s:
+try(datey(999.9))
+#> Error : The year is invalid.
+try(datey(3000.1))
+#> Error : The year is invalid.
+datey(999.9, strict = FALSE)
+#> [1] <NA>
+datey(3000.1, strict = FALSE)
+#> [1] <NA>
+```

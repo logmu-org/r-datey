@@ -1,6 +1,6 @@
 # Package index
 
-## Useful date methods
+## Date and duration methods
 
 - [`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
   [`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
@@ -27,43 +27,6 @@
 
   Extract year, month, day or day_fraction from a `datey`
 
-## Date intervals
-
-- [`datey_interval()`](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
-  [`` `%to%` ``](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
-  :
-
-  Create a `datey_interval`
-
-- [`is_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  [`all_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  [`is_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  [`all_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  [`any_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
-  : Properties of an interval.
-
-- [`` `$`( ``*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/interval_properties.md)
-  :
-
-  Extract start or end from a `datey_interval`
-
-- [`interval_includes()`](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
-  [`` `%includes%` ``](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
-  :
-
-  `all_proper(x)` tests whether all the elements of `x` are proper.
-  `all_collapsed(x)` tests whether all the elements of `x` are
-  collapsed. `any_collapsed(x)` tests whether at least one of the
-  elements of `x` is collapsed. Whether a `datey_interval` includes a
-  `datey`
-
-- [`all_of_time`](https://logmu-org.github.io/r-datey/reference/all_of_time.md)
-  :
-
-  All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
-
-## General creation methods
-
 - [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
   [`from_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
   :
@@ -81,6 +44,26 @@
   :
 
   Create `datey` or `durationy` sequence vector
+
+## Properties
+
+- [`is_datey()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
+  [`is_datey_interval()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
+  [`is_durationy()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
+  :
+
+  Is `x` a `datey`, `durationy` or `datey_interval`?
+
+- [`is_start_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
+  [`is_mid_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
+  :
+
+  Is a `datey` the start (or end) or middle of a day?
+
+- [`is_leap_year()`](https://logmu-org.github.io/r-datey/reference/is_leap_year.md)
+  :
+
+  Is `x` a leap year?
 
 ## Conversion to years
 
@@ -115,25 +98,36 @@
 
   Minimum, maximum or range of `datey` or `durationy`
 
-## Properties
+## Date intervals
 
-- [`is_datey()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
-  [`is_datey_interval()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
-  [`is_durationy()`](https://logmu-org.github.io/r-datey/reference/is_type.md)
+- [`datey_interval()`](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
+  [`` `%to%` ``](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
   :
 
-  Is `x` a `datey`, `durationy` or `datey_interval`?
+  Create a `datey_interval`
 
-- [`is_start_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
-  [`is_mid_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
+- [`is_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`all_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`is_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`all_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  [`any_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+  : Properties of an interval.
+
+- [`` `$`( ``*`<datey_interval>`*`)`](https://logmu-org.github.io/r-datey/reference/interval_properties.md)
   :
 
-  Is a `datey` the start (or end) or middle of a day?
+  Get the start, end or duration of a `datey_interval`
 
-- [`is_leap_year()`](https://logmu-org.github.io/r-datey/reference/is_leap_year.md)
+- [`interval_includes()`](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
+  [`` `%includes%` ``](https://logmu-org.github.io/r-datey/reference/interval_includes.md)
   :
 
-  Is `x` a leap year?
+  Whether a `datey_interval` includes a `datey`
+
+- [`all_of_time`](https://logmu-org.github.io/r-datey/reference/all_of_time.md)
+  :
+
+  All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
 
 ## Text parsing and printing
 

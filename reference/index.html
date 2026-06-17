@@ -41,7 +41,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="useful-date-methods">Useful date methods<a class="anchor" aria-label="anchor" href="#useful-date-methods"></a></h2>
+      <h2 id="date-and-duration-methods">Date and duration methods<a class="anchor" aria-label="anchor" href="#date-and-duration-methods"></a></h2>
 
 
 
@@ -77,61 +77,8 @@
 
         </dt>
         <dd>Extract year, month, day or day_fraction from a <code>datey</code></dd>
-      </dl></div><div class="section level2">
-      <h2 id="date-intervals">Date intervals<a class="anchor" aria-label="anchor" href="#date-intervals"></a></h2>
-
-
-
-      <dl></dl></div><div class="section level2">
-
-
-
-
-      <dl><dt>
-
-          <code><a href="datey_interval.html">datey_interval()</a></code> <code><a href="datey_interval.html">`%to%`</a></code>
-
-        </dt>
-        <dd>Create a <code>datey_interval</code></dd>
 
         <dt>
-
-          <code><a href="interval_nature.html">is_proper()</a></code> <code><a href="interval_nature.html">all_proper()</a></code> <code><a href="interval_nature.html">is_collapsed()</a></code> <code><a href="interval_nature.html">all_collapsed()</a></code> <code><a href="interval_nature.html">any_collapsed()</a></code>
-
-        </dt>
-        <dd>Properties of an interval.</dd>
-
-        <dt>
-
-          <code><a href="interval_properties.html">`$`(<i>&lt;datey_interval&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Extract start or end from a <code>datey_interval</code></dd>
-
-        <dt>
-
-          <code><a href="interval_includes.html">interval_includes()</a></code> <code><a href="interval_includes.html">`%includes%`</a></code>
-
-        </dt>
-        <dd><code>all_proper(x)</code> tests whether all the elements of <code>x</code> are proper. <code>all_collapsed(x)</code> tests whether all the elements of <code>x</code> are collapsed. <code>any_collapsed(x)</code> tests whether at least one of the elements of <code>x</code> is collapsed. Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
-
-        <dt>
-
-          <code><a href="all_of_time.html">all_of_time</a></code>
-
-        </dt>
-        <dd>All valid <code>datey</code> calendar years, i.e. 1000 to 2999 inclusive.</dd>
-      </dl></div><div class="section level2">
-      <h2 id="general-creation-methods">General creation methods<a class="anchor" aria-label="anchor" href="#general-creation-methods"></a></h2>
-
-
-
-      <dl></dl></div><div class="section level2">
-
-
-
-
-      <dl><dt>
 
           <code><a href="ymdf.html">to_ymdf()</a></code> <code><a href="ymdf.html">from_ymdf()</a></code>
 
@@ -151,6 +98,36 @@
 
         </dt>
         <dd>Create <code>datey</code> or <code>durationy</code> sequence vector</dd>
+      </dl></div><div class="section level2">
+      <h2 id="properties">Properties<a class="anchor" aria-label="anchor" href="#properties"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="is_type.html">is_datey()</a></code> <code><a href="is_type.html">is_datey_interval()</a></code> <code><a href="is_type.html">is_durationy()</a></code>
+
+        </dt>
+        <dd>Is <code>x</code> a <code>datey</code>, <code>durationy</code> or <code>datey_interval</code>?</dd>
+
+        <dt>
+
+          <code><a href="is_xxx_day.html">is_start_day()</a></code> <code><a href="is_xxx_day.html">is_mid_day()</a></code>
+
+        </dt>
+        <dd>Is a <code>datey</code> the start (or end) or middle of a day?</dd>
+
+        <dt>
+
+          <code><a href="is_leap_year.html">is_leap_year()</a></code>
+
+        </dt>
+        <dd>Is <code>x</code> a leap year?</dd>
       </dl></div><div class="section level2">
       <h2 id="conversion-to-years">Conversion to years<a class="anchor" aria-label="anchor" href="#conversion-to-years"></a></h2>
 
@@ -205,7 +182,7 @@
         </dt>
         <dd>Minimum, maximum or range of <code>datey</code> or <code>durationy</code></dd>
       </dl></div><div class="section level2">
-      <h2 id="properties">Properties<a class="anchor" aria-label="anchor" href="#properties"></a></h2>
+      <h2 id="date-intervals">Date intervals<a class="anchor" aria-label="anchor" href="#date-intervals"></a></h2>
 
 
 
@@ -216,24 +193,38 @@
 
       <dl><dt>
 
-          <code><a href="is_type.html">is_datey()</a></code> <code><a href="is_type.html">is_datey_interval()</a></code> <code><a href="is_type.html">is_durationy()</a></code>
+          <code><a href="datey_interval.html">datey_interval()</a></code> <code><a href="datey_interval.html">`%to%`</a></code>
 
         </dt>
-        <dd>Is <code>x</code> a <code>datey</code>, <code>durationy</code> or <code>datey_interval</code>?</dd>
+        <dd>Create a <code>datey_interval</code></dd>
 
         <dt>
 
-          <code><a href="is_xxx_day.html">is_start_day()</a></code> <code><a href="is_xxx_day.html">is_mid_day()</a></code>
+          <code><a href="interval_nature.html">is_proper()</a></code> <code><a href="interval_nature.html">all_proper()</a></code> <code><a href="interval_nature.html">is_collapsed()</a></code> <code><a href="interval_nature.html">all_collapsed()</a></code> <code><a href="interval_nature.html">any_collapsed()</a></code>
 
         </dt>
-        <dd>Is a <code>datey</code> the start (or end) or middle of a day?</dd>
+        <dd>Properties of an interval.</dd>
 
         <dt>
 
-          <code><a href="is_leap_year.html">is_leap_year()</a></code>
+          <code><a href="interval_properties.html">`$`(<i>&lt;datey_interval&gt;</i>)</a></code>
 
         </dt>
-        <dd>Is <code>x</code> a leap year?</dd>
+        <dd>Get the start, end or duration of a <code>datey_interval</code></dd>
+
+        <dt>
+
+          <code><a href="interval_includes.html">interval_includes()</a></code> <code><a href="interval_includes.html">`%includes%`</a></code>
+
+        </dt>
+        <dd>Whether a <code>datey_interval</code> includes a <code>datey</code></dd>
+
+        <dt>
+
+          <code><a href="all_of_time.html">all_of_time</a></code>
+
+        </dt>
+        <dd>All valid <code>datey</code> calendar years, i.e. 1000 to 2999 inclusive.</dd>
       </dl></div><div class="section level2">
       <h2 id="text-parsing-and-printing">Text parsing and printing<a class="anchor" aria-label="anchor" href="#text-parsing-and-printing"></a></h2>
 
