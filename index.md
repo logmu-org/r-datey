@@ -1,8 +1,7 @@
 # datey
 
 The **datey** package provides a standardised mapping of dates onto an
-annual grid together with performant date and duration-related
-arithmetic.
+annual grid together with precise date and duration-related arithmetic.
 
 If you work primarily with mortality rates and time intervals defined by
 year but your input data uses dates, *and* precision is important, then
@@ -20,18 +19,20 @@ The benefits of using **datey** are:
     [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation)
     has come a cropper over inconsistencies on this point.
 
-2.  **Fixed precision arithmetic.** This excludes classes of bug related
-    to the imprecision of floating point arithmetic\[^FloatingPoint\].
-    These are sufficiently common to justify [a CRAN
+2.  **Fixed precision arithmetic.** This approach excludes some common
+    bugs arising from the imprecision of floating point
+    arithmetic\[^FloatingPoint\]. This is a sufficiently common problem
+    that there is a [CRAN
     FAQ](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-    and, in a mortality-specific context, [Terry Therneau’s
+    on the topic. And, in a mortality-specific context, Terry Therneau
+    wrote [this
     note](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
-    on the problems floating point causes in the context of the R surv
+    on the problems floating point can cause for users his R surv
     package.[^1]
 
-3.  Handling the often-overlooked issue of **whether a date means the
-    start, during or end of a day**. This may seem trivial but
-    systematic errors in relation to this issue can accumulate.
+3.  Handling **whether a date means the start, during or end of a day**.
+    This may seem trivial but systematic errors can accumulate and end
+    up being material.
 
 For more detail on the motivation for **datey**, see [Why
 **datey**?](https://logmu-org.github.io/r-datey/articles/why-datey.html).
