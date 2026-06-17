@@ -19,7 +19,7 @@ If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
 If \code{strict} is \code{FALSE} then \code{NA} is returned if \code{start} and/or \code{end} is NA.}
 }
 \value{
-A vector of \code{datey}.
+A vector of \code{datey_interval}.
 }
 \description{
 Create a \code{datey_interval} representing [\code{start}, \code{end}).

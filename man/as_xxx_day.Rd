@@ -5,7 +5,7 @@
 \alias{as_start_day}
 \alias{as_mid_day}
 \alias{as_end_day}
-\title{Create a \code{datey} aligned to the start, middle of end of the day
+\title{Create a \code{datey} aligned to the start, middle or end of the day
 specified by a fractional calendar year or another date type.}
 \usage{
 as_start_day(x, strict = TRUE)
@@ -31,7 +31,7 @@ Accepted types are:
 \itemize{
 \item Numeric, interpreted as calendar year, with the fractional part
 representing the fraction of the year. For instance, \code{datey(2000.5)} means
-halfway though the year 2000.
+halfway through the year 2000.
 \item The base R date types (\code{Date} and \code{POSIXct} and \code{POSIXlt}).
 \item \code{character}, in ISO 8601 extended format, i.e. YYYY-MM-DD.
 \item \code{datey}, which is interpreted as is but with the start, middle or end day

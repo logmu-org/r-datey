@@ -33,7 +33,7 @@ Defaults to \code{FALSE}.}
 \href{https://www.compart.com/en/unicode/U+2212}{true minus sign ('−', U+2212)}
 sign as opposed to the
 \href{https://www.compart.com/en/unicode/U+002D}{ASCII hyphen (-, U+002D)}.
-Defaults to \code{FALSE}.}
+Defaults to \code{TRUE}.}
 
 \item{year_unit}{The year unit name to print.
 If not blank then the value is followed by a space and the unit.

@@ -41,9 +41,9 @@ Defaults to \code{FALSE}.}
 A vector of \code{datey}.
 }
 \description{
-This function parses text  a \code{datey}.
+This function parses text as a \code{datey}.
 
-If the text is NA then NA is returned
+If the text is NA then NA is returned.
 
 If \code{day_fraction} \emph{is} provided then the text must be in ISO 8601 extended
 format, i.e. "YYYY-MM-DD".

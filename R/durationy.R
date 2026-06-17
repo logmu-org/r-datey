@@ -134,7 +134,7 @@ durationy.datey_interval <- function(x, strict = TRUE, ...) {
 #' Parse text as a `durationy`
 #'
 #' @description
-#' This function parses text  a `durationy`.
+#' This function parses text as a `durationy`.
 #'
 #' If the text is NA then NA is returned.
 #'
@@ -144,7 +144,7 @@ durationy.datey_interval <- function(x, strict = TRUE, ...) {
 #' - "DDD.DDD" is the duration in years with "D" being decimal digits
 #' (and the fractional part is not required for whole years), and
 #'
-#' - "UUU" is the unit text (which defaults to "yrs"). If blank then there is
+#' - "UUU" is the unit text (which defaults to "yr"). If blank then there is
 #' no space after the duration in years.
 #'
 #' If `blank_is_NA` is `TRUE` then blanks are treated as `NA`.
@@ -257,7 +257,7 @@ as.integer.durationy <- function(x, ...) {
 #' [true minus sign ('−', U+2212)](https://www.compart.com/en/unicode/U+2212)
 #' sign as opposed to the
 #' [ASCII hyphen (-, U+002D)](https://www.compart.com/en/unicode/U+002D).
-#' Defaults to `FALSE`.
+#' Defaults to `TRUE`.
 #' @param year_unit The year unit name to print.
 #' If not blank then the value is followed by a space and the unit.
 #' Cannot be more than 20 characters (UTF-8 bytes) or contain control characters.

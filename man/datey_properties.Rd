@@ -14,7 +14,7 @@
 }
 \value{
 A vector of \code{integer} for \code{year}, \code{month} and \code{day};
-a vector of \code{integer} for \code{day_fraction}.
+a vector of \code{double} for \code{day_fraction}.
 }
 \description{
 Extract the year, month, day or day_fraction of a \code{datey} using the syntax

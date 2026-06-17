@@ -49,7 +49,7 @@ For convenience,
 \itemize{
 \item the constants \link{NA_datey_} and \link{NA_durationy_} are the \code{datey} and \code{durationy}
 versions of NA respectively, and
-\item \href{integer_constants}{integer constants} describing the above valid ranges
+\item \link[=integer_constants]{integer constants} describing the above valid ranges
 are also provided.
 }
 

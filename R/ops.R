@@ -68,33 +68,33 @@
 #' @export
 Ops.datey_type <- function(e1, e2) {
 
-  # Legal ops (where T is datey, Δ is durationy, N is numeric, R is relop):
+  # Legal ops (where T is datey, D is durationy, N is numeric, R is relop):
 
   # Ordered by type of first op then type of second op:
 
-  # ✔ T R T => logical
-  # ✔ T - T => Δ
-  # ✔ T + Δ => T
-  # ✔ T - Δ => T
+  # T R T => logical
+  # T - T => D
+  # T + D => T
+  # T - D => T
 
-  # ✔ +Δ
-  # ✔ -Δ
-  # ✔ Δ + T => T
-  # ✔ Δ R Δ => logical
-  # ✔ Δ + Δ => Δ
-  # ✔ Δ - Δ => Δ
+  # +D
+  # -D
+  # D + T => T
+  # D R D => logical
+  # D + D => D
+  # D - D => D
 
-  # ✔ T  + - == != < <= > >=  N => ?
-  # ✔ N  + - == != < <= > >=  T => ?
-  # ✔ Δ  + - * / == != < <= > >=  N => ?
-  # ✔ N  + - * / == != < <= > >=  Δ => ?
+  # T  + - == != < <= > >=  N => ?
+  # N  + - == != < <= > >=  T => ?
+  # D  + - * / == != < <= > >=  N => ?
+  # N  + - * / == != < <= > >=  D => ?
 
   if (missing(e2)) {
 
     if (is_durationy(e1)) {
-      # ✔ +Δ
+      # +D
       if (.Generic == "+") return(e1)
-      # ✔ -Δ
+      # -D
       if (.Generic == "-") return(durationy_from_clicks(-unclass(e1)))
     }
 
@@ -104,11 +104,11 @@ Ops.datey_type <- function(e1, e2) {
   if (is_pure_numeric(e1)) {
 
     if (is_datey(e2)) {
-      # ✔ N  + - == != < <= > >=  T => ?
+      # N  + - == != < <= > >=  T => ?
       if (.Generic %in% c("+", "-", "==", "!=", "<", "<=", ">", ">="))
         return(get(.Generic)(e1, as.double(e2)))
     } else if (is_durationy(e2)) {
-      # ✔ N  + - * / == != < <= > >=  Δ => ?
+      # N  + - * / == != < <= > >=  D => ?
       if (.Generic %in% c("+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">="))
         return(get(.Generic)(e1, as.double(e2)))
     }
@@ -116,11 +116,11 @@ Ops.datey_type <- function(e1, e2) {
   } else if (is_pure_numeric(e2))
   {
     if (is_datey(e1)) {
-      # ✔ T  + - == != < <= > >=  N => ?
+      # T  + - == != < <= > >=  N => ?
       if (.Generic %in% c("+", "-", "==", "!=", "<", "<=", ">", ">="))
         return(get(.Generic)(as.double(e1), e2))
     } else if (is_durationy(e1)) {
-      # ✔ Δ  + - * / == != < <= > >=  N => ?
+      # D  + - * / == != < <= > >=  N => ?
       if (.Generic %in% c("+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">="))
         return(get(.Generic)(as.double(e1), e2))
     }
@@ -133,33 +133,33 @@ Ops.datey_type <- function(e1, e2) {
     if (is_datey(e1)) {
 
       if (is_datey(e2)) {
-        # ✔ T R T => logical
+        # T R T => logical
         if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return(get(.Generic)(u1, u2))
-        # ✔ T - T => Δ
+        # T - T => D
         if (.Generic == "-") return(durationy_from_clicks(u1 - u2))
       } else if (is_durationy(e2)) {
-        # ✔ T + Δ => T
+        # T + D => T
         if (.Generic == "+") return(datey_from_clicks(u1 + u2))
-        # ✔ T - Δ => T
+        # T - D => T
         if (.Generic == "-") return(datey_from_clicks(u1 - u2))
       }
 
     } else if (is_durationy(e1)) {
 
       if (is_datey(e2)) {
-        # ✔ Δ + T => T
+        # D + T => T
         if (.Generic == "+") return(datey_from_clicks(u1 + u2))
       } else if (is_durationy(e2)) {
-        # ✔ Δ R Δ => logical
+        # D R D => logical
         if (.Generic %in% c("==", "!=", "<", "<=", ">", ">="))  return(get(.Generic)(u1, u2))
-        # ✔ Δ + Δ => Δ
+        # D + D => D
         if (.Generic == "+") return(durationy_from_clicks(u1 + u2))
-        # ✔ Δ - Δ => Δ
+        # D - D => D
         if (.Generic == "-") return(durationy_from_clicks(u1 - u2))
       } else if (is_pure_numeric(e2)) {
-        # ✔ Δ * N => Δ
+        # D * N => D
         if (.Generic == "*") return(durationy_from_clicks(u1 * u2))
-        # ✔ Δ / N => Δ
+        # D / N => D
         if (.Generic == "/") return(durationy_from_clicks(u1 / u2))
       }
 

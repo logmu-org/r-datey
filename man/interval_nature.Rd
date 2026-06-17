@@ -59,10 +59,12 @@ any_collapsed(x)
 }
 }
 \description{
-Test whether intervals, [\emph{a},\emph{b}), are 'proper' or 'collapsed':
+Test whether intervals, \eqn{[a,b)}, are 'proper' or 'collapsed':
 \itemize{
-\item A \emph{proper} interval does not end before its start, i.e. \emph{a} ≤ \emph{b}.
-\item An \emph{collapsed} interval does not start before its end, i.e. \emph{a} ≥ \emph{b}.
+\item A \emph{proper} interval does not end before its start,
+i.e. \eqn{a \le b}{a <= b}.
+\item A \emph{collapsed} interval does not start before its end,
+i.e. \eqn{a \ge b}{a >= b}.
 }
 
 An NA interval is treated as collapsed and improper.
@@ -70,7 +72,8 @@ An NA interval is treated as collapsed and improper.
 These definitions imply the following:
 \itemize{
 \item A collapsed interval could be empty or improper.
-\item To test for an empty interval, i.e. [\emph{a},\emph{a}), test that it is both proper and collapsed.
+\item To test for an empty interval, i.e. \eqn{[a,a)}, test that it is both
+proper and collapsed.
 }
 
 These methods are guaranteed to return \code{TRUE} or \code{FALSE}, i.e. not \code{NA}
@@ -85,7 +88,8 @@ Scalar versions mapping \code{x} to a scalar \code{TRUE} or \code{FALSE}:
 
 \code{all_proper(x)} tests whether all the elements of \code{x} are proper.
 \code{all_collapsed(x)} tests whether all the elements of \code{x} are collapsed.
-\code{any_collapsed(x)} tests whether at least one of the elements of \code{x} is collapsed.
+\code{any_collapsed(x)} tests whether at least one of the elements of \code{x} is
+collapsed.
 
 These are S3 generic functions.
 }

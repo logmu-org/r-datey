@@ -9,6 +9,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The **datey** package provides a standardised mapping of dates onto an

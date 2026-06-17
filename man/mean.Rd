@@ -17,8 +17,14 @@
 
 \item{na.rm}{A logical (\code{TRUE} or \code{FALSE}) indicating whether NA values should be removed before the computation.}
 }
+\value{
+A scalar of \code{datey} or \code{duration} as appropriate.
+}
 \description{
-Mean value of \code{datey} or \code{durationy}
+Gets the mean value of a vector of \code{datey} or \code{durationy} as a scalar.
+
+This will entail rounding if the mean of
+the underlying click counts is not an integer.
 }
 \examples{
     t <- datey(2000:2003)
