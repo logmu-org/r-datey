@@ -13,8 +13,7 @@
 <!-- badges: end -->
 
 The **datey** package provides a standardised mapping of dates onto an
-annual grid together with performant date and duration-related
-arithmetic.
+annual grid together with precise date and duration-related arithmetic.
 
 If you work primarily with mortality rates and time intervals defined by
 year but your input data uses dates, *and* precision is important, then
@@ -32,18 +31,20 @@ The benefits of using **datey** are:
     [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation)
     has come a cropper over inconsistencies on this point.
 
-2.  **Fixed precision arithmetic.** This excludes classes of bug related
-    to the imprecision of floating point arithmetic\[^FloatingPoint\].
-    These are sufficiently common to justify [a CRAN
+2.  **Fixed precision arithmetic.** This approach excludes some common
+    bugs arising from the imprecision of floating point
+    arithmetic\[^FloatingPoint\]. This is a sufficiently common problem
+    that there is a [CRAN
     FAQ](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-    and, in a mortality-specific context, [Terry Therneau’s
+    on the topic. And, in a mortality-specific context, Terry Therneau
+    wrote [this
     note](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
-    on the problems floating point causes in the context of the R surv
+    on the problems floating point can cause for users his R surv
     package.[^1]
 
-3.  Handling the often-overlooked issue of **whether a date means the
-    start, during or end of a day**. This may seem trivial but
-    systematic errors in relation to this issue can accumulate.
+3.  Handling **whether a date means the start, during or end of a day**.
+    This may seem trivial but systematic errors can accumulate and end
+    up being material.
 
 For more detail on the motivation for **datey**, see [Why
 **datey**?](https://logmu-org.github.io/r-datey/articles/why-datey.html).
@@ -90,30 +91,7 @@ interval$duration * 0.01 # Implicit conversion to years when mixed with numerics
 ```
 
 A hands-on guide is provided in [Get
-started](https://logmu-org.github.io/r-datey/articles/datey.html). <!--
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots in the man/figures folder, for example:
-
-<img src="man/figures/README-pressure-1.png" alt="" width="100%" />
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
--->
+started](https://logmu-org.github.io/r-datey/articles/datey.html).
 
 [^1]: That author’s preferred solution is to use day counts, which is
     also a fixed precision approach.
