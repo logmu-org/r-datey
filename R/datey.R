@@ -301,7 +301,6 @@ from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 #'
 #' NA arguments result in NA (and do not stop execution) regardless of `strict`.
 #' @returns A vector of `datey`.
-#' @name xxx_day
 #' @seealso
 #'  Use [as_start_day()], [as_mid_day()] or [as_end_day()] to create a
 #'  `datey` from a base R date or datetime.
@@ -309,7 +308,6 @@ from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 #'  Use [datey()] to create a `datey` direct from fractional calendar years.
 #'
 #' To deconstruct a `datey`, use [to_ymdf()].
-#'
 #' @examples
 #'   start_day(1999, 12, 31)
 #'   mid_day(1999, 12, 31)
