@@ -1,9 +1,7 @@
 url: https://logmu-org.github.io/r-datey/
-
 authors:
-  "Tim Gordon":
+  Tim Gordon:
     href: http://timgord.com
-
 template:
   bootstrap: 5
   light-switch: yes
@@ -13,67 +11,66 @@ template:
     secondary: '#FF5722'
     navbar-light-bg: hsl(14, 100%, 96%)
     navbar-dark-bg: hsl(14, 100%, 18%)
-
 navbar:
   type: default
   left:
-    - text: Home
-      href: index.html
-    - text: Why datey?
-      href: articles/why-datey.html
-    - text: Get started
-      href: articles/datey.html
-    - text: Reference
-      href: reference/index.html
-    - text: Specification
-      href: articles/spec.html
-    - text: "Change log"
-      href: news/index.html
-
+  - text: Home
+    href: index.html
+  - text: Why datey?
+    href: articles/why-datey.html
+  - text: Get started
+    href: articles/datey.html
+  - text: Reference
+    href: reference/index.html
+  - text: Specification
+    href: articles/spec.html
+  - text: Change log
+    href: news/index.html
 reference:
-  - title: Date and duration methods
-    contents:
-      - xxx_day
-      - as_xxx_day
-      - datey
-      - datey_properties
-      - ymdf
-      - durationy
-      - seq
-  - title: Properties
-    contents:
-      - is_type
-      - is_xxx_day
-      - is_leap_year
-  - title: Conversion to years
-    contents:
-      - as_years_datey
-      - as_years_durationy
-  - title: Operators and statistics
-    contents:
-      - ops
-      - mean
-      - max_min
-  - title: Date intervals
-    contents:
-      - datey_interval
-      - interval_nature
-      - interval_properties
-      - interval_includes
-      - all_of_time
-  - title: Text parsing and printing
-    contents:
-      - text_to_datey
-      - text_to_durationy
-      - text_from_datey
-      - text_from_durationy
-      - text_from_datey_interval
-  - title: Utilities
-    contents:
-      - combine
-      - subset
-  - title: NA handling
-    contents:
-      - is_NA
-      - NAs
-      - integer_constants
+- title: Date and duration methods
+  contents:
+  - xxx_day
+  - as_xxx_day
+  - datey
+  - datey_properties
+  - ymdf
+  - durationy
+  - seq
+- title: Properties
+  contents:
+  - is_type
+  - is_xxx_day
+  - is_leap_year
+- title: Conversion to years
+  contents:
+  - as_years_datey
+  - as_years_durationy
+- title: Operators and statistics
+  contents:
+  - ops
+  - mean
+  - max_min
+- title: Date intervals
+  contents:
+  - datey_interval
+  - interval_nature
+  - interval_properties
+  - interval_includes
+  - all_of_time
+- title: Text parsing and printing
+  contents:
+  - text_to_datey
+  - text_to_durationy
+  - text_from_datey
+  - text_from_durationy
+  - text_from_datey_interval
+- title: Utilities
+  contents:
+  - combine
+  - subset
+- title: NA handling
+  contents:
+  - is_NA
+  - NAs
+  - integer_constants
+

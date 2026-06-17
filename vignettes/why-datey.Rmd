@@ -44,12 +44,7 @@ numbers.
 
 ## The **datey** approach: a fixed annual grid
 
-**datey** does not try to be a general-purpose calendar library with support
-for time zones, locales, calendar arithmetic and so on -- packages
-like [clock](https://clock.r-lib.org/) and
-[lubridate](https://lubridate.tidyverse.org/) already do that.
-
-Instead, **datey** picks *one* standardised, precise mapping from dates onto
+**datey** picks *one* standardised, precise mapping from dates onto
 an annual grid, and guarantees that arithmetic on that grid is exact and
 associative. Every `datey` and `durationy` is stored internally as a count of
 *clicks*, where one click is 1&#8201;/&#8201;534&#8201;360 of a year,
@@ -67,7 +62,7 @@ start <- start_day(2000, 1, 1)
 
 half_year <- durationy(0.5)
 two_steps <- (start + half_year) + half_year
-one_step    <- start + (half_year + half_year)
+one_step  <- start + (half_year + half_year)
 
 two_steps
 one_step
@@ -139,16 +134,15 @@ To keep the guarantees above simple and dependable, **datey** is very narrowly s
 It is *not* the right tool for:
 
 - General date arithmetic for output, e.g. "what date is 3 months from now"
-  for a calendar shown to a user -- use `clock` or `lubridate`.
+  for a calendar shown to a user.
 - Parsing or formatting dates beyond the simple
-  `YYYY-MM-DD[.fff]` representation -- again, `clock`/`lubridate`, or
-  `as.Date()`/`format()`.
-- Time zones, daylight saving time, leap seconds, or any calendar other than
-  the proleptic Gregorian calendar.
+  `YYYY-MM-DD[.fff]` representation.
+- Time zones, daylight saving time, leap seconds, or different calendars.
+
+Packages like [clock](https://clock.r-lib.org/) and
+[lubridate](https://lubridate.tidyverse.org/) already do that.
 
 The trade-off is deliberate: by refusing to be a general date library, **datey**
 can make a precise, associative annual grid *the* representation for
 rate-related calculations, with one well-defined answer regardless of how the
 calculation is structured.
-
-[spec]: spec.html

@@ -30,20 +30,20 @@ The goal of **datey** is to provide performant date and duration-related arithme
 
 The following are non goals and should be handled outside the **datey** system:
 
-1. Real-world date arithmetic[^Undefined], including calculating dates for output.
-2. Parsing and formatting dates.
+- Real-world date arithmetic[^Undefined], including calculating dates for output.
+- Parsing and formatting dates.
 
 [^Undefined]: Even simple-sounding calculations involving dates and durations can be problematic. Consider, for example, what 'add 1 year' should mean. The duration from 2000-02-01 to 2001-02-01 is 366&#xA0;days but from 2000-03-01 to 2001-03-01 is 365&#xA0;days, which means that there is no simple definition of duration that accords with this standard calculation. And that's before we ask what 2000-02-29 plus 1&#xA0;year should be! Corralling this ambiguity is **datey**'s raison d'être.
 
 ## Definitions
 
-- `double` means IEEE&#xA0;754 binary64, i.e. 64-bit binary floating-point.
+`double` means IEEE&#xA0;754 binary64, i.e. 64-bit binary floating-point.
 
-- `integer` means 32 bit two's complement signed integer.
+`integer` means 32 bit two's complement signed integer.
 
-- Dates are written in this specification using [YYYY&#x2011;MM&#x2011;DD notation](https://xkcd.com/1179/), where  YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.
+Dates are written in this specification using [YYYY&#x2011;MM&#x2011;DD notation](https://xkcd.com/1179/), where  YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.
 
-- Banker's rounding[^BankersRoundingExtra] means round a `double` to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest *even* integer. In the algorithms below, it also entails conversion to `integer`, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of `integer`.
+Banker's rounding[^BankersRoundingExtra] means round a `double` to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to `integer`, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of `integer`.
 
 [^BankersRoundingExtra]: Banker's rounding is also known as 'round to nearest, ties to even' or 'round half to even'. It is the default rounding mode for IEEE&#xA0;754 binary floating-point.
 
@@ -51,11 +51,11 @@ The following are non goals and should be handled outside the **datey** system:
 
 The **datey** system assumes the following:
 
-1. All calendar years have the same duration.
+- All calendar years have the same duration.
 
-1. *Within a calendar year*, all days have the same duration.
+- Within a calendar year, all days have the same duration.
 
-1. Time is granular, with the smallest indivisible unit being a *click*, which is 1&#x202F;/&#x202F;534&#x202F;360 of a year.
+- Time is granular, with the smallest indivisible unit being a *click*, which is 1&#x202F;/&#x202F;534&#x202F;360 of a year.
 
 Any other variation arising from, for instance, time zones, daylight saving time or leap seconds is out of scope -- allowance for these must be done *outside* the **datey** system.
 
@@ -73,11 +73,11 @@ Both of these types are represented using clicks stored as `integer`.
 
 Dates are mapped to `datey`s as the number of clicks since the start of the notional year 0000 on the proleptic[^Proleptic] Gregorian calendar.
 
-[^Proleptic]: The proleptic Gregorian calendar is the Gregorian calendar extended *backwards* from its introduction in 1582 in accordance with the same rules that it is projectected.
+[^Proleptic]: The proleptic Gregorian calendar is the Gregorian calendar extended *backwards* from its introduction in 1582 in accordance with the same rules that it is projected.
 
 A `datey`  that would otherwise represent a date before calendar year 1000 or after the start of calendar year 2999 should be treated as invalid[^DefaultOrNA] when mapping dates to or from a `datey`.
 
-[^DefaultOrNA]: This means that both 0 (the default in many languages) and −2<sup>31</sup> (used by some languages to indicate missing data or `NA`) are invalid `datey`s.
+[^DefaultOrNA]: This means that both 0 (the default in many languages) and −2<sup>31</sup> (used by R to indicate missing data or `NA`) are invalid `datey`s.
 
 ### Durations
 
@@ -116,7 +116,7 @@ Worked examples:
 |`durationy`|±2000.01 |Invalid||
 
 
-### Mapping a date *to* a `datey`
+### Mapping a date to a `datey`
 
 When mapping a date specified by calendar year, month and day to a `datey` the point within the day also needs to be specified. In typical use, it is expected that only the start, middle and end of a day will be specified, but a mapping including the day-fraction is specified for full generality.
 
