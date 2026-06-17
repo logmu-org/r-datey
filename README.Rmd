@@ -42,19 +42,20 @@ Even the mighty
 [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation) 
 has come a cropper over inconsistencies on this point. 
 
-1. **Fixed precision arithmetic.** This approach excludes some common bugs arising from the imprecision of floating point arithmetic[^FloatingPoint]. 
+1. **Fixed precision arithmetic.** This approach excludes some common bugs 
+arising from the imprecision of floating point arithmetic[^FloatingPoint]. 
 This is a sufficiently common problem that there is a
-[CRAN FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f) on the topic. And, in a mortality-specific context,
-Terry Therneau wrote
-[this note](https://CRAN.R-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
-on the problems floating point can cause for users his R surv package.[^Therneau]
+[CRAN FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
+on the topic. And, in a mortality-specific context, Terry Therneau added a note
+to his `survival` package on the problems floating point can cause[^Therneau].
 
 1. Handling **whether a date means the start, during or end of a day**. 
 This may seem trivial but systematic errors can accumulate and end up
 being material.
 
-[^Therneau]: That author's preferred solution is to use day counts, which is 
-also a fixed precision approach.
+[^Therneau]: In R, run `vignette("tiedtimes", package = "survival")`).
+Interestingly, that author's preferred solution is to use day counts, 
+which is also a fixed precision approach.
 
 For more detail on the motivation for **datey**, see
 [Why **datey**?](https://r-datey.logmu.org/articles/why-datey.html).
