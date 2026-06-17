@@ -81,30 +81,28 @@
 <p>This matters in contexts where the primary unit is years but input data uses dates (i.e. days)<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Classic examples are actuarial mortality experience analysis or valuation of life assurance and annuities. Mortality rates are defined per year but experience and valuation data use dates.&lt;/p&gt;"><sup>1</sup></a>.</p>
 <p>The goal of <strong>datey</strong> is to provide performant date and duration-related arithmetic for intervals between input dates.</p>
 <p>The following are non goals and should be handled outside the <strong>datey</strong> system:</p>
-<ol style="list-style-type: decimal">
+<ul>
 <li>Real-world date arithmetic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Even simple-sounding calculations involving dates and durations can be problematic. Consider, for example, what ‘add 1 year’ should mean. The duration from 2000-02-01 to 2001-02-01 is 366 days but from 2000-03-01 to 2001-03-01 is 365 days, which means that there is no simple definition of duration that accords with this standard calculation. And that’s before we ask what 2000-02-29 plus 1 year should be! Corralling this ambiguity is &lt;strong&gt;datey&lt;/strong&gt;’s raison d’être.&lt;/p&gt;"><sup>2</sup></a>, including calculating dates for output.</li>
 <li>Parsing and formatting dates.</li>
-</ol>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="definitions">Definitions<a class="anchor" aria-label="anchor" href="#definitions"></a>
 </h2>
-<ul>
-<li><p><code>double</code> means IEEE 754 binary64, i.e. 64-bit binary floating-point.</p></li>
-<li><p><code>integer</code> means 32 bit two’s complement signed integer.</p></li>
-<li><p>Dates are written in this specification using <a href="https://xkcd.com/1179/" class="external-link">YYYY‑MM‑DD notation</a>, where YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.</p></li>
-<li><p>Banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding is also known as ‘round to nearest, ties to even’ or ‘round half to even’. It is the default rounding mode for IEEE 754 binary floating-point.&lt;/p&gt;"><sup>3</sup></a> means round a <code>double</code> to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest <em>even</em> integer. In the algorithms below, it also entails conversion to <code>integer</code>, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of <code>integer</code>.</p></li>
-</ul>
+<p><code>double</code> means IEEE 754 binary64, i.e. 64-bit binary floating-point.</p>
+<p><code>integer</code> means 32 bit two’s complement signed integer.</p>
+<p>Dates are written in this specification using <a href="https://xkcd.com/1179/" class="external-link">YYYY‑MM‑DD notation</a>, where YYYY is a four-digit year, MM is a two-digit month of the year, 01 to 12, and DD is the two-digit day of the month, 01 to 31.</p>
+<p>Banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding is also known as ‘round to nearest, ties to even’ or ‘round half to even’. It is the default rounding mode for IEEE 754 binary floating-point.&lt;/p&gt;"><sup>3</sup></a> means round a <code>double</code> to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to <code>integer</code>, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of <code>integer</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="the-fixed-precision-annual-grid">The fixed precision annual grid<a class="anchor" aria-label="anchor" href="#the-fixed-precision-annual-grid"></a>
 </h2>
 <p>The <strong>datey</strong> system assumes the following:</p>
-<ol style="list-style-type: decimal">
+<ul>
 <li><p>All calendar years have the same duration.</p></li>
-<li><p><em>Within a calendar year</em>, all days have the same duration.</p></li>
+<li><p>Within a calendar year, all days have the same duration.</p></li>
 <li><p>Time is granular, with the smallest indivisible unit being a <em>click</em>, which is 1 / 534 360 of a year.</p></li>
-</ol>
+</ul>
 <p>Any other variation arising from, for instance, time zones, daylight saving time or leap seconds is out of scope – allowance for these must be done <em>outside</em> the <strong>datey</strong> system.</p>
 </div>
 <div class="section level2">
@@ -119,8 +117,8 @@
 <div class="section level3">
 <h3 id="dates">Dates<a class="anchor" aria-label="anchor" href="#dates"></a>
 </h3>
-<p>Dates are mapped to <code>datey</code>s as the number of clicks since the start of the notional year 0000 on the proleptic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;The proleptic Gregorian calendar is the Gregorian calendar extended &lt;em&gt;backwards&lt;/em&gt; from its introduction in 1582 in accordance with the same rules that it is projectected.&lt;/p&gt;"><sup>4</sup></a> Gregorian calendar.</p>
-<p>A <code>datey</code> that would otherwise represent a date before calendar year 1000 or after the start of calendar year 2999 should be treated as invalid<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This means that both 0 (the default in many languages) and −2&lt;sup&gt;31&lt;/sup&gt; (used by some languages to indicate missing data or &lt;code&gt;NA&lt;/code&gt;) are invalid &lt;code&gt;datey&lt;/code&gt;s.&lt;/p&gt;"><sup>5</sup></a> when mapping dates to or from a <code>datey</code>.</p>
+<p>Dates are mapped to <code>datey</code>s as the number of clicks since the start of the notional year 0000 on the proleptic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;The proleptic Gregorian calendar is the Gregorian calendar extended &lt;em&gt;backwards&lt;/em&gt; from its introduction in 1582 in accordance with the same rules that it is projected.&lt;/p&gt;"><sup>4</sup></a> Gregorian calendar.</p>
+<p>A <code>datey</code> that would otherwise represent a date before calendar year 1000 or after the start of calendar year 2999 should be treated as invalid<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This means that both 0 (the default in many languages) and −2&lt;sup&gt;31&lt;/sup&gt; (used by R to indicate missing data or &lt;code&gt;NA&lt;/code&gt;) are invalid &lt;code&gt;datey&lt;/code&gt;s.&lt;/p&gt;"><sup>5</sup></a> when mapping dates to or from a <code>datey</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="durations">Durations<a class="anchor" aria-label="anchor" href="#durations"></a>
@@ -223,7 +221,7 @@
 </table>
 </div>
 <div class="section level3">
-<h3 id="mapping-a-date-to-a-datey">Mapping a date <em>to</em> a <code>datey</code><a class="anchor" aria-label="anchor" href="#mapping-a-date-to-a-datey"></a>
+<h3 id="mapping-a-date-to-a-datey">Mapping a date to a <code>datey</code><a class="anchor" aria-label="anchor" href="#mapping-a-date-to-a-datey"></a>
 </h3>
 <p>When mapping a date specified by calendar year, month and day to a <code>datey</code> the point within the day also needs to be specified. In typical use, it is expected that only the start, middle and end of a day will be specified, but a mapping including the day-fraction is specified for full generality.</p>
 <p>The mapping as a function of <code>integer</code> <em>year</em>, <em>month</em> and <em>day</em>, and <code>double</code> <em>day_fraction</em> is as follows:</p>

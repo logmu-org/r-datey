@@ -78,43 +78,368 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span></code></pre></div>
-<p>Link to other pages here</p>
-<p>There are sound reasons for working in annual units, but it is a
-(convenient) fiction because not all years have the same length.</p>
-<p>So when we want to convert dates, which are measured in days, to an
-annual system, something has to give.</p>
-<p>The best we can do is make this conversion well-defined and
-consistent, which is what <strong>datey</strong> aims to do.</p>
-<p>To this end <strong>datey</strong> adopts what seems to be the most
-common approach, which is to treat days as 1/366 of a year in a leap
-year and 1/365 of a year otherwise.</p>
-<p>More specifically, <strong>datey</strong></p>
+<p>This vignette is a hands-on guide to the <strong>datey</strong>
+package. For the motivation behind the annual-grid approach and the
+associativity guarantee, see <a href="why-datey.html">Why
+<strong>datey</strong>?</a>. For the complete formal specification, see
+the <a href="spec.html"><strong>datey</strong> specification</a>.</p>
+<div class="section level2">
+<h2 id="the-three-types">The three types<a class="anchor" aria-label="anchor" href="#the-three-types"></a>
+</h2>
+<p><strong>datey</strong> provides three S3 classes:</p>
 <ul>
-<li>handles dates from the start of 1000 to the end of 2999,</li>
-<li>accurately represents the start and middle of any day as a fraction
-of a calendar year, and</li>
-<li>accurately represents 1/120 of a calendar year</li>
+<li>
+<strong><code>datey</code></strong> – a point in time, stored at
+day-fraction precision.</li>
+<li>
+<strong><code>durationy</code></strong> – a duration in years.</li>
+<li>
+<strong><code>datey_interval</code></strong> – a half-open
+<code>[start, end)</code> time interval.</li>
 </ul>
-<p>It achieves this by using fixed precision with units of
-1/(4 × 365 × 366) of a year. The full specification is [here][spec].</p>
-<p>You can convert from standard base R dates <code>Date</code>,
-<code>POSIXct</code> and <code>POSIXlt</code>.</p>
-<p>Typically use <code>start_day</code>, <code>mid_day</code> or
-<code>end_day</code>.</p>
-<p>Date intervals are [a,b). Standard because they behave sensibly under
-partition, e.g</p>
-<p>[a,c) == [a,b) + [b,c) for a ≤ b ≤ c</p>
-<p>For instance</p>
-<ul>
-<li>start of E2R is typically included, so use
-<code>start_day</code>.</li>
-<li>if the individual survived then the end of the E2R is also typically
-included, so use <code>end_day</code>. This means that if the E2R
-comprises separate periods then they will interlock correctly (E2Rs
-being <a href="https://timgord.com/2025-08/mortality-measures-matter/#Insight2" class="external-link">measurable</a>)</li>
-<li>If the individual died then on average this is during the final day
-and so use <code>mid_day</code>.</li>
-</ul></main>
+<p>All values are stored as exact integers (in units of 1/534 360 of a
+year), so arithmetic is both precise and associative.</p>
+</div>
+<div class="section level2">
+<h2 id="creating-a-datey">Creating a <code>datey</code><a class="anchor" aria-label="anchor" href="#creating-a-datey"></a>
+</h2>
+<div class="section level3">
+<h3 id="from-year-month-and-day">From year, month and day<a class="anchor" aria-label="anchor" href="#from-year-month-and-day"></a>
+</h3>
+<p><code><a href="../reference/xxx_day.html">start_day()</a></code>, <code><a href="../reference/xxx_day.html">mid_day()</a></code> and
+<code><a href="../reference/xxx_day.html">end_day()</a></code> position a <code>datey</code> at the start,
+middle or end of a calendar day:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>   <span class="co"># start of 7 March 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.0</span></span>
+<span><span class="fu"><a href="../reference/xxx_day.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>     <span class="co"># middle of 7 March 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.5</span></span>
+<span><span class="fu"><a href="../reference/xxx_day.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>     <span class="co"># end of 7 March 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-03-08.0</span></span></code></pre></div>
+<p>The end of a day is the same point as the start of the next, so
+<code>end_day(y, m, d)</code> is always identical to
+<code>start_day(y, m, d + 1)</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="../reference/xxx_day.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>, <span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>For an arbitrary position within a day, <code><a href="../reference/ymdf.html">from_ymdf()</a></code>
+accepts a day fraction between 0 and 1:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ymdf.html">from_ymdf</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">0.25</span><span class="op">)</span>   <span class="co"># one quarter of the way through 7 March 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.25</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="from-base-r-dates">From base R dates<a class="anchor" aria-label="anchor" href="#from-base-r-dates"></a>
+</h3>
+<p><code><a href="../reference/as_xxx_day.html">as_start_day()</a></code>, <code><a href="../reference/as_xxx_day.html">as_mid_day()</a></code> and
+<code><a href="../reference/as_xxx_day.html">as_end_day()</a></code> convert <code>Date</code>,
+<code>POSIXct</code> or <code>POSIXlt</code> values, fixing the day
+fraction:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2024-03-07"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/as_xxx_day.html">as_start_day</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.0</span></span>
+<span><span class="fu"><a href="../reference/as_xxx_day.html">as_mid_day</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.5</span></span>
+<span><span class="fu"><a href="../reference/as_xxx_day.html">as_end_day</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2024-03-08.0</span></span></code></pre></div>
+<p>A <code>Date</code> carries no time component, so
+<code>datey(d)</code> is equivalent to <code>as_start_day(d)</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="from-fractional-years-or-text">From fractional years or text<a class="anchor" aria-label="anchor" href="#from-fractional-years-or-text"></a>
+</h3>
+<p><code><a href="../reference/datey.html">datey()</a></code> also accepts a fractional calendar year or a
+character string in <code>YYYY-MM-DD[.f]</code> format:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span>     <span class="co"># start of 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-01-01.0</span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024.5</span><span class="op">)</span>   <span class="co"># halfway through 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-07-02.0</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="st">"2024-03-07"</span><span class="op">)</span>      <span class="co"># start of 7 March 2024 (day fraction defaults to 0)</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.0</span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="st">"2024-03-07.5"</span><span class="op">)</span>    <span class="co"># middle of 7 March 2024</span></span>
+<span><span class="co">#&gt; [1] 2024-03-07.5</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="properties-of-a-datey">Properties of a <code>datey</code><a class="anchor" aria-label="anchor" href="#properties-of-a-datey"></a>
+</h2>
+<p>The <code>$</code> operator extracts components of a
+<code>datey</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">t</span><span class="op">$</span><span class="va">year</span></span>
+<span><span class="co">#&gt; [1] 2024</span></span>
+<span><span class="va">t</span><span class="op">$</span><span class="va">month</span></span>
+<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="va">t</span><span class="op">$</span><span class="va">day</span></span>
+<span><span class="co">#&gt; [1] 7</span></span>
+<span><span class="va">t</span><span class="op">$</span><span class="va">day_fraction</span></span>
+<span><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
+<p>When several components are needed at once, <code><a href="../reference/ymdf.html">to_ymdf()</a></code> is
+more efficient:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ymdf.html">to_ymdf</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $year</span></span>
+<span><span class="co">#&gt; [1] 2024</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $month</span></span>
+<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $day</span></span>
+<span><span class="co">#&gt; [1] 7</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $day_fraction</span></span>
+<span><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
+<p><code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code> converts to a fractional calendar year;
+<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code> gives the calendar year:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2024.182</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2024</span></span></code></pre></div>
+<p><code><a href="../reference/is_xxx_day.html">is_start_day()</a></code> and <code><a href="../reference/is_xxx_day.html">is_mid_day()</a></code> test the
+position within the day. Note that <code><a href="../reference/xxx_day.html">end_day()</a></code> produces a
+<code>datey</code> at the start of the following day, so it tests as
+<code><a href="../reference/is_xxx_day.html">is_start_day()</a></code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/is_xxx_day.html">is_start_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>      <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="../reference/is_xxx_day.html">is_mid_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/xxx_day.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>          <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="../reference/is_xxx_day.html">is_start_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/xxx_day.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>        <span class="co"># TRUE: end = start of next day</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="../reference/is_xxx_day.html">is_mid_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/ymdf.html">from_ymdf</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="creating-a-durationy">Creating a <code>durationy</code><a class="anchor" aria-label="anchor" href="#creating-a-durationy"></a>
+</h2>
+<p><code><a href="../reference/durationy.html">durationy()</a></code> accepts a number of years:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>      <span class="co"># one year</span></span>
+<span><span class="co">#&gt; [1] 1 yr</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>    <span class="co"># half a year</span></span>
+<span><span class="co">#&gt; [1] 0.5 yr</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.5</span><span class="op">)</span>   <span class="co"># two and a half years in the past</span></span>
+<span><span class="co">#&gt; [1] −2.5 yr</span></span></code></pre></div>
+<p>The most natural way to obtain a <code>durationy</code> is to
+subtract two <code>datey</code> values:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_xxx_day.html">as_start_day</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1965-09-12"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="va">dod</span> <span class="op">-</span> <span class="va">dob</span></span>
+<span><span class="va">age</span></span>
+<span><span class="co">#&gt; [1] 58.485804 yr</span></span></code></pre></div>
+<p><code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code> gives the duration as years;
+<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code> truncates toward zero:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 58.4858</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>   <span class="co"># whole years only</span></span>
+<span><span class="co">#&gt; [1] 58</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="arithmetic">Arithmetic<a class="anchor" aria-label="anchor" href="#arithmetic"></a>
+</h2>
+<p>The table below summarises the typed arithmetic operations. All
+arithmetic is carried out as exact integer arithmetic on the underlying
+click counts, so the results are precise and associative.</p>
+<table class="table">
+<thead><tr class="header">
+<th align="center">Left</th>
+<th align="center">Op</th>
+<th align="center">Right</th>
+<th align="center">Result</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>datey</code></td>
+<td align="center"><code>−</code></td>
+<td align="center"><code>datey</code></td>
+<td align="center"><code>durationy</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>datey</code></td>
+<td align="center"><code>+ −</code></td>
+<td align="center"><code>durationy</code></td>
+<td align="center"><code>datey</code></td>
+</tr>
+<tr class="odd">
+<td align="center"><code>durationy</code></td>
+<td align="center"><code>+</code></td>
+<td align="center"><code>datey</code></td>
+<td align="center"><code>datey</code></td>
+</tr>
+<tr class="even">
+<td align="center"><code>durationy</code></td>
+<td align="center"><code>+ −</code></td>
+<td align="center"><code>durationy</code></td>
+<td align="center"><code>durationy</code></td>
+</tr>
+<tr class="odd">
+<td align="center"><code>datey</code></td>
+<td align="center"><code>== != &lt; &lt;= &gt; &gt;=</code></td>
+<td align="center"><code>datey</code></td>
+<td align="center">logical</td>
+</tr>
+<tr class="even">
+<td align="center"><code>durationy</code></td>
+<td align="center"><code>== != &lt; &lt;= &gt; &gt;=</code></td>
+<td align="center"><code>durationy</code></td>
+<td align="center">logical</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">start</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">one_yr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">qtr_yr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">start</span> <span class="op">+</span> <span class="va">one_yr</span>          <span class="co"># one year later</span></span>
+<span><span class="co">#&gt; [1] 2001-01-01.0</span></span>
+<span><span class="va">start</span> <span class="op">-</span> <span class="va">qtr_yr</span>          <span class="co"># three months earlier</span></span>
+<span><span class="co">#&gt; [1] 1999-10-01.75</span></span>
+<span></span>
+<span><span class="va">one_yr</span> <span class="op">-</span> <span class="va">qtr_yr</span>         <span class="co"># three quarters of a year</span></span>
+<span><span class="co">#&gt; [1] 0.75 yr</span></span>
+<span><span class="va">one_yr</span> <span class="op">+</span> <span class="va">qtr_yr</span></span>
+<span><span class="co">#&gt; [1] 1.25 yr</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>        <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>   <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="datey_interval-representing-a-time-period">
+<code>datey_interval</code> – representing a time period<a class="anchor" aria-label="anchor" href="#datey_interval-representing-a-time-period"></a>
+</h2>
+<p>A <code>datey_interval</code> is a half-open
+<code>[start, end)</code> interval. Create one with
+<code><a href="../reference/datey_interval.html">datey_interval()</a></code> or the <code>%to%</code> operator:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">b</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">iv</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="va">b</span></span>
+<span><span class="va">iv</span></span>
+<span><span class="co">#&gt; [1] [2024-01-01.0, 2025-01-01.0)</span></span></code></pre></div>
+<p>The <code>$start</code>, <code>$end</code> and <code>$duration</code>
+properties extract the interval’s components:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iv</span><span class="op">$</span><span class="va">start</span></span>
+<span><span class="co">#&gt; [1] 2024-01-01.0</span></span>
+<span><span class="va">iv</span><span class="op">$</span><span class="va">end</span></span>
+<span><span class="co">#&gt; [1] 2025-01-01.0</span></span>
+<span><span class="va">iv</span><span class="op">$</span><span class="va">duration</span></span>
+<span><span class="co">#&gt; [1] 1 yr</span></span></code></pre></div>
+<p><code><a href="../reference/durationy.html">durationy()</a></code> accepts a <code>datey_interval</code>
+directly:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">iv</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="membership-testing">Membership testing<a class="anchor" aria-label="anchor" href="#membership-testing"></a>
+</h3>
+<p><code>%includes%</code> tests whether a <code>datey</code> falls
+inside the interval. The interval includes its start and excludes its
+end:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iv</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="va">a</span>                      <span class="co"># TRUE  -- start is included</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="va">iv</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="va">b</span>                      <span class="co"># FALSE -- end is excluded</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="va">iv</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/xxx_day.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">6</span>, <span class="fl">15</span><span class="op">)</span>  <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="interval-properties">Interval properties<a class="anchor" aria-label="anchor" href="#interval-properties"></a>
+</h3>
+<p><code><a href="../reference/interval_nature.html">is_proper()</a></code> returns <code>TRUE</code> when start ≤ end;
+<code><a href="../reference/interval_nature.html">is_collapsed()</a></code> returns <code>TRUE</code> when start ≥ end.
+A point interval <code>[a, a)</code> is both proper and collapsed (it
+contains no time):</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/interval_nature.html">is_proper</a></span><span class="op">(</span><span class="va">iv</span><span class="op">)</span>          <span class="co"># TRUE: start &lt; end</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="../reference/interval_nature.html">is_collapsed</a></span><span class="op">(</span><span class="va">iv</span><span class="op">)</span>       <span class="co"># FALSE</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="va">pt</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="va">a</span>         <span class="co"># empty (point) interval</span></span>
+<span><span class="fu"><a href="../reference/interval_nature.html">is_proper</a></span><span class="op">(</span><span class="va">pt</span><span class="op">)</span>          <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="../reference/interval_nature.html">is_collapsed</a></span><span class="op">(</span><span class="va">pt</span><span class="op">)</span>       <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="intersection">Intersection<a class="anchor" aria-label="anchor" href="#intersection"></a>
+</h3>
+<p>The <code>&amp;</code> operator returns the intersection of two
+<code>datey_interval</code>s. This is the most direct way to compute the
+overlap of two time periods:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">period</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">7</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/xxx_day.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">6</span>, <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="va">year_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/xxx_day.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">12</span>, <span class="fl">31</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="va">period</span> <span class="op">&amp;</span> <span class="va">year_2024</span></span>
+<span><span class="va">overlap</span></span>
+<span><span class="co">#&gt; [1] [2024-01-01.0, 2024-07-01.0)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">)</span>   <span class="co"># exposure in calendar year 2024, in years</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="na-values">NA values<a class="anchor" aria-label="anchor" href="#na-values"></a>
+</h2>
+<p>Each type has a dedicated NA constant:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">NA_datey_</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span>
+<span><span class="va">NA_durationy_</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span>
+<span><span class="va">NA_datey_interval_</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span></code></pre></div>
+<p><code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> and <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA()</a></code> work as expected:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">NA_datey_</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span>, <span class="va">NA_datey_</span>, <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>By default (<code>strict = TRUE</code>), out-of-range inputs stop
+execution. With <code>strict = FALSE</code> they become <code>NA</code>
+instead:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">999.9</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>     <span class="co"># below valid range: NA</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">2001</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="co"># exceeds 2000-year limit: NA</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span></code></pre></div>
+<p>NA values propagate through arithmetic:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/xxx_day.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="va">NA_durationy_</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="sequences-and-statistics">Sequences and statistics<a class="anchor" aria-label="anchor" href="#sequences-and-statistics"></a>
+</h2>
+<p><code><a href="../reference/seq.html">seq()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max()</a></code>,
+<code><a href="https://rdrr.io/r/base/range.html" class="external-link">range()</a></code> and <code><a href="../reference/mean.html">mean()</a></code> all work on
+<code>datey</code> and <code>durationy</code> vectors:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2021</span><span class="op">)</span>, <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2022</span><span class="op">)</span>, <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2021-01-01.0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2023-01-01.0</span></span>
+<span><span class="fu"><a href="../reference/mean.html">mean</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2022-01-01.0</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2020-01-01.0 2022-01-01.0 2024-01-01.0</span></span></code></pre></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

@@ -32,17 +32,12 @@ produce two different numbers.
 
 ## The **datey** approach: a fixed annual grid
 
-**datey** does not try to be a general-purpose calendar library with
-support for time zones, locales, calendar arithmetic and so on –
-packages like [clock](https://clock.r-lib.org/) and
-[lubridate](https://lubridate.tidyverse.org/) already do that.
-
-Instead, **datey** picks *one* standardised, precise mapping from dates
-onto an annual grid, and guarantees that arithmetic on that grid is
-exact and associative. Every `datey` and `durationy` is stored
-internally as a count of *clicks*, where one click is 1 / 534 360 of a
-year, a number chosen so that 1/365 and 1/366 of a year, and useful
-fractions of days and years, are represented exactly.
+**datey** picks *one* standardised, precise mapping from dates onto an
+annual grid, and guarantees that arithmetic on that grid is exact and
+associative. Every `datey` and `durationy` is stored internally as a
+count of *clicks*, where one click is 1 / 534 360 of a year, a number
+chosen so that 1/365 and 1/366 of a year, and useful fractions of days
+and years, are represented exactly.
 
 With this approach, date and duration calculations reduce to plain old
 integer arithmetic which is both precise and associative.
@@ -56,7 +51,7 @@ start <- start_day(2000, 1, 1)
 
 half_year <- durationy(0.5)
 two_steps <- (start + half_year) + half_year
-one_step    <- start + (half_year + half_year)
+one_step  <- start + (half_year + half_year)
 
 two_steps
 #> [1] 2001-01-01.0
@@ -69,8 +64,7 @@ identical(two_steps, one_step)
 `(a + d1) + d2 == a + (d1 + d2)` for any `datey` `a` and `durationy`s
 `d1`, `d2` – always, exactly, regardless of leap years or the order of
 operations. That’s the guarantee **datey** is built around, and the
-[specification](https://logmu-org.github.io/r-datey/articles/spec.md)
-sets it out precisely.
+\[specification\]\[spec\] sets it out precisely.
 
 ## Interval algebra for rate periods
 
@@ -148,12 +142,14 @@ To keep the guarantees above simple and dependable, **datey** is very
 narrowly scoped. It is *not* the right tool for:
 
 - General date arithmetic for output, e.g. “what date is 3 months from
-  now” for a calendar shown to a user – use `clock` or `lubridate`.
+  now” for a calendar shown to a user.
 - Parsing or formatting dates beyond the simple `YYYY-MM-DD[.fff]`
-  representation – again, `clock`/`lubridate`, or
-  [`as.Date()`](https://rdrr.io/r/base/as.Date.html)/[`format()`](https://rdrr.io/r/base/format.html).
-- Time zones, daylight saving time, leap seconds, or any calendar other
-  than the proleptic Gregorian calendar.
+  representation.
+- Time zones, daylight saving time, leap seconds, or different
+  calendars.
+
+Packages like [clock](https://clock.r-lib.org/) and
+[lubridate](https://lubridate.tidyverse.org/) already do that.
 
 The trade-off is deliberate: by refusing to be a general date library,
 **datey** can make a precise, associative annual grid *the*

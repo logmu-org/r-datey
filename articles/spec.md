@@ -14,38 +14,38 @@ arithmetic for intervals between input dates.
 The following are non goals and should be handled outside the **datey**
 system:
 
-1.  Real-world date arithmetic[^2], including calculating dates for
-    output.
-2.  Parsing and formatting dates.
+- Real-world date arithmetic[^2], including calculating dates for
+  output.
+- Parsing and formatting dates.
 
 ## Definitions
 
-- `double` means IEEE 754 binary64, i.e. 64-bit binary floating-point.
+`double` means IEEE 754 binary64, i.e. 64-bit binary floating-point.
 
-- `integer` means 32 bit two’s complement signed integer.
+`integer` means 32 bit two’s complement signed integer.
 
-- Dates are written in this specification using [YYYY‑MM‑DD
-  notation](https://xkcd.com/1179/), where YYYY is a four-digit year, MM
-  is a two-digit month of the year, 01 to 12, and DD is the two-digit
-  day of the month, 01 to 31.
+Dates are written in this specification using [YYYY‑MM‑DD
+notation](https://xkcd.com/1179/), where YYYY is a four-digit year, MM
+is a two-digit month of the year, 01 to 12, and DD is the two-digit day
+of the month, 01 to 31.
 
-- Banker’s rounding[^3] means round a `double` to the nearest integer
-  unless the fractional part is ±0.5, in which case round it to the
-  nearest *even* integer. In the algorithms below, it also entails
-  conversion to `integer`, which is safe because, in all cases, the
-  algorithms guarantee that the value to convert lies within the range
-  of `integer`.
+Banker’s rounding[^3] means round a `double` to the nearest integer
+unless the fractional part is ±0.5, in which case round it to the
+nearest even integer. In the algorithms below, it also entails
+conversion to `integer`, which is safe because, in all cases, the
+algorithms guarantee that the value to convert lies within the range of
+`integer`.
 
 ## The fixed precision annual grid
 
 The **datey** system assumes the following:
 
-1.  All calendar years have the same duration.
+- All calendar years have the same duration.
 
-2.  *Within a calendar year*, all days have the same duration.
+- Within a calendar year, all days have the same duration.
 
-3.  Time is granular, with the smallest indivisible unit being a
-    *click*, which is 1 / 534 360 of a year.
+- Time is granular, with the smallest indivisible unit being a *click*,
+  which is 1 / 534 360 of a year.
 
 Any other variation arising from, for instance, time zones, daylight
 saving time or leap seconds is out of scope – allowance for these must
@@ -116,7 +116,7 @@ Worked examples:
 | `durationy` |  −1.5 / 534 360   |            −2 | round(−1.5)       |
 | `durationy` |     ±2000.01      |       Invalid |                   |
 
-### Mapping a date *to* a `datey`
+### Mapping a date to a `datey`
 
 When mapping a date specified by calendar year, month and day to a
 `datey` the point within the day also needs to be specified. In typical
@@ -360,8 +360,7 @@ For text *inputs*:
 
 [^4]: The proleptic Gregorian calendar is the Gregorian calendar
     extended *backwards* from its introduction in 1582 in accordance
-    with the same rules that it is projectected.
+    with the same rules that it is projected.
 
 [^5]: This means that both 0 (the default in many languages) and −2³¹
-    (used by some languages to indicate missing data or `NA`) are
-    invalid `datey`s.
+    (used by R to indicate missing data or `NA`) are invalid `datey`s.

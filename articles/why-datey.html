@@ -106,17 +106,13 @@ produce two different numbers.</p>
 <div class="section level2">
 <h2 id="the-datey-approach-a-fixed-annual-grid">The <strong>datey</strong> approach: a fixed annual grid<a class="anchor" aria-label="anchor" href="#the-datey-approach-a-fixed-annual-grid"></a>
 </h2>
-<p><strong>datey</strong> does not try to be a general-purpose calendar
-library with support for time zones, locales, calendar arithmetic and so
-on – packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a> already do
-that.</p>
-<p>Instead, <strong>datey</strong> picks <em>one</em> standardised,
-precise mapping from dates onto an annual grid, and guarantees that
-arithmetic on that grid is exact and associative. Every
-<code>datey</code> and <code>durationy</code> is stored internally as a
-count of <em>clicks</em>, where one click is 1 / 534 360 of a year, a
-number chosen so that 1/365 and 1/366 of a year, and useful fractions of
-days and years, are represented exactly.</p>
+<p><strong>datey</strong> picks <em>one</em> standardised, precise
+mapping from dates onto an annual grid, and guarantees that arithmetic
+on that grid is exact and associative. Every <code>datey</code> and
+<code>durationy</code> is stored internally as a count of
+<em>clicks</em>, where one click is 1 / 534 360 of a year, a number
+chosen so that 1/365 and 1/366 of a year, and useful fractions of days
+and years, are represented exactly.</p>
 <p>With this approach, date and duration calculations reduce to plain
 old integer arithmetic which is both precise and associative.</p>
 <p>The practical consequence is that the two-steps-vs-one-step problem
@@ -126,7 +122,7 @@ above simply does not arise:</p>
 <span></span>
 <span><span class="va">half_year</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="va">two_steps</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">start</span> <span class="op">+</span> <span class="va">half_year</span><span class="op">)</span> <span class="op">+</span> <span class="va">half_year</span></span>
-<span><span class="va">one_step</span>    <span class="op">&lt;-</span> <span class="va">start</span> <span class="op">+</span> <span class="op">(</span><span class="va">half_year</span> <span class="op">+</span> <span class="va">half_year</span><span class="op">)</span></span>
+<span><span class="va">one_step</span>  <span class="op">&lt;-</span> <span class="va">start</span> <span class="op">+</span> <span class="op">(</span><span class="va">half_year</span> <span class="op">+</span> <span class="va">half_year</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">two_steps</span></span>
 <span><span class="co">#&gt; [1] 2001-01-01.0</span></span>
@@ -138,7 +134,8 @@ above simply does not arise:</p>
 <code>datey</code> <code>a</code> and <code>durationy</code>s
 <code>d1</code>, <code>d2</code> – always, exactly, regardless of leap
 years or the order of operations. That’s the guarantee
-<strong>datey</strong> is built around, and the <a href="spec.html">specification</a> sets it out precisely.</p>
+<strong>datey</strong> is built around, and the [specification][spec]
+sets it out precisely.</p>
 </div>
 <div class="section level2">
 <h2 id="interval-algebra-for-rate-periods">Interval algebra for rate periods<a class="anchor" aria-label="anchor" href="#interval-algebra-for-rate-periods"></a>
@@ -211,15 +208,14 @@ not included in a time period.</p>
 right tool for:</p>
 <ul>
 <li>General date arithmetic for output, e.g. “what date is 3 months from
-now” for a calendar shown to a user – use <code>clock</code> or
-<code>lubridate</code>.</li>
+now” for a calendar shown to a user.</li>
 <li>Parsing or formatting dates beyond the simple
-<code>YYYY-MM-DD[.fff]</code> representation – again,
-<code>clock</code>/<code>lubridate</code>, or
-<code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>/<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code>.</li>
-<li>Time zones, daylight saving time, leap seconds, or any calendar
-other than the proleptic Gregorian calendar.</li>
+<code>YYYY-MM-DD[.fff]</code> representation.</li>
+<li>Time zones, daylight saving time, leap seconds, or different
+calendars.</li>
 </ul>
+<p>Packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a> already do
+that.</p>
 <p>The trade-off is deliberate: by refusing to be a general date
 library, <strong>datey</strong> can make a precise, associative annual
 grid <em>the</em> representation for rate-related calculations, with one
