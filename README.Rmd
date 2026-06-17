@@ -57,7 +57,7 @@ being material.
 also a fixed precision approach.
 
 For more detail on the motivation for **datey**, see
-[Why **datey**?](https://logmu-org.github.io/r-datey/articles/why-datey.html).
+[Why **datey**?](https://r-datey.logmu.org/articles/why-datey.html).
 
 ## Installation
 
@@ -93,4 +93,4 @@ interval$duration # Same thing
 interval$duration * 0.01 # Implicit conversion to years when mixed with numerics
 ```
 A hands-on guide is provided in
-[Get started](https://logmu-org.github.io/r-datey/articles/datey.html).
+[Get started](https://r-datey.logmu.org/articles/datey.html).
