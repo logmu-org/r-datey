@@ -16,13 +16,12 @@ a `datey` or `durationy` is NA.
 
 For convenience,
 
-- the constants
-  [NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md) and
-  [NA_durationy\_](https://logmu-org.github.io/r-datey/reference/NAs.md)
-  are the `datey` and `durationy` versions of NA respectively, and
+- the constants [NA_datey\_](https://r-datey.logmu.org/reference/NAs.md)
+  and [NA_durationy\_](https://r-datey.logmu.org/reference/NAs.md) are
+  the `datey` and `durationy` versions of NA respectively, and
 
 - [integer
-  constants](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
+  constants](https://r-datey.logmu.org/reference/integer_constants.md)
   describing the above valid ranges are also provided.
 
 For performance reasons, intermediate calculations may not check for
@@ -69,9 +68,9 @@ than a single value.
 
 ## See also
 
-[NA_datey\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
-[NA_durationy\_](https://logmu-org.github.io/r-datey/reference/NAs.md),
-[integer_constants](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
+[NA_datey\_](https://r-datey.logmu.org/reference/NAs.md),
+[NA_durationy\_](https://r-datey.logmu.org/reference/NAs.md),
+[integer_constants](https://r-datey.logmu.org/reference/integer_constants.md)
 
 ## Examples
 

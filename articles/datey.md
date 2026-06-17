@@ -8,9 +8,9 @@ library(datey)
 This vignette is a hands-on guide to the **datey** package. For the
 motivation behind the annual-grid approach and the associativity
 guarantee, see [Why
-**datey**?](https://logmu-org.github.io/r-datey/articles/why-datey.md).
-For the complete formal specification, see the [**datey**
-specification](https://logmu-org.github.io/r-datey/articles/spec.md).
+**datey**?](https://r-datey.logmu.org/articles/why-datey.md). For the
+complete formal specification, see the [**datey**
+specification](https://r-datey.logmu.org/articles/spec.md).
 
 ## The three types
 
@@ -27,11 +27,10 @@ year), so arithmetic is both precise and associative.
 
 ### From year, month and day
 
-[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-and
-[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-position a `datey` at the start, middle or end of a calendar day:
+[`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) and
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) position a
+`datey` at the start, middle or end of a calendar day:
 
 ``` r
 
@@ -53,8 +52,8 @@ identical(end_day(2024, 3, 7), start_day(2024, 3, 8))
 ```
 
 For an arbitrary position within a day,
-[`from_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
-accepts a day fraction between 0 and 1:
+[`from_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) accepts a
+day fraction between 0 and 1:
 
 ``` r
 
@@ -64,10 +63,9 @@ from_ymdf(2024, 3, 7, 0.25)   # one quarter of the way through 7 March 2024
 
 ### From base R dates
 
-[`as_start_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md),
-[`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
-and
-[`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
+[`as_start_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md),
+[`as_mid_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) and
+[`as_end_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md)
 convert `Date`, `POSIXct` or `POSIXlt` values, fixing the day fraction:
 
 ``` r
@@ -86,9 +84,9 @@ A `Date` carries no time component, so `datey(d)` is equivalent to
 
 ### From fractional years or text
 
-[`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md) also
-accepts a fractional calendar year or a character string in
-`YYYY-MM-DD[.f]` format:
+[`datey()`](https://r-datey.logmu.org/reference/datey.md) also accepts a
+fractional calendar year or a character string in `YYYY-MM-DD[.f]`
+format:
 
 ``` r
 
@@ -121,8 +119,8 @@ t$day_fraction
 ```
 
 When several components are needed at once,
-[`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md) is
-more efficient:
+[`to_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) is more
+efficient:
 
 ``` r
 
@@ -153,13 +151,12 @@ as.integer(t)
 #> [1] 2024
 ```
 
-[`is_start_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
-and
-[`is_mid_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md)
+[`is_start_day()`](https://r-datey.logmu.org/reference/is_xxx_day.md)
+and [`is_mid_day()`](https://r-datey.logmu.org/reference/is_xxx_day.md)
 test the position within the day. Note that
-[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-produces a `datey` at the start of the following day, so it tests as
-[`is_start_day()`](https://logmu-org.github.io/r-datey/reference/is_xxx_day.md):
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) produces a
+`datey` at the start of the following day, so it tests as
+[`is_start_day()`](https://r-datey.logmu.org/reference/is_xxx_day.md):
 
 ``` r
 
@@ -175,7 +172,7 @@ is_mid_day(from_ymdf(2024, 3, 7, 0.25)) # FALSE
 
 ## Creating a `durationy`
 
-[`durationy()`](https://logmu-org.github.io/r-datey/reference/durationy.md)
+[`durationy()`](https://r-datey.logmu.org/reference/durationy.md)
 accepts a number of years:
 
 ``` r
@@ -253,7 +250,7 @@ durationy(1) > durationy(0.5)   # TRUE
 
 A `datey_interval` is a half-open `[start, end)` interval. Create one
 with
-[`datey_interval()`](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
+[`datey_interval()`](https://r-datey.logmu.org/reference/datey_interval.md)
 or the `%to%` operator:
 
 ``` r
@@ -278,7 +275,7 @@ iv$duration
 #> [1] 1 yr
 ```
 
-[`durationy()`](https://logmu-org.github.io/r-datey/reference/durationy.md)
+[`durationy()`](https://r-datey.logmu.org/reference/durationy.md)
 accepts a `datey_interval` directly:
 
 ``` r
@@ -303,9 +300,9 @@ iv %includes% mid_day(2024, 6, 15)  # TRUE
 
 ### Interval properties
 
-[`is_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+[`is_proper()`](https://r-datey.logmu.org/reference/interval_nature.md)
 returns `TRUE` when start ≤ end;
-[`is_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md)
+[`is_collapsed()`](https://r-datey.logmu.org/reference/interval_nature.md)
 returns `TRUE` when start ≥ end. A point interval `[a, a)` is both
 proper and collapsed (it contains no time):
 
@@ -386,12 +383,12 @@ start_day(2024, 1, 1) + NA_durationy_
 
 ## Sequences and statistics
 
-[`seq()`](https://logmu-org.github.io/r-datey/reference/seq.md),
+[`seq()`](https://r-datey.logmu.org/reference/seq.md),
 [`min()`](https://rdrr.io/r/base/Extremes.html),
 [`max()`](https://rdrr.io/r/base/Extremes.html),
 [`range()`](https://rdrr.io/r/base/range.html) and
-[`mean()`](https://logmu-org.github.io/r-datey/reference/mean.md) all
-work on `datey` and `durationy` vectors:
+[`mean()`](https://r-datey.logmu.org/reference/mean.md) all work on
+`datey` and `durationy` vectors:
 
 ``` r
 

@@ -21,8 +21,8 @@ valid_duration_years_max
 
 ## See also
 
-[is_NA](https://logmu-org.github.io/r-datey/reference/is_NA.md),
-[NAs](https://logmu-org.github.io/r-datey/reference/NAs.md)
+[is_NA](https://r-datey.logmu.org/reference/is_NA.md),
+[NAs](https://r-datey.logmu.org/reference/NAs.md)
 
 ## Examples
 

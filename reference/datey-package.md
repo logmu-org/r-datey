@@ -13,9 +13,7 @@ Useful links:
 
 - <https://github.com/logmu-org/r-datey>
 
-- <https://logmu.org/r-datey/>
-
-- <https://logmu-org.github.io/r-datey/>
+- <https://r-datey.logmu.org/>
 
 - Report bugs at <https://github.com/logmu-org/r-datey/issues>
 

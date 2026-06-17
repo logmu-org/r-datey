@@ -99,21 +99,20 @@ durationy(overlap$end - overlap$start)
 
 Because a `datey` can represent a position *within* a day (as a fraction
 of a year), **datey** provides
-[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-and
-[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-for the three points within a day that come up most often:
+[`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) and
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) for the
+three points within a day that come up most often:
 
-- [`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  – the day is *included* from its start. Use this e.g. for the start of
-  a period at risk.
-- [`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  – the day is included up to and including its end. This is often how
-  the end of risk periods are specified.
-- [`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  – on average, an event such as death occurs halfway through the day it
-  is recorded on.
+- [`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md) – the
+  day is *included* from its start. Use this e.g. for the start of a
+  period at risk.
+- [`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) – the
+  day is included up to and including its end. This is often how the end
+  of risk periods are specified.
+- [`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) – on
+  average, an event such as death occurs halfway through the day it is
+  recorded on.
 
 Choosing consistently between these (rather than, say, always using
 midnight) improves clarity and accuracy as to what events are and are

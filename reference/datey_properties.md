@@ -31,8 +31,8 @@ A vector of `integer` for `year`, `month` and `day`; a vector of
 ## See also
 
 If you need more than one component then
-[`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md) may
-be more efficient.
+[`to_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) may be more
+efficient.
 
 ## Examples
 

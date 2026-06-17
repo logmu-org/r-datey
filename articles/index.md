@@ -2,9 +2,6 @@
 
 ### All vignettes
 
-- [Get started with
-  datey](https://logmu-org.github.io/r-datey/articles/datey.md):
-- [The datey
-  specification](https://logmu-org.github.io/r-datey/articles/spec.md):
-- [Why
-  datey?](https://logmu-org.github.io/r-datey/articles/why-datey.md):
+- [Get started with datey](https://r-datey.logmu.org/articles/datey.md):
+- [The datey specification](https://r-datey.logmu.org/articles/spec.md):
+- [Why datey?](https://r-datey.logmu.org/articles/why-datey.md):

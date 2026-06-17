@@ -7,17 +7,16 @@ Initial CRAN release.
 - `datey` and `durationy` represent dates and durations on a
   fixed-precision annual grid, with exact, associative arithmetic (`+`,
   `-`, comparisons,
-  [`mean()`](https://logmu-org.github.io/r-datey/reference/mean.md),
+  [`mean()`](https://r-datey.logmu.org/reference/mean.md),
   [`range()`](https://rdrr.io/r/base/range.html), etc.).
-- [`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-  [`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-  [`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-  and
-  [`from_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
-  map calendar year/month/day (and day-fraction) to a `datey`;
-  [`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md)
-  and the `as_*_day()`/`is_*_day()` helpers provide the reverse mapping
-  and checks.
+- [`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+  [`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+  [`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) and
+  [`from_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) map
+  calendar year/month/day (and day-fraction) to a `datey`;
+  [`to_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) and the
+  `as_*_day()`/`is_*_day()` helpers provide the reverse mapping and
+  checks.
 - Conversion to and from `Date`, `POSIXct`, `POSIXlt`, and to/from years
   via
   [`as.double()`](https://rdrr.io/r/base/double.html)/[`as.integer()`](https://rdrr.io/r/base/integer.html).
@@ -29,13 +28,13 @@ Initial CRAN release.
   `datey_interval`.
 - `pillar_shaft()` methods for readable printing of `datey`/`durationy`/
   `datey_interval` columns in tibbles.
-- [`is_leap_year()`](https://logmu-org.github.io/r-datey/reference/is_leap_year.md)
+- [`is_leap_year()`](https://r-datey.logmu.org/reference/is_leap_year.md)
   for integer years and `datey`s.
 - `datey_interval` (constructed with
-  [`datey_interval()`](https://logmu-org.github.io/r-datey/reference/datey_interval.md)
+  [`datey_interval()`](https://r-datey.logmu.org/reference/datey_interval.md)
   or `%to%`) represents a half-open `[start, end)` date interval, with
   `%includes%`,
-  [`is_collapsed()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md),
-  [`is_proper()`](https://logmu-org.github.io/r-datey/reference/interval_nature.md),
+  [`is_collapsed()`](https://r-datey.logmu.org/reference/interval_nature.md),
+  [`is_proper()`](https://r-datey.logmu.org/reference/interval_nature.md),
   intersection via `&`, and the constants `all_of_time` and
   `NA_datey_interval_`.

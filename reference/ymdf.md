@@ -18,7 +18,7 @@ The lengths of vector arguments must be multiples of each other.
 
 Alternatively, if you want only one or two components, use the list-like
 syntax [`$year`, `$month`, `$day` or
-`$day_fraction`](https://logmu-org.github.io/r-datey/reference/datey_properties.md).
+`$day_fraction`](https://r-datey.logmu.org/reference/datey_properties.md).
 
 If the `datey` was constructed using `end_day` or `day_fraction = 1`
 then `to_ymdf()` will return the *start* of the *next* day with
@@ -26,11 +26,10 @@ then `to_ymdf()` will return the *start* of the *next* day with
 
 `from_ymdf()` creates a `datey` from a calendar year, month, and day
 fraction. In practice, prefer one of
-[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-or
-[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-for clarity.
+[`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) or
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) for
+clarity.
 
 ## Usage
 
@@ -85,11 +84,11 @@ double vector `day_fraction`.
 
 ## See also
 
-Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-to create a `datey` direct from years or a base R date.
+Use [`datey()`](https://r-datey.logmu.org/reference/datey.md) to create
+a `datey` direct from years or a base R date.
 
 Use the syntax [`$year`, `$month`, `$day` or
-`$day_fraction`](https://logmu-org.github.io/r-datey/reference/datey_properties.md)
+`$day_fraction`](https://r-datey.logmu.org/reference/datey_properties.md)
 to extract one component at a time.
 
 ## Examples

@@ -49,17 +49,16 @@ A vector of `datey`.
 ## See also
 
 Use
-[`as_start_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md),
-[`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
-or
-[`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
-to create a `datey` from a base R date or datetime.
+[`as_start_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md),
+[`as_mid_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) or
+[`as_end_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) to
+create a `datey` from a base R date or datetime.
 
-Use [`datey()`](https://logmu-org.github.io/r-datey/reference/datey.md)
-to create a `datey` direct from fractional calendar years.
+Use [`datey()`](https://r-datey.logmu.org/reference/datey.md) to create
+a `datey` direct from fractional calendar years.
 
 To deconstruct a `datey`, use
-[`to_ymdf()`](https://logmu-org.github.io/r-datey/reference/ymdf.md).
+[`to_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md).
 
 ## Examples
 

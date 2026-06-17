@@ -3,7 +3,7 @@
 A `durationy` is printed as a decimal.
 
 This format is readable by
-[`durationy.character()`](https://logmu-org.github.io/r-datey/reference/text_to_durationy.md).
+[`durationy.character()`](https://r-datey.logmu.org/reference/text_to_durationy.md).
 
 ## Usage
 
@@ -42,7 +42,7 @@ print(
 
 - use_true_minus:
 
-  Whether to use the [true minus sign ('−',
+  Whether to use the [true minus sign ('-',
   U+2212)](https://www.compart.com/en/unicode/U+2212) sign as opposed to
   the [ASCII hyphen (-,
   U+002D)](https://www.compart.com/en/unicode/U+002D). Defaults to
@@ -71,14 +71,14 @@ print(
   neg <- durationy(-2.3)
   format(pos) # "1 yr"
 #> [1] "1 yr"
-  format(pos, include_plus = TRUE) # "1 yr"
+  format(pos, include_plus = TRUE) # "+1 yr"
 #> [1] "+1 yr"
   format(pos, year_unit = "") # "1"
 #> [1] "1"
-  format(neg) # "−2.3 yr"
+  format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
 #> [1] "−2.3 yr"
-  format(neg, use_true_minus = TRUE) # "−2.3 yr"
-#> [1] "−2.3 yr"
-  format(neg, year_unit = "a") # "-2.3 a"
-#> [1] "−2.3 a"
+  format(neg, use_true_minus = FALSE) # "-2.3 yr"
+#> [1] "-2.3 yr"
+  format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
+#> [1] "-2.3 a"
 ```

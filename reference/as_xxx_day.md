@@ -47,12 +47,10 @@ A vector of `datey`.
 
 ## See also
 
-Use
-[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-and
-[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-to create a `datey` direct from year, month and day.
+Use [`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) and
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) to create
+a `datey` direct from year, month and day.
 
 ## Examples
 

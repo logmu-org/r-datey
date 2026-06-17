@@ -19,7 +19,7 @@
 <meta property="og:title" content="Date and Duration Arithmetic on an Annual Grid">
 <meta name="description" content="A standardised mapping of dates onto an annual grid with fixed precision and associative date and duration-related arithmetic. This matters when the primary unit is years but the input data uses dates. Examples are actuarial mortality experience analysis or valuation of life assurance and annuities, for which mortality rates are defined per year but experience and valuation data use dates.">
 <meta property="og:description" content="A standardised mapping of dates onto an annual grid with fixed precision and associative date and duration-related arithmetic. This matters when the primary unit is years but the input data uses dates. Examples are actuarial mortality experience analysis or valuation of life assurance and annuities, for which mortality rates are defined per year but experience and valuation data use dates.">
-<meta property="og:image" content="https://logmu-org.github.io/r-datey/logo.png">
+<meta property="og:image" content="https://r-datey.logmu.org/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -81,7 +81,7 @@
 <li><p><strong>Fixed precision arithmetic.</strong> This approach excludes some common bugs arising from the imprecision of floating point arithmetic[^FloatingPoint]. This is a sufficiently common problem that there is a <a href="https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f" class="external-link">CRAN FAQ</a> on the topic. And, in a mortality-specific context, Terry Therneau wrote <a href="https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf" class="external-link">this note</a> on the problems floating point can cause for users his R surv package.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;That author’s preferred solution is to use day counts, which is also a fixed precision approach.&lt;/p&gt;"><sup>1</sup></a></p></li>
 <li><p>Handling <strong>whether a date means the start, during or end of a day</strong>. This may seem trivial but systematic errors can accumulate and end up being material.</p></li>
 </ol>
-<p>For more detail on the motivation for <strong>datey</strong>, see <a href="https://logmu-org.github.io/r-datey/articles/why-datey.html">Why <strong>datey</strong>?</a>.</p>
+<p>For more detail on the motivation for <strong>datey</strong>, see <a href="https://r-datey.logmu.org/articles/why-datey.html">Why <strong>datey</strong>?</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -120,7 +120,7 @@
 <span></span>
 <span><span class="va">interval</span><span class="op">$</span><span class="va">duration</span> <span class="op">*</span> <span class="fl">0.01</span> <span class="co"># Implicit conversion to years when mixed with numerics</span></span>
 <span><span class="co">#&gt; [1] 0.05485804</span></span></code></pre></div>
-<p>A hands-on guide is provided in <a href="https://logmu-org.github.io/r-datey/articles/datey.html">Get started</a>.</p>
+<p>A hands-on guide is provided in <a href="https://r-datey.logmu.org/articles/datey.html">Get started</a>.</p>
 </div>
 </div>
 

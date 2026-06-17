@@ -98,21 +98,18 @@ A vector of `datey`.
 
 ## See also
 
-Use
-[`start_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md),
-[`mid_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-and
-[`end_day()`](https://logmu-org.github.io/r-datey/reference/xxx_day.md)
-to create a `datey` direct from year, month and day. Use
-[`as_start_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md),
-[`as_mid_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
-and
-[`as_end_day()`](https://logmu-org.github.io/r-datey/reference/as_xxx_day.md)
-to create a `datey` from a numeric or base R date type but specifying
+Use [`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) and
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) to create
+a `datey` direct from year, month and day. Use
+[`as_start_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md),
+[`as_mid_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) and
+[`as_end_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) to
+create a `datey` from a numeric or base R date type but specifying
 whether it should be the start, middle or end of the day.
 
 See
-[text_to_datey](https://logmu-org.github.io/r-datey/reference/text_to_datey.md)
+[text_to_datey](https://r-datey.logmu.org/reference/text_to_datey.md)
 for parsing and creating `datey` text.
 
 ## Examples

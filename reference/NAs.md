@@ -14,8 +14,8 @@ NA_durationy_
 
 ## See also
 
-[is_NA](https://logmu-org.github.io/r-datey/reference/is_NA.md),
-[integer_constants](https://logmu-org.github.io/r-datey/reference/integer_constants.md)
+[is_NA](https://r-datey.logmu.org/reference/is_NA.md),
+[integer_constants](https://r-datey.logmu.org/reference/integer_constants.md)
 
 ## Examples
 
