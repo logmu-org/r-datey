@@ -22,6 +22,9 @@ A scalar \code{datey} or \code{durationy}.}
 
 \item{...}{Other arguments (not used in this package).}
 }
+\value{
+The sequence as a vector of \code{datey}.
+}
 \description{
 Creates a \code{datey} or \code{durationy} vector by defining a sequence.
 }

@@ -31,24 +31,20 @@ navbar:
       href: news/index.html
 
 reference:
-  - title: Useful date methods
+  - title: Date and duration methods
     contents:
       - xxx_day
       - as_xxx_day
       - datey
       - datey_properties
-  - title: Date intervals
-    contents:
-      - datey_interval
-      - interval_nature
-      - interval_properties
-      - interval_includes
-      - all_of_time
-  - title: General creation methods
-    contents:
       - ymdf
       - durationy
       - seq
+  - title: Properties
+    contents:
+      - is_type
+      - is_xxx_day
+      - is_leap_year
   - title: Conversion to years
     contents:
       - as_years_datey
@@ -58,11 +54,13 @@ reference:
       - ops
       - mean
       - max_min
-  - title: Properties
+  - title: Date intervals
     contents:
-      - is_type
-      - is_xxx_day
-      - is_leap_year
+      - datey_interval
+      - interval_nature
+      - interval_properties
+      - interval_includes
+      - all_of_time
   - title: Text parsing and printing
     contents:
       - text_to_datey

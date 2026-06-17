@@ -15,8 +15,12 @@
 
 \item{...}{Other arguments (not used in this package).}
 }
+\value{
+A vector of \code{double}.
+}
 \description{
-Converts a \code{datey} to calendar years. The fractional part represents the
+Converts a \code{datey} to calendar years,
+including a fractional part that represents the
 proportion of the calendar year that has elapsed.
 
 For example,

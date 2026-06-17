@@ -3,23 +3,29 @@
 \name{interval_properties}
 \alias{interval_properties}
 \alias{$.datey_interval}
-\title{Extract start or end from a \code{datey_interval}}
+\title{Get the start, end or duration of a \code{datey_interval}}
 \usage{
 \method{$}{datey_interval}(x, name)
 }
 \arguments{
 \item{x}{The \code{datey_interval}.}
 
-\item{name}{Must be \code{start} or \code{end}.}
+\item{name}{Must be \code{start}, \code{end} or \code{duration}.}
+}
+\value{
+\code{start} and \code{end} return a vector of \code{datey};
+\code{duration} returns a vector of \code{durationy}.
 }
 \description{
-Extract the start or end of a \code{datey_interval} using the syntax
-\verb{$start} or \verb{$end} respectively.
+Get the start, end or duration of a \code{datey_interval} using the syntax
+\verb{$start}, \verb{$end} or \verb{$duration} respectively.
 }
 \examples{
   t_1 <- start_day(2001, 1, 1)
   t_2 <- start_day(2002, 2, 2)
   interval <- datey_interval(t_1, t_2)
+  interval
   interval$start
   interval$end
+  interval$duration
 }

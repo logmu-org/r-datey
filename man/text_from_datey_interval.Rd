@@ -19,10 +19,13 @@
 \item{...}{Further arguments to be passed from or to other methods.}
 
 \item{include_day_fraction}{Whether to include the fractional day part.
-Defaults to \code{FALSE}.}
+Defaults to \code{TRUE}.}
 
 \item{max}{Numeric or \code{NULL}, specifying the maximal number of entries to be
 printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code{NULL}.}
+}
+\value{
+\code{as.character} and \code{format} return a vector of \code{character}.
 }
 \description{
 A \code{datey_interval} is printed as "[start, end)", where start and end are

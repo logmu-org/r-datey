@@ -46,3 +46,26 @@ only operands, and their meaning:\tabular{ccccl}{
    \code{datey_interval} \tab \verb{\%includes\%} \tab \code{datey} \tab logical \tab Whether the interval contains the date \cr
 }
 }
+\examples{
+t_2000 <- datey(2000)
+t_2001 <- datey(2001)
+d_0.5 <- durationy(0.5)
+
+t_2000
+t_2001
+d_0.5
+
+t_2001 - t_2000 # `datey` - `datey` is a `durationy`
+t_2000 + d_0.5  # `datey` + `durationy` is a `datey`
+t_2001 - d_0.5  # `datey` - `durationy` is a `datey`
+t_2000 + 0.5    # Arithmetic with numerics results in a double
+d_0.5 + d_0.5   # `durationy` + `durationy` is a `durationy`
+d_0.5 + 0.5     # Arithmetic with numerics results in a double
+d_0.5 * 2       # Arithmetic with numerics results in a double
+
+interval <- t_2000 \%to\% t_2001
+interval
+interval \%includes\% t_2000 # TRUE -- start *is* included in an interval
+interval \%includes\% (t_2000 + d_0.5) # TRUE
+interval \%includes\% t_2001 # FALSE -- end is *not* included in an interval
+}

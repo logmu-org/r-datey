@@ -52,6 +52,12 @@ any_collapsed(x)
 \arguments{
 \item{x}{The interval to test.}
 }
+\value{
+\itemize{
+\item \code{is_XXX} functions return a logical vector corresponding the property.
+\item \code{all_XXX} and \code{any_XXX} functions return a logical scalar.
+}
+}
 \description{
 Test whether intervals, [\emph{a},\emph{b}), are 'proper' or 'collapsed':
 \itemize{

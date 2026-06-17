@@ -32,7 +32,7 @@ Defaults to \code{FALSE}.}
 \item{use_true_minus}{Whether to use the
 \href{https://www.compart.com/en/unicode/U+2212}{true minus sign ('−', U+2212)}
 sign as opposed to the
-\href{https://www.compart.com/en/unicode/U+002D}{ASCII hyphen (-, U+2212)}.
+\href{https://www.compart.com/en/unicode/U+002D}{ASCII hyphen (-, U+002D)}.
 Defaults to \code{FALSE}.}
 
 \item{year_unit}{The year unit name to print.
@@ -42,6 +42,9 @@ Defaults to \code{"yr"}.}
 
 \item{max}{Numeric or \code{NULL}, specifying the maximal number of entries to be
 printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code{NULL}.}
+}
+\value{
+\code{as.character} and \code{format} return a vector of \code{character}.
 }
 \description{
 A \code{durationy} is printed as a decimal.

@@ -65,6 +65,21 @@ test_that("`durationy.double()` in clicks", {
   expect_identical(unclass(durationy(-1.5 / 534360)), -2L)
 })
 
+# durationy.datey_interval <- function(x, strict = TRUE, ...) ==================================================
+test_that("`durationy.datey_interval()`", {
+  # Main test is in test-datey_interval.R
+
+  a <- datey(1000 + 0:9 * 100.123) # [1000.0, ...)
+  b <- datey(3000 - 0:9 * 100.567) # (..., 3000.0]
+
+  a_to_b <- a %to% b
+
+  expect_identical(durationy(a_to_b), b - a)
+  expect_identical(durationy(a_to_b), a_to_b$duration)
+
+  expect_identical(durationy(NA_datey_interval_, strict = FALSE), NA_durationy_)
+  expect_error(durationy(NA_datey_interval_))
+})
 # durationy.character <- function(x, day_fraction = NULL, blank_is_NA = FALSE, strict = TRUE, ...) ==================================================
 test_that("`durationy.character()`", {
 
@@ -95,6 +110,42 @@ test_that("`durationy.character()`", {
   testX(-1/ (4*365*366), "-0.000002")
   testX(-1999.99999813, "-1999.999998")
 })
+test_that("`durationy.character()` handles blanks as specified", {
+
+  expect_error(durationy(""))
+  expect_error(durationy("", strict = TRUE))
+  expect_error(durationy("", strict = FALSE))
+
+  expect_error(durationy("", blank_is_NA = FALSE))
+  expect_error(durationy("", strict = TRUE, blank_is_NA = FALSE))
+  expect_error(durationy("", strict = FALSE, blank_is_NA = FALSE))
+
+  expect_identical(durationy("", blank_is_NA = TRUE), NA_durationy_)
+  expect_identical(durationy("", strict = TRUE, blank_is_NA = TRUE), NA_durationy_)
+  expect_identical(durationy("", strict = FALSE, blank_is_NA = TRUE), NA_durationy_)
+})
+test_that("`durationy.character()` handles invalids as specified", {
+
+  testInvalid <- function(text) {
+    expect_error(durationy(text))
+    expect_error(durationy(text, strict = TRUE))
+    expect_identical(durationy(text, strict = FALSE), NA_durationy_)
+  }
+
+  testInvalid("abc")
+
+  expect_identical(durationy("+2000.000000 yr"), durationy(+2000))
+  testInvalid("+2000.000001 yr")
+
+  expect_identical(durationy("-2000.000000 yr"), durationy(-2000))
+  testInvalid("-2000.000001 yr")
+})
+
+
+
+
+
+
 # as.double.durationy <- function(x, ...) ==================================================
 # as.numeric dispatches to as.double.XXX
 test_that("`is.numeric.durationy()`, `as.numeric.durationy()` and `as.double.durationy()`", {

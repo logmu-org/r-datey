@@ -64,7 +64,7 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
         const char *msg;
         if (!is1000To2999(year))
         {
-          msg = "`year` is outside [1000,2999] and date is not 0999-12-31.1 or 3000-01-01.0.";
+          msg = "`year` is outside [1000,2999] and date is not 3000-01-01.0.";
         }
         else if (!isValidMonth(month))
         {
@@ -351,7 +351,7 @@ cpp11::r_string dateyToRString(int datey, bool includeDayFraction)
   return cpp11::r_string(chars);
 }
 
-int dateyFromRStringOnly(cpp11::r_string rString, bool blankIsNA, bool strict)
+int dateyFromRStringOnly(cpp11::r_string rString, bool strict, bool blankIsNA)
 {
   if (cpp11::is_na(rString)) { return NA_INTEGER; }
 
@@ -359,7 +359,11 @@ int dateyFromRStringOnly(cpp11::r_string rString, bool blankIsNA, bool strict)
 
   auto size = s.size();
 
-  if (blankIsNA && size == 0) { return NA_INTEGER; }
+  if (size == 0)
+  {
+    if (blankIsNA) { return NA_INTEGER; }
+    cpp11::stop("Blank datey text (and blank_is_NA is FALSE).");
+  }
 
   int clicks;
 
@@ -433,7 +437,7 @@ int dateyFromRStringOnly(cpp11::r_string rString, bool blankIsNA, bool strict)
   return clicks;
 }
 
-int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, bool blankIsNA, bool strict)
+int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, bool strict, bool blankIsNA)
 {
   if (cpp11::is_na(rString) || cpp11::is_na(dayFraction)) { return NA_INTEGER; }
 
@@ -441,7 +445,11 @@ int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, 
 
   auto size = s.size();
 
-  if (blankIsNA && size == 0) { return NA_INTEGER; }
+  if (size == 0)
+  {
+    if (blankIsNA) { return NA_INTEGER; }
+    cpp11::stop("Blank datey text (and blank_is_NA is FALSE).");
+  }
 
   int clicks;
 

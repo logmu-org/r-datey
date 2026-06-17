@@ -19,10 +19,13 @@
 \item{...}{Other arguments.}
 
 \item{include_day_fraction}{Whether to include the fractional day part.
-Defaults to \code{FALSE}.}
+Defaults to \code{TRUE}.}
 
 \item{max}{Numeric or \code{NULL}, specifying the maximal number of entries to be
 printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code{NULL}.}
+}
+\value{
+\code{as.character} and \code{format} return a vector of \code{character}.
 }
 \description{
 A \code{datey} is printed as either

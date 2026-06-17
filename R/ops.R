@@ -40,6 +40,28 @@
 #'   evaluation,
 #'
 #' where `T` is either `datey` or `durationy` in each of the above.
+#' @examples
+#' t_2000 <- datey(2000)
+#' t_2001 <- datey(2001)
+#' d_0.5 <- durationy(0.5)
+#'
+#' t_2000
+#' t_2001
+#' d_0.5
+#'
+#' t_2001 - t_2000 # `datey` - `datey` is a `durationy`
+#' t_2000 + d_0.5  # `datey` + `durationy` is a `datey`
+#' t_2001 - d_0.5  # `datey` - `durationy` is a `datey`
+#' t_2000 + 0.5    # Arithmetic with numerics results in a double
+#' d_0.5 + d_0.5   # `durationy` + `durationy` is a `durationy`
+#' d_0.5 + 0.5     # Arithmetic with numerics results in a double
+#' d_0.5 * 2       # Arithmetic with numerics results in a double
+#'
+#' interval <- t_2000 %to% t_2001
+#' interval
+#' interval %includes% t_2000 # TRUE -- start *is* included in an interval
+#' interval %includes% (t_2000 + d_0.5) # TRUE
+#' interval %includes% t_2001 # FALSE -- end is *not* included in an interval
 #' @name ops
 
 #' @rdname ops
@@ -76,7 +98,7 @@ Ops.datey_type <- function(e1, e2) {
       if (.Generic == "-") return(durationy_from_clicks(-unclass(e1)))
     }
 
-    stop("Unary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.", call. = FALSE))
+    stop("Unary operator `", .Generic, "` is undefined for `", deparse(substitute(e1)), "`.", call. = FALSE)
   }
 
   if (is_pure_numeric(e1)) {
@@ -141,7 +163,7 @@ Ops.datey_type <- function(e1, e2) {
         if (.Generic == "/") return(durationy_from_clicks(u1 / u2))
       }
 
-    } else if (is_datey_interval(e1) ||is_datey_interval(e2)) {
+    } else if (is_datey_interval(e1) || is_datey_interval(e2)) {
 
       if (is_pure_logical(e1)) {
         e1 <- ifelse(e1, all_of_time, NA_datey_interval_)

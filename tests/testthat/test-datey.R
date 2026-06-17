@@ -459,7 +459,37 @@ test_that("`datey.character()` cyclically", {
   expect_error(datey(texts3, day_fraction = f2))
   expect_error(datey(texts2, day_fraction = f3))
 })
+test_that("`datey.character()` handles blanks as specified", {
 
+  expect_error(datey(""))
+  expect_error(datey("", strict = TRUE))
+  expect_error(datey("", strict = FALSE))
+
+  expect_error(datey("", blank_is_NA = FALSE))
+  expect_error(datey("", strict = TRUE, blank_is_NA = FALSE))
+  expect_error(datey("", strict = FALSE, blank_is_NA = FALSE))
+
+  expect_identical(datey("", blank_is_NA = TRUE), NA_datey_)
+  expect_identical(datey("", strict = TRUE, blank_is_NA = TRUE), NA_datey_)
+  expect_identical(datey("", strict = FALSE, blank_is_NA = TRUE), NA_datey_)
+})
+test_that("`datey.character()` handling of doubly specified day_fractions", {
+  expect_error(datey("2000-01-01.0", day_fraction = 0))
+})
+test_that("`datey.character()` handles invalids as specified", {
+
+  testInvalid <- function(text) {
+    expect_error(datey(text))
+    expect_error(datey(text, strict = TRUE))
+    expect_identical(datey(text, strict = FALSE), NA_datey_)
+  }
+
+  testInvalid("abc")
+  testInvalid("0999-12-31.9999999")
+  testInvalid("0999-12-31")
+  testInvalid("3000-01-01.0000001")
+  testInvalid("3000-01-02")
+})
 # start_day / mid_day / end_day / is_start_day / is_mid_day ==================================================
 test_that("`as_XXX_day()` and `is_XXX_day()`", {
 

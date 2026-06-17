@@ -32,29 +32,30 @@ datey(x, day_fraction = NULL, strict = TRUE, ...)
 \item{x}{The argument to convert to a \code{datey}.}
 
 \item{day_fraction}{The \code{day_fraction} override. Defaults to \code{NULL}.
-\itemize{
-\item If \code{day_fraction} is \emph{not} provided then \code{x} is used to derive both
+
+If \code{day_fraction} is \emph{not} provided then \code{x} is used to derive both
 the calendar year, month, day \emph{and} the day fraction.
-\item If \code{day_fraction} \emph{is} provided then \code{x} is used solely to derive the
+
+If \code{day_fraction} \emph{is} provided then \code{x} is used solely to derive the
 calendar year, month and day, while \code{day_fraction} provides the position in
 the day. \code{day_fraction} must lie in the inclusive interval [0,1], with
-\item 0 meaning the start of the day,
-\item 0.5 meaning the middle of the day, and
-\item 1 meaning the end of the day (which is identical to the start of the next
-day).
-}}
+0 meaning the start of the day,
+0.5 meaning the middle of the day, and
+1 meaning the end of the day (which is identical to the start of the next
+day).}
 
 \item{strict}{How calendar years less than 1000 or greater than 3000 and day
 fractions not in the interval [0,1] should be
 handled.
-\itemize{
-\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}
+If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
 
 NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
 
 \item{...}{Other arguments (not used in this package).}
+}
+\value{
+A vector of \code{datey}.
 }
 \description{
 This package provides methods to create a \code{datey} from the following:
@@ -85,9 +86,25 @@ The lengths of vector arguments must be multiples of each other.
 
 This is an S3 generic.
 }
+\examples{
+datey(2000)
+datey(2000.5) # Middle of a leap year
+datey(2001.5) # Middle of a non-leap year
+datey(as.Date("2020-01-02"))
+datey(as.POSIXct("2020-01-02 12:00:00"))
+datey(as.POSIXlt("2020-01-02 12:00:00"))
+
+# Use `strict` to control error behaviour for invalid `datey`s:
+try(datey(999.9))
+try(datey(3000.1))
+datey(999.9, strict = FALSE)
+datey(3000.1, strict = FALSE)
+}
 \seealso{
 Use \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}} to create a \code{datey}
 direct from year, month and day. Use \code{\link[=as_start_day]{as_start_day()}}, \code{\link[=as_mid_day]{as_mid_day()}} and
 \code{\link[=as_end_day]{as_end_day()}} to create a \code{datey} from a numeric or base R date type but
 specifying whether it should be the start, middle or end of the day.
+
+See \link{text_to_datey} for parsing and creating \code{datey} text.
 }

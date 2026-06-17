@@ -43,6 +43,5 @@ Subsets \code{datey}, \code{durationy} or \code{datey_interval} vectors.
   x[2:3]
   x[2:3] <- datey(1999)
   x
-
 }
 \keyword{subset}

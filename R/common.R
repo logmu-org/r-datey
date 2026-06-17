@@ -74,10 +74,8 @@ c.datey_interval <- function(..., recursive = FALSE) {
 #' @param i Indices to extract.
 #' @param value Value to assign.
 #' @param ... Other arguments.
-#'
 #' @returns
 #'   The subset.
-#'
 #' @keywords subset
 #' @examples
 #'   x <- datey(2001:2004)
@@ -85,9 +83,8 @@ c.datey_interval <- function(..., recursive = FALSE) {
 #'   x[2:3]
 #'   x[2:3] <- datey(1999)
 #'   x
-#'
 #' @name subset
-# NULL
+NULL
 
 #' @rdname subset
 #' @export
@@ -142,7 +139,7 @@ c.datey_interval <- function(..., recursive = FALSE) {
 #' @param by The increment of the sequence.
 #'     A scalar `datey` or `durationy`.
 #' @param ... Other arguments (not used in this package).
-#'
+#' @returns The sequence as a vector of `datey`.
 #' @keywords sequence
 #' @examples
 #'   seq(from = datey(2000), to = datey(2005), by = durationy(2))
@@ -153,7 +150,7 @@ NULL
 #' @rdname seq
 #' @export
 seq.datey <- function(from, to, by, ...) {
-  ensure_is_scalar(from)
+  ensure_is_datey_scalar(from)
   ensure_is_datey_scalar(to)
   ensure_is_durationy_scalar(by)
   if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
@@ -169,7 +166,7 @@ seq.datey <- function(from, to, by, ...) {
 #' @rdname seq
 #' @export
 seq.durationy <- function(from, to, by, ...) {
-  ensure_is_scalar(from)
+  ensure_is_durationy_scalar(from)
   ensure_is_durationy_scalar(to)
   ensure_is_durationy_scalar(by)
 

@@ -26,14 +26,15 @@ durationy(x, strict = TRUE, ...)
 
 \item{strict}{How years greater than 2000 in magnitude should be
 handled.
-\itemize{
-\item If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-\item If \code{strict} is \code{FALSE} then \code{NA} is returned.
-}
+If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.
 
 NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
 
 \item{...}{Other arguments (not used in this package).}
+}
+\value{
+A vector of \code{durationy}.
 }
 \description{
 This package provides methods to create a \code{durationy} from the following:
@@ -43,9 +44,20 @@ number of years.
 \item \code{double} -- the value is interpreted as the specified
 number of years, rounded to fixed precision of a \code{durationy}. This means that
 \code{durationy(0.5)} is precise but \code{durationy(0.01)} is not.
-\item \code{datey_interval} -- the duration of the interval.
+\item \code{datey_interval} -- the duration of the interval. If \code{strict} is \code{FALSE}
+then this is the same as \code{datey_interval$duration}.
 \item \code{durationy} -- value is unchanged.
 }
 
 This is an S3 generic.
+}
+\examples{
+durationy(1)    # One year
+durationy(0.5)  # Half a year
+durationy(-2.3) # Negative duration
+durationy(datey(2001) \%to\% datey(2002)) # From an interval
+
+# Invalid durations:
+try(durationy(3000.1)) # default is strict = TRUE
+durationy(3000.1, strict = FALSE)
 }

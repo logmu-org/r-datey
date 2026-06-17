@@ -76,6 +76,10 @@ cpp_dateyIntervalEnd <- function(interval) {
   .Call(`_datey_cpp_dateyIntervalEnd`, interval)
 }
 
+cpp_dateyIntervalDuration <- function(interval) {
+  .Call(`_datey_cpp_dateyIntervalDuration`, interval)
+}
+
 cpp_dateyIntervalIsNA <- function(interval) {
   .Call(`_datey_cpp_dateyIntervalIsNA`, interval)
 }

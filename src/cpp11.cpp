@@ -139,6 +139,13 @@ extern "C" SEXP _datey_cpp_dateyIntervalEnd(SEXP interval) {
   END_CPP11
 }
 // R_datey_interval.cpp
+integers cpp_dateyIntervalDuration(doubles interval);
+extern "C" SEXP _datey_cpp_dateyIntervalDuration(SEXP interval) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalDuration(cpp11::as_cpp<cpp11::decay_t<doubles>>(interval)));
+  END_CPP11
+}
+// R_datey_interval.cpp
 logicals cpp_dateyIntervalIsNA(doubles interval);
 extern "C" SEXP _datey_cpp_dateyIntervalIsNA(SEXP interval) {
   BEGIN_CPP11
@@ -266,6 +273,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_dateyIntervalAllProper",         (DL_FUNC) &_datey_cpp_dateyIntervalAllProper,         1},
     {"_datey_cpp_dateyIntervalAnyCollapsed",      (DL_FUNC) &_datey_cpp_dateyIntervalAnyCollapsed,      1},
     {"_datey_cpp_dateyIntervalAnyNA",             (DL_FUNC) &_datey_cpp_dateyIntervalAnyNA,             1},
+    {"_datey_cpp_dateyIntervalDuration",          (DL_FUNC) &_datey_cpp_dateyIntervalDuration,          1},
     {"_datey_cpp_dateyIntervalEnd",               (DL_FUNC) &_datey_cpp_dateyIntervalEnd,               1},
     {"_datey_cpp_dateyIntervalIncludes",          (DL_FUNC) &_datey_cpp_dateyIntervalIncludes,          2},
     {"_datey_cpp_dateyIntervalIsCollapsed",       (DL_FUNC) &_datey_cpp_dateyIntervalIsCollapsed,       1},
