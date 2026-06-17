@@ -254,7 +254,7 @@ as.integer.durationy <- function(x, ...) {
 #' durations.
 #' Defaults to `FALSE`.
 #' @param use_true_minus Whether to use the
-#' [true minus sign ('−', U+2212)](https://www.compart.com/en/unicode/U+2212)
+#' [true minus sign ('-', U+2212)](https://www.compart.com/en/unicode/U+2212)
 #' sign as opposed to the
 #' [ASCII hyphen (-, U+002D)](https://www.compart.com/en/unicode/U+002D).
 #' Defaults to `TRUE`.
@@ -270,11 +270,11 @@ as.integer.durationy <- function(x, ...) {
 #'   pos <- durationy(1)
 #'   neg <- durationy(-2.3)
 #'   format(pos) # "1 yr"
-#'   format(pos, include_plus = TRUE) # "1 yr"
+#'   format(pos, include_plus = TRUE) # "+1 yr"
 #'   format(pos, year_unit = "") # "1"
-#'   format(neg) # "−2.3 yr"
-#'   format(neg, use_true_minus = TRUE) # "−2.3 yr"
-#'   format(neg, year_unit = "a") # "-2.3 a"
+#'   format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
+#'   format(neg, use_true_minus = FALSE) # "-2.3 yr"
+#'   format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
 #' @name text_from_durationy
 NULL
 

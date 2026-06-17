@@ -240,7 +240,7 @@ any_collapsed.datey_interval <- function(x) {
 #'
 #' @description
 #' Test whether a `datey_interval`, \eqn{[a,b)}, includes a `datey` \eqn{t}, i.e.
-#' \eqn{a \le t}{a <= t} and \eqn{t \lt b}{t < b}.
+#' \eqn{a \le t}{a <= t} and \eqn{t < b}.
 #'
 #' The `%includes%` operator is syntactic sugar for `interval_includes()`.
 #'

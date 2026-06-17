@@ -12,8 +12,7 @@ Description: A standardised mapping of dates onto an annual grid with
     and annuities, for which mortality rates are defined per year but
     experience and valuation data use dates.
 License: MIT + file LICENSE
-URL: https://github.com/logmu-org/r-datey, https://logmu.org/r-datey/,
-    https://logmu-org.github.io/r-datey/
+URL: https://github.com/logmu-org/r-datey, https://r-datey.logmu.org/
 BugReports: https://github.com/logmu-org/r-datey/issues
 Depends: 
     R (>= 4.0.0)

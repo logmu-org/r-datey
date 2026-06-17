@@ -20,7 +20,7 @@ includes the value. Always TRUE or FALSE -- NAs result in FALSE.
 }
 \description{
 Test whether a \code{datey_interval}, \eqn{[a,b)}, includes a \code{datey} \eqn{t}, i.e.
-\eqn{a \le t}{a <= t} and \eqn{t \lt b}{t < b}.
+\eqn{a \le t}{a <= t} and \eqn{t < b}.
 
 The \verb{\%includes\%} operator is syntactic sugar for \code{interval_includes()}.
 

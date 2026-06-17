@@ -47,7 +47,7 @@ The benefits of using **datey** are:
     up being material.
 
 For more detail on the motivation for **datey**, see [Why
-**datey**?](https://logmu-org.github.io/r-datey/articles/why-datey.html).
+**datey**?](https://r-datey.logmu.org/articles/why-datey.html).
 
 ## Installation
 
@@ -91,7 +91,7 @@ interval$duration * 0.01 # Implicit conversion to years when mixed with numerics
 ```
 
 A hands-on guide is provided in [Get
-started](https://logmu-org.github.io/r-datey/articles/datey.html).
+started](https://r-datey.logmu.org/articles/datey.html).
 
 [^1]: That author’s preferred solution is to use day counts, which is
     also a fixed precision approach.

@@ -13,8 +13,7 @@ A standardised mapping of dates onto an annual grid with fixed precision and ass
 Useful links:
 \itemize{
   \item \url{https://github.com/logmu-org/r-datey}
-  \item \url{https://logmu.org/r-datey/}
-  \item \url{https://logmu-org.github.io/r-datey/}
+  \item \url{https://r-datey.logmu.org/}
   \item Report bugs at \url{https://github.com/logmu-org/r-datey/issues}
 }
 

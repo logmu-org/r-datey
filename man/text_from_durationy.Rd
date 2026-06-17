@@ -30,7 +30,7 @@ durations.
 Defaults to \code{FALSE}.}
 
 \item{use_true_minus}{Whether to use the
-\href{https://www.compart.com/en/unicode/U+2212}{true minus sign ('−', U+2212)}
+\href{https://www.compart.com/en/unicode/U+2212}{true minus sign ('-', U+2212)}
 sign as opposed to the
 \href{https://www.compart.com/en/unicode/U+002D}{ASCII hyphen (-, U+002D)}.
 Defaults to \code{TRUE}.}
@@ -55,9 +55,9 @@ This format is readable by \code{\link[=durationy.character]{durationy.character
   pos <- durationy(1)
   neg <- durationy(-2.3)
   format(pos) # "1 yr"
-  format(pos, include_plus = TRUE) # "1 yr"
+  format(pos, include_plus = TRUE) # "+1 yr"
   format(pos, year_unit = "") # "1"
-  format(neg) # "−2.3 yr"
-  format(neg, use_true_minus = TRUE) # "−2.3 yr"
-  format(neg, year_unit = "a") # "-2.3 a"
+  format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
+  format(neg, use_true_minus = FALSE) # "-2.3 yr"
+  format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
 }
