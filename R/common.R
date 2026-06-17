@@ -137,9 +137,10 @@ NULL
 #'     The sequence stops before values exceed `to`.
 #'     A scalar `datey` or `durationy`.
 #' @param by The increment of the sequence.
-#'     A scalar `datey` or `durationy`.
+#'     A scalar `durationy`.
 #' @param ... Other arguments (not used in this package).
-#' @returns The sequence as a vector of `datey`.
+#' @returns The sequence as a vector of `datey` (for `seq.datey`) or
+#'     `durationy` (for `seq.durationy`).
 #' @keywords sequence
 #' @examples
 #'   seq(from = datey(2000), to = datey(2005), by = durationy(2))

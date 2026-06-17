@@ -62,7 +62,7 @@ This package provides methods to create a \code{datey} from the following:
 \itemize{
 \item \code{double} and \code{integer} are interpreted as the specified
 calendar year, with the fractional part representing the fraction of the
-year. For instance, \code{datey(2000.5)} means halfway though the year 2000.
+year. For instance, \code{datey(2000.5)} means halfway through the year 2000.
 (This means that an \code{integer} argument always indicates the \emph{start} of the
 calendar year, e.g. \code{datey(2000L)} is the start of the year 2000.)
 \item \code{Date} and \code{POSIXct} and \code{POSIXlt} are interpreted as fractional

@@ -40,7 +40,7 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #' How NAs should be handled.
 #' If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' If `strict` is `FALSE` then `NA` is returned if `start` and/or `end` is NA.
-#' @returns A vector of `datey`.
+#' @returns A vector of `datey_interval`.
 #' @examples
 #'   datey(1999) %to% mid_day(2025, 7, 15)
 #'   datey(1999) %to% datey(2000:2002)
@@ -125,17 +125,20 @@ all_of_time <- NULL
 #' Properties of an interval.
 #'
 #' @description
-#' Test whether intervals, [*a*,*b*), are 'proper' or 'collapsed':
+#' Test whether intervals, \eqn{[a,b)}, are 'proper' or 'collapsed':
 #'
-#' - A *proper* interval does not end before its start, i.e. *a*&#xA0;≤&#xA0;*b*.
-#' - An *collapsed* interval does not start before its end, i.e. *a*&#xA0;≥&#xA0;*b*.
+#' - A *proper* interval does not end before its start,
+#' i.e. \eqn{a \le b}{a <= b}.
+#' - A *collapsed* interval does not start before its end,
+#' i.e. \eqn{a \ge b}{a >= b}.
 #'
 #' An NA interval is treated as collapsed and improper.
 #'
 #' These definitions imply the following:
 #'
 #' - A collapsed interval could be empty or improper.
-#' - To test for an empty interval, i.e. [*a*,*a*), test that it is both proper and collapsed.
+#' - To test for an empty interval, i.e. \eqn{[a,a)}, test that it is both
+#' proper and collapsed.
 #'
 #' These methods are guaranteed to return `TRUE` or `FALSE`, i.e. not `NA`
 #' (provided the argument is an interval).
@@ -149,7 +152,8 @@ all_of_time <- NULL
 #'
 #' `all_proper(x)` tests whether all the elements of `x` are proper.
 #' `all_collapsed(x)` tests whether all the elements of `x` are collapsed.
-#' `any_collapsed(x)` tests whether at least one of the elements of `x` is collapsed.
+#' `any_collapsed(x)` tests whether at least one of the elements of `x` is
+#' collapsed.
 #'
 #' These are S3 generic functions.
 #'
@@ -235,8 +239,8 @@ any_collapsed.datey_interval <- function(x) {
 #' Whether a `datey_interval` includes a `datey`
 #'
 #' @description
-#' Test whether a `datey_interval`, [start, end) includes a `datey`, i.e.
-#' start ≤ value and value < end.
+#' Test whether a `datey_interval`, \eqn{[a,b)}, includes a `datey` \eqn{t}, i.e.
+#' \eqn{a \le t}{a <= t} and \eqn{t \lt b}{t < b}.
 #'
 #' The `%includes%` operator is syntactic sugar for `interval_includes()`.
 #'

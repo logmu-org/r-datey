@@ -80,6 +80,6 @@ fraction. In practice, prefer one of \code{\link[=start_day]{start_day()}}, \cod
 \seealso{
 Use \code{\link[=datey]{datey()}} to create a \code{datey} direct from years or a base R date.
 
-Use the syntax \href{datey_properties}{\verb{$year}, \verb{$month}, \verb{$day} or \verb{$day_fraction}}
+Use the syntax \link[=datey_properties]{\verb{$year}, \verb{$month}, \verb{$day} or \verb{$day_fraction}}
 to extract one component at a time.
 }

@@ -44,7 +44,7 @@ NA_datey_ <- datey_from_clicks(NA_integer_)
 #'
 #' - the constants [NA_datey_] and [NA_durationy_] are the `datey` and `durationy`
 #' versions of NA respectively, and
-#' - [integer constants](integer_constants) describing the above valid ranges
+#' - [integer constants][integer_constants] describing the above valid ranges
 #' are also provided.
 #'
 #' For performance reasons, intermediate calculations may not check for NAs.
@@ -191,7 +191,7 @@ is_datey <- function(x) typeof(x) == "integer" && isa(x, c("datey", "datey_type"
 #' @seealso
 #' Use [datey()] to create a `datey` direct from years or a base R date.
 #'
-#' Use the syntax [`$year`, `$month`, `$day` or `$day_fraction`](datey_properties)
+#' Use the syntax [`$year`, `$month`, `$day` or `$day_fraction`][datey_properties]
 #' to extract one component at a time.
 #' @name ymdf
 NULL
@@ -249,7 +249,7 @@ from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) {
 #' @param name
 #' Must be `year`, `month`, `day` or `day_fraction`.
 #' @returns A vector of `integer` for `year`, `month` and `day`;
-#'  a vector of `integer` for `day_fraction`.
+#'  a vector of `double` for `day_fraction`.
 #' @seealso
 #' If you need more than one component then [to_ymdf()] may be more efficient.
 #' @examples
@@ -336,7 +336,7 @@ end_day <- function(year, month, day, strict = TRUE)
 #'
 #' - `double` and `integer` are interpreted as the specified
 #' calendar year, with the fractional part representing the fraction of the
-#' year. For instance, `datey(2000.5)` means halfway though the year 2000.
+#' year. For instance, `datey(2000.5)` means halfway through the year 2000.
 #' (This means that an `integer` argument always indicates the *start* of the
 #' calendar year, e.g. `datey(2000L)` is the start of the year 2000.)
 #' - `Date` and `POSIXct` and `POSIXlt` are interpreted as fractional
@@ -466,11 +466,11 @@ datey.POSIXct <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 #' @export
 datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
   # From POSIXlt docs:
-  # `sec` in 0–61: seconds, allowing for leap seconds.
-  # `min` in 0–59: minutes.
-  # `hour` in 0–23: hours.
+  # `sec` in 0-61: seconds, allowing for leap seconds.
+  # `min` in 0-59: minutes.
+  # `hour` in 0-23: hours.
   # `year`: years since 1900.
-  # `yday` in 0–365: day of the year (365 only in leap years).
+  # `yday` in 0-365: day of the year (365 only in leap years).
 
   ensure_is_switch(strict)
   if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
@@ -496,9 +496,9 @@ datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) {
 #'
 #' @description
 #'
-#' This function parses text  a `datey`.
+#' This function parses text as a `datey`.
 #'
-#' If the text is NA then NA is returned
+#' If the text is NA then NA is returned.
 #'
 #' If `day_fraction` *is* provided then the text must be in ISO 8601 extended
 #' format, i.e. "YYYY-MM-DD".
@@ -586,7 +586,7 @@ datey.character <- function(x,
   datey_from_clicks(clicks)
 }
 
-#' Create a `datey` aligned to the start, middle of end of the day
+#' Create a `datey` aligned to the start, middle or end of the day
 #' specified by a fractional calendar year or another date type.
 #'
 #' @description
@@ -594,7 +594,7 @@ datey.character <- function(x,
 #'
 #' - Numeric, interpreted as calendar year, with the fractional part
 #' representing the fraction of the year. For instance, `datey(2000.5)` means
-#' halfway though the year 2000.
+#' halfway through the year 2000.
 #' - The base R date types (`Date` and `POSIXct` and `POSIXlt`).
 #' - `character`, in ISO 8601 extended format, i.e. YYYY-MM-DD.
 #' - `datey`, which is interpreted as is but with the start, middle or end day

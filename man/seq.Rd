@@ -18,12 +18,13 @@ A scalar \code{datey} or \code{durationy}.}
 A scalar \code{datey} or \code{durationy}.}
 
 \item{by}{The increment of the sequence.
-A scalar \code{datey} or \code{durationy}.}
+A scalar \code{durationy}.}
 
 \item{...}{Other arguments (not used in this package).}
 }
 \value{
-The sequence as a vector of \code{datey}.
+The sequence as a vector of \code{datey} (for \code{seq.datey}) or
+\code{durationy} (for \code{seq.durationy}).
 }
 \description{
 Creates a \code{datey} or \code{durationy} vector by defining a sequence.

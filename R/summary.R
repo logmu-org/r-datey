@@ -5,9 +5,15 @@
 # Copyright (c) Tim Gordon
 
 #' Mean value of `datey` or `durationy`
+#' @description
+#' Gets the mean value of a vector of `datey` or `durationy` as a scalar.
+#'
+#' This will entail rounding if the mean of
+#' the underlying click counts is not an integer.
 #' @param x The `datey` or `durationy`.
 #' @param na.rm	A logical (`TRUE` or `FALSE`) indicating whether NA values should be removed before the computation.
 #' @param ...	Other arguments (not used in this package).
+#' @returns A scalar of `datey` or `duration` as appropriate.
 #' @examples
 #'     t <- datey(2000:2003)
 #'     t

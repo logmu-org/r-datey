@@ -266,11 +266,11 @@ For text *outputs*:
 - It is optional whether '+' (U+002B) plus sign is included for positive durations. (Default is omit '+').
 - It is optional whether to use the true minus sign '−' (U+002B) or the ASCII '-' (U+002D) hyphen-minus character. (Default is use true minus sign.)
 - The fraction contains contains at most 6 decimal places because this is sufficient to distinguish all possible duration fractions at **datey** precision.
-- The unit name is user-specifiable. (Default is 'yrs'.)
+- The unit name is user-specifiable. (Default is 'yr'.)
 
 For text *inputs*:
 
 - All plus or minus signs included above are parsed (including for zero durations).
-- The unit is user-specifiable. If non-blank then the unit text must be present and preceded by a space. (The default is ' yrs'.)
+- The unit is user-specifiable. If non-blank then the unit text must be present and preceded by a space. (The default is ' yr'.)
 - Arbitrarily long inputs e.g. more than 100 UTF-8 bytes should be rejected.
 - Subject to this overall limit, the fractional part can contain an arbitrary number of digits.

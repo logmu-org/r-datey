@@ -31,7 +31,7 @@ Defaults to \code{"yr"}.}
 A vector of \code{durationy}.
 }
 \description{
-This function parses text  a \code{durationy}.
+This function parses text as a \code{durationy}.
 
 If the text is NA then NA is returned.
 
@@ -40,7 +40,7 @@ where
 \itemize{
 \item "DDD.DDD" is the duration in years with "D" being decimal digits
 (and the fractional part is not required for whole years), and
-\item "UUU" is the unit text (which defaults to "yrs"). If blank then there is
+\item "UUU" is the unit text (which defaults to "yr"). If blank then there is
 no space after the duration in years.
 }
 
