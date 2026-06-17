@@ -21,7 +21,7 @@ specification](https://r-datey.logmu.org/articles/spec.md).
 - **`datey_interval`** – a half-open `[start, end)` time interval.
 
 All values are stored as exact integers (in units of 1/534 360 of a
-year), so arithmetic is both precise and associative.
+year), so arithmetic is both exact and associative.
 
 ## Creating a `datey`
 
@@ -43,7 +43,10 @@ end_day(2024, 3, 7)     # end of 7 March 2024
 ```
 
 The end of a day is the same point as the start of the next, so
-`end_day(y, m, d)` is always identical to `start_day(y, m, d + 1)`:
+[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) applied to
+a day is identical to
+[`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md) applied
+to the following day:
 
 ``` r
 
@@ -95,9 +98,9 @@ datey(2024)     # start of 2024
 datey(2024.5)   # halfway through 2024
 #> [1] 2024-07-02.0
 
-datey("2024-03-07")      # start of 7 March 2024 (day fraction defaults to 0)
+datey("2024-03-07")   # start of 7 March 2024 (day fraction defaults to 0)
 #> [1] 2024-03-07.0
-datey("2024-03-07.5")    # middle of 7 March 2024
+datey("2024-03-07.5") # middle of 7 March 2024
 #> [1] 2024-03-07.5
 ```
 
@@ -160,11 +163,11 @@ test the position within the day. Note that
 
 ``` r
 
-is_start_day(start_day(2024, 3, 7))      # TRUE
+is_start_day(start_day(2024, 3, 7))     # TRUE
 #> [1] TRUE
-is_mid_day(mid_day(2024, 3, 7))          # TRUE
+is_mid_day(mid_day(2024, 3, 7))         # TRUE
 #> [1] TRUE
-is_start_day(end_day(2024, 3, 7))        # TRUE: end = start of next day
+is_start_day(end_day(2024, 3, 7))       # TRUE because end = start of next day
 #> [1] TRUE
 is_mid_day(from_ymdf(2024, 3, 7, 0.25)) # FALSE
 #> [1] FALSE
@@ -213,16 +216,16 @@ as.integer(age)   # whole years only
 
 The table below summarises the typed arithmetic operations. All
 arithmetic is carried out as exact integer arithmetic on the underlying
-click counts, so the results are precise and associative.
+click counts, so the results are exact and associative.
 
-|    Left     |        Op         |    Right    |   Result    |
-|:-----------:|:-----------------:|:-----------:|:-----------:|
-|   `datey`   |        `−`        |   `datey`   | `durationy` |
-|   `datey`   |       `+ −`       | `durationy` |   `datey`   |
-| `durationy` |        `+`        |   `datey`   |   `datey`   |
-| `durationy` |       `+ −`       | `durationy` | `durationy` |
-|   `datey`   | `== != < <= > >=` |   `datey`   |   logical   |
-| `durationy` | `== != < <= > >=` | `durationy` |   logical   |
+| Left        | Op                | Right       | Result      |
+|:------------|:------------------|:------------|:------------|
+| `datey`     | `-`               | `datey`     | `durationy` |
+| `datey`     | `+ -`             | `durationy` | `datey`     |
+| `durationy` | `+`               | `datey`     | `datey`     |
+| `durationy` | `+ -`             | `durationy` | `durationy` |
+| `datey`     | `== != < <= > >=` | `datey`     | logical     |
+| `durationy` | `== != < <= > >=` | `durationy` | logical     |
 
 ``` r
 
@@ -230,17 +233,17 @@ start  <- start_day(2000, 1, 1)
 one_yr <- durationy(1)
 qtr_yr <- durationy(0.25)
 
-start + one_yr          # one year later
+start + one_yr    # one year later
 #> [1] 2001-01-01.0
-start - qtr_yr          # three months earlier
+start - qtr_yr    # a quarter of a year earlier
 #> [1] 1999-10-01.75
 
-one_yr - qtr_yr         # three quarters of a year
+one_yr - qtr_yr   # three quarters of a year
 #> [1] 0.75 yr
 one_yr + qtr_yr
 #> [1] 1.25 yr
 
-datey(2024) < datey(2025)        # TRUE
+datey(2024) < datey(2025)       # TRUE
 #> [1] TRUE
 durationy(1) > durationy(0.5)   # TRUE
 #> [1] TRUE
@@ -257,8 +260,8 @@ or the `%to%` operator:
 
 a  <- start_day(2024, 1, 1)
 b  <- start_day(2025, 1, 1)
-iv <- a %to% b
-iv
+interval <- a %to% b
+interval
 #> [1] [2024-01-01.0, 2025-01-01.0)
 ```
 
@@ -267,11 +270,11 @@ components:
 
 ``` r
 
-iv$start
+interval$start
 #> [1] 2024-01-01.0
-iv$end
+interval$end
 #> [1] 2025-01-01.0
-iv$duration
+interval$duration
 #> [1] 1 yr
 ```
 
@@ -280,7 +283,7 @@ accepts a `datey_interval` directly:
 
 ``` r
 
-durationy(iv)
+durationy(interval)
 ```
 
 ### Membership testing
@@ -290,11 +293,11 @@ interval includes its start and excludes its end:
 
 ``` r
 
-iv %includes% a                      # TRUE  -- start is included
+interval %includes% a                     # TRUE  -- start is included
 #> [1] TRUE
-iv %includes% b                      # FALSE -- end is excluded
+interval %includes% b                     # FALSE -- end is excluded
 #> [1] FALSE
-iv %includes% mid_day(2024, 6, 15)  # TRUE
+interval %includes% mid_day(2024, 6, 15)  # TRUE
 #> [1] TRUE
 ```
 
@@ -308,15 +311,15 @@ proper and collapsed (it contains no time):
 
 ``` r
 
-is_proper(iv)          # TRUE: start < end
+is_proper(interval)    # TRUE because start <= end
 #> [1] TRUE
-is_collapsed(iv)       # FALSE
+is_collapsed(interval) # FALSE because start < end
 #> [1] FALSE
 
 pt <- a %to% a         # empty (point) interval
-is_proper(pt)          # TRUE
+is_proper(pt)          # TRUE because a <= a
 #> [1] TRUE
-is_collapsed(pt)       # TRUE
+is_collapsed(pt)       # TRUE because a >= a
 #> [1] TRUE
 ```
 
@@ -334,7 +337,8 @@ overlap <- period & year_2024
 overlap
 #> [1] [2024-01-01.0, 2024-07-01.0)
 
-durationy(overlap)   # exposure in calendar year 2024, in years
+overlap$duration  # exposure in calendar year 2024, in years
+#> [1] 0.497268 yr
 ```
 
 ## NA values

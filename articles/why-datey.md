@@ -64,7 +64,8 @@ identical(two_steps, one_step)
 `(a + d1) + d2 == a + (d1 + d2)` for any `datey` `a` and `durationy`s
 `d1`, `d2` – always, exactly, regardless of leap years or the order of
 operations. That’s the guarantee **datey** is built around, and the
-\[specification\]\[spec\] sets it out precisely.
+[specification](https://r-datey.logmu.org/articles/spec.md) sets it out
+precisely.
 
 ## Interval algebra for rate periods
 
