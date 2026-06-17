@@ -35,10 +35,10 @@ The benefits of using **datey** are:
     bugs arising from the imprecision of floating point
     arithmetic\[^FloatingPoint\]. This is a sufficiently common problem
     that there is a [CRAN
-    FAQ](https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
+    FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
     on the topic. And, in a mortality-specific context, Terry Therneau
     wrote [this
-    note](https://cran.r-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
+    note](https://CRAN.R-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
     on the problems floating point can cause for users his R surv
     package.[^1]
 
