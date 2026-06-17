@@ -25,10 +25,8 @@ The benefits of using **datey** are:
     that there is a [CRAN
     FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
     on the topic. And, in a mortality-specific context, Terry Therneau
-    wrote [this
-    note](https://CRAN.R-project.org/web/packages/survival/vignettes/tiedtimes.pdf)
-    on the problems floating point can cause for users his R surv
-    package.[^1]
+    added a note to his `survival` package on the problems floating
+    point can cause[^1].
 
 3.  Handling **whether a date means the start, during or end of a day**.
     This may seem trivial but systematic errors can accumulate and end
@@ -83,5 +81,7 @@ interval$duration * 0.01 # Implicit conversion to years when mixed with numerics
 A hands-on guide is provided in [Get
 started](https://r-datey.logmu.org/articles/datey.html).
 
-[^1]: That author’s preferred solution is to use day counts, which is
-    also a fixed precision approach.
+[^1]: In R, run
+    [`vignette("tiedtimes", package = "survival")`](https://cran.rstudio.com/web/packages/survival/vignettes/tiedtimes.pdf)).
+    Interestingly, that author’s preferred solution is to use day
+    counts, which is also a fixed precision approach.
