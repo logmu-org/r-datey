@@ -5,6 +5,7 @@ authors:
 template:
   bootstrap: 5
   light-switch: yes
+  math-rendering: mathjax
   bslib:
     base_font: Lisnoti
     primary: '#7E57C2'
