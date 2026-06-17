@@ -85,8 +85,8 @@ A `Date` carries no time component, so `datey(d)` is equivalent to
 datey(2024)     # start of 2024
 datey(2024.5)   # halfway through 2024
 
-datey("2024-03-07")      # start of 7 March 2024 (day fraction defaults to 0)
-datey("2024-03-07.5")    # middle of 7 March 2024
+datey("2024-03-07")   # start of 7 March 2024 (day fraction defaults to 0)
+datey("2024-03-07.5") # middle of 7 March 2024
 ```
 
 ## Properties of a `datey`
@@ -120,9 +120,9 @@ that `end_day()` produces a `datey` at the start of the following day, so it
 tests as `is_start_day()`:
 
 ```{r}
-is_start_day(start_day(2024, 3, 7))      # TRUE
-is_mid_day(mid_day(2024, 3, 7))          # TRUE
-is_start_day(end_day(2024, 3, 7))        # TRUE: end = start of next day
+is_start_day(start_day(2024, 3, 7))     # TRUE
+is_mid_day(mid_day(2024, 3, 7))         # TRUE
+is_start_day(end_day(2024, 3, 7))       # TRUE because end = start of next day
 is_mid_day(from_ymdf(2024, 3, 7, 0.25)) # FALSE
 ```
 
@@ -161,7 +161,7 @@ carried out as exact integer arithmetic on the underlying click counts, so the
 results are precise and associative.
 
 | Left | Op | Right | Result |
-|:---:|:---:|:---:|:---:|
+|:---|:---|:---|:---|
 | `datey` | `−` | `datey` | `durationy` |
 | `datey` | `+ −` | `durationy` | `datey` |
 | `durationy` | `+` | `datey` | `datey` |
@@ -174,13 +174,13 @@ start  <- start_day(2000, 1, 1)
 one_yr <- durationy(1)
 qtr_yr <- durationy(0.25)
 
-start + one_yr          # one year later
-start - qtr_yr          # three months earlier
+start + one_yr    # one year later
+start - qtr_yr    # three months earlier
 
-one_yr - qtr_yr         # three quarters of a year
+one_yr - qtr_yr   # three quarters of a year
 one_yr + qtr_yr
 
-datey(2024) < datey(2025)        # TRUE
+datey(2024) < datey(2025)       # TRUE
 durationy(1) > durationy(0.5)   # TRUE
 ```
 
@@ -192,23 +192,23 @@ A `datey_interval` is a half-open `[start, end)` interval. Create one with
 ```{r}
 a  <- start_day(2024, 1, 1)
 b  <- start_day(2025, 1, 1)
-iv <- a %to% b
-iv
+interval <- a %to% b
+interval
 ```
 
 The `$start`, `$end` and `$duration` properties extract the interval's
 components:
 
 ```{r}
-iv$start
-iv$end
-iv$duration
+interval$start
+interval$end
+interval$duration
 ```
 
 `durationy()` accepts a `datey_interval` directly:
 
 ```{r}
-durationy(iv)
+durationy(interval)
 ```
 
 ### Membership testing
@@ -217,9 +217,9 @@ durationy(iv)
 includes its start and excludes its end:
 
 ```{r}
-iv %includes% a                      # TRUE  -- start is included
-iv %includes% b                      # FALSE -- end is excluded
-iv %includes% mid_day(2024, 6, 15)  # TRUE
+interval %includes% a                     # TRUE  -- start is included
+interval %includes% b                     # FALSE -- end is excluded
+interval %includes% mid_day(2024, 6, 15)  # TRUE
 ```
 
 ### Interval properties
@@ -229,12 +229,12 @@ iv %includes% mid_day(2024, 6, 15)  # TRUE
 collapsed (it contains no time):
 
 ```{r}
-is_proper(iv)          # TRUE: start < end
-is_collapsed(iv)       # FALSE
+is_proper(interval)    # TRUE because start <= end
+is_collapsed(interval) # FALSE because start < end
 
 pt <- a %to% a         # empty (point) interval
-is_proper(pt)          # TRUE
-is_collapsed(pt)       # TRUE
+is_proper(pt)          # TRUE because a <= a
+is_collapsed(pt)       # TRUE because a >= a
 ```
 
 ### Intersection
@@ -249,7 +249,7 @@ year_2024 <- start_day(2024, 1, 1) %to% end_day(2024, 12, 31)
 overlap <- period & year_2024
 overlap
 
-durationy(overlap)   # exposure in calendar year 2024, in years
+overlap$duration  # exposure in calendar year 2024, in years
 ```
 
 ## NA values
