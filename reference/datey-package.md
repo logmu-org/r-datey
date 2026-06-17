@@ -1,11 +1,11 @@
-# datey: Date and Duration Arithmetic on an Annual Grid
+# datey: Exact Date and Duration Arithmetic on an Annual Grid
 
-A standardised mapping of dates onto an annual grid with fixed precision
-and associative date and duration-related arithmetic. This matters when
-the primary unit is years but the input data uses dates. Examples are
-actuarial mortality experience analysis or valuation of life assurance
-and annuities, for which mortality rates are defined per year but
-experience and valuation data use dates.
+Standardised mapping of dates onto a discrete annual grid, together with
+exact date and duration arithmetic. This matters when the primary unit
+is years but the input data uses dates. Examples are actuarial mortality
+experience analysis and valuation of life assurance and annuities, for
+which mortality rates are defined per year but experience and valuation
+data are typically defined using dates.
 
 ## See also
 
