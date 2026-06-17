@@ -146,3 +146,5 @@ The trade-off is deliberate: by refusing to be a general date library, **datey**
 can make a precise, associative annual grid *the* representation for
 rate-related calculations, with one well-defined answer regardless of how the
 calculation is structured.
+
+[spec]: spec.html
