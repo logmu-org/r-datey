@@ -286,7 +286,7 @@ accepts a `datey_interval` directly:
 durationy(interval)
 ```
 
-### Membership testing
+### Interval membership testing
 
 `%includes%` tests whether a `datey` falls inside the interval. The
 interval includes its start and excludes its end:
