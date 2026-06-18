@@ -2,7 +2,7 @@
 % Please edit documentation in R/datey_interval.R
 \name{all_of_time}
 \alias{all_of_time}
-\title{All valid \code{datey} calendar years, i.e. 1000 to 2999 inclusive.}
+\title{Maximum valid \code{datey_interval}}
 \usage{
 all_of_time
 }
