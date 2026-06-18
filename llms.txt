@@ -82,13 +82,12 @@ started](https://r-datey.logmu.org/articles/datey.html).
 
 [^2]: This is a sufficiently common problem that there is a [CRAN
     FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-    on the topic.
-
-    In a mortality-adjacent context, Terry Therneau added [this
+    on the topic. And, in a mortality-adjacent context, Terry Therneau
+    added [this
     note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) to
     his `survival` package on the problems floating point can cause.
-    Therneau’s preferred approach is to use integer day counts, which is
-    implicitly fixed precision.
+    Interestingly, Therneau’s preferred approach is to use integer day
+    counts, which is implicitly fixed precision.
 
 # Package index
 
