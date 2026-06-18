@@ -14,23 +14,17 @@ but experience and valuation data is usually defined using dates
 
 The benefits of using **datey** are:
 
-1.  **A consistent framework for mapping dates to annual units.** Even
-    the highly-regarded
-    [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation)
-    has had issues with inconsistencies on this point (in the same
-    model).
+1.  **Standardised mapping of dates to a uniform annual timescale.**
+    There is no unique way to map dates to an annual timescale. Without
+    standardisation, sooner or later errors will arise.[^1]
 
-2.  **Fixed precision arithmetic.** This approach excludes some common
-    bugs arising from the imprecision of floating point arithmetic. This
-    is a sufficiently common problem that there is a [CRAN
-    FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-    on the topic. And, in a mortality-specific context, Terry Therneau
-    added a vignette to his `survival` package on the problems floating
-    point can cause[^1].
+2.  **Fixed precision arithmetic.** Using fixed precision excludes
+    common bugs arising from the imprecision of floating point
+    arithmetic.[^2]
 
 3.  Handling **whether a date means the start, during or end of a day**.
-    This may seem trivial but systematic errors can accumulate and end
-    up being material.
+    This issue is usually ignore. But even though in may seem trivial,
+    systematic errors can accumulate and end up being material.
 
 For more detail on the motivation for **datey**, see [Why
 **datey**?](https://r-datey.logmu.org/articles/why-datey.html).
@@ -81,7 +75,17 @@ interval$duration * 0.01 # Converted to years when mixed with plain numbers
 A hands-on guide is provided in [Get
 started](https://r-datey.logmu.org/articles/datey.html).
 
-[^1]: In R, run
-    [`vignette("tiedtimes", package = "survival")`](https://cran.rstudio.com/web/packages/survival/vignettes/tiedtimes.pdf).
-    Interestingly, that author’s preferred approach is to use day
-    counts, which is implicitly fixed precision.
+[^1]: Even the highly-regarded
+    [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation)
+    has had issues with inconsistencies on this point within the same
+    model.
+
+[^2]: This is a sufficiently common problem that there is a [CRAN
+    FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
+    on the topic.
+
+    In a mortality-adjacent context, Terry Therneau added [this
+    note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) to
+    his `survival` package on the problems floating point can cause.
+    Therneau’s preferred approach is to use integer day counts, which is
+    implicitly fixed precision.
