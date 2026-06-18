@@ -15,7 +15,7 @@ template:
 footer:
   structure:
     left: [developed_by, typeset_in]
-    right: [pkgdown]
+    right: built_with
   components:
     typeset_in: '<br>Typeset in <a href="https://lisnoti.com/">Lisnoti</a>.'
 navbar:
