@@ -110,7 +110,7 @@ anyNA.datey_interval <- function(x, recursive = FALSE) {
   cpp_dateyIntervalAnyNA(x)
 }
 
-#' All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
+#' Maximum valid `datey_interval`
 #'
 #' @description
 #' The `datey_interval` [1000-01-01.0, 3000-01-01.0).
@@ -122,7 +122,7 @@ anyNA.datey_interval <- function(x, recursive = FALSE) {
 #'   all_of_time
 all_of_time <- NULL
 
-#' Properties of an interval.
+#' Properties of a `datey_interval`
 #'
 #' @description
 #' Test whether intervals, \eqn{[a,b)}, are 'proper' or 'collapsed':
