@@ -1,4 +1,4 @@
-# Properties of an interval.
+# Properties of a `datey_interval`
 
 Test whether intervals, \\\[a,b)\\, are 'proper' or 'collapsed':
 

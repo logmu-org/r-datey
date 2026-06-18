@@ -105,7 +105,9 @@
   [`is_collapsed()`](https://r-datey.logmu.org/reference/interval_nature.md)
   [`all_collapsed()`](https://r-datey.logmu.org/reference/interval_nature.md)
   [`any_collapsed()`](https://r-datey.logmu.org/reference/interval_nature.md)
-  : Properties of an interval.
+  :
+
+  Properties of a `datey_interval`
 
 - [`` `$`( ``*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/interval_properties.md)
   :
@@ -120,7 +122,7 @@
 
 - [`all_of_time`](https://r-datey.logmu.org/reference/all_of_time.md) :
 
-  All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
+  Maximum valid `datey_interval`
 
 ## Text parsing and printing
 

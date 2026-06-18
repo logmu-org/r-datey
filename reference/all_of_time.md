@@ -1,4 +1,4 @@
-# All valid `datey` calendar years, i.e. 1000 to 2999 inclusive.
+# Maximum valid `datey_interval`
 
 The `datey_interval` \[1000-01-01.0, 3000-01-01.0).
 
