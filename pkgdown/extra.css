@@ -39,14 +39,14 @@ code {
   font-size: 1em;
 }
 
-/* Style TOC title */
-#toc h2 {
+/* Style right hand aside titles */
+aside h2, aside .h2 {
+  font-size: 1rem;
   text-transform: uppercase;
-  font-weight: bold;
-  font-size: 81.25%;
-  letter-spacing: 12.5%;
+  margin-top: 2.5rem;
+  color: rgba(var(--bs-body-color-rgb), 0.65);
 }
 
 footer {
-  font-size: 0.85em;
+  font-size: 0.825em;
 }
