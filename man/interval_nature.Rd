@@ -17,7 +17,7 @@
 \alias{any_collapsed}
 \alias{any_collapsed.default}
 \alias{any_collapsed.datey_interval}
-\title{Properties of an interval.}
+\title{Properties of a \code{datey_interval}}
 \usage{
 is_proper(x)
 
