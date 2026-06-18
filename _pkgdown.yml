@@ -17,7 +17,7 @@ footer:
     left: [developed_by, typeset_in]
     right: [pkgdown]
   components:
-    typeset_in: 'Typeset in <a href="https://lisnoti.com/">Lisnoti</a>.'
+    typeset_in: '<br>Typeset in <a href="https://lisnoti.com/">Lisnoti</a>.'
 navbar:
   type: default
   left:
