@@ -30,7 +30,7 @@ notation](https://xkcd.com/1179/), where `YYYY` is a four-digit year,
 two-digit day of the month, 01 to 31.
 
 Banker’s rounding[^3] means round a `double` to the nearest integer
-unless the fractional part is ±0.5, in which case round it to the
+unless the fractional part is +/-0.5, in which case round it to the
 nearest even integer. In the algorithms below, it also entails
 conversion to `integer`, which is safe because, in all cases, the
 algorithms guarantee that the value to convert lies within the range of
@@ -110,11 +110,11 @@ Worked examples:
 | `datey`     |       3000        | 1 603 080 000 | 3000 × 534 360    |
 | `datey`     |      3000.01      |       Invalid |                   |
 | `durationy` |        +1         |      +534 360 |                   |
-| `durationy` |       −2.75       |    −1 469 490 | −2.75 × 534 360   |
-| `durationy` |  ±0.5 / 534 360   |             0 | round(±0.5)       |
+| `durationy` |       -2.75       |    -1 469 490 | -2.75 × 534 360   |
+| `durationy` | +/-0.5 / 534 360  |             0 | round(±0.5)       |
 | `durationy` |  +1.5 / 534 360   |            +2 | round(+1.5)       |
-| `durationy` |  −1.5 / 534 360   |            −2 | round(−1.5)       |
-| `durationy` |     ±2000.01      |       Invalid |                   |
+| `durationy` |  -1.5 / 534 360   |            -2 | round(-1.5)       |
+| `durationy` |    +/-2000.01     |       Invalid |                   |
 
 ### Mapping a date to a `datey`
 
@@ -153,8 +153,8 @@ The mapping as a function of `integer` *year*, *month* and *day*, and
     from the start of the year to the start of *month*, allowing for
     whether *year* is a leap year.
 
-5.  Define the `integer` *day_count* as *days_to_start_of_month* + *day*
-    − 1.
+5.  Define the `integer` *day_count* as *days_to_start_of_month* +
+    *day* - 1.
 
 6.  Define the `integer` *fraction_clicks* as *day_fraction* ×
     *clicks_per_day* rounded to `integer` using banker’s rounding.
@@ -198,7 +198,7 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and
 2.  *year* is *clicks* div 534 360, where div means `integer` division
     rounded down to the nearest integer.
 
-3.  Define *clicks_remaining* as *clicks* − *year* × 534 360.
+3.  Define *clicks_remaining* as *clicks* - *year* × 534 360.
 
 4.  Define *clicks_per_day* as 1460 if *year* is a leap year and 1464
     otherwise.
@@ -209,7 +209,7 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and
 
 6.  Use *day_in_year* to determine *month* and *day*.
 
-7.  Define *day_fraction_clicks* as *clicks_remaining* − *day_in_year* ×
+7.  Define *day_fraction_clicks* as *clicks_remaining* - *day_in_year* ×
     *clicks_per_day*.
 
 8.  *day_fraction* is *day_fraction_clicks* / *clicks_per_day* using
@@ -226,17 +226,17 @@ complement arithmetic.
 | Operation | Left | Operators | Right | Result type |
 |:---|:--:|:--:|:--:|:---|
 | Order relation for dates | `datey` | = ≠ \< \> ≤ ≥ | `datey` | Boolean |
-| Date subtraction | `datey` | − | `datey` | `durationy` |
-| Date offset by a duration | `datey` | \+ − | `durationy` | `datey` |
+| Date subtraction | `datey` | \- | `datey` | `durationy` |
+| Date offset by a duration | `datey` | \+ - | `durationy` | `datey` |
 | Date offset by a duration | `durationy` | `+` | `datey` | `datey` |
 | Order relation for durations | `durationy` | = ≠ \< \> ≤ ≥ | `durationy` | Boolean |
-| Duration addition and subtraction | `durationy` | \+ − | `durationy` | `durationy` |
+| Duration addition and subtraction | `durationy` | \+ - | `durationy` | `durationy` |
 
-The unary plus (+) and minus (negation or −) operators are defined for a
+The unary plus (+) and minus (negation or -) operators are defined for a
 `durationy`:
 
 - The + operator returns its argument unchanged.
-- The − operator changes the sign of the clicks.
+- The - operator changes the sign of the clicks.
 
 It is *not* required or expected that the above operations will be
 checked for `integer` overflow in *intermediate* calculations on the
@@ -316,7 +316,7 @@ A valid `durationy` is represented in text in the format
 `[S]...Y[.F...][ U...]` where
 
 - `[S]` is an optional plus or a minus sign, i.e. one of ‘+’ (U+002B),
-  true minus ‘−’ (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).
+  true minus ‘-’ (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).
 - `...Y` is number of whole years (leading zeros allowed).
 - `[.F...]` is an optional fractional part of year, including ‘.’ to
   represent the decimal point.
@@ -328,7 +328,7 @@ For text *outputs*:
 
 - It is optional whether ‘+’ (U+002B) plus sign is included for positive
   durations. (Default is omit ‘+’).
-- It is optional whether to use the true minus sign ‘−’ (U+2212) or the
+- It is optional whether to use the true minus sign ‘-’ (U+2212) or the
   ASCII ‘-’ (U+002D) hyphen-minus character. (Default is use true minus
   sign.)
 - The fraction contains no more than 6 decimal places (because this is
@@ -370,5 +370,5 @@ For text *inputs*:
     extended *backwards* from its introduction in 1582 in accordance
     with the same rules that it is projected.
 
-[^5]: This means that both 0 (the default in many languages) and −2³¹
+[^5]: This means that both 0 (the default in many languages) and -2³¹
     (used by R to indicate missing data or `NA`) are invalid `datey`s.

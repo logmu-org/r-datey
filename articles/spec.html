@@ -93,7 +93,7 @@
 <p><code>double</code> means IEEE 754 binary64, i.e. 64-bit binary floating-point.</p>
 <p><code>integer</code> means 32 bit two’s complement signed integer.</p>
 <p>Literal dates in this specification are written using <a href="https://xkcd.com/1179/" class="external-link"><code>YYYY-MM-DD</code> notation</a>, where <code>YYYY</code> is a four-digit year, <code>MM</code> is a two-digit month of the year, 01 to 12, and <code>DD</code> is the two-digit day of the month, 01 to 31.</p>
-<p>Banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding is also known as ‘round to nearest, ties to even’ or ‘round half to even’. It is the default rounding mode for IEEE 754 binary floating-point.&lt;/p&gt;"><sup>3</sup></a> means round a <code>double</code> to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to <code>integer</code>, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of <code>integer</code>.</p>
+<p>Banker’s rounding<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Banker’s rounding is also known as ‘round to nearest, ties to even’ or ‘round half to even’. It is the default rounding mode for IEEE 754 binary floating-point.&lt;/p&gt;"><sup>3</sup></a> means round a <code>double</code> to the nearest integer unless the fractional part is +/-0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to <code>integer</code>, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of <code>integer</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="the-fixed-precision-annual-grid">The fixed precision annual grid<a class="anchor" aria-label="anchor" href="#the-fixed-precision-annual-grid"></a>
@@ -119,7 +119,7 @@
 <h3 id="dates">Dates<a class="anchor" aria-label="anchor" href="#dates"></a>
 </h3>
 <p>Dates are mapped to <code>datey</code>s as the number of clicks since the start of the notional year 0000 on the proleptic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;The proleptic Gregorian calendar is the Gregorian calendar extended &lt;em&gt;backwards&lt;/em&gt; from its introduction in 1582 in accordance with the same rules that it is projected.&lt;/p&gt;"><sup>4</sup></a> Gregorian calendar.</p>
-<p>A <code>datey</code> that would otherwise represent a date before calendar year 1000 or after the start of calendar year 3000 should be treated as invalid<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This means that both 0 (the default in many languages) and −2&lt;sup&gt;31&lt;/sup&gt; (used by R to indicate missing data or &lt;code&gt;NA&lt;/code&gt;) are invalid &lt;code&gt;datey&lt;/code&gt;s.&lt;/p&gt;"><sup>5</sup></a> when mapping dates to or from a <code>datey</code>.</p>
+<p>A <code>datey</code> that would otherwise represent a date before calendar year 1000 or after the start of calendar year 3000 should be treated as invalid<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This means that both 0 (the default in many languages) and -2&lt;sup&gt;31&lt;/sup&gt; (used by R to indicate missing data or &lt;code&gt;NA&lt;/code&gt;) are invalid &lt;code&gt;datey&lt;/code&gt;s.&lt;/p&gt;"><sup>5</sup></a> when mapping dates to or from a <code>datey</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="durations">Durations<a class="anchor" aria-label="anchor" href="#durations"></a>
@@ -190,13 +190,13 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>durationy</code></td>
-<td align="center">−2.75</td>
-<td align="right">−1 469 490</td>
-<td align="left">−2.75 × 534 360</td>
+<td align="center">-2.75</td>
+<td align="right">-1 469 490</td>
+<td align="left">-2.75 × 534 360</td>
 </tr>
 <tr class="even">
 <td align="left"><code>durationy</code></td>
-<td align="center">±0.5 / 534 360</td>
+<td align="center">+/-0.5 / 534 360</td>
 <td align="right">0</td>
 <td align="left">round(±0.5)</td>
 </tr>
@@ -208,13 +208,13 @@
 </tr>
 <tr class="even">
 <td align="left"><code>durationy</code></td>
-<td align="center">−1.5 / 534 360</td>
-<td align="right">−2</td>
-<td align="left">round(−1.5)</td>
+<td align="center">-1.5 / 534 360</td>
+<td align="right">-2</td>
+<td align="left">round(-1.5)</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>durationy</code></td>
-<td align="center">±2000.01</td>
+<td align="center">+/-2000.01</td>
 <td align="right">Invalid</td>
 <td align="left"></td>
 </tr>
@@ -246,7 +246,7 @@
 <li><p>Determine whether <em>year</em> is a leap year using the proleptic Gregorian calendar.</p></li>
 <li><p>Define <em>clicks_per_day</em> as 1460 if <em>year</em> is a leap year and 1464 otherwise.</p></li>
 <li><p>Define the <code>integer</code> <em>days_to_start_of_month</em> as the number of days from the start of the year to the start of <em>month</em>, allowing for whether <em>year</em> is a leap year.</p></li>
-<li><p>Define the <code>integer</code> <em>day_count</em> as <em>days_to_start_of_month</em> + <em>day</em> − 1.</p></li>
+<li><p>Define the <code>integer</code> <em>day_count</em> as <em>days_to_start_of_month</em> + <em>day</em> - 1.</p></li>
 <li><p>Define the <code>integer</code> <em>fraction_clicks</em> as <em>day_fraction</em> × <em>clicks_per_day</em> rounded to <code>integer</code> using banker’s rounding.</p></li>
 <li>
 <p>The resulting number of clicks is defined as the <code>integer</code> calculation</p>
@@ -296,11 +296,11 @@
 <ol style="list-style-type: decimal">
 <li><p>If <em>clicks</em> &lt; 1000 × 534 360 or <em>clicks</em> ≥ 3000 × 534 360 then the <code>datey</code> is invalid and therefore the result is also invalid.</p></li>
 <li><p><em>year</em> is <em>clicks</em> div 534 360, where div means <code>integer</code> division rounded down to the nearest integer.</p></li>
-<li><p>Define <em>clicks_remaining</em> as <em>clicks</em> − <em>year</em> × 534 360.</p></li>
+<li><p>Define <em>clicks_remaining</em> as <em>clicks</em> - <em>year</em> × 534 360.</p></li>
 <li><p>Define <em>clicks_per_day</em> as 1460 if <em>year</em> is a leap year and 1464 otherwise.</p></li>
 <li><p>Define the <em>day_in_year</em> as <em>clicks_remaining</em> div <em>clicks_per_day</em>, where div means <code>integer</code> division rounded down to the nearest integer.</p></li>
 <li><p>Use <em>day_in_year</em> to determine <em>month</em> and <em>day</em>.</p></li>
-<li><p>Define <em>day_fraction_clicks</em> as <em>clicks_remaining</em> − <em>day_in_year</em> × <em>clicks_per_day</em>.</p></li>
+<li><p>Define <em>day_fraction_clicks</em> as <em>clicks_remaining</em> - <em>day_in_year</em> × <em>clicks_per_day</em>.</p></li>
 <li><p><em>day_fraction</em> is <em>day_fraction_clicks</em> / <em>clicks_per_day</em> using <code>double</code> division.</p></li>
 </ol>
 </div>
@@ -331,14 +331,14 @@
 <tr class="even">
 <td align="left">Date subtraction</td>
 <td align="center"><code>datey</code></td>
-<td align="center">−</td>
+<td align="center">-</td>
 <td align="center"><code>datey</code></td>
 <td align="left"><code>durationy</code></td>
 </tr>
 <tr class="odd">
 <td align="left">Date offset by a duration</td>
 <td align="center"><code>datey</code></td>
-<td align="center">+ −</td>
+<td align="center">+ -</td>
 <td align="center"><code>durationy</code></td>
 <td align="left"><code>datey</code></td>
 </tr>
@@ -359,16 +359,16 @@
 <tr class="even">
 <td align="left">Duration addition and subtraction</td>
 <td align="center"><code>durationy</code></td>
-<td align="center">+ −</td>
+<td align="center">+ -</td>
 <td align="center"><code>durationy</code></td>
 <td align="left"><code>durationy</code></td>
 </tr>
 </tbody>
 </table>
-<p>The unary plus (+) and minus (negation or −) operators are defined for a <code>durationy</code>:</p>
+<p>The unary plus (+) and minus (negation or -) operators are defined for a <code>durationy</code>:</p>
 <ul>
 <li>The + operator returns its argument unchanged.</li>
-<li>The − operator changes the sign of the clicks.</li>
+<li>The - operator changes the sign of the clicks.</li>
 </ul>
 <p>It is <em>not</em> required or expected that the above operations will be checked for <code>integer</code> overflow in <em>intermediate</em> calculations on the basis that</p>
 <ul>
@@ -396,13 +396,13 @@
 <tr class="odd">
 <td align="left">
 <code>datey</code> and numeric</td>
-<td align="center">+ −</td>
+<td align="center">+ -</td>
 <td align="left"><code>double</code></td>
 </tr>
 <tr class="even">
 <td align="left">
 <code>durationy</code> and numeric</td>
-<td align="center">+ − × ÷</td>
+<td align="center">+ - × ÷</td>
 <td align="left"><code>double</code></td>
 </tr>
 <tr class="odd">
@@ -455,7 +455,7 @@
 <p>A valid <code>durationy</code> is represented in text in the format <code>[S]...Y[.F...][ U...]</code> where</p>
 <ul>
 <li>
-<code>[S]</code> is an optional plus or a minus sign, i.e. one of ‘+’ (U+002B), true minus ‘−’ (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).</li>
+<code>[S]</code> is an optional plus or a minus sign, i.e. one of ‘+’ (U+002B), true minus ‘-’ (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).</li>
 <li>
 <code>...Y</code> is number of whole years (leading zeros allowed).</li>
 <li>
@@ -466,7 +466,7 @@
 <p>For text <em>outputs</em>:</p>
 <ul>
 <li>It is optional whether ‘+’ (U+002B) plus sign is included for positive durations. (Default is omit ‘+’).</li>
-<li>It is optional whether to use the true minus sign ‘−’ (U+2212) or the ASCII ‘-’ (U+002D) hyphen-minus character. (Default is use true minus sign.)</li>
+<li>It is optional whether to use the true minus sign ‘-’ (U+2212) or the ASCII ‘-’ (U+002D) hyphen-minus character. (Default is use true minus sign.)</li>
 <li>The fraction contains no more than 6 decimal places (because this is sufficient to distinguish all possible duration fractions at <strong>datey</strong> precision).</li>
 <li>The preferred (but not required) behaviour is for trailing zeros to be omitted and, when the fraction is zero, for there to be no decimal point or fraction.</li>
 <li>The unit name is user-specifiable. (Default is ‘yr’.)</li>

@@ -16,7 +16,7 @@
 - `character`. Valid text is of the form `[S]...Y[.F...][ U...]` where:
 
   - `[S]` is an optional plus or a minus sign, i.e. one of '+' (U+002B),
-    true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
+    true minus (U+2212) or ASCII hyphen-minus '-' (U+002D).
 
   - `...Y` is number of whole years (leading zeros allowed).
 
