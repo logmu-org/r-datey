@@ -62,7 +62,7 @@ When \code{x} is a \code{datey_interval} then \code{x$duration} is identical to
 (\code{strict} is ignored.)
 \item \code{character}. Valid text is of the form \verb{[S]...Y[.F...][ U...]} where:
 \itemize{
-\item \verb{[S]} is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
+\item \verb{[S]} is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus (U+2212) or ASCII hyphen-minus '-' (U+002D).
 \item \code{...Y} is number of whole years (leading zeros allowed).
 \item \verb{[.F...]} is an optional fractional part of year, including '.' to represent the decimal point.
 \item \verb{[ U...]} is the unit name for one year preceded by a space if the unit name is not blank. The unit name cannot be longer than 20 UTF-8 bytes or contain control characters.

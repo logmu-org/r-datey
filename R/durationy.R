@@ -57,7 +57,7 @@ is_durationy <- function(x) typeof(x) == "integer" && isa(x, c("durationy", "dat
 #'   (`strict` is ignored.)
 #' - `character`. Valid text is of the form `[S]...Y[.F...][ U...]` where:
 #'
-#'   - `[S]` is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
+#'   - `[S]` is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus (U+2212) or ASCII hyphen-minus '-' (U+002D).
 #'   - `...Y` is number of whole years (leading zeros allowed).
 #'   - `[.F...]` is an optional fractional part of year, including '.' to represent the decimal point.
 #'   - `[ U...]` is the unit name for one year preceded by a space if the unit name is not blank. The unit name cannot be longer than 20 UTF-8 bytes or contain control characters.
