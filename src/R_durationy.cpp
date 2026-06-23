@@ -46,7 +46,7 @@ std::string GetValidatedYearUnit(strings yearUnit)
   std::string s_yearUnit = (std::string)yearUnit[0] ;
   if (s_yearUnit.size() > MaxYearUnitLength)
   {
-    stop("Year unit text cannot be more than 20 characters.");
+    stop("`year_unit` cannot exceed 20 UTF-8 bytes.");
   }
 
   // Checking for Unicode control chars is hard. But we can check for ASCII ones
@@ -55,7 +55,7 @@ std::string GetValidatedYearUnit(strings yearUnit)
   {
     if (c < 0x20 || c == 0x7F)
     {
-      stop("Year unit text contains control characters.");
+      stop("`year_unit` cannot contain control characters.");
     }
   }
 

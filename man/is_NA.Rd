@@ -8,7 +8,8 @@
 \alias{anyNA.datey_interval}
 \alias{is.na.durationy}
 \alias{anyNA.durationy}
-\title{Whether \code{datey} or \code{durationy} are NA}
+\title{Whether \code{datey}, \code{durationy} or
+\code{datey_interval} are NA}
 \usage{
 \method{is.na}{datey}(x)
 
@@ -23,7 +24,7 @@
 \method{anyNA}{durationy}(x, recursive = FALSE)
 }
 \arguments{
-\item{x}{The \code{datey} or \code{durationy} to test for NA.}
+\item{x}{The \code{datey}, \code{durationy} or \code{datey_interval} to test for NA.}
 
 \item{recursive}{Currently required to be \code{FALSE} (the default).}
 }
@@ -41,19 +42,29 @@ Valid datey system ranges:
 
 Values outside the above ranges are treated as NA.
 
-\code{is.na()} tests whether a \code{datey} or \code{durationy} is NA by element.
+\code{is.na()} tests whether a \code{datey}, \code{durationy} or
+\code{datey_interval} is NA by element.
 
-\code{anyNA()} tests whether any element of a \code{datey} or \code{durationy} is NA.
+\code{anyNA()} tests whether any element of a \code{datey}, \code{durationy} or
+\code{datey_interval} is NA.
 
 For convenience,
 \itemize{
-\item the constants \link{NA_datey_} and \link{NA_durationy_} are the \code{datey} and \code{durationy}
+\item the constants \link{NA_datey_}, \link{NA_durationy_} and \link{NA_datey_interval_}
+are the \code{datey}, \code{durationy} and \code{datey_interval}
 versions of NA respectively, and
 \item \link[=integer_constants]{integer constants} describing the above valid ranges
 are also provided.
 }
 
-For performance reasons, intermediate calculations may not check for NAs.
+For performance reasons, intermediate \strong{datey} system
+calculations are \emph{not} required to check for NAs.
+
+Throughout the \strong{datey} package, \code{NA} will cause an error when used where
+a \code{datey_}, \code{durationy_} or \code{datey_interval_} is expected.
+This is because its type is \code{logical} and potentially indicates user
+error. If you want an NA value with a \strong{datey} system type, use one of \code{NA_datey_}, \code{NA_durationy_}
+or \code{NA_datey_interval_}.
 }
 \examples{
   t <- c(NA_datey_, datey(2000), datey(999.99, strict = FALSE))
@@ -63,8 +74,13 @@ For performance reasons, intermediate calculations may not check for NAs.
   d <- c(NA_durationy_, durationy(1.5))
   is.na(d)
   anyNA(d)
+
+  i <- c(NA_datey_interval_, 2000 \%to\% 2001)
+  is.na(i)
+  anyNA(i)
 }
 \seealso{
-\link{NA_datey_}, \link{NA_durationy_}, \link{integer_constants}
+\link{NA_datey_}, \link{NA_durationy_}, \link{NA_datey_interval_}, \link{integer_constants},
+\link{datey}, \link{durationy}, \link{datey_interval}
 }
 \keyword{NA}

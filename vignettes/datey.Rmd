@@ -23,7 +23,7 @@ motivation behind the annual-grid approach and the associativity guarantee,
 see [Why **datey**?][why-datey]. For the complete formal specification, see the
 [**datey** specification][spec].
 
-## The three types
+## The core types
 
 **datey** provides three S3 classes:
 
@@ -31,15 +31,35 @@ see [Why **datey**?][why-datey]. For the complete formal specification, see the
 - **`durationy`** -- a duration in years.
 - **`datey_interval`** -- a half-open `[start, end)` time interval.
 
-All values are stored as exact integers (in units of 1/534&#8201;360 of a
-year), so arithmetic is both exact and associative.
+These are atomic types[^datey-interval-is-atomic] that store dates and durations as 
+integers with units of 1/534&#8201;360 of a
+year). As a result, arithmetic with these types is exact and associative.
+
+[^datey-interval-is-atomic]: Even though `datey_interval` stores the start and the end of
+a time interval, it too is atomic, which means that `datey_interval`s can be
+stored in a single vector without any additional special handling.
 
 ## Creating a `datey`
 
+### When in the day?
+
+Exposure periods specified by the dates \eqn{a} to \eqn{b} typically mean that
+the whole of the day \eqn{a} and the whole of the day \eqn{b} are included.
+In the **datey** system this corresponds to using 
+`start_day()` for \eqn{a} and
+`end_day()` for \eqn{b}.
+
+Deaths on the other hand typically happen *during* a day.
+In the **datey** system this corresponds to using 
+`mid_day()`.
+
+These distinctions may be new to you and your first reaction may be that they
+are immaterial. But it costs very little to be precise and sometimes
+systematic errors can accumulate and end up being material.
+
 ### From year, month and day
 
-`start_day()`, `mid_day()` and `end_day()` position a `datey` at the start,
-middle or end of a calendar day:
+`start_day()`, `mid_day()` and `end_day()` create a `datey` from scratch:
 
 ```{r}
 start_day(2024, 3, 7)   # start of 7 March 2024
@@ -55,27 +75,32 @@ following day:
 identical(end_day(2024, 3, 7), start_day(2024, 3, 8))
 ```
 
-For an arbitrary position within a day, `from_ymdf()` accepts a day fraction
+For an arbitrary position within a day, `datey()` accepts a day fraction
 between 0 and 1:
 
 ```{r}
-from_ymdf(2024, 3, 7, 0.25)   # one quarter of the way through 7 March 2024
+datey(2024, 3, 7, 0.25)   # one quarter of the way through 7 March 2024
 ```
 
 ### From base R dates
 
-`as_start_day()`, `as_mid_day()` and `as_end_day()` convert `Date`,
-`POSIXct` or `POSIXlt` values, fixing the day fraction:
+It is often the case that data already contains dates defined using the
+standard base R types `Date`[^fractional-dates], `POSIXct` or `POSIXlt`.
+
+To convert these to a `datey`, use `start_day()`, `mid_day()` or `end_day()`:
 
 ```{r}
 d <- as.Date("2024-03-07")
-as_start_day(d)
-as_mid_day(d)
-as_end_day(d)
+start_day(d)
+mid_day(d)
+end_day(d)
 ```
 
-A `Date` carries no time component, so `datey(d)` is equivalent to
-`as_start_day(d)`.
+[^fractional-dates]: Even though the `Date` type is not designed for
+fractional dates, it typically uses floating point under the covers,
+and can unintentionally end up with a fractional value
+e.g. by taking a mean of `Date`s. For this reason, 
+a `day_fraction` argument is always required for a `Date`.
 
 ### From fractional years or text
 
@@ -102,7 +127,8 @@ t$day
 t$day_fraction
 ```
 
-When several components are needed at once, `to_ymdf()` is more efficient:
+If you need several components at once, it is more efficient to use 
+`to_ymdf()` instead:
 
 ```{r}
 to_ymdf(t)
@@ -124,12 +150,22 @@ tests as `is_start_day()`:
 is_start_day(start_day(2024, 3, 7))     # TRUE
 is_mid_day(mid_day(2024, 3, 7))         # TRUE
 is_start_day(end_day(2024, 3, 7))       # TRUE because end = start of next day
-is_mid_day(from_ymdf(2024, 3, 7, 0.25)) # FALSE
+is_mid_day(datey(2024, 3, 7, 0.25)) # FALSE
 ```
 
 ## Creating a `durationy`
 
-`durationy()` accepts a number of years:
+`durationy`s typically arise as `datey` differences:
+
+```{r}
+dob <- start_day(as.Date("1965-09-12"))
+dod <- mid_day(2024, 3, 7)
+age <- dod - dob
+age
+```
+
+You can create them explicitly using `durationy()`, which accepts a number of
+years:
 
 ```{r}
 durationy(1)      # one year
@@ -137,17 +173,9 @@ durationy(0.5)    # half a year
 durationy(-2.5)   # two and a half years in the past
 ```
 
-The most natural way to obtain a `durationy` is to subtract two `datey`
-values:
-
-```{r}
-dob <- as_start_day(as.Date("1965-09-12"))
-dod <- mid_day(2024, 3, 7)
-age <- dod - dob
-age
-```
-
-`as.double()` gives the duration as years; `as.integer()` truncates toward
+And you can convert them back to numerics using
+`as.double()`, which gives the duration as years, and
+`as.integer()`, which truncates toward
 zero:
 
 ```{r}
@@ -155,11 +183,17 @@ as.double(age)
 as.integer(age)   # whole years only
 ```
 
-## Arithmetic
+## Comparisons and arithmetic
 
-The table below summarises the typed arithmetic operations. All arithmetic is
-carried out as exact integer arithmetic on the underlying click counts, so the
-results are exact and associative.
+A number of arithmetic operations are available for `datey`, `durationy` and
+`datey_interval`.
+
+Beware that not all combinations are valid because, for instance,
+it doesn't make sense to add two dates together.
+
+The table below summarises the valid arithmetic and comparison operations.
+All arithmetic is carried out as exact integer arithmetic on the underlying
+click counts, so the results are exact and associative.
 
 | Left | Op | Right | Result |
 |:---|:---|:---|:---|
@@ -167,8 +201,12 @@ results are exact and associative.
 | `datey` | `+ -` | `durationy` | `datey` |
 | `durationy` | `+` | `datey` | `datey` |
 | `durationy` | `+ -` | `durationy` | `durationy` |
-| `datey` | `== != < <= > >=` | `datey` | logical |
-| `durationy` | `== != < <= > >=` | `durationy` | logical |
+| `datey` | `== != < <= > >=` | `datey` | `logical` |
+| `durationy` | `== != < <= > >=` | `durationy` | `logical` |
+| `datey` | `%to%` | `datey` | `datey_interval` |
+| `datey_interval` | `== !=` | `datey_interval` | `logical` |
+| `datey_interval` | `%includes%` | `datey` | `logical` |
+| `datey_interval` | `&` | `datey_interval` | `datey_interval` |
 
 ```{r}
 start  <- start_day(2000, 1, 1)
@@ -181,8 +219,16 @@ start - qtr_yr    # a quarter of a year earlier
 one_yr - qtr_yr   # three quarters of a year
 one_yr + qtr_yr
 
-datey(2024) < datey(2025)       # TRUE
-durationy(1) > durationy(0.5)   # TRUE
+datey(2024) < datey(2025)     # TRUE
+durationy(1) > durationy(0.5) # TRUE
+```
+
+You can also do mixed arithmetic with `datey` and `durationy` and numbers,
+in which case `datey`s and `durationy`s are first converted to `double`s:
+
+```{r}
+identical(datey(2000) + 25, 2025)     # TRUE
+identical(durationy(2) * 0.05, 0.10)  # TRUE
 ```
 
 ## `datey_interval` -- representing a time period
@@ -255,13 +301,13 @@ overlap$duration  # exposure in calendar year 2024, in years
 
 ## NA values
 
-Each type has a dedicated NA constant:
+Throughout the **datey** package, `NA` will cause an error when used where
+a `datey_`, `durationy_` or `datey_interval_` is expected.
+This is because its type is `logical` and potentially indicates user
+error.
 
-```{r}
-NA_datey_
-NA_durationy_
-NA_datey_interval_
-```
+If you want an NA value with a **datey** system type, use `NA_datey_`, `NA_durationy_`
+or `NA_datey_interval_` as appropriate.
 
 `is.na()` and `anyNA()` work as expected:
 

@@ -20,7 +20,7 @@ A scalar \code{datey} or \code{durationy}.}
 \item{by}{The increment of the sequence.
 A scalar \code{durationy}.}
 
-\item{...}{Other arguments (not used in this package).}
+\item{...}{Not used.}
 }
 \value{
 The sequence as a vector of \code{datey} (for \code{seq.datey}) or
@@ -32,5 +32,8 @@ Creates a \code{datey} or \code{durationy} vector by defining a sequence.
 \examples{
   seq(from = datey(2000), to = datey(2005), by = durationy(2))
   seq(from = datey(2000), to = datey(1999), by = durationy(-0.25))
+}
+\seealso{
+\link{datey}, \link{durationy}
 }
 \keyword{sequence}

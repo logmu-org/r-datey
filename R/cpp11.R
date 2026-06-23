@@ -44,10 +44,6 @@ cpp_dateyWithNewDayFraction <- function(clicks, dayFraction, strict) {
   .Call(`_datey_cpp_dateyWithNewDayFraction`, clicks, dayFraction, strict)
 }
 
-cpp_dateyFromRDate <- function(rDate, strict) {
-  .Call(`_datey_cpp_dateyFromRDate`, rDate, strict)
-}
-
 cpp_dateyFromRDateAndFraction <- function(rDate, dayFraction, strict) {
   .Call(`_datey_cpp_dateyFromRDateAndFraction`, rDate, dayFraction, strict)
 }
@@ -64,8 +60,12 @@ cpp_dateyFromRStringAndDayFraction <- function(x, dayFraction, strict, blankIsNA
   .Call(`_datey_cpp_dateyFromRStringAndDayFraction`, x, dayFraction, strict, blankIsNA)
 }
 
-cpp_dateyInterval <- function(start, end, strict) {
-  .Call(`_datey_cpp_dateyInterval`, start, end, strict)
+cpp_dateyInterval <- function(start, end) {
+  .Call(`_datey_cpp_dateyInterval`, start, end)
+}
+
+cpp_dateyIntervalFromLogical <- function(x) {
+  .Call(`_datey_cpp_dateyIntervalFromLogical`, x)
 }
 
 cpp_dateyIntervalStart <- function(interval) {

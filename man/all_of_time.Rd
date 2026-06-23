@@ -2,16 +2,21 @@
 % Please edit documentation in R/datey_interval.R
 \name{all_of_time}
 \alias{all_of_time}
-\title{Maximum valid \code{datey_interval}}
+\title{'All of time' — the maximum valid \code{datey_interval}}
 \usage{
 all_of_time
 }
 \description{
-The \code{datey_interval} [1000-01-01.0, 3000-01-01.0).
+\code{all_of_time} is the \code{datey_interval} [1000-01-01.0, 3000-01-01.0),
+spanning the full valid date range. It is referred to as 'all of time'
+throughout the \strong{datey} documentation.
 
-This is the value used when a \code{datey_interval} is combined with a logical
-using the \code{&} operator.
+It is the value produced by \code{datey_interval(TRUE)} and is used
+when a \code{datey_interval} is intersected with a logical \code{TRUE} via \code{&}.
 }
 \examples{
   all_of_time
+}
+\seealso{
+\link{datey_interval}, \link{ops}
 }

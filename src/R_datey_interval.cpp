@@ -9,7 +9,7 @@
 using namespace cpp11;
 
 [[cpp11::register]]
-doubles cpp_dateyInterval(integers start, integers end, bool strict)
+doubles cpp_dateyInterval(integers start, integers end)
 {
   R_xlen_t n_start = start.size();
   R_xlen_t n_end = end.size();
@@ -21,7 +21,7 @@ doubles cpp_dateyInterval(integers start, integers end, bool strict)
 
     for(R_xlen_t i = 0; i < n_start; ++i)
     {
-      result[i] = dateyInterval(start[i], end[i], strict);
+      result[i] = dateyInterval(start[i], end[i]);
     }
 
     return result;
@@ -49,7 +49,7 @@ doubles cpp_dateyInterval(integers start, integers end, bool strict)
 
     for(R_xlen_t i = 0; i < n; ++i)
     {
-      result[i] = dateyInterval(start[i_start], end[i_end], strict);
+      result[i] = dateyInterval(start[i_start], end[i_end]);
 
       if (++i_start >= n_start) { i_start = 0;}
       if (++i_end >= n_end) { i_end = 0;}
@@ -58,6 +58,27 @@ doubles cpp_dateyInterval(integers start, integers end, bool strict)
     return result;
   }
 }
+
+
+[[cpp11::register]]
+doubles cpp_dateyIntervalFromLogical(logicals x)
+{
+  R_xlen_t n = x.size();
+
+  writable::doubles result(n);
+
+  auto all_of_time = getDoubleFromStartEnd(ValidDateStartClicks, ValidDateEndClicks);
+  auto NA_datey_interval = getDoubleFromStartEnd(NA_INTEGER, NA_INTEGER);
+
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    result[i] = x[i] == TRUE ? all_of_time : NA_datey_interval;
+  }
+
+  return result;
+}
+
 
 [[cpp11::register]]
 integers cpp_dateyIntervalStart(doubles interval)
@@ -99,7 +120,7 @@ integers cpp_dateyIntervalDuration(doubles interval)
     auto startend = getStartEndFromDouble(interval[i]);
     int start = std::get<0>(startend);
     int end = std::get<1>(startend);
-    int duration = isValidDatey(start) && isValidDatey(end)
+    int duration = isValidDatey(start) && isValidDatey(end) && start <= end
       ? end - start
       : NA_INTEGER;
     result[i] = duration;
@@ -159,8 +180,6 @@ bool cpp_dateyIntervalAllProper(doubles interval)
 {
   R_xlen_t n = interval.size();
 
-  writable::logicals result(n);
-
   for(R_xlen_t i = 0; i < n; ++i)
   {
     bool isProper = isProperDateyInterval(interval[i]);
@@ -189,8 +208,6 @@ bool cpp_dateyIntervalAllCollapsed(doubles interval)
 {
   R_xlen_t n = interval.size();
 
-  writable::logicals result(n);
-
   for(R_xlen_t i = 0; i < n; ++i)
   {
     bool isCollapsed = isCollapsedDateyInterval(interval[i]);
@@ -203,8 +220,6 @@ bool cpp_dateyIntervalAllCollapsed(doubles interval)
 bool cpp_dateyIntervalAnyCollapsed(doubles interval)
 {
   R_xlen_t n = interval.size();
-
-  writable::logicals result(n);
 
   for(R_xlen_t i = 0; i < n; ++i)
   {
@@ -288,5 +303,3 @@ strings cpp_dateyIntervalToRString(doubles interval, bool includeDayFraction)
 
   return result;
 }
-
-

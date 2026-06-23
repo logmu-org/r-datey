@@ -4,7 +4,7 @@
 //
 // Copyright (c) Tim Gordon
 
-#include <math.h>
+#include <cmath>
 #include "datey.h"
 
 double roundBankers(double x)
@@ -31,7 +31,7 @@ bool tryConvertToSafeInteger(double x, int& int_x)
   else
   {
     double rounded = std::trunc(x);
-    if(!(abs(x) <= INT_MAX && x == rounded))
+    if(!(std::abs(x) <= INT_MAX && x == rounded))
     {
       return false;
     }

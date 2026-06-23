@@ -2,26 +2,35 @@
 % Please edit documentation in R/summary.R
 \name{max_min}
 \alias{max_min}
+\alias{Summary.datey_interval}
 \alias{Summary.datey}
 \alias{Summary.durationy}
 \title{Minimum, maximum or range of \code{datey} or \code{durationy}}
 \usage{
+\method{Summary}{datey_interval}(..., na.rm = FALSE)
+
 \method{Summary}{datey}(..., na.rm = FALSE)
 
 \method{Summary}{durationy}(..., na.rm = FALSE)
 }
 \arguments{
-\item{...}{The \code{datey} or \code{durationy} arguments.}
+\item{...}{One or more \code{datey} or \code{durationy} vectors. All must be the same type.}
 
 \item{na.rm}{A logical (\code{TRUE} or \code{FALSE}) indicating whether NA values should be removed before the computation.}
 }
 \value{
-\code{min} and \code{max} return a \code{datey} scalar.
-\code{range} returns a two element \code{datey} vector,
+\code{min} and \code{max} return a scalar.
+\code{range} returns a two element vector,
 the first element being the minimum and the second the maximum.
 }
 \description{
-Minimum, maximum or range of \code{datey} or \code{durationy}
+Gets the minimum, maximum or range of one or more \code{datey} or \code{durationy}
+vectors. All arguments must be of the same type.
+
+Returns a typed NA (\code{NA_datey_} or \code{NA_durationy_}) for empty input or
+when all values are NA and \code{na.rm = TRUE}.
+
+These are S3 methods for the \code{Summary} group generic.
 }
 \examples{
     t <- datey(2000:2003)
@@ -29,4 +38,7 @@ Minimum, maximum or range of \code{datey} or \code{durationy}
     min(t)
     max(t)
     range(t)
+}
+\seealso{
+\link{datey}, \link{durationy}, \link{mean.datey}
 }

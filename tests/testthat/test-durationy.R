@@ -24,7 +24,7 @@ test_that("`is_durationy()`", {
 
 # durationy.default <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`durationy.default()`", {
-  expect_identical(durationy(structure(0, class = "FAKE")), NA_durationy_)
+  expect_error(durationy(structure(0, class = "FAKE")))
 })
 
 # durationy.durationy <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
@@ -77,10 +77,10 @@ test_that("`durationy.datey_interval()`", {
   expect_identical(durationy(a_to_b), b - a)
   expect_identical(durationy(a_to_b), a_to_b$duration)
 
-  expect_identical(durationy(NA_datey_interval_, strict = FALSE), NA_durationy_)
-  expect_error(durationy(NA_datey_interval_))
+  expect_identical(durationy(NA_datey_interval_), NA_durationy_)
+  expect_identical(durationy(2001 %to% 2000:2002), durationy(c(NA_real_, 0, 1)))
 })
-# durationy.character <- function(x, day_fraction = NULL, blank_is_NA = FALSE, strict = TRUE, ...) ==================================================
+# durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit = "yr", ...) ==================================================
 test_that("`durationy.character()`", {
 
   testX <- function(years, text_no_units) {

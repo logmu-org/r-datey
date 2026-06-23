@@ -17,7 +17,8 @@ logicals cpp_isLeapYear_integer(const integers& year)
   {
     auto year_i = year[i];
     r_bool result_i;
-    if (year_i >= ValidDateStartYear && year_i < ValidDateEndYear)
+    // Include 3000 because this is 3000-01-01.0, which *is* valid
+    if (year_i >= ValidDateStartYear && year_i <= ValidDateEndYear)
     {
       result_i = isLeapYear(year_i) ? TRUE : FALSE;
     }
@@ -40,7 +41,8 @@ logicals cpp_isLeapYear_double(const doubles& year)
   {
     auto year_i = year[i];
     r_bool result_i;
-    if (year_i >= 1000.0 && year_i < 3000.0) // Excludes NaNs
+    // Include 3000.0 because this is 3000-01-01.0, which *is* valid
+    if (year_i >= ValidDateStartYear && year_i <= ValidDateEndYear) // Excludes NaNs
     {
       // Cast `double` to `int` here means round down given we
       // know (a) `year_i` > 0 and (b) `year_i` lies within the representable
@@ -67,7 +69,7 @@ logicals cpp_isLeapYear_datey(const integers& datey)
   {
     auto datey_i = datey[i];
     r_bool result_i;
-    if (datey_i >= ValidDateStartClicks && datey_i < ValidDateEndClicks)
+    if (datey_i >= ValidDateStartClicks && datey_i <= ValidDateEndClicks)
     {
       // We know `/` rounds down because datey_i >= 0
       result_i = isLeapYear(datey_i / ClicksPerYear) ? TRUE : FALSE;

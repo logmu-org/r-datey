@@ -20,35 +20,126 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #' Create a `datey_interval`
 #'
 #' @description
-#' Create a `datey_interval` representing [`start`, `end`).
+#' Creates a `datey_interval`,
+#' a closed-open ('clopen') interval  [`start`, `end`).
 #'
-#' These are closed-open ('clopen') intervals `start` <= t < `end`, i.e. the
-#' interval includes `start` but excludes `end`.
+#' A `datey` `t` in included in the interval if `start` <= t < `end`.
 #'
-#' There are two syntaxes:
+#' There are two syntaxes to create a `datey_interval` from `start` and `end`:
 #'
 #' - operator: `start %to% end`
 #' - function: `datey_interval(start, end)`
 #'
+#' in which `start` and `end` are `datey` or numeric (interpreted as years).
 #' These are equivalent other than `strict` is always on for the operator
-#' version.
+#' version. The lengths of vector arguments must be multiples of each other.
 #'
+#' A `datey_interval` can also be created from `logical`, mapping
+#'
+#' - `TRUE` to [1000,3000), which is referred to as
+#'   'all of time' in **datey** documentation, and
+#' - `FALSE` and `NA` to `NA_datey_interval_`.
+#'
+#' Arguments *of the correct type* but which are NA
+#' result in `NA_datey_interval_`
+#' -- they do not stop execution (regardless of `strict`).
+#'
+#' Common operations on intervals are
+#'
+#' - testing for *inclusion*, i.e. with an interval includes a date -- `interval %includes% t`, and
+#' - obtaining the *intersection*, which uses the `&` operator -- `interval_a & interval b`.
+#'
+#' @param x Argument to S3 method `datey_interval()`.
+#' If `x` is a `datey` then it represents the start (inclusive) of an interval
+#' and an `end` argument is also required.
+#' If `x` is a `logical` then it is mapped to 'all of time' or `NA_datey_interval_`.
 #' @param start,end The start (inclusive) and end of the interval (exclusive).
-#' These can be any type that is convertible to a `datey`. These have the same
-#' numbers of elements or their lengths must be multiples of each other.
+#' These can be any type that is convertible to a `datey`.
 #' @param strict
-#' How NAs should be handled.
+#' How invalid *non-NA* `datey` inputs should be handled.
 #' If `strict` is `TRUE` -- the default -- then execution is stopped.
-#' If `strict` is `FALSE` then `NA` is returned if `start` and/or `end` is NA.
+#' If `strict` is `FALSE` then `NA` is returned.
+#' @param ... Not used.
 #' @returns A vector of `datey_interval`.
 #' @examples
-#'   datey(1999) %to% mid_day(2025, 7, 15)
-#'   datey(1999) %to% datey(2000:2002)
+#' start <- datey(2000)
+#' end <- datey(2001)
+#' interval <- start %to% end
+#' interval  # [2000-01-01.0, 2001-01-01.0)
+#'
+#' # Alternative functional syntax:
+#' identical(interval, datey_interval(start, end)) # TRUE
+#'
+#' # Can use numeric arguments:
+#' 2000 %to% 2001  # [2000-01-01.0, 2001-01-01.0)
+#'
+#' # Can use vector arguments:
+#' 2000 %to% 2001:2003 # Vector of 3 intervals
+#'
+#' # Logical values are mapped to 'all of time' or `NA_datey_interval_`:
+#' datey_interval(c(TRUE, FALSE, NA)) # [1000-01-01.0, 3000-01-01.0) <NA> <NA>
+#'
+#' # Test for inclusion in [start, end):
+#' interval %includes% mid_day(1999, 12, 31) # FALSE
+#' interval %includes% start                 # TRUE -- start *is* included
+#' interval %includes% datey(2000.5)         # TRUE
+#' interval %includes% end                   # FALSE -- end is *not* included
+#'
+#' # Obtain the intersection of two intervals
+#' interval2 <- start_day(2000, 12, 1) %to% 2010
+#' interval & interval2  # [2000-12-01.0, 2001-01-01.0)
+#'
+#' @seealso [interval_properties], [interval_nature], [interval_includes],
+#'   [all_of_time], [durationy], [ops], [is_NA],
+#'   `vignette("datey", package = "datey")` for a worked introduction
+#' @name datey_interval
+NULL
+
+#' @rdname datey_interval
 #' @export
-datey_interval <- function(start, end, strict = TRUE) {
-  start <- datey(start, strict = strict)
+datey_interval <- function(x, ...)
+  UseMethod("datey_interval")
+
+#' @rdname datey_interval
+#' @export
+datey_interval.default <- function(x, ...) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `datey_interval` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
+#' @rdname datey_interval
+#' @export
+datey_interval.datey_interval <- function(x, ...) {
+  #ensure_is_datey_interval(x)
+  x
+}
+#' @rdname datey_interval
+#' @export
+datey_interval.logical <- function(x, ...) {
+  punned_double <- cpp_dateyIntervalFromLogical(x)
+  datey_interval_from_punned_double(punned_double)
+}
+#' @rdname datey_interval
+#' @export
+datey_interval.datey <- function(x, end, strict = TRUE, ...) {
+  start <- datey(x, strict = strict)
   end <- datey(end, strict = strict)
-  punned_double <- cpp_dateyInterval(start, end, strict)
+  punned_double <- cpp_dateyInterval(start, end)
+  datey_interval_from_punned_double(punned_double)
+}
+#' @rdname datey_interval
+#' @export
+datey_interval.double <- function(x, end, strict = TRUE, ...) {
+  start <- datey(x, strict = strict)
+  end <- datey(end, strict = strict)
+  punned_double <- cpp_dateyInterval(start, end)
+  datey_interval_from_punned_double(punned_double)
+}
+#' @rdname datey_interval
+#' @export
+datey_interval.integer <- function(x, end, strict = TRUE, ...) {
+  start <- datey(x, strict = strict)
+  end <- datey(end, strict = strict)
+  punned_double <- cpp_dateyInterval(start, end)
   datey_interval_from_punned_double(punned_double)
 }
 
@@ -56,12 +147,17 @@ datey_interval <- function(start, end, strict = TRUE) {
 #' @export
 `%to%` <- function(start, end) datey_interval(start, end)
 
-
 #' Get the start, end or duration of a `datey_interval`
 #'
 #' @description
 #' Get the start, end or duration of a `datey_interval` using the syntax
 #' `$start`, `$end` or `$duration` respectively.
+#'
+#' `$duration` is the duration of the interval *provided it is proper*
+#' (i.e. start <= end).
+#' If the interval is improper then `$duration`is `NA_durationy_`.
+#' When `x` is a `datey_interval` then `x$duration` is identical to
+#' `durationy(x)`.
 #'
 #' @param x The `datey_interval`.
 #' @param name
@@ -76,6 +172,7 @@ datey_interval <- function(start, end, strict = TRUE) {
 #'   interval$start
 #'   interval$end
 #'   interval$duration
+#' @seealso [datey_interval], [interval_nature], [interval_includes]
 #' @name interval_properties
 #' @export
 `$.datey_interval` <- function(x, name) {
@@ -87,7 +184,7 @@ datey_interval <- function(start, end, strict = TRUE) {
     stop("A `datey_interval` does not have a property called `", name, "`. Must be `start`, `end` or `duration`.", call. = FALSE)
   }
 
-  stop("Invalid `datey_interval` property. Must be `start` or `end`.", call. = FALSE)
+  stop("Invalid `datey_interval` property. Must be `start`, `end` or `duration`.", call. = FALSE)
 }
 
 # `@name NAs` is defined in datey.R
@@ -110,13 +207,16 @@ anyNA.datey_interval <- function(x, recursive = FALSE) {
   cpp_dateyIntervalAnyNA(x)
 }
 
-#' Maximum valid `datey_interval`
+#' 'All of time' — the maximum valid `datey_interval`
 #'
 #' @description
-#' The `datey_interval` [1000-01-01.0, 3000-01-01.0).
+#' `all_of_time` is the `datey_interval` \[1000-01-01.0, 3000-01-01.0),
+#' spanning the full valid date range. It is referred to as 'all of time'
+#' throughout the **datey** documentation.
 #'
-#' This is the value used when a `datey_interval` is combined with a logical
-#' using the `&` operator.
+#' It is the value produced by `datey_interval(TRUE)` and is used
+#' when a `datey_interval` is intersected with a logical `TRUE` via `&`.
+#' @seealso [datey_interval], [ops]
 #' @export
 #' @examples
 #'   all_of_time
@@ -155,6 +255,8 @@ all_of_time <- NULL
 #' `any_collapsed(x)` tests whether at least one of the elements of `x` is
 #' collapsed.
 #'
+#' (`any_proper()` is not implemented because there is no obvious use case.)
+#'
 #' These are S3 generic functions.
 #'
 #' @param x The interval to test.
@@ -162,16 +264,21 @@ all_of_time <- NULL
 #'   - `is_XXX` functions return a logical vector corresponding the property.
 #'   - `all_XXX` and `any_XXX` functions return a logical scalar.
 #' @examples
-#'   a <- datey(1999)
-#'   b <- datey(2000)
-#'   is_collapsed(a %to% b)
-#'   is_collapsed(a %to% a)
-#'   is_collapsed(b %to% a)
-#'   is_collapsed(NA_datey_interval_)
-#'   is_proper(a %to% b)
-#'   is_proper(a %to% a)
-#'   is_proper(b %to% a)
-#'   is_proper(NA_datey_interval_)
+#'   non_empty   <- 1900 %to% 2000
+#'   empty       <- 2000 %to% 2000
+#'   improper    <- 2000 %to% 1900
+#'   na          <- NA_datey_interval_
+#'
+#'   is_collapsed(non_empty) # FALSE
+#'   is_collapsed(empty)     # TRUE
+#'   is_collapsed(improper)  # TRUE
+#'   is_collapsed(na)        # TRUE
+#'
+#'   is_proper(non_empty)    # TRUE
+#'   is_proper(empty)        # TRUE
+#'   is_proper(improper)     # FALSE
+#'   is_proper(na)           # FALSE
+#' @seealso [datey_interval], [interval_properties], [interval_includes]
 #' @name interval_nature
 NULL
 
@@ -180,7 +287,10 @@ NULL
 is_proper <- function(x) UseMethod("is_proper")
 #' @rdname interval_nature
 #' @export
-is_proper.default <- function(x) NA
+is_proper.default <- function(x) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `is_proper` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
 #' @rdname interval_nature
 #' @export
 is_proper.datey_interval <- function(x) {
@@ -192,7 +302,10 @@ is_proper.datey_interval <- function(x) {
 all_proper <- function(x) UseMethod("all_proper")
 #' @rdname interval_nature
 #' @export
-all_proper.default <- function(x) NA
+all_proper.default <- function(x) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `all_proper` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
 #' @rdname interval_nature
 #' @export
 all_proper.datey_interval <- function(x) {
@@ -204,7 +317,10 @@ all_proper.datey_interval <- function(x) {
 is_collapsed <- function(x) UseMethod("is_collapsed")
 #' @rdname interval_nature
 #' @export
-is_collapsed.default <- function(x) NA
+is_collapsed.default <- function(x) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `is_collapsed` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
 #' @rdname interval_nature
 #' @export
 is_collapsed.datey_interval <- function(x) {
@@ -216,7 +332,10 @@ is_collapsed.datey_interval <- function(x) {
 all_collapsed <- function(x) UseMethod("all_collapsed")
 #' @rdname interval_nature
 #' @export
-all_collapsed.default <- function(x) NA
+all_collapsed.default <- function(x) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `all_collapsed` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
 #' @rdname interval_nature
 #' @export
 all_collapsed.datey_interval <- function(x) {
@@ -228,7 +347,10 @@ all_collapsed.datey_interval <- function(x) {
 any_collapsed <- function(x) UseMethod("any_collapsed")
 #' @rdname interval_nature
 #' @export
-any_collapsed.default <- function(x) NA
+any_collapsed.default <- function(x) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `any_collapsed` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
 #' @rdname interval_nature
 #' @export
 any_collapsed.datey_interval <- function(x) {
@@ -248,7 +370,8 @@ any_collapsed.datey_interval <- function(x) {
 #' any interval, so these methods are guaranteed to return `TRUE` or `FALSE`.
 #'
 #' @param interval The `datey_interval`.
-#' @param value The `datey` to test for inclusion.
+#' @param value The `datey` to test for inclusion. A numeric value is also
+#' accepted and is coerced to `datey`.
 #' @returns A vector of `logical` corresponding to whether the interval
 #' includes the value. Always TRUE or FALSE -- NAs result in FALSE.
 #' @examples
@@ -270,6 +393,7 @@ any_collapsed.datey_interval <- function(x) {
 #'
 #'   # Function syntax:
 #'   interval_includes(interval, t_2002)
+#' @seealso [datey_interval], [interval_properties], [interval_nature], [ops]
 #' @name interval_includes
 NULL
 
@@ -277,6 +401,9 @@ NULL
 #' @export
 interval_includes <- function(interval, value) {
   ensure_is_datey_interval(interval)
+  if (is_pure_numeric(value)) {
+    value <- datey(value)
+  }
   ensure_is_datey(value)
   cpp_dateyIntervalIncludes(interval, value)
 }
@@ -290,9 +417,10 @@ interval_includes <- function(interval, value) {
 #' A `datey_interval` is printed as "[start, end)", where start and end are
 #' printed either as
 #' - `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or
-#' - `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part.
+#' - `YYYY-MM-DD.F...` where `.F...` is the day fraction part.
 #'
-#' If `include_day_fraction` is `TRUE` then `.FFF` is included even if it is 0.
+#' If `include_day_fraction` is `TRUE` then `[.F...]` is included even if it
+#' is 0 (i.e. `.0`).
 #'
 #' @param x The `datey_interval` to print or format.
 #' @param include_day_fraction Whether to include the fractional day part.
@@ -301,6 +429,8 @@ interval_includes <- function(interval, value) {
 #' printed. When `NULL`, `getOption("max.print")` used. Defaults to `NULL`.
 #' @param ... Further arguments to be passed from or to other methods.
 #' @returns `as.character` and `format` return a vector of `character`.
+#' `print` invisibly returns `x`.
+#' @seealso [datey_interval]
 #' @name text_from_datey_interval
 NULL
 

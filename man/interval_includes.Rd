@@ -12,7 +12,8 @@ interval \%includes\% value
 \arguments{
 \item{interval}{The \code{datey_interval}.}
 
-\item{value}{The \code{datey} to test for inclusion.}
+\item{value}{The \code{datey} to test for inclusion. A numeric value is also
+accepted and is coerced to \code{datey}.}
 }
 \value{
 A vector of \code{logical} corresponding to whether the interval
@@ -46,4 +47,7 @@ any interval, so these methods are guaranteed to return \code{TRUE} or \code{FAL
 
   # Function syntax:
   interval_includes(interval, t_2002)
+}
+\seealso{
+\link{datey_interval}, \link{interval_properties}, \link{interval_nature}, \link{ops}
 }

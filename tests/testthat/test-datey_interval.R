@@ -36,7 +36,7 @@ test_that("`datey_interval()`, `%to%`, $start and $end", {
   interval <- datey_interval(t_1, t_2)
   intervals <- datey_interval(c(t_1, t_3), c(t_2, t_4))
   intervals_same_start <- datey_interval(t_1, c(t_2, t_4))
-  intervals_same_end <- datey_interval(c(t_1, t_3), t_2)
+  intervals_same_end <- datey_interval(c(t_1, t_3), t_4)
   interval_ab <- datey_interval(a, b)
 
   expect_identical(t_1 %to% t_2, interval)
@@ -56,9 +56,10 @@ test_that("`datey_interval()`, `%to%`, $start and $end", {
   expect_identical(durationy(intervals_same_start), c(t_2, t_4) - c(t_1, t_1))
 
   expect_identical(intervals_same_end$start, c(t_1, t_3))
-  expect_identical(intervals_same_end$end, c(t_2, t_2))
-  expect_identical(intervals_same_end$duration, c(t_2, t_2) - c(t_1, t_3))
-  expect_identical(durationy(intervals_same_end), c(t_2, t_2) - c(t_1, t_3))
+  expect_identical(intervals_same_end$end, c(t_4, t_4))
+
+  expect_identical(intervals_same_end$duration, c(t_4, t_4) - c(t_1, t_3))
+  expect_identical(durationy(intervals_same_end), c(t_4, t_4) - c(t_1, t_3))
 
   expect_identical(a %to% b, interval_ab)
   expect_identical(interval_ab$start, a)
@@ -69,8 +70,16 @@ test_that("`datey_interval()`, `%to%`, $start and $end", {
   expect_identical(NA_datey_interval_$start, NA_datey_)
   expect_identical(NA_datey_interval_$end, NA_datey_)
   expect_identical(NA_datey_interval_$duration, NA_durationy_)
-  expect_identical(durationy(NA_datey_interval_, strict = FALSE), NA_durationy_)
-  expect_error(durationy(NA_datey_interval_))
+  expect_identical(durationy(NA_datey_interval_), NA_durationy_)
+})
+test_that("`datey_interval(logical)`", {
+
+  i <- datey_interval(c(TRUE, FALSE, NA))
+
+  expect_identical(i[1]$start, datey(1000))
+  expect_identical(i[1]$end, datey(3000))
+  expect_identical(i[2], NA_datey_interval_)
+  expect_identical(i[3], NA_datey_interval_)
 })
 
 # `datey_interval` is.NA / anyNA ==================================================
@@ -134,11 +143,11 @@ test_that("`datey_interval` is_collapsed / is_proper", {
 
 # interval_includes / %includes% ==================================================
 test_that("interval_includes / %includes%", {
-  pre <- from_ymdf(1999, 12, 31, 1 - 1/1464)
+  pre <- datey(1999, 12, 31, 1 - 1/1464)
   start <- datey(2000)
   mid <- datey(2001)
   end <- datey(2002)
-  post <- from_ymdf(2002, 1, 1, 1/1464)
+  post <- datey(2002, 1, 1, 1/1464)
 
   interval <- start %to% end
 

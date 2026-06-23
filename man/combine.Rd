@@ -36,4 +36,7 @@ If the first element in \code{c(...)} is not a \code{datey}, \code{durationy} or
 \examples{
   c(datey(2000:2019), datey("2020-01-01.0"))
 }
+\seealso{
+\link{datey}, \link{durationy}, \link{datey_interval}, \link{subset}
+}
 \keyword{combine}

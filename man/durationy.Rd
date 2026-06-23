@@ -7,57 +7,119 @@
 \alias{durationy.integer}
 \alias{durationy.double}
 \alias{durationy.datey_interval}
+\alias{durationy.character}
 \title{Create a \code{durationy} from an annual duration}
 \usage{
-durationy(x, strict = TRUE, ...)
+durationy(x, ...)
 
-\method{durationy}{default}(x, strict = TRUE, ...)
+\method{durationy}{default}(x, ...)
 
-\method{durationy}{durationy}(x, strict = TRUE, ...)
+\method{durationy}{durationy}(x, ...)
 
 \method{durationy}{integer}(x, strict = TRUE, ...)
 
 \method{durationy}{double}(x, strict = TRUE, ...)
 
-\method{durationy}{datey_interval}(x, strict = TRUE, ...)
+\method{durationy}{datey_interval}(x, ...)
+
+\method{durationy}{character}(x, strict = TRUE, blank_is_NA = FALSE, year_unit = "yr", ...)
 }
 \arguments{
 \item{x}{The argument to convert to a \code{durationy}.}
 
-\item{strict}{How years greater than 2000 in magnitude should be
-handled.
+\item{...}{Not used.}
+
+\item{strict}{How non-compliant non-NA \code{x}, e.g. years greater than 2000 in magnitude or
+invalid text, should be handled.
 If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-If \code{strict} is \code{FALSE} then \code{NA} is returned.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.}
 
-NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
+\item{blank_is_NA}{Whether blanks should be treated as \code{NA}.
+Defaults to \code{FALSE}.}
 
-\item{...}{Other arguments (not used in this package).}
+\item{year_unit}{The year unit name to expect.
+If not blank then the value is expected to be followed by a space and this unit text.
+Cannot be more than 20 characters (UTF-8 bytes) or contain control
+characters.
+Defaults to \code{"yr"}.}
 }
 \value{
 A vector of \code{durationy}.
 }
 \description{
-This package provides methods to create a \code{durationy} from the following:
+\code{durationy()} to create a \code{durationy} from the following types:
 \itemize{
-\item \code{integer} -- the value is interpreted as the specified
+\item \code{integer}. The value is interpreted as the specified
 number of years.
-\item \code{double} -- the value is interpreted as the specified
+\item \code{double}. The value is interpreted as the specified
 number of years, rounded to fixed precision of a \code{durationy}. This means that
 \code{durationy(0.5)} is precise but \code{durationy(0.01)} is not.
-\item \code{datey_interval} -- the duration of the interval. If \code{strict} is \code{FALSE}
-then this is the same as \code{datey_interval$duration}.
-\item \code{durationy} -- value is unchanged.
+\item \code{datey_interval}. The duration of the interval \emph{provided it is proper}
+(i.e. start <= end).
+If the interval is improper then the result is \code{NA_durationy_}.
+When \code{x} is a \code{datey_interval} then \code{x$duration} is identical to
+\code{durationy(x)}.
+(\code{strict} is ignored.)
+\item \code{character}. Valid text is of the form \verb{[S]...Y[.F...][ U...]} where:
+\itemize{
+\item \verb{[S]} is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
+\item \code{...Y} is number of whole years (leading zeros allowed).
+\item \verb{[.F...]} is an optional fractional part of year, including '.' to represent the decimal point.
+\item \verb{[ U...]} is the unit name for one year preceded by a space if the unit name is not blank. The unit name cannot be longer than 20 UTF-8 bytes or contain control characters.
 }
 
-This is an S3 generic.
+If \code{blank_is_NA} is \code{TRUE} then blanks are treated as \code{NA}.
+If \code{strict} is \code{TRUE} (the default) then non-compliant text will
+stop execution.
+If the text is NA then NA is returned.
+This is the same format as produced by \code{\link[=as.character.durationy]{as.character.durationy()}}.
+\item \code{durationy}. Value is passed through unchanged.
+}
+
+NA arguments \emph{of the appropriate type} result in \code{NA_durationy_} --
+they do not stop execution (regardless of \code{strict}).
+Note that \code{NA} is \code{logical} and therefore it \emph{will} cause an error.
 }
 \examples{
-durationy(1)    # One year
-durationy(0.5)  # Half a year
-durationy(-2.3) # Negative duration
-durationy(datey(2001) \%to\% datey(2002)) # From an interval
+durationy(1)    # 1 yr
+durationy(0.5)  # 0.5 yr
+durationy(-2.3) # -2.3 yr
+durationy(2001 \%to\% 2002) # 1 yr
+durationy(2002 \%to\% 2001) # `NA_durationy_` because interval is improper
+
+# NA:
+durationy(NA_real_)
+try(durationy(NA)) # NA is logical, not numeric
 
 # Invalid durations:
-try(durationy(3000.1)) # default is strict = TRUE
+try(durationy(3000.1)) # default strict = TRUE
 durationy(3000.1, strict = FALSE)
+
+# Text:
+durationy("10 yr")
+durationy("+10 yr")
+durationy("-10 yr")
+durationy("10", year_unit = "")
+durationy("10 a", year_unit = "a")
+
+# Text round trips:
+d <- durationy(1.234)
+identical(d, durationy(as.character(d))) # TRUE
+
+# Handling blank text:
+try(durationy(""))
+durationy("", blank_is_NA = TRUE)
+
+# Invalid text:
+try(durationy("abc"))
+try(durationy("2000.000001 yr"))
+durationy("abc", strict = FALSE) # NA
+durationy("2000.000001 yr", strict = FALSE) # NA
+durationy("2000.000000 yr") # This is valid
+}
+\seealso{
+\link{datey}, \link{datey_interval}, \link{text_from_durationy}, \link{as_years_durationy},
+\link{ops}, \link{is_NA},
+\code{vignette("why-datey", package = "datey")} for the annual-grid design,
+\code{vignette("datey", package = "datey")} for a worked introduction
 }

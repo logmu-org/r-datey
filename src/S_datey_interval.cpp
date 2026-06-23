@@ -6,12 +6,10 @@
 
 #include "datey.h"
 
-double dateyInterval(int start, int end, bool strict)
+double dateyInterval(int start, int end)
 {
   if (!isValidDatey(start) || !isValidDatey(end))
   {
-    if (strict) { cpp11::stop("`start` and/or `end` is NA"); }
-
     start = NA_INTEGER;
     end = NA_INTEGER;
   }

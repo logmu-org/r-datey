@@ -29,22 +29,45 @@ where \code{T} is either \code{datey} or \code{durationy} in each of the above.
 \description{
 The unary \code{-} operator can be applied to a \code{durationy} to change its sign.
 
-The following are the available binary operations on \code{datey} and \code{durationy}
-only operands, and their meaning:\tabular{ccccl}{
+The following are the available binary operations on \code{datey},\code{durationy} and
+\code{datey_interval} only operands, and their meaning:\tabular{ccccl}{
    Left \tab Operators \tab Right \tab Result \tab Notes \cr
-   \code{datey} \tab \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{datey} \tab logical \tab Order relation for dates \cr
+   \code{datey} \tab \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{datey} \tab logical \tab Comparisons for dates \cr
+   \code{durationy} \tab \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{durationy} \tab \code{logical} \tab Comparisons for durations \cr
+   \code{datey_interval} \tab \code{==} \code{!=} \tab \code{datey_interval} \tab \code{logical} \tab Equality for date intervals \cr
    \code{datey} \tab \code{-} \tab \code{datey} \tab \code{durationy} \tab Duration between two dates \cr
    \code{datey} \tab \code{+} \code{-} \tab \code{durationy} \tab \code{datey} \tab A date offset by a duration \cr
    \code{durationy} \tab \code{+} \tab \code{datey} \tab \code{datey} \tab A date offset by a duration \cr
-   \code{durationy} \tab \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{durationy} \tab logical \tab Order relation for durations \cr
-   \code{durationy} \tab \code{+} \code{-} \tab \code{durationy} \tab \code{durationy} \tab Duration addition and substraction \cr
-   \code{datey} \tab \code{+} \code{-} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab numeric \tab numeric \tab The \code{datey} is first converted to years \cr
-   numeric \tab \code{+} \code{-} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{datey} \tab numeric \tab The \code{datey} is first converted to years \cr
-   \code{durationy} \tab \code{+} \code{-} \code{*} \code{/} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab numeric \tab \code{durationy} \tab The \code{durationy} is first converted to years \cr
-   numeric \tab \code{+} \code{-} \code{*} \code{/} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} \tab \code{durationy} \tab \code{durationy} \tab The \code{durationy} is first converted to years \cr
-   \code{datey} \tab \verb{\%to\%} \tab \code{datey} \tab \code{datey_interval} \tab Syntactic sugar for \code{datey_interval()} \cr
-   \code{datey_interval} \tab \verb{\%includes\%} \tab \code{datey} \tab logical \tab Whether the interval contains the date \cr
+   \code{durationy} \tab \code{+} \code{-} \tab \code{durationy} \tab \code{durationy} \tab Duration addition and subtraction \cr
+   \code{datey} \tab \verb{\%to\%} \tab \code{datey} \tab \code{datey_interval} \tab Create a date interval -- syntactic sugar for \code{datey_interval()} \cr
+   \code{datey_interval} \tab \verb{\%includes\%} \tab \code{datey} \tab \code{logical} \tab Whether an interval includes a date -- syntactic sugar for \code{interval_includes()} \cr
+   \code{datey_interval} \tab \code{&} \tab \code{datey_interval} \tab \code{datey_interval} \tab Intersection of two date intervals -- \code{NA_datey_interval_} if the intervals are disjoint and non-adjacent \cr
 }
+
+
+\code{datey}s and \code{durationy}s can also be mixed with numeric operands, in which case
+the \code{datey} or \code{durationy} is first converted to years, The following
+operations are implemented
+\itemize{
+\item Comparison, i.e. a \code{datey} or \code{durationy} \code{==} \code{!=} \code{<} \code{<=} \code{>} \code{>=} numeric or vice versa. Result is \code{logical}.
+\item \code{datey} addition and subtraction, i.e. a \code{datey} \code{+} \code{-} a numeric or vice versa. Result is \code{double}.
+\item \code{durationy} arithmetic, i.e. a \code{durationy} \code{+} \code{-} \code{*} \code{/} a numeric or vice versa. Result is \code{double}.
+\item The \verb{\%to\%} operator accepts numbers, which are treated as years and coerced to \code{datey}.
+\item The \verb{\%includes\%} operator accepts a number as its right hand operand, which is treated as years and coerced to \code{datey}.
+}
+
+When applied to \code{datey_interval}s, \code{&} is the 'intersection' operator.
+For intervals that do not intersect the result of \code{&}
+depends on whether the intervals are adjacent. If they are adjacent then the result
+is an empty interval starting (and ending) at the point in time they touch.
+Otherwise it is \code{NA_datey_interval_}. You can test whether intervals
+\code{a} and \code{b} intersect using \code{is_collapsed(a & b)}.
+
+Throughout the \strong{datey} package, \code{NA} will cause an error when used where
+a \code{datey_}, \code{durationy_} or \code{datey_interval_} is expected.
+This is because its type is \code{logical} and potentially indicates user
+error. If you want an NA value with a \strong{datey} system type, use one of \code{NA_datey_}, \code{NA_durationy_}
+or \code{NA_datey_interval_}.
 }
 \examples{
 t_2000 <- datey(2000)
@@ -65,7 +88,29 @@ d_0.5 * 2       # Arithmetic with numerics results in a double
 
 interval <- t_2000 \%to\% t_2001
 interval
+
+# \%to\% also accepts numbers:
+2000 \%to\% 2001
+
 interval \%includes\% t_2000 # TRUE -- start *is* included in an interval
 interval \%includes\% (t_2000 + d_0.5) # TRUE
 interval \%includes\% t_2001 # FALSE -- end is *not* included in an interval
+
+# \%includes\% also accepts a number as its right hand operand:
+interval \%includes\% 2000.5
+
+# \%includes\% handling of NAs:
+interval \%includes\% NA_datey_         # FALSE (not NA)
+NA_datey_interval_ \%includes\% t_2000  # FALSE (not NA)
+
+(2000 \%to\% 2020) & (2010 \%to\% 2030) # [2010-01-01.0, 2020-01-01.0)
+
+# Non-intersecting *adjacent* intervals:
+(2000 \%to\% 2001) & (2001 \%to\% 2002) # [2001-01-01.0, 2001-01-01.0)
+# Non-intersecting *non*-adjacent intervals:
+(1900 \%to\% 1901) & (2001 \%to\% 2001) # <NA>
+}
+\seealso{
+\link{datey}, \link{durationy}, \link{datey_interval},
+\code{vignette("datey", package = "datey")} for a worked introduction
 }

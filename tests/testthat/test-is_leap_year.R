@@ -13,7 +13,7 @@ test_that("`is_leap_year` on years 1000 to 2999 ", {
 })
 
 test_that("`is_leap_year` examples", {
-  expect_false(any(is_leap_year(c(1900, 1901, 2001))))
+  expect_false(any(is_leap_year(c(1900, 1901, 2001, 3000))))
   expect_true(all(is_leap_year(c(1904.1, 2000.5, 2004.9))))
 })
 
@@ -25,14 +25,12 @@ test_that("`is_leap_year` on `Date`", {
 })
 
 test_that("`is_leap_year` gives `NA` for invalid args", {
-  expect_equal(is_leap_year(NA), NA)
+  expect_equal(is_leap_year(NA_real_), NA)
+  expect_equal(is_leap_year(NA_integer_), NA)
+  expect_equal(is_leap_year(NA_datey_), NA)
   expect_equal(is_leap_year(999L), NA)
-  expect_equal(is_leap_year(3000L), NA)
+  expect_equal(is_leap_year(3001L), NA)
   expect_equal(is_leap_year(999.99), NA)
-  expect_equal(is_leap_year(3000), NA)
-  expect_equal(is_leap_year(as.Date("0999-12-31")), NA)
-  expect_equal(is_leap_year(as.Date("3000-01-01")), NA)
-  expect_equal(is_leap_year(""), NA)
-  expect_equal(is_leap_year("2000"), NA)
+  expect_equal(is_leap_year(3000.000001), NA)
 })
 

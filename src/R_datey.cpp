@@ -294,6 +294,7 @@ integers cpp_dateyWithNewDayFraction(integers clicks, doubles dayFraction, bool 
   }
 }
 
+/* It's not safe to create a datey treating an r date as a fraction
 [[cpp11::register]]
 integers cpp_dateyFromRDate(doubles rDate, bool strict)
 {
@@ -308,6 +309,7 @@ integers cpp_dateyFromRDate(doubles rDate, bool strict)
 
   return result;
 }
+*/
 [[cpp11::register]]
 integers cpp_dateyFromRDateAndFraction(doubles rDate, doubles dayFraction, bool strict)
 {

@@ -12,5 +12,5 @@
 # copied for `library()` users.
 .onLoad <- function(libname, pkgname) {
   all_of_time <<- datey_interval(valid_years_start, valid_years_end)
-  NA_datey_interval_ <<- datey_interval(NA_datey_, NA_datey_, strict = FALSE)
+  NA_datey_interval_ <<- datey_interval(NA_datey_, NA_datey_)
 }

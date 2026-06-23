@@ -34,7 +34,7 @@ int durationyFromYears(int years, bool strict)
 
     if (strict)
     {
-      cpp11::stop("Absolute value of years argument is greater than 2000.");
+      cpp11::stop("Years cannot be more than 2000.");
     }
 
     return NA_INTEGER;
@@ -53,7 +53,7 @@ int durationyFromYears(double years, bool strict)
 
     if (strict)
     {
-      cpp11::stop("Absolute value of years argument is greater than 2000.");
+      cpp11::stop("Years cannot be more than 2000.");
     }
 
     return NA_INTEGER;
@@ -183,7 +183,11 @@ int durationyFromRString(cpp11::r_string rString, bool strict, bool blankIsNA, s
   int clicks = NA_INTEGER;
   const char *failReason = nullptr;
 
-  if (size <= 100)
+  if (size > 100)
+  {
+    failReason = "Text is too long.";
+  }
+  else
   {
     // As of C++11, `data()` is guaranteed to be null-terminated.
     // See: https://en.cppreference.com/cpp/string/basic_string/data
@@ -298,7 +302,7 @@ int durationyFromRString(cpp11::r_string rString, bool strict, bool blankIsNA, s
       }
     }
 
-    // 5. Check we've reached the end of the string
+    // 6. Check we've reached the end of the string
     if (clicks != NA_INTEGER && *p != '\0')
     {
       clicks = NA_INTEGER;

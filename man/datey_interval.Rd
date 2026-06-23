@@ -2,41 +2,113 @@
 % Please edit documentation in R/datey_interval.R
 \name{datey_interval}
 \alias{datey_interval}
+\alias{datey_interval.default}
+\alias{datey_interval.datey_interval}
+\alias{datey_interval.logical}
+\alias{datey_interval.datey}
+\alias{datey_interval.double}
+\alias{datey_interval.integer}
 \alias{\%to\%}
 \title{Create a \code{datey_interval}}
 \usage{
-datey_interval(start, end, strict = TRUE)
+datey_interval(x, ...)
+
+\method{datey_interval}{default}(x, ...)
+
+\method{datey_interval}{datey_interval}(x, ...)
+
+\method{datey_interval}{logical}(x, ...)
+
+\method{datey_interval}{datey}(x, end, strict = TRUE, ...)
+
+\method{datey_interval}{double}(x, end, strict = TRUE, ...)
+
+\method{datey_interval}{integer}(x, end, strict = TRUE, ...)
 
 start \%to\% end
 }
 \arguments{
-\item{start, end}{The start (inclusive) and end of the interval (exclusive).
-These can be any type that is convertible to a \code{datey}. These have the same
-numbers of elements or their lengths must be multiples of each other.}
+\item{x}{Argument to S3 method \code{datey_interval()}.
+If \code{x} is a \code{datey} then it represents the start (inclusive) of an interval
+and an \code{end} argument is also required.
+If \code{x} is a \code{logical} then it is mapped to 'all of time' or \code{NA_datey_interval_}.}
 
-\item{strict}{How NAs should be handled.
+\item{...}{Not used.}
+
+\item{strict}{How invalid \emph{non-NA} \code{datey} inputs should be handled.
 If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-If \code{strict} is \code{FALSE} then \code{NA} is returned if \code{start} and/or \code{end} is NA.}
+If \code{strict} is \code{FALSE} then \code{NA} is returned.}
+
+\item{start, end}{The start (inclusive) and end of the interval (exclusive).
+These can be any type that is convertible to a \code{datey}.}
 }
 \value{
 A vector of \code{datey_interval}.
 }
 \description{
-Create a \code{datey_interval} representing [\code{start}, \code{end}).
+Creates a \code{datey_interval},
+a closed-open ('clopen') interval  [\code{start}, \code{end}).
 
-These are closed-open ('clopen') intervals \code{start} <= t < \code{end}, i.e. the
-interval includes \code{start} but excludes \code{end}.
+A \code{datey} \code{t} in included in the interval if \code{start} <= t < \code{end}.
 
-There are two syntaxes:
+There are two syntaxes to create a \code{datey_interval} from \code{start} and \code{end}:
 \itemize{
 \item operator: \code{start \%to\% end}
 \item function: \code{datey_interval(start, end)}
 }
 
+in which \code{start} and \code{end} are \code{datey} or numeric (interpreted as years).
 These are equivalent other than \code{strict} is always on for the operator
-version.
+version. The lengths of vector arguments must be multiples of each other.
+
+A \code{datey_interval} can also be created from \code{logical}, mapping
+\itemize{
+\item \code{TRUE} to [1000,3000), which is referred to as
+'all of time' in \strong{datey} documentation, and
+\item \code{FALSE} and \code{NA} to \code{NA_datey_interval_}.
+}
+
+Arguments \emph{of the correct type} but which are NA
+result in \code{NA_datey_interval_}
+-- they do not stop execution (regardless of \code{strict}).
+
+Common operations on intervals are
+\itemize{
+\item testing for \emph{inclusion}, i.e. with an interval includes a date -- \code{interval \%includes\% t}, and
+\item obtaining the \emph{intersection}, which uses the \code{&} operator -- \verb{interval_a & interval b}.
+}
 }
 \examples{
-  datey(1999) \%to\% mid_day(2025, 7, 15)
-  datey(1999) \%to\% datey(2000:2002)
+start <- datey(2000)
+end <- datey(2001)
+interval <- start \%to\% end
+interval  # [2000-01-01.0, 2001-01-01.0)
+
+# Alternative functional syntax:
+identical(interval, datey_interval(start, end)) # TRUE
+
+# Can use numeric arguments:
+2000 \%to\% 2001  # [2000-01-01.0, 2001-01-01.0)
+
+# Can use vector arguments:
+2000 \%to\% 2001:2003 # Vector of 3 intervals
+
+# Logical values are mapped to 'all of time' or `NA_datey_interval_`:
+datey_interval(c(TRUE, FALSE, NA)) # [1000-01-01.0, 3000-01-01.0) <NA> <NA>
+
+# Test for inclusion in [start, end):
+interval \%includes\% mid_day(1999, 12, 31) # FALSE
+interval \%includes\% start                 # TRUE -- start *is* included
+interval \%includes\% datey(2000.5)         # TRUE
+interval \%includes\% end                   # FALSE -- end is *not* included
+
+# Obtain the intersection of two intervals
+interval2 <- start_day(2000, 12, 1) \%to\% 2010
+interval & interval2  # [2000-12-01.0, 2001-01-01.0)
+
+}
+\seealso{
+\link{interval_properties}, \link{interval_nature}, \link{interval_includes},
+\link{all_of_time}, \link{durationy}, \link{ops}, \link{is_NA},
+\code{vignette("datey", package = "datey")} for a worked introduction
 }

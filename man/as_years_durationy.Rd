@@ -13,20 +13,31 @@
 \arguments{
 \item{x}{The \code{durationy} to convert to years.}
 
-\item{...}{Other arguments (not used in this package).}
+\item{...}{Not used.}
 }
 \value{
 A vector of \code{double}.
 }
 \description{
-Converts a \code{durationy} to duration in years.
+Converts a \code{durationy} to its duration measured in years.
 
-Note the following:
-\itemize{
-\item \code{as.numeric()} is the same as \code{as.double()}.
-\item \code{as.integer()} obtains the integer part,
-e.g. \code{as.integer(durationy(1.9))} is \code{1}
-and \code{as.integer(durationy(-1.9))} is \code{-1}.
+\code{as.numeric()} is the same as \code{as.double()}.
+
+\code{as.integer()} obtains the integer part as an \code{integer}, e.g.
+\code{as.integer(durationy(1.75))} is \code{1}
+and \code{as.integer(durationy(-1.75))} is \code{-1} (i.e. rounding towards \code{0}).
+It is also the case that if \code{x} is a \code{durationy} then
 \code{as.integer(x)} is the same as \code{as.integer(as.double(x))}.
 }
+\examples{
+d <- durationy(1.75)
+d                   # 1.75 yr
+as.double(d)        # 1.75
+as.numeric(d)       # 1.75
+as.integer(d)       # 1
+as.integer(-d)      # -1
+identical(as.integer(d), 1L) # TRUE
+}
+\seealso{
+\link{durationy}, \link{as_years_datey}, \link{ops}
 }

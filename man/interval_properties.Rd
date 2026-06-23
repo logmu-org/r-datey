@@ -19,6 +19,12 @@
 \description{
 Get the start, end or duration of a \code{datey_interval} using the syntax
 \verb{$start}, \verb{$end} or \verb{$duration} respectively.
+
+\verb{$duration} is the duration of the interval \emph{provided it is proper}
+(i.e. start <= end).
+If the interval is improper then \verb{$duration}is \code{NA_durationy_}.
+When \code{x} is a \code{datey_interval} then \code{x$duration} is identical to
+\code{durationy(x)}.
 }
 \examples{
   t_1 <- start_day(2001, 1, 1)
@@ -28,4 +34,7 @@ Get the start, end or duration of a \code{datey_interval} using the syntax
   interval$start
   interval$end
   interval$duration
+}
+\seealso{
+\link{datey_interval}, \link{interval_nature}, \link{interval_includes}
 }
