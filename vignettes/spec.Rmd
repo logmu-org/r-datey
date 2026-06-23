@@ -43,7 +43,7 @@ The following are non goals and should be handled outside the **datey** system:
 
 Literal dates in this specification are written using [`YYYY-MM-DD` notation](https://xkcd.com/1179/), where  `YYYY` is a four-digit year, `MM` is a two-digit month of the year, 01 to 12, and `DD` is the two-digit day of the month, 01 to 31.
 
-Banker's rounding[^bankers-rounding] means round a `double` to the nearest integer unless the fractional part is +/-0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to `integer`, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of `integer`.
+Banker's rounding[^bankers-rounding] means round a `double` to the nearest integer unless the fractional part is ±0.5, in which case round it to the nearest even integer. In the algorithms below, it also entails conversion to `integer`, which is safe because, in all cases, the algorithms guarantee that the value to convert lies within the range of `integer`.
 
 [^bankers-rounding]: Banker's rounding is also known as 'round to nearest, ties to even' or 'round half to even'. It is the default rounding mode for IEEE&#xA0;754 binary floating-point.
 
@@ -77,7 +77,7 @@ Dates are mapped to `datey`s as the number of clicks since the start of the noti
 
 A `datey`  that would otherwise represent a date before calendar year 1000 or after the start of calendar year 3000 should be treated as invalid[^default-or-NA] when mapping dates to or from a `datey`.
 
-[^default-or-NA]: This means that both 0 (the default in many languages) and -2<sup>31</sup> (used by R to indicate missing data or `NA`) are invalid `datey`s.
+[^default-or-NA]: This means that both 0 (the default in many languages) and −2<sup>31</sup> (used by R to indicate missing data or `NA`) are invalid `datey`s.
 
 ### Durations
 
@@ -109,11 +109,11 @@ Worked examples:
 |`datey`|3000 | 1&#x202F;603&#x202F;080&#x202F;000 | 3000&#xA0;×&#xA0;534&#x202F;360 |
 |`datey`|3000.01 | Invalid | |
 |`durationy`|+1 | +534&#x202F;360 |
-|`durationy`|-2.75 | -1&#x202F;469&#x202F;490| -2.75&#xA0;×&#xA0;534&#x202F;360|
-|`durationy`| +/-0.5&#xA0;/&#xA0;534&#x202F;360 | 0 | round(±0.5)|
+|`durationy`|−2.75 | −1&#x202F;469&#x202F;490| −2.75&#xA0;×&#xA0;534&#x202F;360|
+|`durationy`| ±0.5&#xA0;/&#xA0;534&#x202F;360 | 0 | round(±0.5)|
 |`durationy`| +1.5&#xA0;/&#xA0;534&#x202F;360 | +2 | round(+1.5)|
-|`durationy`| -1.5&#xA0;/&#xA0;534&#x202F;360 | -2 | round(-1.5)|
-|`durationy`|+/-2000.01 |Invalid||
+|`durationy`| −1.5&#xA0;/&#xA0;534&#x202F;360 | −2 | round(−1.5)|
+|`durationy`|±2000.01 |Invalid||
 
 
 ### Mapping a date to a `datey`
@@ -139,7 +139,7 @@ The mapping as a function of `integer` *year*, *month* and *day*, and `double` *
 
 1. Define the `integer` *days_to_start_of_month* as the number of days from the start of the year to the start of *month*, allowing for whether *year* is a leap year.
 
-1. Define the `integer` *day_count* as *days_to_start_of_month* + *day* - 1. 
+1. Define the `integer` *day_count* as *days_to_start_of_month* + *day* − 1. 
 
 1. Define the `integer` *fraction_clicks* as *day_fraction* × *clicks_per_day* rounded to `integer` using banker's rounding. 
 
@@ -171,7 +171,7 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and *day_fraction* a
 
 1. *year* is *clicks* div  534&#x202F;360, where div means `integer` division rounded down to the nearest integer.
 
-1. Define *clicks_remaining* as *clicks* - *year* × 534&#x202F;360.
+1. Define *clicks_remaining* as *clicks* − *year* × 534&#x202F;360.
 
 1. Define *clicks_per_day* as 1460 if *year* is a leap year and 1464 otherwise.
 
@@ -179,7 +179,7 @@ A `datey` is mapped from *clicks* to *year*, *month*, *day* and *day_fraction* a
 
 1. Use *day_in_year* to determine *month* and *day*.
 
-1. Define *day_fraction_clicks* as *clicks_remaining* - *day_in_year* × *clicks_per_day*.
+1. Define *day_fraction_clicks* as *clicks_remaining* − *day_in_year* × *clicks_per_day*.
 
 1. *day_fraction* is *day_fraction_clicks* / *clicks_per_day* using `double` division.
 
@@ -193,16 +193,16 @@ The following arithmetic operations are defined by applying the specified operat
 | Operation | Left | Operators| Right | Result type|
 |:---|:---:|:---:|:---:|:---|
 |Order relation for dates| `datey` | = ≠ &lt; &gt; ≤ ≥ | `datey` | Boolean | 
-|Date subtraction| `datey` | - | `datey` | `durationy` |
-|Date offset by a duration| `datey` | + - | `durationy` | `datey` |
+|Date subtraction| `datey` | − | `datey` | `durationy` |
+|Date offset by a duration| `datey` | + − | `durationy` | `datey` |
 |Date offset by a duration | `durationy` | `+` | `datey` | `datey` |
 |Order relation for durations| `durationy` | = ≠ &lt; &gt; ≤ ≥ | `durationy` | Boolean | 
-|Duration addition and subtraction | `durationy` | + - | `durationy` | `durationy` |
+|Duration addition and subtraction | `durationy` | + − | `durationy` | `durationy` |
 
-The unary plus (+) and minus (negation or -) operators are defined for a `durationy`:
+The unary plus (+) and minus (negation or −) operators are defined for a `durationy`:
 
 - The + operator returns its argument unchanged.
-- The - operator changes the sign of the clicks.
+- The − operator changes the sign of the clicks.
 
 It is *not* required or expected that the above operations will be checked for `integer` overflow in *intermediate* calculations on the basis that
 
@@ -222,8 +222,8 @@ The following standard operations are legal
 
 |Operands|Operators|Result type|
 |:---|:---:|:---|
-|`datey` and numeric|+ - |`double`|
-|`durationy` and numeric|+ - ×  ÷|`double`|
+|`datey` and numeric|+ − |`double`|
+|`durationy` and numeric|+ − ×  ÷|`double`|
 |`datey` and numeric<br/>`durationy` and numeric|= ≠ &lt; &gt; ≤ ≥|Boolean|
 
 ## Text representations
@@ -257,7 +257,7 @@ Unless `durationy` itself is being serialised, it is recommended that durations 
 
 A valid `durationy` is represented in text in the format `[S]...Y[.F...][ U...]` where
 
-- `[S]` is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus '-' (U+2212) or ASCII hyphen-minus '-' (U+002D).
+- `[S]` is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
 - `...Y` is number of whole years (leading zeros allowed).
 - `[.F...]` is an optional fractional part of year, including '.' to represent the decimal point.
 - `[ U...]` is the unit name for one year preceded by a space if the unit name is not blank. The unit name cannot be longer than 20 UTF-8 bytes or contain control characters.
@@ -265,7 +265,7 @@ A valid `durationy` is represented in text in the format `[S]...Y[.F...][ U...]`
 For text *outputs*:
 
 - It is optional whether '+' (U+002B) plus sign is included for positive durations. (Default is omit '+').
-- It is optional whether to use the true minus sign '-' (U+2212) or the ASCII '-' (U+002D) hyphen-minus character. (Default is use true minus sign.)
+- It is optional whether to use the true minus sign '−' (U+2212) or the ASCII '-' (U+002D) hyphen-minus character. (Default is use true minus sign.)
 - The fraction contains no more than 6 decimal places (because this is sufficient to distinguish all possible duration fractions at **datey** precision).
 - The preferred (but not required) behaviour is for trailing zeros to be omitted and, when the fraction is zero, for there to  be no decimal point or fraction.
 - The unit name is user-specifiable. (Default is 'yr'.)
