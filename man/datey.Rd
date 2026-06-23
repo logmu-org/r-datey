@@ -107,7 +107,7 @@ are all provided, in which case \code{x} must be integral, or
 (b) none of those parameters are provided,
 in which case
 \code{x} is interpreted as a fractional calendar year and
-rounded to the nearest 1 / 534 360 of a
+rounded to the nearest 1 / \ifelse{html}{\out{534&#x202F;360}}{534360} of a
 year (Banker's rounding). This unit is called a \emph{click} and is the
 resolution of all \strong{datey} arithmetic.
 For instance, \code{datey(2000.5)} means halfway through the year 2000.
