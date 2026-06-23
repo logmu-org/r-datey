@@ -26,10 +26,10 @@ The generic types are as follows:
   are all provided, in which case `x` must be integral, or
 
   (b) none of those parameters are provided, in which case `x` is
-  interpreted as a fractional calendar year and rounded to the nearest
-  1 / 534 360 of a year (Banker's rounding). This unit is called a
-  *click* and is the resolution of all **datey** arithmetic. For
-  instance, `datey(2000.5)` means halfway through the year 2000.
+  interpreted as a fractional calendar year and rounded to the nearest 1
+  / 534 360 of a year (Banker's rounding). This unit is called a *click*
+  and is the resolution of all **datey** arithmetic. For instance,
+  `datey(2000.5)` means halfway through the year 2000.
 
 - `Date`. This base R date type is interpreted strictly. (It is possible
   to end up with an unintentionally fractional underlying value, e.g. by
