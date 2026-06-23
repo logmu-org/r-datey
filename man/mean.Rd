@@ -2,10 +2,13 @@
 % Please edit documentation in R/summary.R
 \name{mean}
 \alias{mean}
+\alias{mean.datey_interval}
 \alias{mean.datey}
 \alias{mean.durationy}
 \title{Mean value of \code{datey} or \code{durationy}}
 \usage{
+\method{mean}{datey_interval}(x, ..., na.rm = FALSE)
+
 \method{mean}{datey}(x, ..., na.rm = FALSE)
 
 \method{mean}{durationy}(x, ..., na.rm = FALSE)
@@ -13,21 +16,26 @@
 \arguments{
 \item{x}{The \code{datey} or \code{durationy}.}
 
-\item{...}{Other arguments (not used in this package).}
+\item{...}{Not used.}
 
 \item{na.rm}{A logical (\code{TRUE} or \code{FALSE}) indicating whether NA values should be removed before the computation.}
 }
 \value{
-A scalar of \code{datey} or \code{duration} as appropriate.
+A scalar of \code{datey} or \code{durationy} as appropriate.
 }
 \description{
 Gets the mean value of a vector of \code{datey} or \code{durationy} as a scalar.
 
 This will entail rounding if the mean of
 the underlying click counts is not an integer.
+
+These are S3 methods for the \code{mean} generic.
 }
 \examples{
     t <- datey(2000:2003)
     t
     mean(t)
+}
+\seealso{
+\link{datey}, \link{durationy}, \link{max_min}
 }

@@ -26,14 +26,19 @@ printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code
 }
 \value{
 \code{as.character} and \code{format} return a vector of \code{character}.
+\code{print} invisibly returns \code{x}.
 }
 \description{
 A \code{datey_interval} is printed as "[start, end)", where start and end are
 printed either as
 \itemize{
 \item \code{YYYY-MM-DD}, i.e. ISO 8601 extended date format, or
-\item \code{YYYY-MM-DD.FFF} where \code{.FFF} is the day fraction part.
+\item \code{YYYY-MM-DD.F...} where \code{.F...} is the day fraction part.
 }
 
-If \code{include_day_fraction} is \code{TRUE} then \code{.FFF} is included even if it is 0.
+If \code{include_day_fraction} is \code{TRUE} then \verb{[.F...]} is included even if it
+is 0 (i.e. \code{.0}).
+}
+\seealso{
+\link{datey_interval}
 }

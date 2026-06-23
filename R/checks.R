@@ -6,6 +6,7 @@
 
 is_pure_logical <- function(x) is.logical(x) && !is.object(x)
 is_pure_numeric <- function(x) is.numeric(x) && !is.object(x)
+is_pure_character <- function(x) is.character(x) && !is.object(x)
 
 
 as_integer_for_cpp <- function(x) {

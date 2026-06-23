@@ -14,7 +14,8 @@ is_mid_day(x)
 \item{x}{The \code{datey} to test.}
 }
 \value{
-A vector of \code{logical}. Invalid \code{datey} elements will return \code{NA}.
+A vector of \code{logical}. Elements of the \code{datey} vector that are
+\code{NA_datey_} will result in \code{NA} elements of the result vector.
 }
 \description{
 \code{is_start_day()} checks whether \code{x} is the start or end of a day.
@@ -25,34 +26,18 @@ These properties are \emph{not} necessarily preserved when a duration of
 \emph{n} years is added or subtracted.
 }
 \examples{
-# Start and end days:
-t <- start_day(2000, 1, 1)
-t
-is_start_day(t) # TRUE
-is_mid_day(t)   # FALSE
-t <- end_day(2000, 1, 1)
-t
-is_start_day(t) # TRUE
-is_mid_day(t)   # FALSE
+# Create (NA, 0 days, 1/4 day, 1/2 day):
+t <- datey(c(NA_real_, 2000, 2000 + 0.25/366, 2000 + 0.5/366))
+t # <NA>  2000-01-01.0  2000-01-01.25 2000-01-01.5
 
-# Mid day:
-t <- mid_day(2000, 1, 1)
-t
-is_start_day(t) # FALSE
-is_mid_day(t)   # TRUE
+is_start_day(t) # NA  TRUE FALSE FALSE
+is_mid_day(t)   # NA FALSE FALSE  TRUE
 
-# Neither a start nor mid day:
-t <- from_ymdf(2000, 1, 1, 0.25)
-t
-is_start_day(t) # FALSE
-is_mid_day(t)   # FALSE
-
-# Invalids return NA
-is_start_day(NA_datey_) # NA
-is_mid_day(NA_datey_)   # NA
-
-# Properties are not preserved:
+# Properties are not necessarily preserved between years:
 t <- start_day(2000,7,1) # Leap year
 is_start_day(t) # TRUE
 is_start_day(t + durationy(1)) # FALSE
+}
+\seealso{
+\link{datey}
 }

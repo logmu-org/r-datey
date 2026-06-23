@@ -14,16 +14,19 @@ NA_datey_interval_
 NA_durationy_
 }
 \description{
-The \code{datey}, \code{durationy} and \code{datey_interval} versions of NA
+Throughout the \strong{datey} package, \code{NA} will cause an error when used where
+a \code{datey_}, \code{durationy_} or \code{datey_interval_} is expected.
+This is because its type is \code{logical} and potentially indicates user
+error. If you want an NA value with a \strong{datey} system type, use one of \code{NA_datey_}, \code{NA_durationy_}
+or \code{NA_datey_interval_}.
 }
 \examples{
   is_datey(NA_datey_)
   is.na(NA_datey_)
   is_durationy(NA_durationy_)
   is.na(NA_durationy_)
-  is_datey(NA_datey_interval_)
   is_datey_interval(NA_datey_interval_)
 }
 \seealso{
-\link{is_NA}, \link{integer_constants}
+\link{is_NA}, \link{integer_constants}, \link{datey}, \link{durationy}, \link{datey_interval}
 }

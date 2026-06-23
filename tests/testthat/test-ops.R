@@ -126,6 +126,7 @@ test_that("undefined operators throw errors for durationys", {
   expect_error(D1 * D2)
   expect_error(D1 / D2)
 })
+
 test_that("datey / durationy operators with numerics", {
 
   T_2000 <- datey(2000)
@@ -207,9 +208,124 @@ test_that("intersection for datey_interval", {
   T3 <- datey(2003)
   T4 <- datey(2004)
 
+  I12 <- datey_interval(T1, T2)
   I13 <- datey_interval(T1, T3)
-  I24 <- datey_interval(T2, T4)
   I23 <- datey_interval(T2, T3)
+  I24 <- datey_interval(T2, T4)
+  I34 <- datey_interval(T3, T4)
 
+  # Overlapping intervals
   expect_identical(I13 & I24, I23)
+
+  # Adjacent intervals produce an empty (collapsed, proper) interval
+  expect_identical(I12 & I23, datey_interval(T2, T2))
+  expect_true(is_collapsed(I12 & I23))
+  expect_true(is_proper(I12 & I23))
+
+  # Non-adjacent non-intersecting intervals produce NA
+  expect_identical(I12 & I34, NA_datey_interval_)
+})
+
+test_that("equality for datey_interval", {
+
+  T1 <- datey(2001)
+  T2 <- datey(2002)
+  T3 <- datey(2003)
+
+  I12 <- datey_interval(T1, T2)
+  I13 <- datey_interval(T1, T3)
+
+  expect_identical(I12 == I12, TRUE)
+  expect_identical(I12 != I12, FALSE)
+  expect_identical(I12 == I13, FALSE)
+  expect_identical(I12 != I13, TRUE)
+
+  # NA propagation: NA interval produces NA result
+  expect_identical(NA_datey_interval_ == I12, NA)
+  expect_identical(I12 == NA_datey_interval_, NA)
+  expect_identical(NA_datey_interval_ == NA_datey_interval_, NA)
+})
+
+test_that("%includes% accepts numeric RHS", {
+
+  interval <- datey(2000) %to% datey(2001)
+
+  expect_identical(interval %includes% 2000,   TRUE)
+  expect_identical(interval %includes% 2000.5, TRUE)
+  expect_identical(interval %includes% 2001,   FALSE)
+  expect_identical(interval %includes% 1999.9, FALSE)
+})
+
+test_that("all op result types", {
+
+  t <- datey(2000)
+  t2 <- datey(2002.5)
+  d <- durationy(2.5)
+  d2 <- durationy(5)
+  interval <- datey_interval(t, t2)
+
+  # | `datey` | `==` `!=` `<` `<=` `>` `>=` | `datey` | logical | Order relation for dates
+  expect_identical(t == t2, FALSE)
+  expect_identical(t != t2, TRUE)
+  expect_identical(t < t2, TRUE)
+  expect_identical(t <= t2, TRUE)
+  expect_identical(t > t2, FALSE)
+  expect_identical(t >= t2, FALSE)
+
+  # | `datey` | `-` | `datey` | `durationy` | Duration between two dates
+  expect_identical(t2 - t, d)
+  # | `datey` | `+` `-` | `durationy` | `datey` | A date offset by a duration
+  expect_identical(t + d, t2)
+  expect_identical(t2 - d, t)
+  # | `durationy` | `+` | `datey` | `datey` | A date offset by a duration
+  expect_identical(d + t, t2)
+
+  # | `durationy` | `==` `!=` `<` `<=` `>` `>=` | `durationy` | `logical` |  Order relation for durations
+  expect_identical(d == d2, FALSE)
+  expect_identical(d != d2, TRUE)
+  expect_identical(d < d2, TRUE)
+  expect_identical(d <= d2, TRUE)
+  expect_identical(d > d2, FALSE)
+  expect_identical(d >= d2, FALSE)
+
+  # | `durationy` | `+` `-` | `durationy` | `durationy` | Duration addition and subtraction
+  expect_identical(d + d, d2)
+  expect_identical(d2 - d, d)
+
+  # | `datey` | `%to%` | `datey` | `datey_interval` | Syntactic sugar for `datey_interval()`
+  expect_identical(t %to% t2, interval)
+
+  # | `datey_interval` | `%includes%` | `datey` | `logical` | Whether the interval contains the date
+  expect_identical(interval %includes% t, TRUE)
+
+
+  #' - Comparison, i.e. a `datey` or `durationy` `==` `!=` `<` `<=` `>` `>=` numeric or vice versa. Result is `logical`.
+  expect_identical(t == 2002.5, FALSE)
+  expect_identical(t != 2002.5, TRUE)
+  expect_identical(t < 2002.5, TRUE)
+  expect_identical(t <= 2002.5, TRUE)
+  expect_identical(t > 2002.5, FALSE)
+  expect_identical(t >= 2002.5, FALSE)
+  expect_identical(d == 5, FALSE)
+  expect_identical(d != 5, TRUE)
+  expect_identical(d < 5, TRUE)
+  expect_identical(d <= 5, TRUE)
+  expect_identical(d > 5, FALSE)
+  expect_identical(d >= 5, FALSE)
+
+  #' - `datey` addition and subtraction, i.e. a `datey` `+` `-` a numeric or vice versa. Result is `double`.
+  expect_identical(t + 2.5, 2002.5)
+  expect_identical(2.5 + t, 2002.5)
+  expect_identical(t2 - 2.5, 2000)
+  expect_identical(2002.5 - t, 2.5)
+
+  #' - `durationy` arithmetic, i.e. a `durationy` `+` `-` `*` `/` a numeric or vice versa. Result is `double`.
+  expect_identical(d + 2, 4.5)
+  expect_identical(2 + d, 4.5)
+  expect_identical(d - 2, 0.5)
+  expect_identical(2 - d, -0.5)
+  expect_identical(d * 2, 5)
+  expect_identical(2 * d, 5)
+  expect_identical(d / 2, 1.25)
+  expect_identical(2 / d, 0.8)
 })

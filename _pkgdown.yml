@@ -34,17 +34,19 @@ navbar:
   - text: Change log
     href: news/index.html
 reference:
-- title: Date and duration methods
+- title: Package overview
   contents:
-  - xxx_day
-  - as_xxx_day
+  - datey-package
+- title: 'Create a `datey` or `durationy`'
+  contents:
   - datey
-  - datey_properties
-  - ymdf
   - durationy
   - seq
-- title: Properties
+  - combine
+  - subset
+- title: 'Properties of `datey` and `durationy`'
   contents:
+  - datey_components
   - is_type
   - is_xxx_day
   - is_leap_year
@@ -57,24 +59,18 @@ reference:
   - ops
   - mean
   - max_min
-- title: Date intervals
+- title: '`datey_interval`'
   contents:
   - datey_interval
   - interval_nature
   - interval_properties
   - interval_includes
   - all_of_time
-- title: Text parsing and printing
+- title: Formatting and printing
   contents:
-  - text_to_datey
-  - text_to_durationy
   - text_from_datey
   - text_from_durationy
   - text_from_datey_interval
-- title: Utilities
-  contents:
-  - combine
-  - subset
 - title: NA handling
   contents:
   - is_NA

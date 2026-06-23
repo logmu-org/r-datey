@@ -8,17 +8,17 @@
 test_that("`c()` on `datey`", {
 
   na_1 <- NA_datey_
-  na_2 <- from_ymdf(0999, 12, 31, 1459/1460, strict = FALSE)
-  na_3 <- from_ymdf(3000, 01, 01, 1/1464, strict = FALSE)
+  na_2 <- datey(0999, 12, 31, 1459/1460, strict = FALSE)
+  na_3 <- datey(3000, 01, 01, 1/1464, strict = FALSE)
 
-  d_1 <- from_ymdf(1000, 01, 01, 0.00)
-  d_2 <- from_ymdf(2020, 05, 23, 0.4567)
-  d_3 <- from_ymdf(2999, 12, 31, 0.9993)
+  d_1 <- datey(1000, 01, 01, 0.00)
+  d_2 <- datey(2020, 05, 23, 0.4567)
+  d_3 <- datey(2999, 12, 31, 0.9993)
 
-  vd_4 <- from_ymdf(1800:1802, 07, 01, 0)
-  d_4a <- from_ymdf(1800, 07, 01, 0)
-  d_4b <- from_ymdf(1801, 07, 01, 0)
-  d_4c <- from_ymdf(1802, 07, 01, 0)
+  vd_4 <- datey(1800:1802, 07, 01, 0)
+  d_4a <- datey(1800, 07, 01, 0)
+  d_4b <- datey(1801, 07, 01, 0)
+  d_4c <- datey(1802, 07, 01, 0)
 
   expect_identical(is_datey(c(d_1)), TRUE)
   expect_identical(is_datey(c(d_2, d_1)), TRUE)
@@ -68,10 +68,10 @@ test_that("`c()` on `durationy`", {
 # `[<-.datey` <- function(x, i, value, ...) ==================================================
 test_that("`[.datey` and `[<-.datey`", {
 
-  d_1 <- from_ymdf(1000, 01, 01, 0.00)
-  d_2 <- from_ymdf(1999, 12, 31, 0.5)
-  d_3 <- from_ymdf(2020, 05, 23, 0.4567)
-  d_4 <- from_ymdf(2999, 12, 31, 0.9993)
+  d_1 <- datey(1000, 01, 01, 0.00)
+  d_2 <- datey(1999, 12, 31, 0.5)
+  d_3 <- datey(2020, 05, 23, 0.4567)
+  d_4 <- datey(2999, 12, 31, 0.9993)
 
   d_5 <- start_day(2000, 1, 5)
   d_6 <- start_day(2000, 1, 6)

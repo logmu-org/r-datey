@@ -44,4 +44,7 @@ Subsets \code{datey}, \code{durationy} or \code{datey_interval} vectors.
   x[2:3] <- datey(1999)
   x
 }
+\seealso{
+\link{datey}, \link{durationy}, \link{datey_interval}, \link{combine}
+}
 \keyword{subset}

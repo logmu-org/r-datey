@@ -9,102 +9,219 @@
 \alias{datey.Date}
 \alias{datey.POSIXct}
 \alias{datey.POSIXlt}
-\title{Create a \code{datey} from a calendar year (including its fractional part) or
-another date type}
+\alias{datey.character}
+\alias{start_day}
+\alias{mid_day}
+\alias{end_day}
+\title{Create a \code{datey}}
 \usage{
-datey(x, day_fraction = NULL, strict = TRUE, ...)
+datey(x, ...)
 
-\method{datey}{default}(x, day_fraction = NULL, strict = TRUE, ...)
+\method{datey}{default}(x, ...)
 
 \method{datey}{datey}(x, day_fraction = NULL, strict = TRUE, ...)
 
-\method{datey}{integer}(x, day_fraction = NULL, strict = TRUE, ...)
+\method{datey}{integer}(x, month = NULL, day = NULL, day_fraction = NULL, strict = TRUE, ...)
 
-\method{datey}{double}(x, day_fraction = NULL, strict = TRUE, ...)
+\method{datey}{double}(x, month = NULL, day = NULL, day_fraction = NULL, strict = TRUE, ...)
 
-\method{datey}{Date}(x, day_fraction = NULL, strict = TRUE, ...)
+\method{datey}{Date}(x, day_fraction, strict = TRUE, ...)
 
 \method{datey}{POSIXct}(x, day_fraction = NULL, strict = TRUE, ...)
 
 \method{datey}{POSIXlt}(x, day_fraction = NULL, strict = TRUE, ...)
+
+\method{datey}{character}(x, day_fraction = NULL, strict = TRUE, blank_is_NA = FALSE, ...)
+
+start_day(x, month = NULL, day = NULL, strict = TRUE, blank_is_NA = FALSE)
+
+mid_day(x, month = NULL, day = NULL, strict = TRUE, blank_is_NA = FALSE)
+
+end_day(x, month = NULL, day = NULL, strict = TRUE, blank_is_NA = FALSE)
 }
 \arguments{
 \item{x}{The argument to convert to a \code{datey}.}
 
-\item{day_fraction}{The \code{day_fraction} override. Defaults to \code{NULL}.
+\item{...}{Not used.}
 
-If \code{day_fraction} is \emph{not} provided then \code{x} is used to derive both
-the calendar year, month, day \emph{and} the day fraction.
+\item{day_fraction}{The \code{day_fraction} override. Defaults to \code{NULL} except for the \code{Date} type,
+in which case it must always be provided.
 
-If \code{day_fraction} \emph{is} provided then \code{x} is used solely to derive the
+If \code{day_fraction} \emph{is} provided (which is implicitly the case for
+\code{start_day()}, \code{mid_day()} and \code{end_day()})
+then \code{x} is used solely to derive the
 calendar year, month and day, while \code{day_fraction} provides the position in
 the day. \code{day_fraction} must lie in the inclusive interval [0,1], with
 0 meaning the start of the day,
 0.5 meaning the middle of the day, and
 1 meaning the end of the day (which is identical to the start of the next
-day).}
+day). For text this means that there should be \emph{no} trailing fraction, e.g.
+\code{start_day("2020-01-01")}.
 
-\item{strict}{How calendar years less than 1000 or greater than 3000 and day
-fractions not in the interval [0,1] should be
-handled.
+If \code{day_fraction} is \emph{not} provided then \code{x} is used to derive both
+the calendar year, month, day \emph{and} the day fraction.}
+
+\item{strict}{How non-compliant \emph{non-NA} inputs should be handled.
 If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
-If \code{strict} is \code{FALSE} then \code{NA} is returned.
+If \code{strict} is \code{FALSE} then \code{NA} is returned.}
 
-NA arguments result in NA (and do not stop execution) regardless of \code{strict}.}
+\item{month, day}{The month (1--12) and day (1--31).
+Valid only for for numeric \code{x}.
+If one of \code{month} or \code{day} is provided then both must be and,
+for \code{datey()}, \code{day_fraction} must also be provided.}
 
-\item{...}{Other arguments (not used in this package).}
+\item{blank_is_NA}{Whether "" should be treated as \code{NA} (regardless of \code{strict}).
+When \code{x} is \code{""} then
+if \code{blank_is_NA} is \code{TRUE} then \code{""} results in \code{NA}, otherwise
+execution is stopped. Defaults to \code{FALSE}.
+Valid only for for character \code{x}.}
 }
 \value{
 A vector of \code{datey}.
 }
 \description{
-This package provides methods to create a \code{datey} from the following:
+To create a \code{datey} use one of the following:
 \itemize{
-\item \code{double} and \code{integer} are interpreted as the specified
-calendar year, with the fractional part representing the fraction of the
-year. For instance, \code{datey(2000.5)} means halfway through the year 2000.
-(This means that an \code{integer} argument always indicates the \emph{start} of the
-calendar year, e.g. \code{datey(2000L)} is the start of the year 2000.)
-\item \code{Date} and \code{POSIXct} and \code{POSIXlt} are interpreted as fractional
-years. If no \code{day_fraction} argument is provided then the day fraction is
-determined by the hours, minutes, and seconds. For instance,
+\item \code{start_day()} and \code{end_day()} are the points in time at the \emph{start} and
+\emph{end} of the day respectively.
+\item \code{mid_day()} is the the \emph{middle} of the day, commonly used to represent a
+point in time \emph{during} the day.
+\item \code{datey()} is the underlying S3 generic function.
+\code{start_day()}, \code{mid_day()} and \code{end_day()} call through to \code{datey}
+with an explicit \code{day_fraction} or \code{0}, \code{0.5} and \code{1} respectively.
+}
+
+The generic types are as follows:
+\itemize{
+\item \code{double} and \code{integer}. These are interpreted as calendar year, optionally
+with a fractional part in the case of \code{double}.
+
+Valid years are from 1000 to 3000 (although the only legal date in 3000
+is the start of 3000-01-01).
+
+Either
+
+(a) \code{month} and \code{day} (and for \code{datey()}, \code{day_fraction}) parameters
+are all provided, in which case \code{x} must be integral, or
+
+(b) none of those parameters are provided,
+in which case
+\code{x} is interpreted as a fractional calendar year and
+rounded to the nearest 1 / 534 360 of a
+year (Banker's rounding). This unit is called a \emph{click} and is the
+resolution of all \strong{datey} arithmetic.
+For instance, \code{datey(2000.5)} means halfway through the year 2000.
+\item \code{Date}. This base R date type is interpreted strictly.
+(It is possible to end up with an unintentionally fractional
+underlying value, e.g. by taking a mean of \code{Date}s.)
+A \code{day_fraction} argument is always required.
+\item \code{POSIXct} and \code{POSIXlt}. How these base R date-time types are interpreted
+depends on whether a \code{day_fraction} is provided.
+
+If \code{day_fraction} \emph{is} provided then these are interpreted strictly
+using the date component only -- the time component is ignored completely.
+
+If \code{day_fraction} is \emph{not} provided then the day fraction is
+determined using the hours, minutes, and seconds. For instance,
 \code{datey(as.POSIXct("2000-03-21 12:00"))} means the \emph{middle} of 2000-03-21.
-Note that in standard use, a \code{Date} has no fractional part and therefore
-means the \emph{start} of the day. For instance,
-\code{datey(as.Date("2000-03-21 12:00"))} means the \emph{start} of 2000-03-21.
-\item \code{character} -- If \code{day_fraction} \emph{is} provided then the text format must
-be in ISO 8601 extended format, i.e. YYYY-MM-DD. If \code{day_fraction} is \emph{not}
-provided then the text format must be YYYY-MM-DD.FFF, where .FFF is the day
-fraction and must be present even if the fraction is 0, e.g. "2000-01-01.0"
-for the start of 1 January 2000.
-\item \code{datey} is interpreted as is but with the optional \code{day_fraction} override.
+\item \code{character}. How text is parsed depends on whether a \code{day_fraction} is provided.
+
+If \code{day_fraction} \emph{is} provided then the text must be in ISO 8601 extended
+format, i.e. \code{YYYY-MM-DD}.
+
+If \code{day_fraction} is \emph{not} provided then the text must be formatted as
+\verb{YYYY-MM-DD[.F..].}, where \verb{[.F...]} is the optional day fraction. This means
+that e.g. \code{"2000-01-01"} represents the \emph{start} of 1 January 2000.
+
+If \code{blank_is_NA} is \code{TRUE} then blanks are treated as \code{NA} (regardless of \code{strict}).
+\item \code{datey}. This is interpreted as is but with the optional \code{day_fraction} override.
 Note that a \code{day_fraction} of 1 will add a day to a day boundary,
 \emph{even if it was originally defined as an end day}.
 }
 
 The lengths of vector arguments must be multiples of each other.
 
-This is an S3 generic.
+Beware that \code{end_day()} will add a day to a \code{datey} that is already on a
+day boundary, \emph{even if it was originally defined as an end day}.
+
+There is no \code{is_end_day()} predicate: end days are stored identically to
+the start of the following day, so \code{is_start_day()} is the correct test.
+
+NA arguments \emph{of the appropriate type} result in \code{NA_datey_}
+-- they do not stop execution (regardless of \code{strict}).
+Note that \code{NA} is \code{logical} and therefore it \emph{will} cause an error.
 }
 \examples{
-datey(2000)
+start_day(2001, 2, 3)
+mid_day(2001, 2, 3)
+end_day(2001, 2, 3)
+
+# Must specify month and day for a numeric if day_fraction is provided
+# implicitly or explicitly:
+try(start_day(2001))
+try(mid_day(2001))
+try(end_day(2001))
+try(datey(2001, day_fraction = 0))
+
+datey(2000) # Start of a year
 datey(2000.5) # Middle of a leap year
 datey(2001.5) # Middle of a non-leap year
-datey(as.Date("2020-01-02"))
-datey(as.POSIXct("2020-01-02 12:00:00"))
-datey(as.POSIXlt("2020-01-02 12:00:00"))
 
-# Use `strict` to control error behaviour for invalid `datey`s:
-try(datey(999.9))
+# Convert base R date
+r_date <- as.Date("2001-02-03")
+c(start_day(r_date), mid_day(r_date), end_day(r_date))
+try(datey(r_date)) # Must specify day_fraction for a `Date`
+
+# Convert base R datetime
+c_date <- as.POSIXct("2001-02-03 12:00:00") # Midday!
+c(start_day(c_date), mid_day(c_date), end_day(c_date))
+# An R datetime implies a position within a day:
+datey(c_date) # 2001-02-03.5
+
+# Use `strict` to control error behaviour for invalid years:
+try(end_day(0999, 12, 31))
 try(datey(3000.1))
-datey(999.9, strict = FALSE)
+end_day(0999, 12, 31, strict = FALSE)
 datey(3000.1, strict = FALSE)
+
+# NAs are passed through regardless of `strict`
+# (provided they are numeric)
+end_day(NA_real_, 12, 31, strict = TRUE)
+datey(NA_real_, strict = FALSE)
+
+# Text:
+start_day("2001-02-03")
+mid_day("2001-02-03")
+end_day("2001-02-03")
+datey("2001-02-03")
+datey("2001-02-03.0")
+datey("2001-02-03", day_fraction = 0)
+datey("2001-02-03.5")
+datey("2001-02-03", day_fraction = 0.5)
+
+# Text round trips:
+t <- datey(2001.234)
+identical(t, datey(as.character(t))) # TRUE
+
+# Day fraction cannot be present
+# both in the text and as an argument
+# implicitly or explicitly:
+try(start_day("2001-02-03.0"))
+try(datey("2001-02-03.0", day_fraction = 0))
+
+# Handling blanks:
+try(start_day(""))
+start_day("", blank_is_NA = TRUE)
+
+# Invalids:
+try(mid_day("abc"))
+try(mid_day("0999-01-01"))
+end_day("abc", strict = FALSE) # NA
+end_day("0999-01-01", strict = FALSE) # NA
 }
 \seealso{
-Use \code{\link[=start_day]{start_day()}}, \code{\link[=mid_day]{mid_day()}} and \code{\link[=end_day]{end_day()}} to create a \code{datey}
-direct from year, month and day. Use \code{\link[=as_start_day]{as_start_day()}}, \code{\link[=as_mid_day]{as_mid_day()}} and
-\code{\link[=as_end_day]{as_end_day()}} to create a \code{datey} from a numeric or base R date type but
-specifying whether it should be the start, middle or end of the day.
-
-See \link{text_to_datey} for parsing and creating \code{datey} text.
+\link{durationy}, \link{datey_interval}, \link{text_from_datey}, \link{as_years_datey},
+\link{datey_components}, \link{is_xxx_day}, \link{is_leap_year}, \link{is_NA}, \link{ops},
+\code{vignette("why-datey", package = "datey")} for the annual-grid design,
+\code{vignette("datey", package = "datey")} for a worked introduction
 }

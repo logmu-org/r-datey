@@ -11,44 +11,50 @@
 \alias{is_leap_year.POSIXlt}
 \title{Is \code{x} a leap year?}
 \usage{
-is_leap_year(x, ...)
+is_leap_year(x)
 
-\method{is_leap_year}{default}(x, ...)
+\method{is_leap_year}{default}(x)
 
-\method{is_leap_year}{integer}(x, ...)
+\method{is_leap_year}{integer}(x)
 
-\method{is_leap_year}{double}(x, ...)
+\method{is_leap_year}{double}(x)
 
-\method{is_leap_year}{datey}(x, ...)
+\method{is_leap_year}{datey}(x)
 
-\method{is_leap_year}{Date}(x, ...)
+\method{is_leap_year}{Date}(x)
 
-\method{is_leap_year}{POSIXct}(x, ...)
+\method{is_leap_year}{POSIXct}(x)
 
-\method{is_leap_year}{POSIXlt}(x, ...)
+\method{is_leap_year}{POSIXlt}(x)
 }
 \arguments{
 \item{x}{A vector date type or numeric year.}
-
-\item{...}{Other arguments (not used in this package).}
 }
 \value{
-\code{NA} if \code{x} is not interpretable as a year or date, or outside [1000,3000),
+\code{NA} if \code{x} is not interpretable as a year or date, or outside [1000,3000],
 \code{TRUE} if \code{x} is a leap year, otherwise
 \code{FALSE}.
 }
 \description{
 Tests whether a date or year is a leap year.
 
-For years outside [1000,3000), this returns \code{NA}.
+This returns \code{NA} if the corresponding \code{datey} would be invalid, including
+years before 1000 and dates after 3000-01-01.0.
+
+For numerics, this returns \code{NA} for years values less than 1000 or greater
+than 3000.
 
 This is an S3 generic. This package provides methods for:
 \itemize{
-\item numeric types \code{double} and \code{integer} (interpreted as years), and
+\item numeric types \code{double} and \code{integer} (interpreted as calendar years, e.g.
+\code{2000.9} means the calendar year 2000), and
 \item date types \code{datey}, \code{Date}, \code{POSIXct} and \code{POSIXlt}.
 }
 }
 \examples{
 any(is_leap_year(c(1900, 1901, 2001))) #FALSE
 all(is_leap_year(c(1904.1, 2000.5, 2004.9))) #TRUE
+}
+\seealso{
+\link{datey}
 }

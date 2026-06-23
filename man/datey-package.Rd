@@ -3,20 +3,28 @@
 \docType{package}
 \name{datey-package}
 \alias{datey-package}
-\title{datey: Exact Date and Duration Arithmetic on an Annual Grid}
+\title{Exact date and duration arithmetic on an annual grid}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+The \strong{datey} package provides three types for date and duration arithmetic
+on an annual grid:
+\itemize{
+\item \link{datey} — a point in time, expressed as a calendar date with an optional
+day fraction.
+\item \link{durationy} — a duration in years.
+\item \link{datey_interval} — a closed-open interval [\code{start}, \code{end}) of time.
+}
 
-Standardised mapping of dates onto a discrete annual grid, together with exact date and duration arithmetic. This matters when the primary unit is years but the input data uses dates. Examples are actuarial mortality experience analysis and valuation of life assurance and annuities, for which mortality rates are defined per year but experience and valuation data are typically defined using dates.
+Arithmetic, comparison and summary operations are defined in \link{ops},
+\link{mean.datey} and \link{max_min}.
 }
 \seealso{
-Useful links:
 \itemize{
-  \item \url{https://github.com/logmu-org/r-datey}
-  \item \url{https://r-datey.logmu.org/}
-  \item Report bugs at \url{https://github.com/logmu-org/r-datey/issues}
+\item \link{datey}, \link{durationy}, \link{datey_interval} for the core types.
+\item \link{ops} for arithmetic and comparison operators.
+\item \link{is_NA} and \link{NAs} for handling missing values.
+\item \code{vignette("datey")} for a worked introduction.
+\item \code{vignette("why-datey")} for the motivation and design of the annual grid.
 }
-
 }
 \author{
 \strong{Maintainer}: Tim Gordon \email{tim.gordon@btinternet.com} (\href{https://orcid.org/0009-0006-3087-4384}{ORCID})

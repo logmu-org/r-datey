@@ -2,6 +2,8 @@
 
 #include <tuple>
 #include <cpp11.hpp>
+#include <cstdint>
+#include <cstring>
 
 const int ValidDateStartYear = 1000;
 const int ValidDateEndYear = 3000;
@@ -53,11 +55,11 @@ int dateyFromRDate(double rDate, bool strict);
 int dateyFromRDateAndDayFraction(double rDate, double dayFraction, bool strict);
 int yearFromJulianDay(int julianDay);
 int firstJulianDayOfYear(int year);
-// The following leaves pChars pointing to `trailing `\0` end byte
+// The following leaves pChars pointing to trailing `\0` end byte
 void writeValidDatey(int datey, bool includeDayFraction, char*& pChars);
 cpp11::r_string dateyToRString(int datey, bool includeDayFraction);
-int dateyFromRStringOnly(cpp11::r_string rString, bool blank_is_NA, bool strict);
-int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, bool blank_is_NA, bool strict);
+int dateyFromRStringOnly(cpp11::r_string rString, bool strict, bool blankIsNA);
+int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, bool strict, bool blankIsNA);
 
 // S_durationy.cpp
 bool isValidDurationy(int clicks);
@@ -103,5 +105,5 @@ inline bool isCollapsedDateyInterval(double punnedDouble)
   return !isValidDatey(start) || !isValidDatey(end) || start >= end;
 }
 
-double dateyInterval(int start, int end, bool strict);
+double dateyInterval(int start, int end);
 cpp11::r_string dateyIntervalToRString(double dateyInterval, bool includeDayFraction);

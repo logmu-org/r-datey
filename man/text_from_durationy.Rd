@@ -45,6 +45,7 @@ printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code
 }
 \value{
 \code{as.character} and \code{format} return a vector of \code{character}.
+\code{print} invisibly returns \code{x}.
 }
 \description{
 A \code{durationy} is printed as a decimal.
@@ -52,12 +53,15 @@ A \code{durationy} is printed as a decimal.
 This format is readable by \code{\link[=durationy.character]{durationy.character()}}.
 }
 \examples{
-  pos <- durationy(1)
-  neg <- durationy(-2.3)
-  format(pos) # "1 yr"
-  format(pos, include_plus = TRUE) # "+1 yr"
-  format(pos, year_unit = "") # "1"
-  format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
-  format(neg, use_true_minus = FALSE) # "-2.3 yr"
-  format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
+pos <- durationy(1)
+neg <- durationy(-2.3)
+format(pos) # "1 yr"
+format(pos, include_plus = TRUE) # "+1 yr"
+format(pos, year_unit = "") # "1"
+format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
+format(neg, use_true_minus = FALSE) # "-2.3 yr"
+format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
+}
+\seealso{
+\link{durationy}
 }

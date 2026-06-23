@@ -26,16 +26,33 @@ printed. When \code{NULL}, \code{getOption("max.print")} used. Defaults to \code
 }
 \value{
 \code{as.character} and \code{format} return a vector of \code{character}.
+\code{print} invisibly returns \code{x}.
 }
 \description{
 A \code{datey} is printed as either
 \itemize{
 \item \code{YYYY-MM-DD}, i.e. ISO 8601 extended date format, or
-\item \code{YYYY-MM-DD.FFF} where \code{.FFF} is the day fraction part
+\item \code{YYYY-MM-DD.F...} where \code{.F...} is the day fraction part.
 }
 
-If \code{include_day_fraction} is \code{TRUE} then \code{.FFF} is included even if it is 0.
+If \code{include_day_fraction} is \code{TRUE} then \verb{[.F...]} is included even if it
+is 0 (i.e. \code{.0}).
 
 Note that a \code{datey} created as the end of a day (or with day fraction 1) will
 print as the start of the following day.
+}
+\examples{
+start      <- start_day(2001, 2, 3)
+fractional <- datey(    2001, 2, 3, day_fraction = 0.4444)
+mid        <- mid_day(  2001, 2, 3)
+end        <- end_day(  2001, 2, 3)
+
+format(start)                               # "2001-02-03.0"
+format(start, include_day_fraction = FALSE) # "2001-02-03"
+format(fractional)                          # "2001-02-03.4447"
+format(mid)                                 # "2001-02-03.5"
+format(end)                                 # "2001-02-04.0"
+}
+\seealso{
+\link{datey}
 }

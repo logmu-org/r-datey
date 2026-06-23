@@ -13,7 +13,7 @@ test_that("`valid_years_end` is 3000", expect_identical(valid_years_end, 3000L))
 # is_datey <- function(x) ==================================================
 test_that("`is_datey()`", {
   expect_identical(is_datey(NA_datey_), TRUE)
-  expect_identical(is_datey(from_ymdf(2000, 1, 1, 0)), TRUE)
+  expect_identical(is_datey(datey(2000, 1, 1, 0)), TRUE)
 
   expect_identical(is_datey(NA), FALSE)
   expect_identical(is_datey(TRUE), FALSE)
@@ -22,18 +22,18 @@ test_that("`is_datey()`", {
   expect_identical(is_datey("2000-01-01"), FALSE)
 })
 
-# from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
-test_that("`from_ymdf()` clicks", {
+# datey <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
+test_that("`datey()` clicks", {
 
-  expect_identical(unclass(from_ymdf(0999, 12, 31, 1.00)), 534360000L)
-  expect_identical(unclass(from_ymdf(1000, 01, 01, 0.00)), 534360000L)
-  expect_identical(unclass(from_ymdf(2000, 01, 01, 0.00)), 1068720000L)
-  expect_identical(unclass(from_ymdf(2000, 01, 01, 0.50)), 1068720730L)
-  expect_identical(unclass(from_ymdf(2021, 03, 15, 1.00)), 1080049896L)
-  expect_identical(unclass(from_ymdf(2021, 03, 16, 0.00)), 1080049896L)
+  expect_identical(unclass(datey(0999, 12, 31, 1.00)), 534360000L)
+  expect_identical(unclass(datey(1000, 01, 01, 0.00)), 534360000L)
+  expect_identical(unclass(datey(2000, 01, 01, 0.00)), 1068720000L)
+  expect_identical(unclass(datey(2000, 01, 01, 0.50)), 1068720730L)
+  expect_identical(unclass(datey(2021, 03, 15, 1.00)), 1080049896L)
+  expect_identical(unclass(datey(2021, 03, 16, 0.00)), 1080049896L)
 })
-# from_ymdf <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
-test_that("`from_ymdf()` with vector and scalar `day_fraction`s", {
+# datey <- function(year, month, day, day_fraction, strict = TRUE) ==================================================
+test_that("`datey()` with vector and scalar `day_fraction`s", {
 
   year <- c(1960, 2001, 2099);
   month <- c(11, 3, 7);
@@ -41,13 +41,13 @@ test_that("`from_ymdf()` with vector and scalar `day_fraction`s", {
   df_scalar <- 0.25;
   df_vector <- c(0.25, 0.25, 0.25);
 
-  datey_scalar <- from_ymdf(year, month, day, df_scalar)
+  datey_scalar <- datey(year, month, day, df_scalar)
 
-  datey_vector <- from_ymdf(year, month, day, df_vector)
+  datey_vector <- datey(year, month, day, df_vector)
 
   expect_identical(datey_vector, datey_scalar)
 })
-test_that("`from_ymdf()` cyclically and for integer/double combos", {
+test_that("`datey()` cyclically and for integer/double combos", {
 
   y <- c(1960, 2001, 1999, 2000, 2001, 2099)
   m <- c(12, 3, 7, 1, 8, 5) # All months with 31 days
@@ -84,7 +84,7 @@ test_that("`from_ymdf()` cyclically and for integer/double combos", {
 
   testX <- function(y_act, m_act, d_act, f_act, y_exp, m_exp, d_exp, f_exp) {
 
-    expected <- from_ymdf(y_exp, m_exp, d_exp, f_exp)
+    expected <- datey(y_exp, m_exp, d_exp, f_exp)
 
     y_int <- as.integer(y_act)
     m_int <- as.integer(m_act)
@@ -94,14 +94,14 @@ test_that("`from_ymdf()` cyclically and for integer/double combos", {
     m_dbl <- as.double(m_act)
     d_dbl <- as.double(d_act)
 
-    expect_identical(from_ymdf(y_int, m_int, d_int, f_act), expected)
-    expect_identical(from_ymdf(y_int, m_int, d_dbl, f_act), expected)
-    expect_identical(from_ymdf(y_int, m_dbl, d_int, f_act), expected)
-    expect_identical(from_ymdf(y_int, m_dbl, d_dbl, f_act), expected)
-    expect_identical(from_ymdf(y_dbl, m_int, d_int, f_act), expected)
-    expect_identical(from_ymdf(y_dbl, m_int, d_dbl, f_act), expected)
-    expect_identical(from_ymdf(y_dbl, m_dbl, d_int, f_act), expected)
-    expect_identical(from_ymdf(y_dbl, m_dbl, d_dbl, f_act), expected)
+    expect_identical(datey(y_int, m_int, d_int, f_act), expected)
+    expect_identical(datey(y_int, m_int, d_dbl, f_act), expected)
+    expect_identical(datey(y_int, m_dbl, d_int, f_act), expected)
+    expect_identical(datey(y_int, m_dbl, d_dbl, f_act), expected)
+    expect_identical(datey(y_dbl, m_int, d_int, f_act), expected)
+    expect_identical(datey(y_dbl, m_int, d_dbl, f_act), expected)
+    expect_identical(datey(y_dbl, m_dbl, d_int, f_act), expected)
+    expect_identical(datey(y_dbl, m_dbl, d_dbl, f_act), expected)
   }
 
   testX(y, m, d, f, y, m, d, f) # Test double/integer combos
@@ -128,26 +128,26 @@ test_that("`from_ymdf()` cyclically and for integer/double combos", {
   testX(y3, m2, d, f3, y3_full, m2_full, d, f3_full)
   testX(y3, m, d2, f1, y3_full, m, d2_full, f1_full)
 
-  expect_error(from_ymdf(y3, m2, d1, f1))
-  expect_error(from_ymdf(y1, m3, d2, f1))
-  expect_error(from_ymdf(y1, m1, d3, f2))
-  expect_error(from_ymdf(y2, m1, d1, f3))
+  expect_error(datey(y3, m2, d1, f1))
+  expect_error(datey(y1, m3, d2, f1))
+  expect_error(datey(y1, m1, d3, f2))
+  expect_error(datey(y2, m1, d1, f3))
 })
 test_that("`datey` is illegal but not error for 2999-12-31 plus `day_fraction = 1`", {
-  expect_identical(unclass(from_ymdf(2999, 12, 31, 1)), 3000L * 534360L)
+  expect_identical(unclass(datey(2999, 12, 31, 1)), 3000L * 534360L)
 })
 test_that("`datey` errors in invalid inputs when `strict = TRUE`", {
-  expect_error(from_ymdf(999, 12, 31, 0.999998))
-  expect_error(from_ymdf(3000,01, 01, 0.000002))
+  expect_error(datey(999, 12, 31, 0.999998))
+  expect_error(datey(3000,01, 01, 0.000002))
 })
 test_that("`datey` errors for non-integer years, months or days", {
-  expect_error(from_ymdf(1000.01, 01.00, 01.00, 0.00))
-  expect_error(from_ymdf(1800.00, 02.01, 05.00, 0.00))
-  expect_error(from_ymdf(1900.00, 04.00, 10.01, 0.00))
-  expect_error(from_ymdf(1999.99, 06.00, 15.00, 0.00))
-  expect_error(from_ymdf(2000.00, 08.99, 20.00, 0.00))
-  expect_error(from_ymdf(2087.00, 10.00, 25.99, 0.00))
-  expect_error(from_ymdf(2999.50, 12.00, 31.00, 0.00))
+  expect_error(datey(1000.01, 01.00, 01.00, 0.00))
+  expect_error(datey(1800.00, 02.01, 05.00, 0.00))
+  expect_error(datey(1900.00, 04.00, 10.01, 0.00))
+  expect_error(datey(1999.99, 06.00, 15.00, 0.00))
+  expect_error(datey(2000.00, 08.99, 20.00, 0.00))
+  expect_error(datey(2087.00, 10.00, 25.99, 0.00))
+  expect_error(datey(2999.50, 12.00, 31.00, 0.00))
 })
 
 # start_day / mid_day <- function(year, month, day, strict = TRUE) ==================================================
@@ -156,16 +156,16 @@ test_that("`datey` and `start_day`, `mid_day` and `end_day` are consistent", {
   m <- c(12, 1, 6, 3, 2, 5, 6, 1)
   d <- c(31, 1, 15, 3, 29, 20, 10, 1)
 
-  expect_identical(from_ymdf(y, m, d, 0, strict = FALSE), start_day(y, m, d, strict = FALSE))
-  expect_identical(from_ymdf(y, m, d, 0.5, strict = FALSE), mid_day(y, m, d, strict = FALSE))
-  expect_identical(from_ymdf(y, m, d, 1, strict = FALSE), end_day(y, m, d, strict = FALSE))
+  expect_identical(datey(y, m, d, 0, strict = FALSE), start_day(y, m, d, strict = FALSE))
+  expect_identical(datey(y, m, d, 0.5, strict = FALSE), mid_day(y, m, d, strict = FALSE))
+  expect_identical(datey(y, m, d, 1, strict = FALSE), end_day(y, m, d, strict = FALSE))
 })
 
 # to_ymdf and datey$xxx ==================================================
 test_that("`datey` round-trips from ymdf and back", {
 
   testX <- function(year, month, day, day_fraction) {
-    datey <- from_ymdf(year, month, day, day_fraction)
+    datey <- datey(year, month, day, day_fraction)
 
     expect_identical(datey$year, as.integer(year))
     expect_identical(datey$month, as.integer(month))
@@ -213,42 +213,38 @@ test_that("`datey` round-trips from ymdf and back", {
 
 # datey.default <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`datey.default()`", {
-  expect_identical(datey(structure(0, class = "FAKE")), NA_datey_)
+  expect_error(datey(structure(0, class = "FAKE")))
 })
 
 # datey.datey <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`datey.datey()`", {
-  expect_identical(datey(from_ymdf(1999, 02, 28, 0.00)), from_ymdf(1999, 02, 28, 0.00))
-  expect_identical(datey(from_ymdf(1999, 11, 17, 0.25)), from_ymdf(1999, 11, 17, 0.25))
-  expect_identical(datey(from_ymdf(2000, 10, 11, 0.00)), from_ymdf(2000, 10, 11, 0.00))
-  expect_identical(datey(from_ymdf(2000, 03, 05, 0.25)), from_ymdf(2000, 03, 05, 0.25))
-  expect_identical(datey(from_ymdf(0999, 12, 31, 0.90, strict = FALSE)), datey::NA_datey_)
+  expect_identical(datey(datey(1999, 02, 28, 0.00)), datey(1999, 02, 28, 0.00))
+  expect_identical(datey(datey(1999, 11, 17, 0.25)), datey(1999, 11, 17, 0.25))
+  expect_identical(datey(datey(2000, 10, 11, 0.00)), datey(2000, 10, 11, 0.00))
+  expect_identical(datey(datey(2000, 03, 05, 0.25)), datey(2000, 03, 05, 0.25))
+  expect_identical(datey(datey(0999, 12, 31, 0.90, strict = FALSE)), datey::NA_datey_)
 
-  expect_identical(datey(from_ymdf(1999, 02, 28, 0.00), day_fraction = 0.75), from_ymdf(1999, 02, 28, 0.75))
-  expect_identical(datey(from_ymdf(1999, 11, 17, 0.25), day_fraction = 0.75), from_ymdf(1999, 11, 17, 0.75))
-  expect_identical(datey(from_ymdf(2000, 10, 11, 0.00), day_fraction = 0.75), from_ymdf(2000, 10, 11, 0.75))
-  expect_identical(datey(from_ymdf(2000, 03, 05, 0.25), day_fraction = 0.75), from_ymdf(2000, 03, 05, 0.75))
+  expect_identical(datey(datey(1999, 02, 28, 0.00), day_fraction = 0.75), datey(1999, 02, 28, 0.75))
+  expect_identical(datey(datey(1999, 11, 17, 0.25), day_fraction = 0.75), datey(1999, 11, 17, 0.75))
+  expect_identical(datey(datey(2000, 10, 11, 0.00), day_fraction = 0.75), datey(2000, 10, 11, 0.75))
+  expect_identical(datey(datey(2000, 03, 05, 0.25), day_fraction = 0.75), datey(2000, 03, 05, 0.75))
 
-  expect_identical(datey(from_ymdf(0999, 12, 31, 0.90, strict = FALSE), day_fraction = 0.75), datey::NA_datey_)
-  expect_identical(datey(from_ymdf(0999, 12, 31, 1.00), day_fraction = 0.75), from_ymdf(1000, 01, 01, 0.75))
-  expect_identical(datey(from_ymdf(3000, 01, 01, 0.10, strict = FALSE), day_fraction = 0.25), datey::NA_datey_)
-  expect_identical(datey(from_ymdf(3000, 01, 01, 0.00), day_fraction = 0.25, strict = FALSE), datey::NA_datey_)
+  expect_identical(datey(datey(0999, 12, 31, 0.90, strict = FALSE), day_fraction = 0.75), datey::NA_datey_)
+  expect_identical(datey(datey(0999, 12, 31, 1.00), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
+  expect_identical(datey(datey(3000, 01, 01, 0.10, strict = FALSE), day_fraction = 0.25), datey::NA_datey_)
+  expect_identical(datey(datey(3000, 01, 01, 0.00), day_fraction = 0.25, strict = FALSE), datey::NA_datey_)
 })
 
 # datey.integer <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`datey.integer()`", {
-  expect_identical(datey(1000L), from_ymdf(0999, 12, 31, 1.00))
-  expect_identical(datey(1000L), from_ymdf(1000, 01, 01, 0.00))
-  expect_identical(datey(1999L, day_fraction = 0.75), from_ymdf(1999, 01, 01, 0.75))
-  expect_identical(datey(2000L, day_fraction = 0.75), from_ymdf(2000, 01, 01, 0.75))
-  expect_identical(datey(2999L), from_ymdf(2999, 01, 01, 0.00))
-  expect_identical(datey(3000L), from_ymdf(2999, 12, 31, 1.00))
-  expect_identical(datey(3000L), from_ymdf(3000, 01, 01, 0.00))
+  expect_identical(datey(1000L), datey(0999, 12, 31, 1.00))
+  expect_identical(datey(1000L), datey(1000, 01, 01, 0.00))
+  expect_identical(datey(2999L), datey(2999, 01, 01, 0.00))
+  expect_identical(datey(3000L), datey(2999, 12, 31, 1.00))
+  expect_identical(datey(3000L), datey(3000, 01, 01, 0.00))
 
   expect_identical(datey(0999L, strict = FALSE), datey::NA_datey_)
   expect_identical(datey(3001L, strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(0999L, day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(3000L, day_fraction = 1 / 1460, strict = FALSE), datey::NA_datey_)
 })
 
 # datey.double <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
@@ -259,28 +255,16 @@ test_that("`datey.double()`", {
   d_2108_02_29_0.25 <- 2108 + ((31 + 29.25 - 1) * 1460) / 534360 # Leap year
   d_2109_02_28_0.25 <- 2109 + ((31 + 28.25 - 1) * 1464) / 534360 # Normal year
 
-  expect_identical(datey(1000), from_ymdf(0999, 12, 31, 1.0))
-  expect_identical(datey(d_1999_01_15_0.25), from_ymdf(1999, 01, 15, 0.25))
-  expect_identical(datey(d_2000_01_15_0.25), from_ymdf(2000, 01, 15, 0.25))
-  expect_identical(datey(d_2108_02_29_0.25), from_ymdf(2108, 02, 29, 0.25))
-  expect_identical(datey(d_2109_02_28_0.25), from_ymdf(2109, 02, 28, 0.25))
+  expect_identical(datey(1000), datey(0999, 12, 31, 1.0))
+  expect_identical(datey(d_1999_01_15_0.25), datey(1999, 01, 15, 0.25))
+  expect_identical(datey(d_2000_01_15_0.25), datey(2000, 01, 15, 0.25))
+  expect_identical(datey(d_2108_02_29_0.25), datey(2108, 02, 29, 0.25))
+  expect_identical(datey(d_2109_02_28_0.25), datey(2109, 02, 28, 0.25))
 
-  expect_identical(datey(d_1999_01_15_0.25, day_fraction = 0.75), from_ymdf(1999, 01, 15, 0.75))
-  expect_identical(datey(d_2000_01_15_0.25, day_fraction = 0.75), from_ymdf(2000, 01, 15, 0.75))
-  expect_identical(datey(d_2108_02_29_0.25, day_fraction = 0.75), from_ymdf(2108, 02, 29, 0.75))
-  expect_identical(datey(d_2109_02_28_0.25, day_fraction = 0.75), from_ymdf(2109, 02, 28, 0.75))
-
-  expect_identical(datey(d_1999_01_15_0.25, day_fraction = 0.00), from_ymdf(1999, 01, 15, 0.00))
-  expect_identical(datey(d_2000_01_15_0.25, day_fraction = 0.00), from_ymdf(2000, 01, 15, 0.00))
-  expect_identical(datey(d_2108_02_29_0.25, day_fraction = 1.00), from_ymdf(2108, 02, 29, 1.00))
-  expect_identical(datey(d_2109_02_28_0.25, day_fraction = 1.00), from_ymdf(2109, 02, 28, 1.00))
-  expect_identical(datey(3000, day_fraction = 0.00), from_ymdf(3000, 01, 01, 0.00))
-
-  expect_identical(datey(3000), from_ymdf(3000, 01, 01, 0.0))
+  expect_identical(datey(3000), datey(3000, 01, 01, 0.0))
 
   expect_identical(datey(1000 - 1/534360, strict = FALSE), datey::NA_datey_)
   expect_identical(datey(3000 + 1/534360, strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(3000, day_fraction = 1 / 1460, strict = FALSE), datey::NA_datey_)
 })
 
 # datey.Date <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
@@ -289,17 +273,10 @@ test_that("`datey.Date()`", {
   # Get a `Date` that is actually a fraction
   D_2021_09_16.5 <- mean(c(as.Date("2021-09-16"), as.Date("2021-09-17")))
 
-  expect_identical(datey(as.Date("1000-01-01")), from_ymdf(1000, 01, 01, 0.00))
-  expect_identical(datey(as.Date("2000-07-23")), from_ymdf(2000, 07, 23, 0.00))
-  expect_identical(datey(as.Date("2999-12-31")), from_ymdf(2999, 12, 31, 0.00))
-  expect_identical(datey(D_2021_09_16.5), from_ymdf(2021, 09, 16, 0.50))
-  expect_identical(datey(as.Date("0999-12-31"), strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(as.Date("3000-01-01"), strict = FALSE), datey::NA_datey_)
-
-  expect_identical(datey(as.Date("1000-01-01"), day_fraction = 0.75), from_ymdf(1000, 01, 01, 0.75))
-  expect_identical(datey(as.Date("2000-07-23"), day_fraction = 0.75), from_ymdf(2000, 07, 23, 0.75))
-  expect_identical(datey(as.Date("2999-12-31"), day_fraction = 0.75), from_ymdf(2999, 12, 31, 0.75))
-  expect_identical(datey(D_2021_09_16.5, day_fraction = 0.75), from_ymdf(2021, 09, 16, 0.75))
+  expect_identical(datey(as.Date("1000-01-01"), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
+  expect_identical(datey(as.Date("2000-07-23"), day_fraction = 0.75), datey(2000, 07, 23, 0.75))
+  expect_identical(datey(as.Date("2999-12-31"), day_fraction = 0.75), datey(2999, 12, 31, 0.75))
+  expect_identical(datey(D_2021_09_16.5, day_fraction = 0.75), datey(2021, 09, 16, 0.75))
   expect_identical(datey(as.Date("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
   expect_identical(datey(as.Date("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
 })
@@ -344,40 +321,40 @@ test_that("`datey.Date()` cyclically", {
 # datey.POSIXct <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`datey.POSIXct()`", {
 
-  expect_identical(datey(as.POSIXct("1000-01-01")), from_ymdf(1000, 01, 01, 0.00))
-  expect_identical(datey(as.POSIXct("2000-07-23")), from_ymdf(2000, 07, 23, 0.00))
-  expect_identical(datey(as.POSIXct("2999-12-31")), from_ymdf(2999, 12, 31, 0.00))
-  expect_identical(datey(as.POSIXct("2021-09-16 12:00")), from_ymdf(2021, 09, 16, 0.50))
+  expect_identical(datey(as.POSIXct("1000-01-01")), datey(1000, 01, 01, 0.00))
+  expect_identical(datey(as.POSIXct("2000-07-23")), datey(2000, 07, 23, 0.00))
+  expect_identical(datey(as.POSIXct("3000-01-01")), datey(3000, 01, 01, 0.00))
   expect_identical(datey(as.POSIXct("0999-12-31"), strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(as.POSIXct("3000-01-01"), strict = FALSE), datey::NA_datey_)
+  expect_identical(datey(as.POSIXct("3000-01-01 00:00:01"), strict = FALSE), datey::NA_datey_)
 
-  expect_identical(datey(as.POSIXct("1000-01-01"), day_fraction = 0.75), from_ymdf(1000, 01, 01, 0.75))
-  expect_identical(datey(as.POSIXct("2000-07-23"), day_fraction = 0.75), from_ymdf(2000, 07, 23, 0.75))
-  expect_identical(datey(as.POSIXct("2999-12-31"), day_fraction = 0.75), from_ymdf(2999, 12, 31, 0.75))
-  expect_identical(datey(as.POSIXct("2021-09-16 12:00"), day_fraction = 0.75), from_ymdf(2021, 09, 16, 0.75))
+  expect_identical(datey(as.POSIXct("1000-01-01"), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
+  expect_identical(datey(as.POSIXct("2000-07-23"), day_fraction = 0.75), datey(2000, 07, 23, 0.75))
+  expect_identical(datey(as.POSIXct("2999-12-31"), day_fraction = 0.75), datey(2999, 12, 31, 0.75))
+  expect_identical(datey(as.POSIXct("2021-09-16 12:00"), day_fraction = 0.75), datey(2021, 09, 16, 0.75))
+  expect_identical(datey(as.POSIXct("3000-01-01"), day_fraction = 0.00), datey(3000, 01, 01, 0.00))
   expect_identical(datey(as.POSIXct("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(as.POSIXct("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
+  expect_identical(datey(as.POSIXct("3000-01-01"), day_fraction = 0.0007, strict = FALSE), datey::NA_datey_)
 })
 
 # datey.POSIXlt <- function(x, day_fraction = NULL, strict = TRUE, ...) ==================================================
 test_that("`datey.POSIXlt()`", {
 
-  expect_identical(datey(as.POSIXlt("1000-01-01")), from_ymdf(1000, 01, 01, 0.00))
-  expect_identical(datey(as.POSIXlt("2000-07-23")), from_ymdf(2000, 07, 23, 0.00))
-  expect_identical(datey(as.POSIXlt("2999-12-31")), from_ymdf(2999, 12, 31, 0.00))
-  expect_identical(datey(as.POSIXlt("2021-09-16 12:00")), from_ymdf(2021, 09, 16, 0.50))
+  expect_identical(datey(as.POSIXlt("1000-01-01")), datey(1000, 01, 01, 0.00))
+  expect_identical(datey(as.POSIXlt("2000-07-23")), datey(2000, 07, 23, 0.00))
+  expect_identical(datey(as.POSIXlt("3000-01-01")), datey(3000, 01, 01, 0.00))
   expect_identical(datey(as.POSIXlt("0999-12-31"), strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(as.POSIXlt("3000-01-01"), strict = FALSE), datey::NA_datey_)
+  expect_identical(datey(as.POSIXlt("3000-01-01 00:00:01"), strict = FALSE), datey::NA_datey_)
 
-  expect_identical(datey(as.POSIXlt("1000-01-01"), day_fraction = 0.75), from_ymdf(1000, 01, 01, 0.75))
-  expect_identical(datey(as.POSIXlt("2000-07-23"), day_fraction = 0.75), from_ymdf(2000, 07, 23, 0.75))
-  expect_identical(datey(as.POSIXlt("2999-12-31"), day_fraction = 0.75), from_ymdf(2999, 12, 31, 0.75))
-  expect_identical(datey(as.POSIXlt("2021-09-16 12:00"), day_fraction = 0.75), from_ymdf(2021, 09, 16, 0.75))
+  expect_identical(datey(as.POSIXlt("1000-01-01"), day_fraction = 0.75), datey(1000, 01, 01, 0.75))
+  expect_identical(datey(as.POSIXlt("2000-07-23"), day_fraction = 0.75), datey(2000, 07, 23, 0.75))
+  expect_identical(datey(as.POSIXlt("2999-12-31"), day_fraction = 0.75), datey(2999, 12, 31, 0.75))
+  expect_identical(datey(as.POSIXlt("2021-09-16 12:00"), day_fraction = 0.75), datey(2021, 09, 16, 0.75))
+  expect_identical(datey(as.POSIXlt("3000-01-01"), day_fraction = 0.00), datey(3000, 01, 01, 0.00))
   expect_identical(datey(as.POSIXlt("0999-12-31"), day_fraction = 1.00, strict = FALSE), datey::NA_datey_)
-  expect_identical(datey(as.POSIXlt("3000-01-01"), day_fraction = 0.00, strict = FALSE), datey::NA_datey_)
+  expect_identical(datey(as.POSIXlt("3000-01-01"), day_fraction = 0.0007, strict = FALSE), datey::NA_datey_)
 })
 
-# datey.character <- function(x, day_fraction = NULL, blank_is_NA = FALSE, strict = TRUE, ...) ==================================================
+# datey.character <- function(x, day_fraction = NULL, strict = TRUE, blank_is_NA = FALSE, ...) ==================================================
 test_that("`datey.character()`", {
 
   testX <- function(x, text) {
@@ -494,9 +471,9 @@ test_that("`datey.character()` handles invalids as specified", {
 test_that("`as_XXX_day()` and `is_XXX_day()`", {
 
   testX <- function(y, m, d) {
-    d_0.00 <- from_ymdf(y, m, d, 0.00)
-    d_0.50 <- from_ymdf(y, m, d, 0.50)
-    d_1.00 <- from_ymdf(y, m, d, 1.00)
+    d_0.00 <- datey(y, m, d, 0.00)
+    d_0.50 <- datey(y, m, d, 0.50)
+    d_1.00 <- datey(y, m, d, 1.00)
 
     expect_identical(start_day(y, m, d), d_0.00)
     expect_identical(mid_day(y, m, d), d_0.50)
@@ -509,7 +486,7 @@ test_that("`as_XXX_day()` and `is_XXX_day()`", {
     expect_identical(is_start_day(d_1.00), TRUE)
     expect_identical(is_mid_day(d_1.00), FALSE)
 
-    d_0.25 <- from_ymdf(y, m, d, 0.25)
+    d_0.25 <- datey(y, m, d, 0.25)
     expect_identical(is_start_day(d_0.25), FALSE)
     expect_identical(is_mid_day(d_0.25), FALSE)
   }
@@ -522,9 +499,9 @@ test_that("`as_XXX_day()` and `is_XXX_day()`", {
 # as.double.datey <- function(x, ...) ==================================================
 # as.numeric dispatches to as.double.XXX
 test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()`", {
-  expect_identical(is.numeric(from_ymdf(2000, 1, 1, 0)), TRUE)
-  expect_identical(as.numeric(from_ymdf(2000, 1, 1, 0)), 2000)
-  expect_identical(as.double(from_ymdf(2000, 1, 1, 0)), 2000)
+  expect_identical(is.numeric(datey(2000, 1, 1, 0)), TRUE)
+  expect_identical(as.numeric(datey(2000, 1, 1, 0)), 2000)
+  expect_identical(as.double(datey(2000, 1, 1, 0)), 2000)
   expect_identical(is.numeric(NA_datey_), TRUE)
   expect_identical(as.numeric(NA_datey_), NA_real_)
   expect_identical(as.double(NA_datey_), NA_real_)
@@ -532,35 +509,35 @@ test_that("`is.numeric.datey()`, `as.numeric.datey()` and `as.double.datey()`", 
 
 # as.integer.datey <- function(x, ...) ==================================================
 test_that("`as.integer.datey()`", {
-  expect_identical(as.integer(from_ymdf(2000, 1, 1, 0)), 2000L)
-  expect_identical(as.integer(from_ymdf(2000, 7, 1, 0)), 2000L)
-  expect_identical(as.integer(from_ymdf(2000, 7, 15, 0.75)), 2000L)
-  expect_identical(as.integer(from_ymdf(2000, 12, 31, 0.9993)), 2000L)
+  expect_identical(as.integer(datey(2000, 1, 1, 0)), 2000L)
+  expect_identical(as.integer(datey(2000, 7, 1, 0)), 2000L)
+  expect_identical(as.integer(datey(2000, 7, 15, 0.75)), 2000L)
+  expect_identical(as.integer(datey(2000, 12, 31, 0.9993)), 2000L)
   expect_identical(as.integer(NA_datey_), NA_integer_)
 })
 
 # is.na.datey <- function(x) ==================================================
 test_that("`is.na.datey()`", {
   expect_identical(is.na(NA_datey_), TRUE)
-  expect_identical(is.na(from_ymdf(0999, 12, 31, 0.999998, strict = FALSE)), TRUE)
-  expect_identical(is.na(from_ymdf(3000, 01, 01, 0.000002, strict = FALSE)), TRUE)
+  expect_identical(is.na(datey(0999, 12, 31, 0.999998, strict = FALSE)), TRUE)
+  expect_identical(is.na(datey(3000, 01, 01, 0.000002, strict = FALSE)), TRUE)
 
-  expect_identical(is.na(from_ymdf(0999, 12, 31, 1.00)), FALSE)
-  expect_identical(is.na(from_ymdf(1000, 01, 01, 0.00)), FALSE)
-  expect_identical(is.na(from_ymdf(2020, 05, 23, 0.4567)), FALSE)
-  expect_identical(is.na(from_ymdf(2999, 12, 31, 1.0)), FALSE)
+  expect_identical(is.na(datey(0999, 12, 31, 1.00)), FALSE)
+  expect_identical(is.na(datey(1000, 01, 01, 0.00)), FALSE)
+  expect_identical(is.na(datey(2020, 05, 23, 0.4567)), FALSE)
+  expect_identical(is.na(datey(2999, 12, 31, 1.0)), FALSE)
 })
 
 # anyNA.datey = function(x, recursive=FALSE) ==================================================
 test_that("`anyNA.datey()`", {
 
   na_1 <- NA_datey_
-  na_2 <- from_ymdf(0999, 12, 31, 0.999998, strict = FALSE)
-  na_3 <- from_ymdf(3000, 01, 01, 0.000002, strict = FALSE)
+  na_2 <- datey(0999, 12, 31, 0.999998, strict = FALSE)
+  na_3 <- datey(3000, 01, 01, 0.000002, strict = FALSE)
 
-  d_1 <- from_ymdf(1000, 01, 01, 0.00)
-  d_2 <- from_ymdf(2020, 05, 23, 0.4567)
-  d_3 <- from_ymdf(2999, 12, 31, 0.9993)
+  d_1 <- datey(1000, 01, 01, 0.00)
+  d_2 <- datey(2020, 05, 23, 0.4567)
+  d_3 <- datey(2999, 12, 31, 0.9993)
 
   expect_identical(anyNA(c(na_1)), TRUE)
   expect_identical(anyNA(c(na_2)), TRUE)
@@ -576,21 +553,21 @@ test_that("`anyNA.datey()`", {
 
 # c.datey <- function(..., recursive = FALSE) ==================================================
 test_that("`c()` on `datey`", {
-  expect_identical(is_datey(c(from_ymdf(2000, 1, 1, 0), from_ymdf(2000, 1, 1, 0))), TRUE)
-  expect_identical(is_datey(c(NA_datey_, from_ymdf(2000, 1, 1, 0))), TRUE)
+  expect_identical(is_datey(c(datey(2000, 1, 1, 0), datey(2000, 1, 1, 0))), TRUE)
+  expect_identical(is_datey(c(NA_datey_, datey(2000, 1, 1, 0))), TRUE)
 })
 
 # format.datey <- function(x, include_day_fraction = TRUE, ...) ==================================================
 test_that("`format.datey()` on NA", {
 
   expect_identical(format(NA_datey_), NA_character_)
-  expect_identical(format(from_ymdf(0999, 12, 31, 0.999998, strict = FALSE)), NA_character_)
-  expect_identical(format(from_ymdf(3000, 01, 01, 0.000002, strict = FALSE)), NA_character_)
+  expect_identical(format(datey(0999, 12, 31, 0.999998, strict = FALSE)), NA_character_)
+  expect_identical(format(datey(3000, 01, 01, 0.000002, strict = FALSE)), NA_character_)
 })
 test_that("`format.datey()`", {
 
   testX <- function(y, m, d, f, text) {
-    x <- from_ymdf(y, m, d, f)
+    x <- datey(y, m, d, f)
 
     expect_identical(format(x), text)
     expect_identical(format(x, include_day_fraction = TRUE), text)

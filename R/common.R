@@ -27,6 +27,7 @@
 #' @keywords combine
 #' @examples
 #'   c(datey(2000:2019), datey("2020-01-01.0"))
+#' @seealso [datey], [durationy], [datey_interval], [subset]
 #' @name combine
 NULL
 
@@ -83,6 +84,7 @@ c.datey_interval <- function(..., recursive = FALSE) {
 #'   x[2:3]
 #'   x[2:3] <- datey(1999)
 #'   x
+#' @seealso [datey], [durationy], [datey_interval], [combine]
 #' @name subset
 NULL
 
@@ -138,23 +140,25 @@ NULL
 #'     A scalar `datey` or `durationy`.
 #' @param by The increment of the sequence.
 #'     A scalar `durationy`.
-#' @param ... Other arguments (not used in this package).
+#' @param ... Not used.
 #' @returns The sequence as a vector of `datey` (for `seq.datey`) or
 #'     `durationy` (for `seq.durationy`).
 #' @keywords sequence
 #' @examples
 #'   seq(from = datey(2000), to = datey(2005), by = durationy(2))
 #'   seq(from = datey(2000), to = datey(1999), by = durationy(-0.25))
+#' @seealso [datey], [durationy]
 #' @name seq
 NULL
 
 #' @rdname seq
 #' @export
 seq.datey <- function(from, to, by, ...) {
+  if ("length.out" %in% names(list(...)))
+    stop("`seq` for `datey` does not support `length.out`; use `by` instead.", call. = FALSE)
   ensure_is_datey_scalar(from)
   ensure_is_datey_scalar(to)
   ensure_is_durationy_scalar(by)
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
 
   from <- unclass(from)
   to <- unclass(to)
@@ -167,6 +171,8 @@ seq.datey <- function(from, to, by, ...) {
 #' @rdname seq
 #' @export
 seq.durationy <- function(from, to, by, ...) {
+  if ("length.out" %in% names(list(...)))
+    stop("`seq` for `durationy` does not support `length.out`; use `by` instead.", call. = FALSE)
   ensure_is_durationy_scalar(from)
   ensure_is_durationy_scalar(to)
   ensure_is_durationy_scalar(by)

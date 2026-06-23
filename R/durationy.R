@@ -41,125 +41,44 @@ is_durationy <- function(x) typeof(x) == "integer" && isa(x, c("durationy", "dat
 #' Create a `durationy` from an annual duration
 #'
 #' @description
-#' This package provides methods to create a `durationy` from the following:
 #'
-#' - `integer` -- the value is interpreted as the specified
-#' number of years.
-#' - `double` -- the value is interpreted as the specified
-#' number of years, rounded to fixed precision of a `durationy`. This means that
-#' `durationy(0.5)` is precise but `durationy(0.01)` is not.
-#' - `datey_interval` -- the duration of the interval. If `strict` is `FALSE`
-#' then this is the same as `datey_interval$duration`.
-#' - `durationy` -- value is unchanged.
+#' `durationy()` to create a `durationy` from the following types:
 #'
-#' This is an S3 generic.
+#' - `integer`. The value is interpreted as the specified
+#'   number of years.
+#' - `double`. The value is interpreted as the specified
+#'   number of years, rounded to fixed precision of a `durationy`. This means that
+#'   `durationy(0.5)` is precise but `durationy(0.01)` is not.
+#' - `datey_interval`. The duration of the interval *provided it is proper*
+#'   (i.e. start <= end).
+#'   If the interval is improper then the result is `NA_durationy_`.
+#'   When `x` is a `datey_interval` then `x$duration` is identical to
+#'   `durationy(x)`.
+#'   (`strict` is ignored.)
+#' - `character`. Valid text is of the form `[S]...Y[.F...][ U...]` where:
 #'
-#' @param
-#' x The argument to convert to a `durationy`.
+#'   - `[S]` is an optional plus or a minus sign, i.e. one of '+' (U+002B), true minus '−' (U+2212) or ASCII hyphen-minus '-' (U+002D).
+#'   - `...Y` is number of whole years (leading zeros allowed).
+#'   - `[.F...]` is an optional fractional part of year, including '.' to represent the decimal point.
+#'   - `[ U...]` is the unit name for one year preceded by a space if the unit name is not blank. The unit name cannot be longer than 20 UTF-8 bytes or contain control characters.
+#'
+#'   If `blank_is_NA` is `TRUE` then blanks are treated as `NA`.
+#'   If `strict` is `TRUE` (the default) then non-compliant text will
+#'   stop execution.
+#'   If the text is NA then NA is returned.
+#'   This is the same format as produced by [as.character.durationy()].
+#' - `durationy`. Value is passed through unchanged.
+#'
+#' NA arguments *of the appropriate type* result in `NA_durationy_` --
+#' they do not stop execution (regardless of `strict`).
+#' Note that `NA` is `logical` and therefore it *will* cause an error.
+#'
+#' @param x The argument to convert to a `durationy`.
 #' @param strict
-#' How years greater than 2000 in magnitude should be
-#' handled.
+#' How non-compliant non-NA `x`, e.g. years greater than 2000 in magnitude or
+#' invalid text, should be handled.
 #' If `strict` is `TRUE` -- the default -- then execution is stopped.
 #' If `strict` is `FALSE` then `NA` is returned.
-#'
-#' NA arguments result in NA (and do not stop execution) regardless of `strict`.
-#' @param ... Other arguments (not used in this package).
-#' @returns A vector of `durationy`.
-#' @examples
-#' durationy(1)    # One year
-#' durationy(0.5)  # Half a year
-#' durationy(-2.3) # Negative duration
-#' durationy(datey(2001) %to% datey(2002)) # From an interval
-#'
-#' # Invalid durations:
-#' try(durationy(3000.1)) # default is strict = TRUE
-#' durationy(3000.1, strict = FALSE)
-#' @export
-durationy <- function(x, strict = TRUE, ...) UseMethod("durationy")
-#' @rdname durationy
-#' @export
-durationy.default <- function(x, strict = TRUE, ...) NA_durationy_
-#' @rdname durationy
-#' @export
-durationy.durationy <- function(x, strict = TRUE, ...) {
-  #ensure_is_durationy(x)
-  x
-}
-#' @rdname durationy
-#' @export
-durationy.integer <- function(x, strict = TRUE, ...) {
-  ensure_is_switch(strict)
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
-  if (strict)
-  {
-    if(any(x < -2000L | x > 2000L, na.rm = TRUE)) {
-      stop("Absolute value of years argument is greater than 2000.", call. = FALSE)
-    }
-  }
-  clicks <- ifelse(x >= -2000L & x <= 2000L, x * 534360L, NA_integer_)
-  durationy_from_clicks(clicks)
-}
-#' @rdname durationy
-#' @export
-durationy.double <- function(x, strict = TRUE, ...) {
-  ensure_is_switch(strict)
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
-  if (strict)
-  {
-    if(any(is.nan(x)) || any(x < -2000 | x > 2000, na.rm = TRUE)) {
-      stop("Absolute value of years argument is greater than 2000.", call. = FALSE)
-    }
-  }
-  clicks <- ifelse(x >= -2000 & x <= 2000, round(x * 534360), NA_real_)
-  durationy_from_clicks(clicks)
-}
-#' @rdname durationy
-#' @export
-durationy.datey_interval <- function(x, strict = TRUE, ...) {
-  ensure_is_switch(strict)
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
-
-  clicks <- durationy_from_clicks(cpp_dateyIntervalDuration(x))
-
-  if (strict)
-  {
-    if(anyNA(clicks)) {
-      stop("Invalid datey_interval.", call. = FALSE)
-    }
-  }
-
-  duration <- durationy_from_clicks(clicks)
-}
-
-#' Parse text as a `durationy`
-#'
-#' @description
-#' This function parses text as a `durationy`.
-#'
-#' If the text is NA then NA is returned.
-#'
-#' Valid text is of the form "DDD.DDD" or "DDD.DDD UUU"
-#' where
-#'
-#' - "DDD.DDD" is the duration in years with "D" being decimal digits
-#' (and the fractional part is not required for whole years), and
-#'
-#' - "UUU" is the unit text (which defaults to "yr"). If blank then there is
-#' no space after the duration in years.
-#'
-#' If `blank_is_NA` is `TRUE` then blanks are treated as `NA`.
-#'
-#' If `strict` is `TRUE` (which is the default) then non-compliant text will
-#' stop execution.
-#'
-#' @param x
-#' Vector of text items to be parsed.
-#' @param strict
-#' How non-compliant text (including values greater than
-#' 2000 in magnitude) should be handled.
-#' If `strict` is `TRUE` then execution is stopped.
-#' If `strict` is `FALSE` then `NA` is returned.
-#' Defaults to `TRUE`.
 #' @param blank_is_NA
 #' Whether blanks should be treated as `NA`.
 #' Defaults to `FALSE`.
@@ -168,35 +87,99 @@ durationy.datey_interval <- function(x, strict = TRUE, ...) {
 #' Cannot be more than 20 characters (UTF-8 bytes) or contain control
 #' characters.
 #' Defaults to `"yr"`.
-#' @param ... Other arguments (not used in this package).
+#' @param ... Not used.
 #' @returns A vector of `durationy`.
 #' @examples
+#' durationy(1)    # 1 yr
+#' durationy(0.5)  # 0.5 yr
+#' durationy(-2.3) # -2.3 yr
+#' durationy(2001 %to% 2002) # 1 yr
+#' durationy(2002 %to% 2001) # `NA_durationy_` because interval is improper
+#'
+#' # NA:
+#' durationy(NA_real_)
+#' try(durationy(NA)) # NA is logical, not numeric
+#'
+#' # Invalid durations:
+#' try(durationy(3000.1)) # default strict = TRUE
+#' durationy(3000.1, strict = FALSE)
+#'
+#' # Text:
 #' durationy("10 yr")
 #' durationy("+10 yr")
 #' durationy("-10 yr")
 #' durationy("10", year_unit = "")
 #' durationy("10 a", year_unit = "a")
 #'
-#' # Handling blanks:
+#' # Text round trips:
+#' d <- durationy(1.234)
+#' identical(d, durationy(as.character(d))) # TRUE
+#'
+#' # Handling blank text:
 #' try(durationy(""))
 #' durationy("", blank_is_NA = TRUE)
 #'
-#' # Invalids:
+#' # Invalid text:
 #' try(durationy("abc"))
 #' try(durationy("2000.000001 yr"))
 #' durationy("abc", strict = FALSE) # NA
 #' durationy("2000.000001 yr", strict = FALSE) # NA
 #' durationy("2000.000000 yr") # This is valid
-#' @name text_to_durationy
+#' @seealso [datey], [datey_interval], [text_from_durationy], [as_years_durationy],
+#'   [ops], [is_NA],
+#'   `vignette("why-datey", package = "datey")` for the annual-grid design,
+#'   `vignette("datey", package = "datey")` for a worked introduction
+#' @name durationy
 NULL
 
-#' @rdname text_to_durationy
+#' @rdname durationy
+#' @export
+durationy <- function(x, ...) UseMethod("durationy")
+
+#' @rdname durationy
+#' @export
+durationy.default <- function(x, ...) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `durationy` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
+#' @rdname durationy
+#' @export
+durationy.durationy <- function(x, ...) {
+  #ensure_is_durationy(x)
+  x
+}
+#' @rdname durationy
+#' @export
+durationy.integer <- function(x, strict = TRUE, ...) {
+  ensure_is_switch(strict)
+  in_range <- x >= -2000L & x <= 2000L
+  if (strict && !all(in_range, na.rm = TRUE)) stop("Years cannot be more than 2000.", call. = FALSE)
+  x <- pmax(-2000L, pmin(2000L, x))
+  clicks <- ifelse(in_range, x * 534360L, NA_integer_)
+  durationy_from_clicks(clicks)
+}
+#' @rdname durationy
+#' @export
+durationy.double <- function(x, strict = TRUE, ...) {
+  ensure_is_switch(strict)
+  in_range <- x >= -2000 & x <= 2000
+  if (strict && !all(in_range, na.rm = TRUE)) stop("Years cannot be more than 2000.", call. = FALSE)
+  #x <- pmax(-2000, pmin(2000, x))
+  clicks <- ifelse(in_range, round(x * 534360), NA_real_)
+  durationy_from_clicks(clicks)
+}
+#' @rdname durationy
+#' @export
+durationy.datey_interval <- function(x, ...) {
+  clicks <- cpp_dateyIntervalDuration(x)
+  durationy_from_clicks(clicks)
+}
+#' @rdname durationy
 #' @export
 durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit = "yr", ...) {
   ensure_is_switch(strict)
   ensure_is_switch(blank_is_NA)
   ensure_is_text_scalar(year_unit)
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
   clicks <- cpp_durationyFromRString(x, strict, blank_is_NA, year_unit)
   durationy_from_clicks(clicks)
 }
@@ -204,35 +187,40 @@ durationy.character <- function(x, strict = TRUE, blank_is_NA = FALSE, year_unit
 #' Convert a `durationy` to duration in years
 #'
 #' @description
-#' Converts a `durationy` to duration in years.
+#' Converts a `durationy` to its duration measured in years.
 #'
-#' Note the following:
+#' `as.numeric()` is the same as `as.double()`.
 #'
-#' - `as.numeric()` is the same as `as.double()`.
-#' - `as.integer()` obtains the integer part,
-#'   e.g. `as.integer(durationy(1.9))` is `1`
-#'   and `as.integer(durationy(-1.9))` is `-1`.
-#'   `as.integer(x)` is the same as `as.integer(as.double(x))`.
+#' `as.integer()` obtains the integer part as an `integer`, e.g.
+#' `as.integer(durationy(1.75))` is `1`
+#' and `as.integer(durationy(-1.75))` is `-1` (i.e. rounding towards `0`).
+#' It is also the case that if `x` is a `durationy` then
+#' `as.integer(x)` is the same as `as.integer(as.double(x))`.
 #'
 #' @param x The `durationy` to convert to years.
-#' @param ... Other arguments (not used in this package).
+#' @param ... Not used.
 #' @returns A vector of `double`.
+#' @examples
+#' d <- durationy(1.75)
+#' d                   # 1.75 yr
+#' as.double(d)        # 1.75
+#' as.numeric(d)       # 1.75
+#' as.integer(d)       # 1
+#' as.integer(-d)      # -1
+#' identical(as.integer(d), 1L) # TRUE
+#' @seealso [durationy], [as_years_datey], [ops]
 #' @name as_years_durationy
 NULL
 
 #' @rdname as_years_durationy
 #' @export
 as.double.durationy <- function(x, ...) {
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
   clicks <- convert_durationy_to_valid_clicks(x)
   clicks / 534360
 }
 #' @rdname as_years_durationy
 #' @export
 as.integer.durationy <- function(x, ...) {
-  if (...length() > 0) stop("`...` arguments are unsupported.", call. = FALSE)
-
-
   clicks <- convert_durationy_to_valid_clicks(x)
   # Integer division rounds down towards negative infinity,
   # which is would be perfect in other circumstances but is unfortunately
@@ -266,15 +254,17 @@ as.integer.durationy <- function(x, ...) {
 #' printed. When `NULL`, `getOption("max.print")` used. Defaults to `NULL`.
 #' @param ... Other arguments.
 #' @returns `as.character` and `format` return a vector of `character`.
+#' `print` invisibly returns `x`.
 #' @examples
-#'   pos <- durationy(1)
-#'   neg <- durationy(-2.3)
-#'   format(pos) # "1 yr"
-#'   format(pos, include_plus = TRUE) # "+1 yr"
-#'   format(pos, year_unit = "") # "1"
-#'   format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
-#'   format(neg, use_true_minus = FALSE) # "-2.3 yr"
-#'   format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
+#' pos <- durationy(1)
+#' neg <- durationy(-2.3)
+#' format(pos) # "1 yr"
+#' format(pos, include_plus = TRUE) # "+1 yr"
+#' format(pos, year_unit = "") # "1"
+#' format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
+#' format(neg, use_true_minus = FALSE) # "-2.3 yr"
+#' format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
+#' @seealso [durationy]
 #' @name text_from_durationy
 NULL
 

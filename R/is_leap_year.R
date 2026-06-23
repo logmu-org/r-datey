@@ -9,43 +9,51 @@
 #' @description
 #' Tests whether a date or year is a leap year.
 #'
-#' For years outside \[1000,3000), this returns `NA`.
+#' This returns `NA` if the corresponding `datey` would be invalid, including
+#' years before 1000 and dates after 3000-01-01.0.
+#'
+#' For numerics, this returns `NA` for years values less than 1000 or greater
+#' than 3000.
 #'
 #' This is an S3 generic. This package provides methods for:
 #'
-#' - numeric types `double` and `integer` (interpreted as years), and
+#' - numeric types `double` and `integer` (interpreted as calendar years, e.g.
+#' `2000.9` means the calendar year 2000), and
 #' - date types `datey`, `Date`, `POSIXct` and `POSIXlt`.
 #'
 #' @param x A vector date type or numeric year.
-#' @param ... Other arguments (not used in this package).
+#' @seealso [datey]
 #' @export
-#' @return
-#'   `NA` if `x` is not interpretable as a year or date, or outside \[1000,3000),
+#' @returns
+#'   `NA` if `x` is not interpretable as a year or date, or outside \[1000,3000\],
 #'   `TRUE` if `x` is a leap year, otherwise
 #'   `FALSE`.
 #' @examples
 #' any(is_leap_year(c(1900, 1901, 2001))) #FALSE
 #' all(is_leap_year(c(1904.1, 2000.5, 2004.9))) #TRUE
-is_leap_year <- function(x, ...) UseMethod("is_leap_year")
+is_leap_year <- function(x) UseMethod("is_leap_year")
 
 #' @rdname is_leap_year
 #' @export
-is_leap_year.default <- function(x, ...) NA
+is_leap_year.default <- function(x) {
+  arg_name <- deparse(substitute(x))
+  stop("S3 function `is_leap_year` is not implemented for `", arg_name, "`.", call. = FALSE)
+}
 #' @rdname is_leap_year
 #' @export
-is_leap_year.integer <- function(x, ...) cpp_isLeapYear_integer(x)
+is_leap_year.integer <- function(x) cpp_isLeapYear_integer(x)
 #' @rdname is_leap_year
 #' @export
-is_leap_year.double <- function(x, ...) cpp_isLeapYear_double(x)
+is_leap_year.double <- function(x) cpp_isLeapYear_double(x)
 #' @rdname is_leap_year
 #' @export
-is_leap_year.datey <- function(x, ...) cpp_isLeapYear_datey(unclass(x))
+is_leap_year.datey <- function(x) cpp_isLeapYear_datey(unclass(x))
 #' @rdname is_leap_year
 #' @export
-is_leap_year.Date <- function(x, ...) is_leap_year(datey(x, strict = FALSE))
+is_leap_year.Date <- function(x) is_leap_year(datey(x, day_fraction = 0, strict = FALSE))
 #' @rdname is_leap_year
 #' @export
-is_leap_year.POSIXct <- function(x, ...) is_leap_year(datey(x, strict = FALSE))
+is_leap_year.POSIXct <- function(x) is_leap_year(datey(x, day_fraction = 0, strict = FALSE))
 #' @rdname is_leap_year
 #' @export
-is_leap_year.POSIXlt <- function(x, ...) is_leap_year(datey(x, strict = FALSE))
+is_leap_year.POSIXlt <- function(x) is_leap_year(datey(x, day_fraction = 0, strict = FALSE))

@@ -83,13 +83,6 @@ extern "C" SEXP _datey_cpp_dateyWithNewDayFraction(SEXP clicks, SEXP dayFraction
   END_CPP11
 }
 // R_datey.cpp
-integers cpp_dateyFromRDate(doubles rDate, bool strict);
-extern "C" SEXP _datey_cpp_dateyFromRDate(SEXP rDate, SEXP strict) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(cpp_dateyFromRDate(cpp11::as_cpp<cpp11::decay_t<doubles>>(rDate), cpp11::as_cpp<cpp11::decay_t<bool>>(strict)));
-  END_CPP11
-}
-// R_datey.cpp
 integers cpp_dateyFromRDateAndFraction(doubles rDate, doubles dayFraction, bool strict);
 extern "C" SEXP _datey_cpp_dateyFromRDateAndFraction(SEXP rDate, SEXP dayFraction, SEXP strict) {
   BEGIN_CPP11
@@ -118,10 +111,17 @@ extern "C" SEXP _datey_cpp_dateyFromRStringAndDayFraction(SEXP x, SEXP dayFracti
   END_CPP11
 }
 // R_datey_interval.cpp
-doubles cpp_dateyInterval(integers start, integers end, bool strict);
-extern "C" SEXP _datey_cpp_dateyInterval(SEXP start, SEXP end, SEXP strict) {
+doubles cpp_dateyInterval(integers start, integers end);
+extern "C" SEXP _datey_cpp_dateyInterval(SEXP start, SEXP end) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_dateyInterval(cpp11::as_cpp<cpp11::decay_t<integers>>(start), cpp11::as_cpp<cpp11::decay_t<integers>>(end), cpp11::as_cpp<cpp11::decay_t<bool>>(strict)));
+    return cpp11::as_sexp(cpp_dateyInterval(cpp11::as_cpp<cpp11::decay_t<integers>>(start), cpp11::as_cpp<cpp11::decay_t<integers>>(end)));
+  END_CPP11
+}
+// R_datey_interval.cpp
+doubles cpp_dateyIntervalFromLogical(logicals x);
+extern "C" SEXP _datey_cpp_dateyIntervalFromLogical(SEXP x) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyIntervalFromLogical(cpp11::as_cpp<cpp11::decay_t<logicals>>(x)));
   END_CPP11
 }
 // R_datey_interval.cpp
@@ -262,19 +262,19 @@ extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_asSafeIntegers",                 (DL_FUNC) &_datey_cpp_asSafeIntegers,                 1},
     {"_datey_cpp_dateyAnyNA",                     (DL_FUNC) &_datey_cpp_dateyAnyNA,                     1},
-    {"_datey_cpp_dateyFromRDate",                 (DL_FUNC) &_datey_cpp_dateyFromRDate,                 2},
     {"_datey_cpp_dateyFromRDateAndFraction",      (DL_FUNC) &_datey_cpp_dateyFromRDateAndFraction,      3},
     {"_datey_cpp_dateyFromRStringAndDayFraction", (DL_FUNC) &_datey_cpp_dateyFromRStringAndDayFraction, 4},
     {"_datey_cpp_dateyFromRStringOnly",           (DL_FUNC) &_datey_cpp_dateyFromRStringOnly,           3},
     {"_datey_cpp_dateyFromYMDF",                  (DL_FUNC) &_datey_cpp_dateyFromYMDF,                  5},
     {"_datey_cpp_dateyFromYMDF_dblYMD",           (DL_FUNC) &_datey_cpp_dateyFromYMDF_dblYMD,           5},
-    {"_datey_cpp_dateyInterval",                  (DL_FUNC) &_datey_cpp_dateyInterval,                  3},
+    {"_datey_cpp_dateyInterval",                  (DL_FUNC) &_datey_cpp_dateyInterval,                  2},
     {"_datey_cpp_dateyIntervalAllCollapsed",      (DL_FUNC) &_datey_cpp_dateyIntervalAllCollapsed,      1},
     {"_datey_cpp_dateyIntervalAllProper",         (DL_FUNC) &_datey_cpp_dateyIntervalAllProper,         1},
     {"_datey_cpp_dateyIntervalAnyCollapsed",      (DL_FUNC) &_datey_cpp_dateyIntervalAnyCollapsed,      1},
     {"_datey_cpp_dateyIntervalAnyNA",             (DL_FUNC) &_datey_cpp_dateyIntervalAnyNA,             1},
     {"_datey_cpp_dateyIntervalDuration",          (DL_FUNC) &_datey_cpp_dateyIntervalDuration,          1},
     {"_datey_cpp_dateyIntervalEnd",               (DL_FUNC) &_datey_cpp_dateyIntervalEnd,               1},
+    {"_datey_cpp_dateyIntervalFromLogical",       (DL_FUNC) &_datey_cpp_dateyIntervalFromLogical,       1},
     {"_datey_cpp_dateyIntervalIncludes",          (DL_FUNC) &_datey_cpp_dateyIntervalIncludes,          2},
     {"_datey_cpp_dateyIntervalIsCollapsed",       (DL_FUNC) &_datey_cpp_dateyIntervalIsCollapsed,       1},
     {"_datey_cpp_dateyIntervalIsNA",              (DL_FUNC) &_datey_cpp_dateyIntervalIsNA,              1},

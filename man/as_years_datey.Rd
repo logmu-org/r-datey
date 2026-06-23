@@ -13,7 +13,7 @@
 \arguments{
 \item{x}{The \code{datey} to convert to years.}
 
-\item{...}{Other arguments (not used in this package).}
+\item{...}{Not used.}
 }
 \value{
 A vector of \code{double}.
@@ -23,18 +23,25 @@ Converts a \code{datey} to calendar years,
 including a fractional part that represents the
 proportion of the calendar year that has elapsed.
 
-For example,
-\itemize{
-\item the \emph{start} of 2000-01-01 (or, equivalently, the \emph{end} of 1999-12-31),
-results in \code{2000}, and
-\item the \emph{middle} of the calendar year 2000 results in \code{2000.5}.
-}
+For example, the middle of 2000-10-01 is precisely three-quarters through
+the (leap) year 2000 and so \code{as.double(mid_day(2000,10,1))} results in
+\code{2000.75}.
 
-Note the following:
-\itemize{
-\item \code{as.numeric()} is the same as \code{as.double()}.
-\item \code{as.integer()} gives the calendar year, e.g.
-\code{as.integer(datey(2000.9))} is \code{2000}.
+\code{as.numeric()} is the same as \code{as.double()}.
+
+\code{as.integer()} gives the calendar year as an \code{integer}, e.g.
+\code{as.integer(datey(2000.75))} is \code{2000}.
+It is also the case that if \code{x} is a \code{datey} then
 \code{as.integer(x)} is the same as \code{as.integer(as.double(x))}.
 }
+\examples{
+t <- datey(2000.75)
+t                   # 2000-10-01.5
+as.double(t)        # 2000.75
+as.numeric(t)       # 2000.75
+as.integer(t)       # 2000
+identical(as.integer(t), 2000L) # TRUE
+}
+\seealso{
+\link{datey}, \link{as_years_durationy}, \link{ops}
 }

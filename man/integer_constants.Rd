@@ -29,5 +29,5 @@ The following integer constants may make code clearer.\tabular{lll}{
   durationy(-(valid_duration_years_max + 0.001), strict = FALSE)
 }
 \seealso{
-\link{is_NA}, \link{NAs}
+\link{is_NA}, \link{NAs}, \link{datey}, \link{all_of_time}
 }

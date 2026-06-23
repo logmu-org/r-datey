@@ -35,8 +35,8 @@ The benefits of using **datey** are:
     arithmetic.[^2]
 
 3.  Handling **whether a date means the start, during or end of a day**.
-    This issue is usually ignore. But even though in may seem trivial,
-    systematic errors can accumulate and end up being material.
+    This issue is usually ignored[^3], but systematic errors can
+    accumulate and end up being material.
 
 For more detail on the motivation for **datey**, see [Why
 **datey**?](https://r-datey.logmu.org/articles/why-datey.html).
@@ -57,7 +57,7 @@ pak::pak("logmu-org/r-datey")
 library(datey)
 
 # Create datey from a base R date ...
-start <- as_start_day(as.Date("2018-09-12")) # Exposure includes the whole day
+start <- start_day(as.Date("2018-09-12")) # Exposure includes the whole day
 # ... or direct from year/month/day
 exit <- mid_day(2024, 3, 7) # Death is mid-day on average
 # ... or as a fractional calendar year (which will be rounded to grid precision)
@@ -90,11 +90,13 @@ started](https://r-datey.logmu.org/articles/datey.html).
     has had issues with inconsistencies on this point within the same
     model.
 
-[^2]: This is a sufficiently common problem that there is a [CRAN
-    FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-    on the topic. And, in a mortality-adjacent context, Terry Therneau
-    added [this
-    note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) to
-    his `survival` package on the problems floating point can cause.
-    Interestingly, Therneau’s preferred approach is to use integer day
-    counts, which is implicitly fixed precision.
+[^2]: This is sufficiently common that it has a [CRAN
+    FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f).
+    Also see [this
+    note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) on
+    on problems caused by floating point imprecision for the `survival`
+    package. Interestingly, that author’s preferred approach is to use
+    integer day counts, which is also fixed precision.
+
+[^3]: Partly on grounds of triviality but because handling this issue
+    with date systems that do not handle fractions of a day is messy.

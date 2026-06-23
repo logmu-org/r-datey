@@ -91,17 +91,26 @@ Scalar versions mapping \code{x} to a scalar \code{TRUE} or \code{FALSE}:
 \code{any_collapsed(x)} tests whether at least one of the elements of \code{x} is
 collapsed.
 
+(\code{any_proper()} is not implemented because there is no obvious use case.)
+
 These are S3 generic functions.
 }
 \examples{
-  a <- datey(1999)
-  b <- datey(2000)
-  is_collapsed(a \%to\% b)
-  is_collapsed(a \%to\% a)
-  is_collapsed(b \%to\% a)
-  is_collapsed(NA_datey_interval_)
-  is_proper(a \%to\% b)
-  is_proper(a \%to\% a)
-  is_proper(b \%to\% a)
-  is_proper(NA_datey_interval_)
+  non_empty   <- 1900 \%to\% 2000
+  empty       <- 2000 \%to\% 2000
+  improper    <- 2000 \%to\% 1900
+  na          <- NA_datey_interval_
+
+  is_collapsed(non_empty) # FALSE
+  is_collapsed(empty)     # TRUE
+  is_collapsed(improper)  # TRUE
+  is_collapsed(na)        # TRUE
+
+  is_proper(non_empty)    # TRUE
+  is_proper(empty)        # TRUE
+  is_proper(improper)     # FALSE
+  is_proper(na)           # FALSE
+}
+\seealso{
+\link{datey_interval}, \link{interval_properties}, \link{interval_includes}
 }

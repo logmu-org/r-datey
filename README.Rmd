@@ -39,26 +39,28 @@ The benefits of using **datey** are:
 
 1. **Standardised mapping of dates to a uniform annual timescale.** There is no
 unique way to map dates to an annual timescale. Without standardisation, sooner
-or later errors will arise.[^StandardMapping]
+or later errors will arise.[^date-mapping-fail]
 
 1. **Fixed precision arithmetic.** Using fixed precision excludes common bugs
-arising from the imprecision of floating point arithmetic.[^FixedPrecision]
+arising from the imprecision of floating point arithmetic.[^floating-point-imprecision]
 
 1. Handling **whether a date means the start, during or end of a day**. 
-This issue is usually ignore. But even though in may seem trivial,
+This issue is usually ignored[^handle-date-fractions], but
 systematic errors can accumulate and end up being material.
 
-[^StandardMapping]: Even the highly-regarded
+[^date-mapping-fail]: Even the highly-regarded
 [CMI](https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation) 
 has had issues with inconsistencies on this point within the same model. 
 
-[^FixedPrecision]: This is a sufficiently common problem that there is a
-[CRAN FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f)
-on the topic. And, in a mortality-adjacent context, Terry Therneau added
-[this note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) to 
-his `survival` package on the problems floating point can cause.
-Interestingly, Therneau's preferred approach is to use integer day counts, 
-which is implicitly fixed precision.
+[^floating-point-imprecision]: This is sufficiently common that it has a
+[CRAN FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f). Also see
+[this note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) on 
+on problems caused by floating point imprecision for the `survival` package.
+Interestingly, that author's preferred approach is to use integer day counts, 
+which is also fixed precision.
+
+[^handle-date-fractions]: Partly on grounds of triviality but because handling
+this issue with date systems that do not handle fractions of a day is messy.
 
 For more detail on the motivation for **datey**, see
 [Why **datey**?](https://r-datey.logmu.org/articles/why-datey.html).
@@ -79,7 +81,7 @@ pak::pak("logmu-org/r-datey")
 library(datey)
 
 # Create datey from a base R date ...
-start <- as_start_day(as.Date("2018-09-12")) # Exposure includes the whole day
+start <- start_day(as.Date("2018-09-12")) # Exposure includes the whole day
 # ... or direct from year/month/day
 exit <- mid_day(2024, 3, 7) # Death is mid-day on average
 # ... or as a fractional calendar year (which will be rounded to grid precision)

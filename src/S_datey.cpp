@@ -201,6 +201,7 @@ const double rDate_1000_01_01 = -354285.0;
 const double rDate_3000_01_01 = 376200.0;
 const int JulianDay_1970_01_01 = 719162;
 
+/* It's not safe to create a datey treating an r date as a fraction
 int dateyFromRDate(double rDate, bool strict)
 {
   // Following allows for NA and NaNs:
@@ -232,12 +233,14 @@ int dateyFromRDate(double rDate, bool strict)
     + day * clicksPerDay
     + (int)roundBankers((rDate - floor) * clicksPerDay);
 }
+*/
+
 int dateyFromRDateAndDayFraction(double rDate, double dayFraction, bool strict)
 {
   // Following allows for NA and NaNs:
   if (!(rDate>= rDate_1000_01_01 && rDate < rDate_3000_01_01))
   {
-    if (strict)
+    if (!cpp11::is_na(rDate) && strict)
     {
       cpp11::stop("`Date` calendar year is outside valid `datey` interval [1000,3000).");
     }
@@ -297,7 +300,7 @@ int firstJulianDayOfYear(int year)
   return k * (365 * 4 + 1) / 4 - cent + cent / 4;
 }
 
-// Leaves pChars pointing to `trailing `\0` end byte
+// Leaves pChars pointing to trailing `\0` end byte
 void writeValidDatey(int datey, bool includeDayFraction, char*& pChars)
 {
   auto ymdf = dateyToYMDF(datey);
@@ -428,8 +431,8 @@ int dateyFromRStringOnly(cpp11::r_string rString, bool strict, bool blankIsNA)
   if (strict && clicks == NA_INTEGER)
   {
     const char *msg = blankIsNA
-    ? "Invalid datey text. Should be \"\" or \"YYYY-MM-DD[.FFF]\", where \"[.FFF]\" is optional fraction with at least 1 digit."
-    : "Invalid datey text. Should be \"YYYY-MM-DD[.FFF]\", where \"[.FFF]\" is optional fraction with at least 1 digit."
+    ? "Invalid datey text. Should be \"\" or \"YYYY-MM-DD[.F..]\", where \"[.F..]\" is an optional fraction with at least 1 digit."
+    : "Invalid datey text. Should be \"YYYY-MM-DD[.F..]\", where \"[.F..]\" is an optional fraction with at least 1 digit."
     ;
     cpp11::stop(msg);
   }
@@ -481,8 +484,8 @@ int dateyFromRStringAndDayFraction(cpp11::r_string rString, double dayFraction, 
   if (strict && clicks == NA_INTEGER)
   {
     const char *msg = blankIsNA
-      ? "Invalid datey text. Should be \"YYYY-MM-DD\" or \"\"."
-      : "Invalid datey text. Should be \"YYYY-MM-DD\"."
+      ? "Invalid datey text. Should be \"YYYY-MM-DD\" (no fractional part) or \"\"."
+      : "Invalid datey text. Should be \"YYYY-MM-DD\" (no fractional part)."
       ;
     cpp11::stop(msg);
   }
