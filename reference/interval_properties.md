@@ -3,6 +3,11 @@
 Get the start, end or duration of a `datey_interval` using the syntax
 `$start`, `$end` or `$duration` respectively.
 
+`$duration` is the duration of the interval *provided it is proper*
+(i.e. start \<= end). If the interval is improper then `$duration`is
+`NA_durationy_`. When `x` is a `datey_interval` then `x$duration` is
+identical to `durationy(x)`.
+
 ## Usage
 
 ``` r
@@ -24,6 +29,12 @@ x$name
 
 `start` and `end` return a vector of `datey`; `duration` returns a
 vector of `durationy`.
+
+## See also
+
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
+[interval_nature](https://r-datey.logmu.org/reference/interval_nature.md),
+[interval_includes](https://r-datey.logmu.org/reference/interval_includes.md)
 
 ## Examples
 

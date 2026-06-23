@@ -5,9 +5,14 @@ Gets the mean value of a vector of `datey` or `durationy` as a scalar.
 This will entail rounding if the mean of the underlying click counts is
 not an integer.
 
+These are S3 methods for the `mean` generic.
+
 ## Usage
 
 ``` r
+# S3 method for class 'datey_interval'
+mean(x, ..., na.rm = FALSE)
+
 # S3 method for class 'datey'
 mean(x, ..., na.rm = FALSE)
 
@@ -23,7 +28,7 @@ mean(x, ..., na.rm = FALSE)
 
 - ...:
 
-  Other arguments (not used in this package).
+  Not used.
 
 - na.rm:
 
@@ -32,7 +37,13 @@ mean(x, ..., na.rm = FALSE)
 
 ## Value
 
-A scalar of `datey` or `duration` as appropriate.
+A scalar of `datey` or `durationy` as appropriate.
+
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md),
+[durationy](https://r-datey.logmu.org/reference/durationy.md),
+[max_min](https://r-datey.logmu.org/reference/max_min.md)
 
 ## Examples
 

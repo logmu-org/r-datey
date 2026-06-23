@@ -23,52 +23,27 @@ is_mid_day(x)
 
 ## Value
 
-A vector of `logical`. Invalid `datey` elements will return `NA`.
+A vector of `logical`. Elements of the `datey` vector that are
+`NA_datey_` will result in `NA` elements of the result vector.
+
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md)
 
 ## Examples
 
 ``` r
-# Start and end days:
-t <- start_day(2000, 1, 1)
-t
-#> [1] 2000-01-01.0
-is_start_day(t) # TRUE
-#> [1] TRUE
-is_mid_day(t)   # FALSE
-#> [1] FALSE
-t <- end_day(2000, 1, 1)
-t
-#> [1] 2000-01-02.0
-is_start_day(t) # TRUE
-#> [1] TRUE
-is_mid_day(t)   # FALSE
-#> [1] FALSE
+# Create (NA, 0 days, 1/4 day, 1/2 day):
+t <- datey(c(NA_real_, 2000, 2000 + 0.25/366, 2000 + 0.5/366))
+t # <NA>  2000-01-01.0  2000-01-01.25 2000-01-01.5
+#> [1] <NA>          2000-01-01.0  2000-01-01.25 2000-01-01.5 
 
-# Mid day:
-t <- mid_day(2000, 1, 1)
-t
-#> [1] 2000-01-01.5
-is_start_day(t) # FALSE
-#> [1] FALSE
-is_mid_day(t)   # TRUE
-#> [1] TRUE
+is_start_day(t) # NA  TRUE FALSE FALSE
+#> [1]    NA  TRUE FALSE FALSE
+is_mid_day(t)   # NA FALSE FALSE  TRUE
+#> [1]    NA FALSE FALSE  TRUE
 
-# Neither a start nor mid day:
-t <- from_ymdf(2000, 1, 1, 0.25)
-t
-#> [1] 2000-01-01.25
-is_start_day(t) # FALSE
-#> [1] FALSE
-is_mid_day(t)   # FALSE
-#> [1] FALSE
-
-# Invalids return NA
-is_start_day(NA_datey_) # NA
-#> [1] NA
-is_mid_day(NA_datey_)   # NA
-#> [1] NA
-
-# Properties are not preserved:
+# Properties are not necessarily preserved between years:
 t <- start_day(2000,7,1) # Leap year
 is_start_day(t) # TRUE
 #> [1] TRUE

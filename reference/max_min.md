@@ -1,10 +1,19 @@
 # Minimum, maximum or range of `datey` or `durationy`
 
-Minimum, maximum or range of `datey` or `durationy`
+Gets the minimum, maximum or range of one or more `datey` or `durationy`
+vectors. All arguments must be of the same type.
+
+Returns a typed NA (`NA_datey_` or `NA_durationy_`) for empty input or
+when all values are NA and `na.rm = TRUE`.
+
+These are S3 methods for the `Summary` group generic.
 
 ## Usage
 
 ``` r
+# S3 method for class 'datey_interval'
+Summary(..., na.rm = FALSE)
+
 # S3 method for class 'datey'
 Summary(..., na.rm = FALSE)
 
@@ -16,7 +25,7 @@ Summary(..., na.rm = FALSE)
 
 - ...:
 
-  The `datey` or `durationy` arguments.
+  One or more `datey` or `durationy` vectors. All must be the same type.
 
 - na.rm:
 
@@ -25,9 +34,14 @@ Summary(..., na.rm = FALSE)
 
 ## Value
 
-`min` and `max` return a `datey` scalar. `range` returns a two element
-`datey` vector, the first element being the minimum and the second the
-maximum.
+`min` and `max` return a scalar. `range` returns a two element vector,
+the first element being the minimum and the second the maximum.
+
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md),
+[durationy](https://r-datey.logmu.org/reference/durationy.md),
+[mean.datey](https://r-datey.logmu.org/reference/mean.md)
 
 ## Examples
 

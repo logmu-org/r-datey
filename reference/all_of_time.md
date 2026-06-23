@@ -1,15 +1,22 @@
-# Maximum valid `datey_interval`
+# 'All of time' — the maximum valid `datey_interval`
 
-The `datey_interval` \[1000-01-01.0, 3000-01-01.0).
+`all_of_time` is the `datey_interval` \[1000-01-01.0, 3000-01-01.0),
+spanning the full valid date range. It is referred to as 'all of time'
+throughout the **datey** documentation.
 
-This is the value used when a `datey_interval` is combined with a
-logical using the `&` operator.
+It is the value produced by `datey_interval(TRUE)` and is used when a
+`datey_interval` is intersected with a logical `TRUE` via `&`.
 
 ## Usage
 
 ``` r
 all_of_time
 ```
+
+## See also
+
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
+[ops](https://r-datey.logmu.org/reference/ops.md)
 
 ## Examples
 

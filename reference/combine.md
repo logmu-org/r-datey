@@ -38,6 +38,13 @@ c(..., recursive = FALSE)
 [`c()`](https://rdrr.io/r/base/c.html) returns a `datey`, `durationy` or
 `datey_interval` depending on the first argument.
 
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md),
+[durationy](https://r-datey.logmu.org/reference/durationy.md),
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
+[subset](https://r-datey.logmu.org/reference/subset.md)
+
 ## Examples
 
 ``` r

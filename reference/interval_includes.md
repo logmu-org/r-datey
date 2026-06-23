@@ -25,12 +25,20 @@ interval %includes% value
 
 - value:
 
-  The `datey` to test for inclusion.
+  The `datey` to test for inclusion. A numeric value is also accepted
+  and is coerced to `datey`.
 
 ## Value
 
 A vector of `logical` corresponding to whether the interval includes the
 value. Always TRUE or FALSE – NAs result in FALSE.
+
+## See also
+
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
+[interval_properties](https://r-datey.logmu.org/reference/interval_properties.md),
+[interval_nature](https://r-datey.logmu.org/reference/interval_nature.md),
+[ops](https://r-datey.logmu.org/reference/ops.md)
 
 ## Examples
 

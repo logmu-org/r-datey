@@ -5,10 +5,10 @@ are printed either as
 
 - `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or
 
-- `YYYY-MM-DD.FFF` where `.FFF` is the day fraction part.
+- `YYYY-MM-DD.F...` where `.F...` is the day fraction part.
 
-If `include_day_fraction` is `TRUE` then `.FFF` is included even if it
-is 0.
+If `include_day_fraction` is `TRUE` then `[.F...]` is included even if
+it is 0 (i.e. `.0`).
 
 ## Usage
 
@@ -45,4 +45,9 @@ print(x, include_day_fraction = TRUE, max = NULL, ...)
 
 ## Value
 
-`as.character` and `format` return a vector of `character`.
+`as.character` and `format` return a vector of `character`. `print`
+invisibly returns `x`.
+
+## See also
+
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md)

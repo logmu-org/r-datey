@@ -23,8 +23,7 @@ fill="#FFF" stroke="#673AB7" stroke-width="12" stroke-linejoin="round"/>
     <rect x="45" y="78" width="90" height="18" />
     <rect x="45" y="104" width="110" height="18" />
     <rect x="45" y="132" width="110" height="18" />
-    <rect x="143" y="45" width="5" height="110" fill="#000">
+    <rect x="143" y="45" width="5" height="110" fill="#000" />
   </g>
-
 
 </svg>

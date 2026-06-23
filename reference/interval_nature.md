@@ -31,6 +31,9 @@ Scalar versions mapping `x` to a scalar `TRUE` or `FALSE`:
 `any_collapsed(x)` tests whether at least one of the elements of `x` is
 collapsed.
 
+(`any_proper()` is not implemented because there is no obvious use
+case.)
+
 These are S3 generic functions.
 
 ## Usage
@@ -89,25 +92,35 @@ any_collapsed(x)
 
 - `all_XXX` and `any_XXX` functions return a logical scalar.
 
+## See also
+
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
+[interval_properties](https://r-datey.logmu.org/reference/interval_properties.md),
+[interval_includes](https://r-datey.logmu.org/reference/interval_includes.md)
+
 ## Examples
 
 ``` r
-  a <- datey(1999)
-  b <- datey(2000)
-  is_collapsed(a %to% b)
+  non_empty   <- 1900 %to% 2000
+  empty       <- 2000 %to% 2000
+  improper    <- 2000 %to% 1900
+  na          <- NA_datey_interval_
+
+  is_collapsed(non_empty) # FALSE
 #> [1] FALSE
-  is_collapsed(a %to% a)
+  is_collapsed(empty)     # TRUE
 #> [1] TRUE
-  is_collapsed(b %to% a)
+  is_collapsed(improper)  # TRUE
 #> [1] TRUE
-  is_collapsed(NA_datey_interval_)
+  is_collapsed(na)        # TRUE
 #> [1] TRUE
-  is_proper(a %to% b)
+
+  is_proper(non_empty)    # TRUE
 #> [1] TRUE
-  is_proper(a %to% a)
+  is_proper(empty)        # TRUE
 #> [1] TRUE
-  is_proper(b %to% a)
+  is_proper(improper)     # FALSE
 #> [1] FALSE
-  is_proper(NA_datey_interval_)
+  is_proper(na)           # FALSE
 #> [1] FALSE
 ```

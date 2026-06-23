@@ -29,12 +29,17 @@ seq(from, to, by, ...)
 
 - ...:
 
-  Other arguments (not used in this package).
+  Not used.
 
 ## Value
 
 The sequence as a vector of `datey` (for `seq.datey`) or `durationy`
 (for `seq.durationy`).
+
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md),
+[durationy](https://r-datey.logmu.org/reference/durationy.md)
 
 ## Examples
 

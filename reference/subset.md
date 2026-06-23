@@ -46,6 +46,13 @@ x[i] <- value
 
 The subset.
 
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md),
+[durationy](https://r-datey.logmu.org/reference/durationy.md),
+[datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
+[combine](https://r-datey.logmu.org/reference/combine.md)
+
 ## Examples
 
 ``` r

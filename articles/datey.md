@@ -12,7 +12,7 @@ guarantee, see [Why
 complete formal specification, see the [**datey**
 specification](https://r-datey.logmu.org/articles/spec.md).
 
-## The three types
+## The core types
 
 **datey** provides three S3 classes:
 
@@ -20,17 +20,34 @@ specification](https://r-datey.logmu.org/articles/spec.md).
 - **`durationy`** – a duration in years.
 - **`datey_interval`** – a half-open `[start, end)` time interval.
 
-All values are stored as exact integers (in units of 1/534 360 of a
-year), so arithmetic is both exact and associative.
+These are atomic types[^1] that store dates and durations as integers
+with units of 1/534 360 of a year). As a result, arithmetic with these
+types is exact and associative.
 
 ## Creating a `datey`
 
+### When in the day?
+
+Exposure periods specified by the dates to typically mean that the whole
+of the day and the whole of the day are included. In the **datey**
+system this corresponds to using
+[`start_day()`](https://r-datey.logmu.org/reference/datey.md) for and
+[`end_day()`](https://r-datey.logmu.org/reference/datey.md) for .
+
+Deaths on the other hand typically happen *during* a day. In the
+**datey** system this corresponds to using
+[`mid_day()`](https://r-datey.logmu.org/reference/datey.md).
+
+These distinctions may be new to you and your first reaction may be that
+they are immaterial. But it costs very little to be precise and
+sometimes systematic errors can accumulate and end up being material.
+
 ### From year, month and day
 
-[`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md),
-[`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md) and
-[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) position a
-`datey` at the start, middle or end of a calendar day:
+[`start_day()`](https://r-datey.logmu.org/reference/datey.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/datey.md) and
+[`end_day()`](https://r-datey.logmu.org/reference/datey.md) create a
+`datey` from scratch:
 
 ``` r
 
@@ -43,10 +60,10 @@ end_day(2024, 3, 7)     # end of 7 March 2024
 ```
 
 The end of a day is the same point as the start of the next, so
-[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) applied to
-a day is identical to
-[`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md) applied
-to the following day:
+[`end_day()`](https://r-datey.logmu.org/reference/datey.md) applied to a
+day is identical to
+[`start_day()`](https://r-datey.logmu.org/reference/datey.md) applied to
+the following day:
 
 ``` r
 
@@ -55,35 +72,35 @@ identical(end_day(2024, 3, 7), start_day(2024, 3, 8))
 ```
 
 For an arbitrary position within a day,
-[`from_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) accepts a
-day fraction between 0 and 1:
+[`datey()`](https://r-datey.logmu.org/reference/datey.md) accepts a day
+fraction between 0 and 1:
 
 ``` r
 
-from_ymdf(2024, 3, 7, 0.25)   # one quarter of the way through 7 March 2024
+datey(2024, 3, 7, 0.25)   # one quarter of the way through 7 March 2024
 #> [1] 2024-03-07.25
 ```
 
 ### From base R dates
 
-[`as_start_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md),
-[`as_mid_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) and
-[`as_end_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md)
-convert `Date`, `POSIXct` or `POSIXlt` values, fixing the day fraction:
+It is often the case that data already contains dates defined using the
+standard base R types `Date`[^2], `POSIXct` or `POSIXlt`.
+
+To convert these to a `datey`, use
+[`start_day()`](https://r-datey.logmu.org/reference/datey.md),
+[`mid_day()`](https://r-datey.logmu.org/reference/datey.md) or
+[`end_day()`](https://r-datey.logmu.org/reference/datey.md):
 
 ``` r
 
 d <- as.Date("2024-03-07")
-as_start_day(d)
+start_day(d)
 #> [1] 2024-03-07.0
-as_mid_day(d)
+mid_day(d)
 #> [1] 2024-03-07.5
-as_end_day(d)
+end_day(d)
 #> [1] 2024-03-08.0
 ```
-
-A `Date` carries no time component, so `datey(d)` is equivalent to
-`as_start_day(d)`.
 
 ### From fractional years or text
 
@@ -121,9 +138,9 @@ t$day_fraction
 #> [1] 0.5
 ```
 
-When several components are needed at once,
-[`to_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) is more
-efficient:
+If you need several components at once, it is more efficient to use
+[`to_ymdf()`](https://r-datey.logmu.org/reference/datey_components.md)
+instead:
 
 ``` r
 
@@ -157,7 +174,7 @@ as.integer(t)
 [`is_start_day()`](https://r-datey.logmu.org/reference/is_xxx_day.md)
 and [`is_mid_day()`](https://r-datey.logmu.org/reference/is_xxx_day.md)
 test the position within the day. Note that
-[`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) produces a
+[`end_day()`](https://r-datey.logmu.org/reference/datey.md) produces a
 `datey` at the start of the following day, so it tests as
 [`is_start_day()`](https://r-datey.logmu.org/reference/is_xxx_day.md):
 
@@ -169,13 +186,25 @@ is_mid_day(mid_day(2024, 3, 7))         # TRUE
 #> [1] TRUE
 is_start_day(end_day(2024, 3, 7))       # TRUE because end = start of next day
 #> [1] TRUE
-is_mid_day(from_ymdf(2024, 3, 7, 0.25)) # FALSE
+is_mid_day(datey(2024, 3, 7, 0.25)) # FALSE
 #> [1] FALSE
 ```
 
 ## Creating a `durationy`
 
-[`durationy()`](https://r-datey.logmu.org/reference/durationy.md)
+`durationy`s typically arise as `datey` differences:
+
+``` r
+
+dob <- start_day(as.Date("1965-09-12"))
+dod <- mid_day(2024, 3, 7)
+age <- dod - dob
+age
+#> [1] 58.485804 yr
+```
+
+You can create them explicitly using
+[`durationy()`](https://r-datey.logmu.org/reference/durationy.md), which
 accepts a number of years:
 
 ``` r
@@ -188,21 +217,11 @@ durationy(-2.5)   # two and a half years in the past
 #> [1] −2.5 yr
 ```
 
-The most natural way to obtain a `durationy` is to subtract two `datey`
-values:
-
-``` r
-
-dob <- as_start_day(as.Date("1965-09-12"))
-dod <- mid_day(2024, 3, 7)
-age <- dod - dob
-age
-#> [1] 58.485804 yr
-```
-
-[`as.double()`](https://rdrr.io/r/base/double.html) gives the duration
-as years; [`as.integer()`](https://rdrr.io/r/base/integer.html)
-truncates toward zero:
+And you can convert them back to numerics using
+[`as.double()`](https://rdrr.io/r/base/double.html), which gives the
+duration as years, and
+[`as.integer()`](https://rdrr.io/r/base/integer.html), which truncates
+toward zero:
 
 ``` r
 
@@ -212,20 +231,30 @@ as.integer(age)   # whole years only
 #> [1] 58
 ```
 
-## Arithmetic
+## Comparisons and arithmetic
 
-The table below summarises the typed arithmetic operations. All
-arithmetic is carried out as exact integer arithmetic on the underlying
-click counts, so the results are exact and associative.
+A number of arithmetic operations are available for `datey`, `durationy`
+and `datey_interval`.
 
-| Left        | Op                | Right       | Result      |
-|:------------|:------------------|:------------|:------------|
-| `datey`     | `-`               | `datey`     | `durationy` |
-| `datey`     | `+ -`             | `durationy` | `datey`     |
-| `durationy` | `+`               | `datey`     | `datey`     |
-| `durationy` | `+ -`             | `durationy` | `durationy` |
-| `datey`     | `== != < <= > >=` | `datey`     | logical     |
-| `durationy` | `== != < <= > >=` | `durationy` | logical     |
+Beware that not all combinations are valid because, for instance, it
+doesn’t make sense to add two dates together.
+
+The table below summarises the valid arithmetic and comparison
+operations. All arithmetic is carried out as exact integer arithmetic on
+the underlying click counts, so the results are exact and associative.
+
+| Left             | Op                | Right            | Result           |
+|:-----------------|:------------------|:-----------------|:-----------------|
+| `datey`          | `-`               | `datey`          | `durationy`      |
+| `datey`          | `+ -`             | `durationy`      | `datey`          |
+| `durationy`      | `+`               | `datey`          | `datey`          |
+| `durationy`      | `+ -`             | `durationy`      | `durationy`      |
+| `datey`          | `== != < <= > >=` | `datey`          | `logical`        |
+| `durationy`      | `== != < <= > >=` | `durationy`      | `logical`        |
+| `datey`          | `%to%`            | `datey`          | `datey_interval` |
+| `datey_interval` | `== !=`           | `datey_interval` | `logical`        |
+| `datey_interval` | `%includes%`      | `datey`          | `logical`        |
+| `datey_interval` | `&`               | `datey_interval` | `datey_interval` |
 
 ``` r
 
@@ -243,9 +272,21 @@ one_yr - qtr_yr   # three quarters of a year
 one_yr + qtr_yr
 #> [1] 1.25 yr
 
-datey(2024) < datey(2025)       # TRUE
+datey(2024) < datey(2025)     # TRUE
 #> [1] TRUE
-durationy(1) > durationy(0.5)   # TRUE
+durationy(1) > durationy(0.5) # TRUE
+#> [1] TRUE
+```
+
+You can also do mixed arithmetic with `datey` and `durationy` and
+numbers, in which case `datey`s and `durationy`s are first converted to
+`double`s:
+
+``` r
+
+identical(datey(2000) + 25, 2025)     # TRUE
+#> [1] TRUE
+identical(durationy(2) * 0.05, 0.10)  # TRUE
 #> [1] TRUE
 ```
 
@@ -284,6 +325,7 @@ accepts a `datey_interval` directly:
 ``` r
 
 durationy(interval)
+#> [1] 1 yr
 ```
 
 ### Interval membership testing
@@ -343,17 +385,12 @@ overlap$duration  # exposure in calendar year 2024, in years
 
 ## NA values
 
-Each type has a dedicated NA constant:
+Throughout the **datey** package, `NA` will cause an error when used
+where a `datey_`, `durationy_` or `datey_interval_` is expected. This is
+because its type is `logical` and potentially indicates user error.
 
-``` r
-
-NA_datey_
-#> [1] <NA>
-NA_durationy_
-#> [1] <NA>
-NA_datey_interval_
-#> [1] <NA>
-```
+If you want an NA value with a **datey** system type, use `NA_datey_`,
+`NA_durationy_` or `NA_datey_interval_` as appropriate.
 
 [`is.na()`](https://rdrr.io/r/base/NA.html) and
 [`anyNA()`](https://rdrr.io/r/base/NA.html) work as expected:
@@ -408,3 +445,14 @@ mean(dates)
 seq(from = datey(2020), to = datey(2024), by = durationy(2))
 #> [1] 2020-01-01.0 2022-01-01.0 2024-01-01.0
 ```
+
+[^1]: Even though `datey_interval` stores the start and the end of a
+    time interval, it too is atomic, which means that `datey_interval`s
+    can be stored in a single vector without any additional special
+    handling.
+
+[^2]: Even though the `Date` type is not designed for fractional dates,
+    it typically uses floating point under the covers, and can
+    unintentionally end up with a fractional value e.g. by taking a mean
+    of `Date`s. For this reason, a `day_fraction` argument is always
+    required for a `Date`.

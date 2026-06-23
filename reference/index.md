@@ -1,35 +1,18 @@
 # Package index
 
-## Date and duration methods
+## Package overview
 
-- [`start_day()`](https://r-datey.logmu.org/reference/xxx_day.md)
-  [`mid_day()`](https://r-datey.logmu.org/reference/xxx_day.md)
-  [`end_day()`](https://r-datey.logmu.org/reference/xxx_day.md) :
+- [`datey-package`](https://r-datey.logmu.org/reference/datey-package.md)
+  : Exact date and duration arithmetic on an annual grid
 
-  Create a `datey` for the start, middle or end of a day
+## Create a `datey` or `durationy`
 
-- [`as_start_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md)
-  [`as_mid_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md)
-  [`as_end_day()`](https://r-datey.logmu.org/reference/as_xxx_day.md) :
+- [`datey()`](https://r-datey.logmu.org/reference/datey.md)
+  [`start_day()`](https://r-datey.logmu.org/reference/datey.md)
+  [`mid_day()`](https://r-datey.logmu.org/reference/datey.md)
+  [`end_day()`](https://r-datey.logmu.org/reference/datey.md) :
 
-  Create a `datey` aligned to the start, middle or end of the day
-  specified by a fractional calendar year or another date type.
-
-- [`datey()`](https://r-datey.logmu.org/reference/datey.md) :
-
-  Create a `datey` from a calendar year (including its fractional part)
-  or another date type
-
-- [`` `$`( ``*`<datey>`*`)`](https://r-datey.logmu.org/reference/datey_properties.md)
-  :
-
-  Extract year, month, day or day_fraction from a `datey`
-
-- [`to_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md)
-  [`from_ymdf()`](https://r-datey.logmu.org/reference/ymdf.md) :
-
-  Create or decompose a `datey` using calendar year, month, day and day
-  fraction
+  Create a `datey`
 
 - [`durationy()`](https://r-datey.logmu.org/reference/durationy.md) :
 
@@ -41,7 +24,30 @@
 
   Create `datey` or `durationy` sequence vector
 
-## Properties
+- [`c(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/combine.md)
+  [`c(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/combine.md)
+  [`c(`*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/combine.md)
+  :
+
+  Combine multiple `datey`, `durationy` or `datey_interval` vectors
+
+- [`` `[`( ``*`<datey>`*`)`](https://r-datey.logmu.org/reference/subset.md)
+  [`` `[`( ``*`<durationy>`*`)`](https://r-datey.logmu.org/reference/subset.md)
+  [`` `[`( ``*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/subset.md)
+  [`` `[<-`( ``*`<datey>`*`)`](https://r-datey.logmu.org/reference/subset.md)
+  [`` `[<-`( ``*`<durationy>`*`)`](https://r-datey.logmu.org/reference/subset.md)
+  [`` `[<-`( ``*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/subset.md)
+  :
+
+  Subset `datey`, `durationy` or `datey_interval` vectors
+
+## Properties of `datey` and `durationy`
+
+- [`to_ymdf()`](https://r-datey.logmu.org/reference/datey_components.md)
+  [`` `$`( ``*`<datey>`*`)`](https://r-datey.logmu.org/reference/datey_components.md)
+  :
+
+  Get year, month, day or day_fraction breakdown of a `datey`
 
 - [`is_datey()`](https://r-datey.logmu.org/reference/is_type.md)
   [`is_datey_interval()`](https://r-datey.logmu.org/reference/is_type.md)
@@ -80,19 +86,21 @@
 
   Operators for `datey`, `durationy` and `datey_interval`
 
-- [`mean(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/mean.md)
+- [`mean(`*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/mean.md)
+  [`mean(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/mean.md)
   [`mean(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/mean.md)
   :
 
   Mean value of `datey` or `durationy`
 
-- [`Summary(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/max_min.md)
+- [`Summary(`*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/max_min.md)
+  [`Summary(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/max_min.md)
   [`Summary(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/max_min.md)
   :
 
   Minimum, maximum or range of `datey` or `durationy`
 
-## Date intervals
+## `datey_interval`
 
 - [`datey_interval()`](https://r-datey.logmu.org/reference/datey_interval.md)
   [`` `%to%` ``](https://r-datey.logmu.org/reference/datey_interval.md)
@@ -122,19 +130,9 @@
 
 - [`all_of_time`](https://r-datey.logmu.org/reference/all_of_time.md) :
 
-  Maximum valid `datey_interval`
+  'All of time' — the maximum valid `datey_interval`
 
-## Text parsing and printing
-
-- [`datey(`*`<character>`*`)`](https://r-datey.logmu.org/reference/text_to_datey.md)
-  :
-
-  Parse text as a `datey`
-
-- [`durationy(`*`<character>`*`)`](https://r-datey.logmu.org/reference/text_to_durationy.md)
-  :
-
-  Parse text as a `durationy`
+## Formatting and printing
 
 - [`as.character(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/text_from_datey.md)
   [`format(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/text_from_datey.md)
@@ -157,25 +155,6 @@
 
   Format or print a `datey_interval`
 
-## Utilities
-
-- [`c(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/combine.md)
-  [`c(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/combine.md)
-  [`c(`*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/combine.md)
-  :
-
-  Combine multiple `datey`, `durationy` or `datey_interval` vectors
-
-- [`` `[`( ``*`<datey>`*`)`](https://r-datey.logmu.org/reference/subset.md)
-  [`` `[`( ``*`<durationy>`*`)`](https://r-datey.logmu.org/reference/subset.md)
-  [`` `[`( ``*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/subset.md)
-  [`` `[<-`( ``*`<datey>`*`)`](https://r-datey.logmu.org/reference/subset.md)
-  [`` `[<-`( ``*`<durationy>`*`)`](https://r-datey.logmu.org/reference/subset.md)
-  [`` `[<-`( ``*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/subset.md)
-  :
-
-  Subset `datey`, `durationy` or `datey_interval` vectors
-
 ## NA handling
 
 - [`is.na(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/is_NA.md)
@@ -186,7 +165,7 @@
   [`anyNA(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/is_NA.md)
   :
 
-  Whether `datey` or `durationy` are NA
+  Whether `datey`, `durationy` or `datey_interval` are NA
 
 - [`NA_datey_`](https://r-datey.logmu.org/reference/NAs.md)
   [`NA_datey_interval_`](https://r-datey.logmu.org/reference/NAs.md)

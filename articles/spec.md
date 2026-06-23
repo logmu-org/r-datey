@@ -24,10 +24,10 @@ system:
 
 `integer` means 32 bit two’s complement signed integer.
 
-Dates are written in this specification using [YYYY‑MM‑DD
-notation](https://xkcd.com/1179/), where YYYY is a four-digit year, MM
-is a two-digit month of the year, 01 to 12, and DD is the two-digit day
-of the month, 01 to 31.
+Literal dates in this specification are written using [`YYYY-MM-DD`
+notation](https://xkcd.com/1179/), where `YYYY` is a four-digit year,
+`MM` is a two-digit month of the year, 01 to 12, and `DD` is the
+two-digit day of the month, 01 to 31.
 
 Banker’s rounding[^3] means round a `double` to the nearest integer
 unless the fractional part is ±0.5, in which case round it to the
@@ -67,7 +67,7 @@ Dates are mapped to `datey`s as the number of clicks since the start of
 the notional year 0000 on the proleptic[^4] Gregorian calendar.
 
 A `datey` that would otherwise represent a date before calendar year
-1000 or after the start of calendar year 2999 should be treated as
+1000 or after the start of calendar year 3000 should be treated as
 invalid[^5] when mapping dates to or from a `datey`.
 
 ### Durations
@@ -275,23 +275,28 @@ formatted *outside* the **datey** system.
 
 ### `datey` text format
 
-A valid `datey` is represented in text in the format YYYY‑MM‑DD.FFF
-where
+A valid `datey` is represented in text in the format
+`YYYY&#x2011;MM&#x2011;DD[.FFF]` where
 
-- YYYY is a four-digit year,
-- MM is a two-digit month of the year (starting at “01” for January)
-- DD is the two-digit day of the month (with the first day of a month
+- `YYYY` is a four-digit year,
+- `MM` is a two-digit month of the year (starting at “01” for January)
+- `DD` is the two-digit day of the month (with the first day of a month
   being “01”), and
-- .FFF is an optional day fraction (but if ‘.’ is present then at least
-  1 digit must also be provided).
+- `[.F...]` is an optional day fraction (but if ‘.’ is present then at
+  least 1 digit must also be provided).
 
 For text *outputs*:
 
-- The fraction contains no more than 3 decimal places (because this is
+- The fraction contains no more than 4 decimal places (because this is
   sufficient to distinguish all possible day fractions at **datey**
   precision).
-- It is an option as to whether a zero day fraction is stated explicitly
-  (e.g. ‘2000-01-01.0’).
+- The preferred (but not required) behaviour when there is a non-zero
+  fraction is for trailing zeros to be omitted (e.g. prefer
+  ‘2000-01-01.5’ to ‘2000-01-01.5000’).
+- It is a user option as to whether a zero day fraction is stated
+  explicitly (e.g. ‘2000-01-01.0’). The default is to include ‘.0’ (to
+  avoid the ambiguity as to whether this is a normal date as opposed to
+  a **datey** date).
 
 For text *inputs*:
 
@@ -307,28 +312,31 @@ Unless `durationy` itself is being serialised, it is recommended that
 durations are parsed and formatted using conventional means applied to
 the duration measured in years.
 
-A valid `durationy` is represented in text in the format SY.FFFFFF UUU
-where
+A valid `durationy` is represented in text in the format
+`[S]...Y[.F...][ U...]` where
 
-- S is a plus or minus sign, i.e. one of ‘+’ (U+002B), true minus ‘−’
-  (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).
-- Y is number of whole years
-- .FFFFFF is an optional fractional part of year, including ‘.’ to
+- `[S]` is an optional plus or a minus sign, i.e. one of ‘+’ (U+002B),
+  true minus ‘−’ (U+2212) or ASCII hyphen-minus ‘-’ (U+002D).
+- `...Y` is number of whole years (leading zeros allowed).
+- `[.F...]` is an optional fractional part of year, including ‘.’ to
   represent the decimal point.
-- UUU is the unit name for one year. If UUU is non-blank then it is
-  preceded by a space. UUU cannot be longer than 20 UTF-8 bytes or
-  contain control characters.
+- `[ U...]` is the unit name for one year preceded by a space if the
+  unit name is not blank. The unit name cannot be longer than 20 UTF-8
+  bytes or contain control characters.
 
 For text *outputs*:
 
 - It is optional whether ‘+’ (U+002B) plus sign is included for positive
   durations. (Default is omit ‘+’).
-- It is optional whether to use the true minus sign ‘−’ (U+002B) or the
+- It is optional whether to use the true minus sign ‘−’ (U+2212) or the
   ASCII ‘-’ (U+002D) hyphen-minus character. (Default is use true minus
   sign.)
-- The fraction contains contains at most 6 decimal places because this
-  is sufficient to distinguish all possible duration fractions at
-  **datey** precision.
+- The fraction contains no more than 6 decimal places (because this is
+  sufficient to distinguish all possible duration fractions at **datey**
+  precision).
+- The preferred (but not required) behaviour is for trailing zeros to be
+  omitted and, when the fraction is zero, for there to be no decimal
+  point or fraction.
 - The unit name is user-specifiable. (Default is ‘yr’.)
 
 For text *inputs*:

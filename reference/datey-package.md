@@ -1,21 +1,41 @@
-# datey: Exact Date and Duration Arithmetic on an Annual Grid
+# Exact date and duration arithmetic on an annual grid
 
-Standardised mapping of dates onto a discrete annual grid, together with
-exact date and duration arithmetic. This matters when the primary unit
-is years but the input data uses dates. Examples are actuarial mortality
-experience analysis and valuation of life assurance and annuities, for
-which mortality rates are defined per year but experience and valuation
-data are typically defined using dates.
+The **datey** package provides three types for date and duration
+arithmetic on an annual grid:
+
+- [datey](https://r-datey.logmu.org/reference/datey.md) — a point in
+  time, expressed as a calendar date with an optional day fraction.
+
+- [durationy](https://r-datey.logmu.org/reference/durationy.md) — a
+  duration in years.
+
+- [datey_interval](https://r-datey.logmu.org/reference/datey_interval.md)
+  — a closed-open interval \[`start`, `end`) of time.
+
+Arithmetic, comparison and summary operations are defined in
+[ops](https://r-datey.logmu.org/reference/ops.md),
+[mean.datey](https://r-datey.logmu.org/reference/mean.md) and
+[max_min](https://r-datey.logmu.org/reference/max_min.md).
 
 ## See also
 
-Useful links:
+- [datey](https://r-datey.logmu.org/reference/datey.md),
+  [durationy](https://r-datey.logmu.org/reference/durationy.md),
+  [datey_interval](https://r-datey.logmu.org/reference/datey_interval.md)
+  for the core types.
 
-- <https://github.com/logmu-org/r-datey>
+- [ops](https://r-datey.logmu.org/reference/ops.md) for arithmetic and
+  comparison operators.
 
-- <https://r-datey.logmu.org/>
+- [is_NA](https://r-datey.logmu.org/reference/is_NA.md) and
+  [NAs](https://r-datey.logmu.org/reference/NAs.md) for handling missing
+  values.
 
-- Report bugs at <https://github.com/logmu-org/r-datey/issues>
+- [`vignette("datey")`](https://r-datey.logmu.org/articles/datey.md) for
+  a worked introduction.
+
+- [`vignette("why-datey")`](https://r-datey.logmu.org/articles/why-datey.md)
+  for the motivation and design of the annual grid.
 
 ## Author
 

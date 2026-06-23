@@ -3,21 +3,17 @@
 Converts a `datey` to calendar years, including a fractional part that
 represents the proportion of the calendar year that has elapsed.
 
-For example,
+For example, the middle of 2000-10-01 is precisely three-quarters
+through the (leap) year 2000 and so `as.double(mid_day(2000,10,1))`
+results in `2000.75`.
 
-- the *start* of 2000-01-01 (or, equivalently, the *end* of 1999-12-31),
-  results in `2000`, and
+[`as.numeric()`](https://rdrr.io/r/base/numeric.html) is the same as
+[`as.double()`](https://rdrr.io/r/base/double.html).
 
-- the *middle* of the calendar year 2000 results in `2000.5`.
-
-Note the following:
-
-- [`as.numeric()`](https://rdrr.io/r/base/numeric.html) is the same as
-  [`as.double()`](https://rdrr.io/r/base/double.html).
-
-- [`as.integer()`](https://rdrr.io/r/base/integer.html) gives the
-  calendar year, e.g. `as.integer(datey(2000.9))` is `2000`.
-  `as.integer(x)` is the same as `as.integer(as.double(x))`.
+[`as.integer()`](https://rdrr.io/r/base/integer.html) gives the calendar
+year as an `integer`, e.g. `as.integer(datey(2000.75))` is `2000`. It is
+also the case that if `x` is a `datey` then `as.integer(x)` is the same
+as `as.integer(as.double(x))`.
 
 ## Usage
 
@@ -37,8 +33,30 @@ as.integer(x, ...)
 
 - ...:
 
-  Other arguments (not used in this package).
+  Not used.
 
 ## Value
 
 A vector of `double`.
+
+## See also
+
+[datey](https://r-datey.logmu.org/reference/datey.md),
+[as_years_durationy](https://r-datey.logmu.org/reference/as_years_durationy.md),
+[ops](https://r-datey.logmu.org/reference/ops.md)
+
+## Examples
+
+``` r
+t <- datey(2000.75)
+t                   # 2000-10-01.5
+#> [1] 2000-10-01.5
+as.double(t)        # 2000.75
+#> [1] 2000.75
+as.numeric(t)       # 2000.75
+#> [1] 2000.75
+as.integer(t)       # 2000
+#> [1] 2000
+identical(as.integer(t), 2000L) # TRUE
+#> [1] TRUE
+```

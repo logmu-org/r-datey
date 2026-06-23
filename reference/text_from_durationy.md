@@ -3,7 +3,7 @@
 A `durationy` is printed as a decimal.
 
 This format is readable by
-[`durationy.character()`](https://r-datey.logmu.org/reference/text_to_durationy.md).
+[`durationy.character()`](https://r-datey.logmu.org/reference/durationy.md).
 
 ## Usage
 
@@ -62,23 +62,28 @@ print(
 
 ## Value
 
-`as.character` and `format` return a vector of `character`.
+`as.character` and `format` return a vector of `character`. `print`
+invisibly returns `x`.
+
+## See also
+
+[durationy](https://r-datey.logmu.org/reference/durationy.md)
 
 ## Examples
 
 ``` r
-  pos <- durationy(1)
-  neg <- durationy(-2.3)
-  format(pos) # "1 yr"
+pos <- durationy(1)
+neg <- durationy(-2.3)
+format(pos) # "1 yr"
 #> [1] "1 yr"
-  format(pos, include_plus = TRUE) # "+1 yr"
+format(pos, include_plus = TRUE) # "+1 yr"
 #> [1] "+1 yr"
-  format(pos, year_unit = "") # "1"
+format(pos, year_unit = "") # "1"
 #> [1] "1"
-  format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
+format(neg) # U+2212 (true minus) followed by "2.3" (CRAN-compliance)
 #> [1] "−2.3 yr"
-  format(neg, use_true_minus = FALSE) # "-2.3 yr"
+format(neg, use_true_minus = FALSE) # "-2.3 yr"
 #> [1] "-2.3 yr"
-  format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
+format(neg, use_true_minus = FALSE, year_unit = "a") # "-2.3 a"
 #> [1] "-2.3 a"
 ```
