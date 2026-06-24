@@ -23,6 +23,7 @@ navbar:
   left:
   - icon: fa-home
     href: index.html
+    aria-label: Home
   - text: Why datey?
     href: articles/why-datey.html
   - text: Get started
