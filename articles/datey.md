@@ -51,11 +51,11 @@ sometimes systematic errors can accumulate and end up being material.
 
 ``` r
 
-start_day(2024, 3, 7)   # start of 7 March 2024
+start_day(2024, 3, 7)   # Start of the day 7 March 2024
 #> [1] 2024-03-07.0
-mid_day(2024, 3, 7)     # middle of 7 March 2024
+mid_day(2024, 3, 7)     # Middle of the day 7 March 2024
 #> [1] 2024-03-07.5
-end_day(2024, 3, 7)     # end of 7 March 2024
+end_day(2024, 3, 7)     # End of the day 7 March 2024
 #> [1] 2024-03-08.0
 ```
 
@@ -77,7 +77,7 @@ fraction between 0 and 1:
 
 ``` r
 
-datey(2024, 3, 7, 0.25)   # one quarter of the way through 7 March 2024
+datey(2024, 3, 7, 0.25)   # Quarter of the way through the day 7 March 2024
 #> [1] 2024-03-07.25
 ```
 
@@ -110,14 +110,14 @@ format:
 
 ``` r
 
-datey(2024)     # start of 2024
+datey(2024)           # Start of calendar year 2024
 #> [1] 2024-01-01.0
-datey(2024.5)   # halfway through 2024
+datey(2024.5)         # Midway through calendar year 2024
 #> [1] 2024-07-02.0
 
-datey("2024-03-07")   # start of 7 March 2024 (day fraction defaults to 0)
+datey("2024-03-07")   # Start of the day 7 March 2024 (day fraction defaults to 0)
 #> [1] 2024-03-07.0
-datey("2024-03-07.5") # middle of 7 March 2024
+datey("2024-03-07.5") # Middle of the day 7 March 2024
 #> [1] 2024-03-07.5
 ```
 
@@ -180,11 +180,11 @@ test the position within the day. Note that
 
 ``` r
 
-is_start_day(start_day(2024, 3, 7))     # TRUE
+is_start_day(start_day(2024, 3, 7)) # TRUE
 #> [1] TRUE
-is_mid_day(mid_day(2024, 3, 7))         # TRUE
+is_mid_day(mid_day(2024, 3, 7))     # TRUE
 #> [1] TRUE
-is_start_day(end_day(2024, 3, 7))       # TRUE because end = start of next day
+is_start_day(end_day(2024, 3, 7))   # TRUE because end = start of next day
 #> [1] TRUE
 is_mid_day(datey(2024, 3, 7, 0.25)) # FALSE
 #> [1] FALSE
@@ -209,11 +209,11 @@ accepts a number of years:
 
 ``` r
 
-durationy(1)      # one year
+durationy(1)      # One year
 #> [1] 1 yr
-durationy(0.5)    # half a year
+durationy(0.5)    # Half a year
 #> [1] 0.5 yr
-durationy(-2.5)   # two and a half years in the past
+durationy(-2.5)   # Two and a half years in the past
 #> [1] −2.5 yr
 ```
 
@@ -227,7 +227,7 @@ toward zero:
 
 as.double(age)
 #> [1] 58.4858
-as.integer(age)   # whole years only
+as.integer(age)   # Whole years only
 #> [1] 58
 ```
 
@@ -262,12 +262,12 @@ start  <- start_day(2000, 1, 1)
 one_yr <- durationy(1)
 qtr_yr <- durationy(0.25)
 
-start + one_yr    # one year later
+start + one_yr    # One year later
 #> [1] 2001-01-01.0
-start - qtr_yr    # a quarter of a year earlier
+start - qtr_yr    # Quarter of a year earlier
 #> [1] 1999-10-01.75
 
-one_yr - qtr_yr   # three quarters of a year
+one_yr - qtr_yr   # Three quarters of a year
 #> [1] 0.75 yr
 one_yr + qtr_yr
 #> [1] 1.25 yr
@@ -358,10 +358,10 @@ is_proper(interval)    # TRUE because start <= end
 is_collapsed(interval) # FALSE because start < end
 #> [1] FALSE
 
-pt <- a %to% a         # empty (point) interval
-is_proper(pt)          # TRUE because a <= a
+point <- a %to% a      # Empty (point) interval
+is_proper(point)       # TRUE because a <= a
 #> [1] TRUE
-is_collapsed(pt)       # TRUE because a >= a
+is_collapsed(point)    # TRUE because a >= a
 #> [1] TRUE
 ```
 
@@ -387,10 +387,12 @@ overlap$duration  # exposure in calendar year 2024, in years
 
 Throughout the **datey** package, `NA` will cause an error when used
 where a `datey_`, `durationy_` or `datey_interval_` is expected. This is
-because its type is `logical` and potentially indicates user error.
+because the type of `NA` is `logical`. which has no meaningful date or
+duration interpretation therefore potentially indicates user error.
 
-If you want an NA value with a **datey** system type, use `NA_datey_`,
-`NA_durationy_` or `NA_datey_interval_` as appropriate.
+If you want an NA value with a **datey** system type, use the explicit
+forms `NA_datey_`, `NA_durationy_` or `NA_datey_interval_` as
+appropriate.
 
 [`is.na()`](https://rdrr.io/r/base/NA.html) and
 [`anyNA()`](https://rdrr.io/r/base/NA.html) work as expected:
@@ -403,14 +405,18 @@ anyNA(c(datey(2000), NA_datey_, datey(2024)))
 #> [1] TRUE
 ```
 
-By default (`strict = TRUE`), out-of-range inputs stop execution. With
-`strict = FALSE` they become `NA` instead:
+By default, out-of-range inputs stop execution. With `strict = FALSE`
+they become `NA` instead:
 
 ``` r
 
-datey(999.9, strict = FALSE)     # below valid range: NA
+datey(999.9, strict = FALSE)           # Outside [1000,3000]: NA
 #> [1] <NA>
-durationy(2001, strict = FALSE)  # exceeds 2000-year limit: NA
+start_day(2000, 0, 12, strict = FALSE) # Invalid month: NA
+#> [1] <NA>
+mid_day(2001, 2, 29, strict = FALSE)   # Invalid day (given year and month): NA
+#> [1] <NA>
+durationy(2000.1, strict = FALSE)      # exceeds 2000-year limit: NA
 #> [1] <NA>
 ```
 

@@ -129,11 +129,11 @@ material.</p>
 <p><code><a href="../reference/datey.html">start_day()</a></code>, <code><a href="../reference/datey.html">mid_day()</a></code> and
 <code><a href="../reference/datey.html">end_day()</a></code> create a <code>datey</code> from scratch:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>   <span class="co"># start of 7 March 2024</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>   <span class="co"># Start of the day 7 March 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.0</span></span>
-<span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>     <span class="co"># middle of 7 March 2024</span></span>
+<span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>     <span class="co"># Middle of the day 7 March 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.5</span></span>
-<span><span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>     <span class="co"># end of 7 March 2024</span></span>
+<span><span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span>     <span class="co"># End of the day 7 March 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-03-08.0</span></span></code></pre></div>
 <p>The end of a day is the same point as the start of the next, so
 <code><a href="../reference/datey.html">end_day()</a></code> applied to a day is identical to
@@ -144,7 +144,7 @@ material.</p>
 <p>For an arbitrary position within a day, <code><a href="../reference/datey.html">datey()</a></code> accepts
 a day fraction between 0 and 1:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">0.25</span><span class="op">)</span>   <span class="co"># one quarter of the way through 7 March 2024</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">0.25</span><span class="op">)</span>   <span class="co"># Quarter of the way through the day 7 March 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.25</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -175,14 +175,14 @@ or <code>POSIXlt</code>.</p>
 <p><code><a href="../reference/datey.html">datey()</a></code> also accepts a fractional calendar year or a
 character string in <code>YYYY-MM-DD[.f]</code> format:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span>     <span class="co"># start of 2024</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span>           <span class="co"># Start of calendar year 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-01-01.0</span></span>
-<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024.5</span><span class="op">)</span>   <span class="co"># halfway through 2024</span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024.5</span><span class="op">)</span>         <span class="co"># Midway through calendar year 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-07-02.0</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="st">"2024-03-07"</span><span class="op">)</span>   <span class="co"># start of 7 March 2024 (day fraction defaults to 0)</span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="st">"2024-03-07"</span><span class="op">)</span>   <span class="co"># Start of the day 7 March 2024 (day fraction defaults to 0)</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.0</span></span>
-<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="st">"2024-03-07.5"</span><span class="op">)</span> <span class="co"># middle of 7 March 2024</span></span>
+<span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="st">"2024-03-07.5"</span><span class="op">)</span> <span class="co"># Middle of the day 7 March 2024</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.5</span></span></code></pre></div>
 </div>
 </div>
@@ -228,11 +228,11 @@ position within the day. Note that <code><a href="../reference/datey.html">end_d
 <code>datey</code> at the start of the following day, so it tests as
 <code><a href="../reference/is_xxx_day.html">is_start_day()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/is_xxx_day.html">is_start_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>     <span class="co"># TRUE</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/is_xxx_day.html">is_start_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="../reference/is_xxx_day.html">is_mid_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>         <span class="co"># TRUE</span></span>
+<span><span class="fu"><a href="../reference/is_xxx_day.html">is_mid_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>     <span class="co"># TRUE</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="../reference/is_xxx_day.html">is_start_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>       <span class="co"># TRUE because end = start of next day</span></span>
+<span><span class="fu"><a href="../reference/is_xxx_day.html">is_start_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>   <span class="co"># TRUE because end = start of next day</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="fu"><a href="../reference/is_xxx_day.html">is_mid_day</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span>, <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span> <span class="co"># FALSE</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
@@ -251,11 +251,11 @@ differences:</p>
 <p>You can create them explicitly using <code><a href="../reference/durationy.html">durationy()</a></code>, which
 accepts a number of years:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>      <span class="co"># one year</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>      <span class="co"># One year</span></span>
 <span><span class="co">#&gt; [1] 1 yr</span></span>
-<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>    <span class="co"># half a year</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>    <span class="co"># Half a year</span></span>
 <span><span class="co">#&gt; [1] 0.5 yr</span></span>
-<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.5</span><span class="op">)</span>   <span class="co"># two and a half years in the past</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.5</span><span class="op">)</span>   <span class="co"># Two and a half years in the past</span></span>
 <span><span class="co">#&gt; [1] −2.5 yr</span></span></code></pre></div>
 <p>And you can convert them back to numerics using
 <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>, which gives the duration as years, and
@@ -263,7 +263,7 @@ accepts a number of years:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 58.4858</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>   <span class="co"># whole years only</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>   <span class="co"># Whole years only</span></span>
 <span><span class="co">#&gt; [1] 58</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -353,12 +353,12 @@ associative.</p>
 <span><span class="va">one_yr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">qtr_yr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">start</span> <span class="op">+</span> <span class="va">one_yr</span>    <span class="co"># one year later</span></span>
+<span><span class="va">start</span> <span class="op">+</span> <span class="va">one_yr</span>    <span class="co"># One year later</span></span>
 <span><span class="co">#&gt; [1] 2001-01-01.0</span></span>
-<span><span class="va">start</span> <span class="op">-</span> <span class="va">qtr_yr</span>    <span class="co"># a quarter of a year earlier</span></span>
+<span><span class="va">start</span> <span class="op">-</span> <span class="va">qtr_yr</span>    <span class="co"># Quarter of a year earlier</span></span>
 <span><span class="co">#&gt; [1] 1999-10-01.75</span></span>
 <span></span>
-<span><span class="va">one_yr</span> <span class="op">-</span> <span class="va">qtr_yr</span>   <span class="co"># three quarters of a year</span></span>
+<span><span class="va">one_yr</span> <span class="op">-</span> <span class="va">qtr_yr</span>   <span class="co"># Three quarters of a year</span></span>
 <span><span class="co">#&gt; [1] 0.75 yr</span></span>
 <span><span class="va">one_yr</span> <span class="op">+</span> <span class="va">qtr_yr</span></span>
 <span><span class="co">#&gt; [1] 1.25 yr</span></span>
@@ -431,10 +431,10 @@ contains no time):</p>
 <span><span class="fu"><a href="../reference/interval_nature.html">is_collapsed</a></span><span class="op">(</span><span class="va">interval</span><span class="op">)</span> <span class="co"># FALSE because start &lt; end</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span></span>
-<span><span class="va">pt</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="va">a</span>         <span class="co"># empty (point) interval</span></span>
-<span><span class="fu"><a href="../reference/interval_nature.html">is_proper</a></span><span class="op">(</span><span class="va">pt</span><span class="op">)</span>          <span class="co"># TRUE because a &lt;= a</span></span>
+<span><span class="va">point</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="va">a</span>      <span class="co"># Empty (point) interval</span></span>
+<span><span class="fu"><a href="../reference/interval_nature.html">is_proper</a></span><span class="op">(</span><span class="va">point</span><span class="op">)</span>       <span class="co"># TRUE because a &lt;= a</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="../reference/interval_nature.html">is_collapsed</a></span><span class="op">(</span><span class="va">pt</span><span class="op">)</span>       <span class="co"># TRUE because a &gt;= a</span></span>
+<span><span class="fu"><a href="../reference/interval_nature.html">is_collapsed</a></span><span class="op">(</span><span class="va">point</span><span class="op">)</span>    <span class="co"># TRUE because a &gt;= a</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -461,24 +461,29 @@ overlap of two time periods:</p>
 <p>Throughout the <strong>datey</strong> package, <code>NA</code> will
 cause an error when used where a <code>datey_</code>,
 <code>durationy_</code> or <code>datey_interval_</code> is expected.
-This is because its type is <code>logical</code> and potentially
-indicates user error.</p>
+This is because the type of <code>NA</code> is <code>logical</code>.
+which has no meaningful date or duration interpretation therefore
+potentially indicates user error.</p>
 <p>If you want an NA value with a <strong>datey</strong> system type,
-use <code>NA_datey_</code>, <code>NA_durationy_</code> or
-<code>NA_datey_interval_</code> as appropriate.</p>
+use the explicit forms <code>NA_datey_</code>,
+<code>NA_durationy_</code> or <code>NA_datey_interval_</code> as
+appropriate.</p>
 <p><code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> and <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA()</a></code> work as expected:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">NA_datey_</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span>, <span class="va">NA_datey_</span>, <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>By default (<code>strict = TRUE</code>), out-of-range inputs stop
-execution. With <code>strict = FALSE</code> they become <code>NA</code>
-instead:</p>
+<p>By default, out-of-range inputs stop execution. With
+<code>strict = FALSE</code> they become <code>NA</code> instead:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">999.9</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>     <span class="co"># below valid range: NA</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">999.9</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>           <span class="co"># Outside [1000,3000]: NA</span></span>
 <span><span class="co">#&gt; [1] &lt;NA&gt;</span></span>
-<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">2001</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="co"># exceeds 2000-year limit: NA</span></span>
+<span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">0</span>, <span class="fl">12</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Invalid month: NA</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span>
+<span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2001</span>, <span class="fl">2</span>, <span class="fl">29</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>   <span class="co"># Invalid day (given year and month): NA</span></span>
+<span><span class="co">#&gt; [1] &lt;NA&gt;</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">2000.1</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>      <span class="co"># exceeds 2000-year limit: NA</span></span>
 <span><span class="co">#&gt; [1] &lt;NA&gt;</span></span></code></pre></div>
 <p>NA values propagate through arithmetic:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
