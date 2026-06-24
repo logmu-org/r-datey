@@ -21,7 +21,7 @@ footer:
 navbar:
   type: default
   left:
-  - text: Home
+  - icon: fa-home
     href: index.html
   - text: Why datey?
     href: articles/why-datey.html
