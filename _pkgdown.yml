@@ -27,7 +27,7 @@ navbar:
     href: articles/why-datey.html
   - text: Get started
     href: articles/datey.html
-  - text: Reference
+  - text: R index
     href: reference/index.html
   - text: Specification
     href: articles/spec.html
