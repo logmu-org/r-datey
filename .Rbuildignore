@@ -12,3 +12,4 @@
 ^\.claude$
 ^\.Rhistory$
 ^CRAN-SUBMISSION$
+^codecov\.yml$
