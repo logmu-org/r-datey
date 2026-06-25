@@ -12,8 +12,6 @@
 [![R-CMD-check](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/datey)](https://CRAN.R-project.org/package=datey)
-[![Codecov test
-coverage](https://codecov.io/gh/logmu-org/r-datey/graph/badge.svg)](https://app.codecov.io/gh/logmu-org/r-datey)
 <!-- badges: end -->
 
 The **datey** package provides a standardised mapping of dates onto a
@@ -56,7 +54,6 @@ pak::pak("logmu-org/r-datey")
 ```
 
 ## Example
-
 
 ``` r
 library(datey)
