@@ -57,6 +57,7 @@ pak::pak("logmu-org/r-datey")
 
 ## Example
 
+
 ``` r
 library(datey)
 
