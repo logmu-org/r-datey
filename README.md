@@ -2,7 +2,7 @@
 <!--
 **Make sure you're editing README.Rmd, *not* README.md!!**
 (README.md is generated from README.Rmd.)
-&#10;After changing this file, run `devtools::build_readme()`!!
+&#10;After changing this file, run devtools::build_readme()
 -->
 
 # datey <img src="man/figures/logo.png" align="right" />
@@ -10,6 +10,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/datey)](https://CRAN.R-project.org/package=datey)
+[![Codecov test
+coverage](https://codecov.io/gh/logmu-org/r-datey/graph/badge.svg)](https://app.codecov.io/gh/logmu-org/r-datey)
 <!-- badges: end -->
 
 The **datey** package provides a standardised mapping of dates onto a

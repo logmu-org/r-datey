@@ -6,7 +6,7 @@ output: github_document
 **Make sure you're editing README.Rmd, *not* README.md!!**
 (README.md is generated from README.Rmd.)
 
-After changing this file, run `devtools::build_readme()`!!
+After changing this file, run devtools::build_readme()
 -->
 
 ```{r, include = FALSE}
@@ -22,6 +22,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/logmu-org/r-datey/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/datey)](https://CRAN.R-project.org/package=datey)
+[![Codecov test coverage](https://codecov.io/gh/logmu-org/r-datey/graph/badge.svg)](https://app.codecov.io/gh/logmu-org/r-datey)
 <!-- badges: end -->
 
 The **datey** package provides a standardised mapping of dates onto a discrete
