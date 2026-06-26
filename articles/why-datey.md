@@ -15,9 +15,9 @@ measured in days.
 Converting between the two seems like it should be trivial, but it
 isn’t. Consider these calculations:
 
-- “Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so what should
-  the answer be – 2025‑02‑28 or 2025‑03‑01? Both are defensible, and
-  different tools (and different people) choose differently.
+- “Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so is it
+  2025‑02‑28 or is it 2025‑03‑01? Both are defensible, and different
+  tools (and different people) choose differently.
 
 - “Add half a year” twice starting from 2000‑01‑01. Does this land on
   the same point in time as a single “add one year” step? With most
@@ -43,7 +43,7 @@ With this approach, date and duration calculations reduce to plain old
 integer arithmetic which is both precise and associative.
 
 The practical consequence is that the two-steps-vs-one-step problem
-above simply does not arise:
+above does not arise:
 
 ``` r
 
