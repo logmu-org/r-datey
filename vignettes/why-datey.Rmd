@@ -27,8 +27,8 @@ death, policy anniversaries, valuation dates -- are measured in days.
 Converting between the two seems like it should be trivial, but it isn't. Consider these calculations:
 
 - "Add one year" to 2024&#x2011;02&#x2011;29. There is no
-2025&#x2011;02&#x2011;29, so what should the answer be -- 2025&#x2011;02&#x2011;28
-or 2025&#x2011;03&#x2011;01? Both are defensible, and different tools (and
+2025&#x2011;02&#x2011;29, so is it 2025&#x2011;02&#x2011;28
+or is it 2025&#x2011;03&#x2011;01? Both are defensible, and different tools (and
 different people) choose differently.
 
 - "Add half a year" twice starting from 2000&#x2011;01&#x2011;01. Does this
@@ -55,7 +55,7 @@ With this approach, date and duration calculations
 reduce to plain old integer arithmetic which is both precise and associative.
 
 The practical consequence is that the two-steps-vs-one-step problem above
-simply does not arise:
+does not arise:
 
 ```{r}
 start <- start_day(2000, 1, 1)

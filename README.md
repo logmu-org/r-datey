@@ -98,7 +98,7 @@ started](https://r-datey.logmu.org/articles/datey.html).
     FAQ](https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f).
     Also see [this
     note](https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf) on
-    on problems caused by floating point imprecision for the `survival`
+    problems caused by floating point imprecision for the `survival`
     package. Interestingly, that author’s preferred approach is to use
     integer day counts, which is also fixed precision.
 
