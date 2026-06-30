@@ -16,6 +16,8 @@
 #' | `valid_years_end` | `3000L` | The final valid calendar year for a `datey` (noting that only the start of this year is valid) |
 #' | `valid_duration_years_max` | `2000L` | The maximum valid duration in years for a `durationy` |
 #'
+#' @returns Each of these constants is a scalar `integer` giving one
+#'   of the boundaries of the valid `datey` or `durationy` range described above.
 #' @seealso [is_NA], [NAs], [datey], [all_of_time]
 #' @examples
 #'   datey(valid_years_start - 0.001, strict = FALSE)

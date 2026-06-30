@@ -13,6 +13,11 @@ NA_datey_interval_
 
 NA_durationy_
 }
+\value{
+Each is a scalar holding the missing-value (\code{NA})
+representation of its type: \code{NA_datey_} is a \code{datey}, \code{NA_durationy_} is a
+\code{durationy} and \code{NA_datey_interval_} is a \code{datey_interval}.
+}
 \description{
 Throughout the \strong{datey} package, \code{NA} will cause an error when used where
 a \code{datey_}, \code{durationy_} or \code{datey_interval_} is expected.

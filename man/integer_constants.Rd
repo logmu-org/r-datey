@@ -13,6 +13,10 @@ valid_years_end
 
 valid_duration_years_max
 }
+\value{
+Each of these constants is a scalar \code{integer} giving one
+of the boundaries of the valid \code{datey} or \code{durationy} range described above.
+}
 \description{
 The following integer constants may make code clearer.\tabular{lll}{
    Constant \tab Value \tab Meaning \cr

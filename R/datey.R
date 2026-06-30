@@ -52,6 +52,9 @@ datey_from_ymdf <- function(year, month, day, day_fraction, strict) {
 #' This is because its type is `logical` and potentially indicates user
 #' error. If you want an NA value with a **datey** system type, use one of `NA_datey_`, `NA_durationy_`
 #' or `NA_datey_interval_`.
+#' @returns Each is a scalar holding the missing-value (`NA`)
+#'   representation of its type: `NA_datey_` is a `datey`, `NA_durationy_` is a
+#'   `durationy` and `NA_datey_interval_` is a `datey_interval`.
 #' @seealso [is_NA], [integer_constants], [datey], [durationy], [datey_interval]
 #' @examples
 #'   is_datey(NA_datey_)

@@ -216,6 +216,8 @@ anyNA.datey_interval <- function(x, recursive = FALSE) {
 #'
 #' It is the value produced by `datey_interval(TRUE)` and is used
 #' when a `datey_interval` is intersected with a logical `TRUE` via `&`.
+#' @returns A scalar `datey_interval` spanning the full valid date range,
+#'   \[1000-01-01.0, 3000-01-01.0).
 #' @seealso [datey_interval], [ops]
 #' @export
 #' @examples
