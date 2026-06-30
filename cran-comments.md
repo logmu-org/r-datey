@@ -2,27 +2,44 @@
 
 ## Resubmission
 
-This is a resubmission. In response to the CRAN reviewer's comments I have:
+This is a resubmission.
 
-* Added `\value` tags to the three `.Rd` files that were missing them
-  (`all_of_time.Rd`, `integer_constants.Rd` and `NAs.Rd`), describing both the
-  class and the meaning of the value in each case. These pages document
-  exported constants rather than functions, which is why I missed adding the
-  tags -- apologies.
+Responses to CRAN reviewer's comments:
 
-* Regarding references describing the methods, for *whole* days, the 
-  date-to-year mapping is a relatively common but not a unique choice:
-  
-  - It coincides with the Actual/Actual (ISDA) day-count convention (although
-  different conventions prevail in other markets).
-  - It has to my knowledge been used in a mortality context by the UK CMI
-  (although it's not published as a standard by them).
+1.  Add references describing the methods in your package
 
-  That said, the fixed-precision integer representation of sub-day intervals is
-  not, to my knowledge, described in any external publication, and so I have not
-  added a reference to the DESCRIPTION file. The complete mapping is fully 
-  specified in the package's own vignette
-  (`vignette("spec", package = "datey")`).
+    The fixed-precision integer representation of dates in this package is not,
+    to my knowledge, described in any external publication, which is why I have
+    not added a reference to the DESCRIPTION file.
+
+    The complete mapping is fully specified in the package's own vignette
+    (`vignette("spec", package = "datey")`).
+
+    For *whole days* only (as opposed to the fractional days implemented by this
+    package), adjusting day length inversely to the number of days in the
+    relevant calendar year is a common and obvious approach. For instance:
+
+    - In a mortality context, this approach has sometimes been used by the UK
+      CMI (although it's not published as a standard by them).
+
+    - The Actual/Actual (ISDA) standardises this as the day-count convention for
+      derivatives markets (although different conventions prevail in other 
+      financial markets).
+
+    But these describe a whole-day day-count convention, not the fixed-precision
+    sub-day method used in this package, and so I don't think they are suitable
+    as references for the method this package actually implements.
+
+2.  Missing `\value` Rd-tags
+
+    I have added `\value` tags to the items that were missing them (mapping to 
+    the files `all_of_time.Rd`, `integer_constants.Rd` and `NAs.Rd`), describing
+    both the class and the meaning of the value in each case.
+
+    These are exported constants rather than functions and they didn't show up
+    in any of the checks I ran, which is why I missed adding the tags originally
+    -- apologies.
+
 
 ## Test environments
 
