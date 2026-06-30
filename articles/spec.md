@@ -8,7 +8,7 @@ grid.
 This matters in contexts where the primary unit is years but input data
 uses dates (i.e. days)[^1].
 
-The goal of **datey** is to provide performant date and duration-related
+The goal of **datey** is to provide precise date and duration-related
 arithmetic for intervals between input dates.
 
 The following are non goals and should be handled outside the **datey**
@@ -50,6 +50,14 @@ The **datey** system assumes the following:
 Any other variation arising from, for instance, time zones, daylight
 saving time or leap seconds is out of scope – allowance for these must
 be done *outside* the **datey** system.
+
+The first two assumptions imply that days in leap years count as 1 / 366
+of a year but those in non-leap years count as 1 / 365 of a year. This
+is one of many possible conventions for adjusting days so that annual
+periods are in some sense uniform. It is not without precedent: it has
+in the past been used by the UK CMI for mortality analysis and it
+coincides with the *Actual/Actual (ISDA)* day-count convention in
+derivatives markets.
 
 ## Types
 

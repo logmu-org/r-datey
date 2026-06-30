@@ -13,6 +13,11 @@ It is the value produced by `datey_interval(TRUE)` and is used when a
 all_of_time
 ```
 
+## Value
+
+A scalar `datey_interval` spanning the full valid date range,
+\[1000-01-01.0, 3000-01-01.0).
+
 ## See also
 
 [datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),

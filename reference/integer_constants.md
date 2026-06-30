@@ -19,6 +19,11 @@ valid_years_end
 valid_duration_years_max
 ```
 
+## Value
+
+Each of these constants is a scalar `integer` giving one of the
+boundaries of the valid `datey` or `durationy` range described above.
+
 ## See also
 
 [is_NA](https://r-datey.logmu.org/reference/is_NA.md),

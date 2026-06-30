@@ -16,6 +16,12 @@ NA_datey_interval_
 NA_durationy_
 ```
 
+## Value
+
+Each is a scalar holding the missing-value (`NA`) representation of its
+type: `NA_datey_` is a `datey`, `NA_durationy_` is a `durationy` and
+`NA_datey_interval_` is a `datey_interval`.
+
 ## See also
 
 [is_NA](https://r-datey.logmu.org/reference/is_NA.md),
