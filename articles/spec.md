@@ -47,17 +47,12 @@ The **datey** system assumes the following:
 - Time is granular, with the smallest indivisible unit being a *click*,
   which is 1 / 534 360 of a year.
 
+The first two assumptions imply that days in leap years count as 1 / 366
+of a year but those in non-leap years count as 1 / 365 of a year[^4].
+
 Any other variation arising from, for instance, time zones, daylight
 saving time or leap seconds is out of scope – allowance for these must
 be done *outside* the **datey** system.
-
-The first two assumptions imply that days in leap years count as 1 / 366
-of a year but those in non-leap years count as 1 / 365 of a year. This
-is one of many possible conventions for adjusting days so that annual
-periods are in some sense uniform. It is not without precedent: it has
-in the past been used by the UK CMI for mortality analysis and it
-coincides with the *Actual/Actual (ISDA)* day-count convention in
-derivatives markets.
 
 ## Types
 
@@ -72,11 +67,11 @@ Both of these types are represented using clicks stored as `integer`.
 ### Dates
 
 Dates are mapped to `datey`s as the number of clicks since the start of
-the notional year 0000 on the proleptic[^4] Gregorian calendar.
+the notional year 0000 on the proleptic[^5] Gregorian calendar.
 
 A `datey` that would otherwise represent a date before calendar year
 1000 or after the start of calendar year 3000 should be treated as
-invalid[^5] when mapping dates to or from a `datey`.
+invalid[^6] when mapping dates to or from a `datey`.
 
 ### Durations
 
@@ -374,9 +369,15 @@ For text *inputs*:
     even’ or ‘round half to even’. It is the default rounding mode for
     IEEE 754 binary floating-point.
 
-[^4]: The proleptic Gregorian calendar is the Gregorian calendar
+[^4]: This is one of many possible conventions for adjusting days so
+    that annual periods are in some sense uniform. It is not without
+    precedent: it has in the past been used by the UK CMI for mortality
+    analysis and it coincides with the *Actual/Actual (ISDA)* day-count
+    convention in derivatives markets.
+
+[^5]: The proleptic Gregorian calendar is the Gregorian calendar
     extended *backwards* from its introduction in 1582 in accordance
     with the same rules that it is projected.
 
-[^5]: This means that both 0 (the default in many languages) and −2³¹
+[^6]: This means that both 0 (the default in many languages) and −2³¹
     (used by R to indicate missing data or `NA`) are invalid `datey`s.
