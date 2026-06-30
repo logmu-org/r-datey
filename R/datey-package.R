@@ -21,7 +21,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom lifecycle deprecated
 #' @useDynLib datey, .registration = TRUE
 ## usethis namespace: end
 NULL

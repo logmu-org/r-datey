@@ -6,6 +6,10 @@
 \usage{
 all_of_time
 }
+\value{
+A scalar \code{datey_interval} spanning the full valid date range,
+[1000-01-01.0, 3000-01-01.0).
+}
 \description{
 \code{all_of_time} is the \code{datey_interval} [1000-01-01.0, 3000-01-01.0),
 spanning the full valid date range. It is referred to as 'all of time'
