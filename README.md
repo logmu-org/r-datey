@@ -16,8 +16,9 @@ status](https://www.r-pkg.org/badges/version/datey)](https://CRAN.R-project.org/
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The **datey** package provides a standardised mapping of dates onto a
-discrete annual grid, together with exact date and duration arithmetic.
+The **datey** package provides a standardised mapping of dates,
+including fractions of a day, onto a discrete annual grid, together with
+exact date and duration arithmetic.
 
 If you work primarily with mortality rates and time intervals defined by
 year but your input data uses dates, *and* precision is important, then
