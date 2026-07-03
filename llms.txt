@@ -1,7 +1,8 @@
 # datey
 
-The **datey** package provides a standardised mapping of dates onto a
-discrete annual grid, together with exact date and duration arithmetic.
+The **datey** package provides a standardised mapping of dates,
+including fractions of a day, onto a discrete annual grid, together with
+exact date and duration arithmetic.
 
 If you work primarily with mortality rates and time intervals defined by
 year but your input data uses dates, *and* precision is important, then
