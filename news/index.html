@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0" id="datey-010">datey 0.1.0<a class="anchor" aria-label="anchor" href="#datey-010"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1.1" id="datey-011">datey 0.1.1<a class="anchor" aria-label="anchor" href="#datey-011"></a></h2>
+<ul><li>Fixed undefined behaviour (negation of <code>NA_INTEGER</code>) when parsing <code>durationy</code> from text in C++. Results are unaffected on conforming hardware.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="datey-010">datey 0.1.0<a class="anchor" aria-label="anchor" href="#datey-010"></a></h2><p class="text-muted">CRAN release: 2026-07-07</p>
 <p>Initial CRAN release.</p>
 <ul><li>
 <code>datey</code> and <code>durationy</code> represent dates and durations on a discrete annual grid, with exact, associative arithmetic (<code>+</code>, <code>-</code>, comparisons, <code><a href="../reference/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/base/range.html" class="external-link">range()</a></code>, etc.).</li>
@@ -76,7 +80,8 @@
 <li>
 <code><a href="../reference/seq.html">seq()</a></code> is supported for <code>datey</code> and <code>durationy</code> via a <code>by</code> argument (note: <code>length.out</code> is not supported).</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
@@ -84,7 +89,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>
