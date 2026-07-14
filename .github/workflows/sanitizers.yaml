@@ -1,18 +1,19 @@
-# UndefinedBehaviorSanitizer / AddressSanitizer checks, reproducing CRAN's
-# clang-UBSAN and gcc-UBSAN "additional issues" checks in CI.
+# UndefinedBehaviorSanitizer checks, reproducing CRAN's clang-UBSAN and
+# gcc-UBSAN "additional issues" checks in CI.
 #
-# Uses Winston Chang's r-debug image, which ships R-devel builds instrumented
-# with sanitizers:
-#   RDsan  = gcc-compiled   R with ASan + UBSan   (matches CRAN gcc-UBSAN)
-#   RDcsan = clang-compiled R with ASan + UBSan   (matches CRAN clang-UBSAN)
+# Uses the actively-maintained R-hub v2 containers, which pair a current
+# R-devel with compatible packages (unlike the stale wch1/r-debug image, whose
+# old R-devel could not compile the current cpp11):
+#   ghcr.io/r-hub/containers/gcc-ubsan    (matches CRAN gcc-UBSAN)
+#   ghcr.io/r-hub/containers/clang-ubsan  (matches CRAN clang-UBSAN)
 #
 # This is a manual, on-demand action: trigger it from the Actions tab
 # ("sanitizers" -> "Run workflow"). It does not run on push -- ordinary commit
 # CI is handled separately by R-CMD-check.yaml. The job fails if UBSan reports
 # a "runtime error:", i.e. undefined behaviour.
 #
-# Note: a run is slow (test dependencies are compiled from source under the
-# sanitizer), typically tens of minutes.
+# Note: a run is slow (datey is compiled under the sanitizer and its tests run
+# under it), several minutes.
 
 name: sanitizers
 
@@ -25,34 +26,42 @@ permissions: read-all
 jobs:
   sanitize:
     runs-on: ubuntu-latest
-    name: ${{ matrix.rbin }}
+    name: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
-        rbin: [RDsan, RDcsan]
+        image: [gcc-ubsan, clang-ubsan]
     container:
-      image: wch1/r-debug:latest
+      image: ghcr.io/r-hub/containers/${{ matrix.image }}
     env:
-      # Focus on UBSan; silence ASan's benign leak reports from R itself.
-      ASAN_OPTIONS: detect_leaks=0
       UBSAN_OPTIONS: print_stacktrace=1
       # knitr/rmarkdown aren't installed here (vignettes are skipped), so don't
       # let missing Suggests turn into a check error.
       _R_CHECK_FORCE_SUGGESTS_: false
     steps:
-      - name: Install git (needed by actions/checkout)
-        run: apt-get update && apt-get install -y --no-install-recommends git
-
       - uses: actions/checkout@v4
 
-      - name: Install build/test dependencies (compiled under the sanitizer)
-        run: ${{ matrix.rbin }} -e 'install.packages(c("cpp11", "testthat", "pillar"), repos = "https://cloud.r-project.org")'
+      - name: Install build/test dependencies
+        # Use the container's preconfigured repositories so package versions
+        # match the container's R. install.packages() only WARNS on failure,
+        # so verify explicitly and fail the step if anything is missing.
+        run: |
+          R -q -e 'p <- c("cpp11", "testthat", "pillar"); install.packages(p); miss <- setdiff(p, rownames(installed.packages())); if (length(miss)) stop("Failed to install: ", paste(miss, collapse = ", "))'
 
       - name: Build source tarball
-        run: ${{ matrix.rbin }} CMD build . --no-build-vignettes
+        run: R CMD build . --no-build-vignettes
 
       - name: Check under sanitizer
-        run: ${{ matrix.rbin }} CMD check --no-manual --ignore-vignettes datey_*.tar.gz
+        run: R CMD check --no-manual --ignore-vignettes datey_*.tar.gz
+
+      - name: Show R CMD check logs on failure
+        if: failure()
+        run: |
+          for f in datey.Rcheck/00install.out datey.Rcheck/00check.log \
+                   datey.Rcheck/tests/testthat.Rout datey.Rcheck/tests/testthat.Rout.fail; do
+            echo "===================== $f ====================="
+            cat "$f" 2>/dev/null || echo "(not present)"
+          done
 
       - name: Fail if UBSan reported undefined behaviour
         run: |
@@ -66,5 +75,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: datey.Rcheck-${{ matrix.rbin }}
+          name: datey.Rcheck-${{ matrix.image }}
           path: datey.Rcheck/
