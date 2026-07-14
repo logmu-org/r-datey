@@ -2,7 +2,7 @@
 
 ## Authors
 
-- **[Tim Gordon](http://timgord.com)**. Author, maintainer.
+- **[Tim Gordon](https://timgord.com)**. Author, maintainer.
   [](https://orcid.org/0009-0006-3087-4384)
 
 ## Citation
