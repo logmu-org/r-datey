@@ -303,14 +303,21 @@ int durationyFromRString(cpp11::r_string rString, bool strict, bool blankIsNA, s
     }
 
     // 6. Check we've reached the end of the string
-    if (clicks != NA_INTEGER && *p != '\0')
+    if (clicks != NA_INTEGER)
     {
-      clicks = NA_INTEGER;
-      failReason = "Unrecognised character.";
-    }
-    else
-    {
-      if (isNegative) { clicks = -clicks; }
+      if (*p != '\0')
+      {
+        clicks = NA_INTEGER;
+        failReason = "Unrecognised character.";
+      }
+      else
+      {
+        // Fix for Brian Ripley sanitiser issue emailed 07/07/2026 11:28.
+        // Signed integer overflow is undefined behaviour, but
+        // that can't happen because it's now *within* the guard
+        // clicks != NA_INTEGER (which is -2^31).
+        if (isNegative) { clicks = -clicks; }
+      }
     }
   }
 
