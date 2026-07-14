@@ -48,8 +48,13 @@ For more detail on the motivation for **datey**, see [Why
 
 ## Installation
 
-You can install the development version of datey from
-[GitHub](https://github.com/) with:
+Install from CRAN:
+
+``` r
+install.packages("datey")
+```
+
+Or install the latest development version from GitHub:
 
 ``` r
 # install.packages("pak")

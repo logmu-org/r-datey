@@ -13,6 +13,9 @@ check that the relevant value is not `NA_INTEGER` -- see `src/S_durationy.cpp`
 
 There is no change to observable behaviour on conforming hardware.
 
+I have also added a `clang-ubsan` sanitiser job to the package's continuous
+integration to catch such issues before future submissions.
+
 ## Test environments
 
 - Windows 11, R 4.6.0 (local)
@@ -21,8 +24,8 @@ There is no change to observable behaviour on conforming hardware.
 - macOS-latest (R-release), Windows-latest (R-release),
   Ubuntu-latest (R-devel, R-release, R-oldrel-1),
   via GitHub Actions (`r-lib/actions/check-standard`)
-- Linux (R-devel) with clang `UndefinedBehaviorSanitizer`, via the
-  `rocker/r-devel-san` container
+- Linux (R-devel) with clang `UndefinedBehaviorSanitizer`, via the R-hub
+  `clang-ubsan` container on GitHub Actions
 
 ## R CMD check results
 
@@ -30,5 +33,5 @@ There is no change to observable behaviour on conforming hardware.
 
 ## Undefined behaviour sanitiser
 
-Under `rocker/r-devel-san`, the package tests now run cleanly with no
-`UndefinedBehaviorSanitizer` diagnostics.
+Under the R-hub `clang-ubsan` container, the package tests now run cleanly
+with no `UndefinedBehaviorSanitizer` diagnostics.
