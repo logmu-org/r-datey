@@ -10,5 +10,6 @@
 ^docs$
 ^\.positai$
 ^\.claude$
+^CLAUDE\.md$
 ^\.Rhistory$
 ^CRAN-SUBMISSION$
