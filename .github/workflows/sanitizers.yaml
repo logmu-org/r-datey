@@ -1,0 +1,70 @@
+# UndefinedBehaviorSanitizer / AddressSanitizer checks, reproducing CRAN's
+# clang-UBSAN and gcc-UBSAN "additional issues" checks in CI.
+#
+# Uses Winston Chang's r-debug image, which ships R-devel builds instrumented
+# with sanitizers:
+#   RDsan  = gcc-compiled   R with ASan + UBSan   (matches CRAN gcc-UBSAN)
+#   RDcsan = clang-compiled R with ASan + UBSan   (matches CRAN clang-UBSAN)
+#
+# This is a manual, on-demand action: trigger it from the Actions tab
+# ("sanitizers" -> "Run workflow"). It does not run on push -- ordinary commit
+# CI is handled separately by R-CMD-check.yaml. The job fails if UBSan reports
+# a "runtime error:", i.e. undefined behaviour.
+#
+# Note: a run is slow (test dependencies are compiled from source under the
+# sanitizer), typically tens of minutes.
+
+name: sanitizers
+
+on:
+  # Manual, on-demand only: trigger from the Actions tab -> "Run workflow".
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.rbin }}
+    strategy:
+      fail-fast: false
+      matrix:
+        rbin: [RDsan, RDcsan]
+    container:
+      image: wch1/r-debug:latest
+    env:
+      # Focus on UBSan; silence ASan's benign leak reports from R itself.
+      ASAN_OPTIONS: detect_leaks=0
+      UBSAN_OPTIONS: print_stacktrace=1
+      # knitr/rmarkdown aren't installed here (vignettes are skipped), so don't
+      # let missing Suggests turn into a check error.
+      _R_CHECK_FORCE_SUGGESTS_: false
+    steps:
+      - name: Install git (needed by actions/checkout)
+        run: apt-get update && apt-get install -y --no-install-recommends git
+
+      - uses: actions/checkout@v4
+
+      - name: Install build/test dependencies (compiled under the sanitizer)
+        run: ${{ matrix.rbin }} -e 'install.packages(c("cpp11", "testthat", "pillar"), repos = "https://cloud.r-project.org")'
+
+      - name: Build source tarball
+        run: ${{ matrix.rbin }} CMD build . --no-build-vignettes
+
+      - name: Check under sanitizer
+        run: ${{ matrix.rbin }} CMD check --no-manual --ignore-vignettes datey_*.tar.gz
+
+      - name: Fail if UBSan reported undefined behaviour
+        run: |
+          if grep -RIn "runtime error:" datey.Rcheck/ ; then
+            echo "::error::UndefinedBehaviorSanitizer reported undefined behaviour (see matches above)."
+            exit 1
+          fi
+          echo "CLEAN: no UBSan 'runtime error:' diagnostics found."
+
+      - name: Upload check directory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: datey.Rcheck-${{ matrix.rbin }}
+          path: datey.Rcheck/
