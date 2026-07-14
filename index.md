@@ -95,5 +95,6 @@ started](https://r-datey.logmu.org/articles/datey.html).
     package. Interestingly, that author’s preferred approach is to use
     integer day counts, which is also fixed precision.
 
-[^3]: Partly on grounds of triviality but because handling this issue
-    with date systems that do not handle fractions of a day is messy.
+[^3]: Possibly on grounds of triviality, but also sometimes simply
+    because handling it is potentially messy in date systems that do not
+    handle fractions of a day.
