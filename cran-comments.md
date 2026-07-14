@@ -13,7 +13,7 @@ check that the relevant value is not `NA_INTEGER` -- see `src/S_durationy.cpp`
 
 There is no change to observable behaviour on conforming hardware.
 
-I have also added a `clang-ubsan` sanitiser check to GitHub actions to help
+I have also added a `clang-ubsan` sanitiser check to GitHub Actions to help
 catch similar issues before future submissions.
 
 ## Test environments
