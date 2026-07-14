@@ -109,5 +109,5 @@ started](https://r-datey.logmu.org/articles/datey.html).
     integer day counts, which is also fixed precision.
 
 [^3]: Possibly on grounds of triviality, but also sometimes simply
-    because handling it is potentially messy in date systems that do not
-    handle fractions of a day.
+    because handling it is messy in date systems that do not handle
+    fractions of a day.

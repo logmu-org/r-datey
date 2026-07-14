@@ -63,7 +63,7 @@ Interestingly, that author's preferred approach is to use integer day counts,
 which is also fixed precision.
 
 [^handle-date-fractions]: Possibly on grounds of triviality, but also
-sometimes simply because handling it is potentially messy in date systems that 
+sometimes simply because handling it is messy in date systems that 
 do not handle fractions of a day.
 
 For more detail on the motivation for **datey**, see
