@@ -35,3 +35,7 @@ integration to catch such issues before future submissions.
 
 Under the R-hub `clang-ubsan` container, the package tests now run cleanly
 with no `UndefinedBehaviorSanitizer` diagnostics.
+
+## Reverse dependencies
+
+This package has no reverse dependencies.
