@@ -1,5 +1,6 @@
 @font-face {
   font-family: "Lisnoti";
+  font-display: swap;
   src:
     url('fonts/Lisnoti-Regular.woff2') format('woff2'),
     url('fonts/Lisnoti-Regular.woff') format('woff'),
@@ -8,6 +9,7 @@
 
 @font-face {
   font-family: "Lisnoti";
+  font-display: swap;
   src:
     url('fonts/Lisnoti-Bold.woff2') format('woff2'),
     url('fonts/Lisnoti-Bold.woff') format('woff'),
@@ -17,6 +19,7 @@
 
 @font-face {
   font-family: "Lisnoti";
+  font-display: swap;
   src:
     url('fonts/Lisnoti-Italic.woff2') format('woff2'),
     url('fonts/Lisnoti-Italic.woff') format('woff'),
@@ -26,6 +29,7 @@
 
 @font-face {
   font-family: "Lisnoti";
+  font-display: swap;
   src:
     url('fonts/Lisnoti-BoldItalic.woff2') format('woff2'),
     url('fonts/Lisnoti-BoldItalic.woff') format('woff'),
