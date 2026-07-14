@@ -1,11 +1,13 @@
-# UndefinedBehaviorSanitizer checks, reproducing CRAN's clang-UBSAN and
-# gcc-UBSAN "additional issues" checks in CI.
+# UndefinedBehaviorSanitizer check, reproducing CRAN's clang-UBSAN "additional
+# issues" check in CI.
 #
-# Uses the actively-maintained R-hub v2 containers, which pair a current
-# R-devel with compatible packages (unlike the stale wch1/r-debug image, whose
-# old R-devel could not compile the current cpp11):
-#   ghcr.io/r-hub/containers/gcc-ubsan    (matches CRAN gcc-UBSAN)
-#   ghcr.io/r-hub/containers/clang-ubsan  (matches CRAN clang-UBSAN)
+# Uses the actively-maintained R-hub v2 clang-ubsan container, which pairs a
+# current R-devel with compatible packages (unlike the stale wch1/r-debug
+# image, whose old R-devel could not compile the current cpp11):
+#   ghcr.io/r-hub/containers/clang-ubsan
+# R-hub publishes no standalone gcc-ubsan container, but the CRAN finding was
+# one compiler-independent source line flagged identically by clang-UBSAN,
+# gcc-UBSAN and M1-SAN, so this single check verifies the fix for all three.
 #
 # This is a manual, on-demand action: trigger it from the Actions tab
 # ("sanitizers" -> "Run workflow"). It does not run on push -- ordinary commit
@@ -30,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [gcc-ubsan, clang-ubsan]
+        image: [clang-ubsan]
     container:
       image: ghcr.io/r-hub/containers/${{ matrix.image }}
     env:
@@ -42,11 +44,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install build/test dependencies
-        # Use the container's preconfigured repositories so package versions
-        # match the container's R. install.packages() only WARNS on failure,
-        # so verify explicitly and fail the step if anything is missing.
-        run: |
-          R -q -e 'p <- c("cpp11", "testthat", "pillar"); install.packages(p); miss <- setdiff(p, rownames(installed.packages())); if (length(miss)) stop("Failed to install: ", paste(miss, collapse = ", "))'
+        # Use pak, which the r-hub containers ship and which fetches correctly
+        # from the container's binary repository (built for this R + libc++).
+        # Plain install.packages() resolves versions but cannot download from
+        # that repo. pak errors on failure, so the step fails loudly by itself.
+        run: R -q -e 'pak::pkg_install(c("cpp11", "testthat", "pillar"))'
 
       - name: Build source tarball
         run: R CMD build . --no-build-vignettes
