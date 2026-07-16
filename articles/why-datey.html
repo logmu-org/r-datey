@@ -137,33 +137,7 @@ of operations.</p>
 specification</a>.</p>
 </div>
 <div class="section level2">
-<h2 id="interval-algebra-for-rate-periods">Interval algebra for rate periods<a class="anchor" aria-label="anchor" href="#interval-algebra-for-rate-periods"></a>
-</h2>
-<p>Actuarial calculations often involve asking ‘for how much of this
-period did rate X apply?’ – e.g. combining a policy’s time at risk with
-the period over which a particular assumption set is valid.</p>
-<p><strong>datey</strong> represents time intervals as
-<code>datey_interval</code>s, written <code>start %to% end</code>. These
-are half-open, i.e. <code>[start, end)</code>, intervals, which means
-consecutive periods interlock precisely without gaps or
-double-counting.</p>
-<p><strong>datey</strong> provides interval algebra to work with time
-intervals directly:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">time_at_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">rate_period_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">12</span>, <span class="fl">31</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># the part of the time at risk to which the 2024 rate applies</span></span>
-<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="va">time_at_risk</span> <span class="op">&amp;</span> <span class="va">rate_period_2024</span></span>
-<span><span class="va">overlap</span></span>
-<span><span class="co">#&gt; [1] [2024-01-01.0, 2024-04-02.0)</span></span>
-<span></span>
-<span><span class="co"># ... as a duration in years, ready to multiply by an annual rate</span></span>
-<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">$</span><span class="va">end</span> <span class="op">-</span> <span class="va">overlap</span><span class="op">$</span><span class="va">start</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.251366 yr</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="standardised-day-fractions-for-exposure-calculations">Standardised day-fractions for exposure calculations<a class="anchor" aria-label="anchor" href="#standardised-day-fractions-for-exposure-calculations"></a>
+<h2 id="fractions-of-a-day">Fractions of a day<a class="anchor" aria-label="anchor" href="#fractions-of-a-day"></a>
 </h2>
 <p>Because a <code>datey</code> can represent a position <em>within</em>
 a day (as a fraction of a year), <strong>datey</strong> provides
@@ -184,7 +158,7 @@ halfway through the day it is recorded on.</li>
 <p>Choosing consistently between these (rather than, say, always using
 midnight) improves clarity and accuracy as to what events are and are
 not included in a time period.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2026L</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
@@ -200,10 +174,46 @@ not included in a time period.</p>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="interval-algebra-for-time-periods">Interval algebra for time periods<a class="anchor" aria-label="anchor" href="#interval-algebra-for-time-periods"></a>
+</h2>
+<p>Actuarial calculations often involve asking ‘for how much of this
+period did rate X apply?’ – e.g. combining a policy’s time at risk with
+the period over which a particular assumption set is valid.</p>
+<p><strong>datey</strong> represents time intervals using the atomic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Even though &lt;code&gt;datey_interval&lt;/code&gt; stores the start
+and end of a time interval, it is atomic (as are &lt;code&gt;datey&lt;/code&gt; and
+&lt;code&gt;durationy&lt;/code&gt;), which means that &lt;code&gt;datey_interval&lt;/code&gt;s
+can be stored in a single R vector without any additional special
+handling.&lt;/p&gt;"><sup>1</sup></a> type
+<code>datey_interval</code>, created using <code>start %to% end</code>.
+These are half-open, i.e. <code>[start, end)</code>, intervals, which
+means consecutive periods interlock precisely without gaps or
+double-counting.</p>
+<p><strong>datey</strong> provides interval algebra to work with time
+intervals directly:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">period_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># Calendar year 2024</span></span>
+<span></span>
+<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># FALSE</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="va">time_at_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># the part of the time at risk to which the 2024 rate applies</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="va">time_at_risk</span> <span class="op">&amp;</span> <span class="va">period_2024</span></span>
+<span><span class="va">overlap</span></span>
+<span><span class="co">#&gt; [1] [2024-01-01.0, 2024-04-02.0)</span></span>
+<span></span>
+<span><span class="co"># ... as a duration in years, ready to multiply by an annual rate</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">$</span><span class="va">end</span> <span class="op">-</span> <span class="va">overlap</span><span class="op">$</span><span class="va">start</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.251366 yr</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="what-datey-is-not-for">What <strong>datey</strong> is <em>not</em> for<a class="anchor" aria-label="anchor" href="#what-datey-is-not-for"></a>
 </h2>
-<p><strong>datey</strong> is <em>deliberately</em> narrowly scoped – it
-is <em>not</em> the right tool for</p>
+<p><strong>datey</strong> is deliberately narrowly scoped – it is
+<em>not</em> the right tool for</p>
 <ul>
 <li>general date arithmetic for output, e.g. ‘what date is 3 months from
 now’ for a calendar shown to a user,</li>
@@ -214,6 +224,7 @@ different calendars.</li>
 </ul>
 <p>If you need that kind of functionality check out packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a>.</p>
 </div>
+
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>

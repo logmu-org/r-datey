@@ -66,36 +66,7 @@ operations.
 For full details see the [**datey**
 specification](https://r-datey.logmu.org/articles/spec.md).
 
-## Interval algebra for rate periods
-
-Actuarial calculations often involve asking ‘for how much of this period
-did rate X apply?’ – e.g. combining a policy’s time at risk with the
-period over which a particular assumption set is valid.
-
-**datey** represents time intervals as `datey_interval`s, written
-`start %to% end`. These are half-open, i.e. `[start, end)`, intervals,
-which means consecutive periods interlock precisely without gaps or
-double-counting.
-
-**datey** provides interval algebra to work with time intervals
-directly:
-
-``` r
-
-time_at_risk <- start_day(2023, 4, 1) %to% end_day(2024, 4, 1)
-rate_period_2024 <- start_day(2024, 1, 1) %to% end_day(2025, 12, 31)
-
-# the part of the time at risk to which the 2024 rate applies
-overlap <- time_at_risk & rate_period_2024
-overlap
-#> [1] [2024-01-01.0, 2024-04-02.0)
-
-# ... as a duration in years, ready to multiply by an annual rate
-durationy(overlap$end - overlap$start)
-#> [1] 0.251366 yr
-```
-
-## Standardised day-fractions for exposure calculations
+## Fractions of a day
 
 Because a `datey` can represent a position *within* a day (as a fraction
 of a year), **datey** provides
@@ -135,9 +106,44 @@ interval_includes(one_day_period, mid)
 #> [1] TRUE
 ```
 
+## Interval algebra for time periods
+
+Actuarial calculations often involve asking ‘for how much of this period
+did rate X apply?’ – e.g. combining a policy’s time at risk with the
+period over which a particular assumption set is valid.
+
+**datey** represents time intervals using the atomic[^1] type
+`datey_interval`, created using `start %to% end`. These are half-open,
+i.e. `[start, end)`, intervals, which means consecutive periods
+interlock precisely without gaps or double-counting.
+
+**datey** provides interval algebra to work with time intervals
+directly:
+
+``` r
+
+period_2024 <- datey(2024) %to% datey(2025) # Calendar year 2024
+
+period_2024 %includes% datey(2024) # TRUE
+#> [1] TRUE
+period_2024 %includes% datey(2025) # FALSE
+#> [1] FALSE
+
+time_at_risk <- start_day(2023, 4, 1) %to% end_day(2024, 4, 1)
+
+# the part of the time at risk to which the 2024 rate applies
+overlap <- time_at_risk & period_2024
+overlap
+#> [1] [2024-01-01.0, 2024-04-02.0)
+
+# ... as a duration in years, ready to multiply by an annual rate
+durationy(overlap$end - overlap$start)
+#> [1] 0.251366 yr
+```
+
 ## What **datey** is *not* for
 
-**datey** is *deliberately* narrowly scoped – it is *not* the right tool
+**datey** is deliberately narrowly scoped – it is *not* the right tool
 for
 
 - general date arithmetic for output, e.g. ‘what date is 3 months from
@@ -150,3 +156,8 @@ for
 If you need that kind of functionality check out packages like
 [clock](https://clock.r-lib.org/) and
 [lubridate](https://lubridate.tidyverse.org/).
+
+[^1]: Even though `datey_interval` stores the start and end of a time
+    interval, it is atomic (as are `datey` and `durationy`), which means
+    that `datey_interval`s can be stored in a single R vector without
+    any additional special handling.

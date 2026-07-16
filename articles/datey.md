@@ -452,9 +452,9 @@ seq(from = datey(2020), to = datey(2024), by = durationy(2))
 #> [1] 2020-01-01.0 2022-01-01.0 2024-01-01.0
 ```
 
-[^1]: Even though `datey_interval` stores the start and the end of a
-    time interval, it too is atomic, which means that `datey_interval`s
-    can be stored in a single vector without any additional special
+[^1]: Even though `datey_interval` stores the start and end of a time
+    interval, it too is atomic, which means that `datey_interval`s can
+    be stored in a single R vector without any additional special
     handling.
 
 [^2]: Even though the `Date` type is not designed for fractional dates,
