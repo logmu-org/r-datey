@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/logmu-org/r-datey/blob/v0.1.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/logmu-org/r-datey/blob/main/DESCRIPTION)
 
 Gordon T (2026). *datey: Exact Date and Duration Arithmetic on an Annual
 Grid*. R package version 0.1.1, <https://github.com/logmu-org/r-datey>.

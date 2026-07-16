@@ -71,7 +71,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Why datey?</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/v0.1.1/vignettes/why-datey.Rmd" class="external-link"><code>vignettes/why-datey.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/main/vignettes/why-datey.Rmd" class="external-link"><code>vignettes/why-datey.Rmd</code></a></small>
       <div class="d-none name"><code>why-datey.Rmd</code></div>
     </div>
 
@@ -80,44 +80,42 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="the-unit-is-years-but-the-data-are-dates">The unit is years, but the data are dates<a class="anchor" aria-label="anchor" href="#the-unit-is-years-but-the-data-are-dates"></a>
+<h2 id="calculating-per-annum-rates-from-date-input-data">Calculating <em>per annum</em> rates from <em>date</em> input
+data<a class="anchor" aria-label="anchor" href="#calculating-per-annum-rates-from-date-input-data"></a>
 </h2>
 <p>Mortality rates, valuation assumptions and many other actuarial
-quantities are defined <em>per year</em>. The data they are applied to –
-dates of birth, dates of death, policy anniversaries, valuation dates –
-are measured in days.</p>
-<p>Converting between the two seems like it should be trivial, but it
-isn’t. Consider these calculations:</p>
+quantities are defined <em>per year</em>, but the data they are applied
+to – dates of birth, dates of death, policy anniversaries, valuation
+dates – are measured in days.</p>
+<p>It’s common to treat mapping dates onto an annual scale as trivial,
+but consider these two calculations:</p>
 <ul>
-<li><p>“Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so is it
-2025‑02‑28 or is it 2025‑03‑01? Both are defensible, and different tools
-(and different people) choose differently.</p></li>
-<li><p>“Add half a year” twice starting from 2000‑01‑01. Does this land
-on the same point in time as a single “add one year” step? With most
-day-based arithmetic, the answer is no – the result depends on how you
-split the year up, and on the order in which you do the
+<li><p><em>‘Add half a year’ twice starting from 2000‑01‑01.</em> Does
+this land on the same point in time as a single ‘add one year’ step?
+With most day-based arithmetic, the answer is no – the result depends on
+how you split the year up, and on the order in which you do the
 additions.</p></li>
+<li><p><em>‘Add one year’ to 2024‑02‑29.</em> There is no 2025‑02‑29, so
+is it 2025‑02‑28 or is it 2025‑03‑01? Both are defensible, and different
+tools (and different people) choose differently.</p></li>
 </ul>
-<p>For a single <em>ad hoc</em> calculation this kind of ambiguity is a
-curiosity. For an actuarial model that combines exposure periods, runs
-sensitivities, and is reconciled and audited, it’s a problem: the same
-logical calculation, expressed two different but equivalent ways, can
-produce two different numbers.</p>
+<p>For a single <em>ad hoc</em> calculation we usually ignore the
+ambiguity and do ‘something sensible’. But actuarial modelling typically
+entails thousands or even millions of these calculations, and so it is
+important to ensure that they produce consistent results.</p>
 </div>
 <div class="section level2">
-<h2 id="the-datey-approach-a-fixed-annual-grid">The <strong>datey</strong> approach: a fixed annual grid<a class="anchor" aria-label="anchor" href="#the-datey-approach-a-fixed-annual-grid"></a>
+<h2 id="an-annual-grid-of-clicks">An annual grid of <em>clicks</em><a class="anchor" aria-label="anchor" href="#an-annual-grid-of-clicks"></a>
 </h2>
-<p><strong>datey</strong> picks <em>one</em> standardised, precise
-mapping from dates onto an annual grid, and guarantees that arithmetic
-on that grid is exact and associative. Every <code>datey</code> and
-<code>durationy</code> is stored internally as a count of
-<em>clicks</em>, where one click is 1 / 534 360 of a year, a number
-chosen so that 1/365 and 1/366 of a year, and useful fractions of days
-and years, are represented exactly.</p>
-<p>With this approach, date and duration calculations reduce to plain
-old integer arithmetic which is both precise and associative.</p>
-<p>The practical consequence is that the two-steps-vs-one-step problem
-above does not arise:</p>
+<p><strong>datey</strong> picks a single standardised and precise
+mapping from dates to <em>clicks</em>, where one click is 1 / 534 360 of
+a year, a number chosen so that 1/365 and 1/366 of a year, and useful
+fractions of days and years, are represented exactly.</p>
+<p>Dates (<code>datey</code>) and durations (<code>durationy</code>) are
+stored internally as a count of <em>clicks</em>, which means that date
+and duration calculations reduce to plain old integer arithmetic.</p>
+<p>The practical import is that the two-steps-vs-one-step problem above
+does not arise:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -131,18 +129,19 @@ above does not arise:</p>
 <span><span class="co">#&gt; [1] 2001-01-01.0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">two_steps</span>, <span class="va">one_step</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p><code>(a + d1) + d2 == a + (d1 + d2)</code> for any
+<p>In general, <code>(a + d1) + d2 == a + (d1 + d2)</code> for any
 <code>datey</code> <code>a</code> and <code>durationy</code>s
-<code>d1</code>, <code>d2</code> – always, exactly, regardless of leap
-years or the order of operations. That’s the guarantee
-<strong>datey</strong> is built around, and the <a href="spec.html">specification</a> sets it out precisely.</p>
+<code>d1</code>, <code>d2</code>, regardless of leap years or the order
+of operations.</p>
+<p>For full details see the <a href="spec.html"><strong>datey</strong>
+specification</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="interval-algebra-for-rate-periods">Interval algebra for rate periods<a class="anchor" aria-label="anchor" href="#interval-algebra-for-rate-periods"></a>
 </h2>
-<p>Actuarial calculations very often involve asking “for how much of
-this period did rate X apply?” – e.g. combining a policy’s time at risk
-with the period over which a particular assumption set is valid.</p>
+<p>Actuarial calculations often involve asking ‘for how much of this
+period did rate X apply?’ – e.g. combining a policy’s time at risk with
+the period over which a particular assumption set is valid.</p>
 <p><strong>datey</strong> represents time intervals as
 <code>datey_interval</code>s, written <code>start %to% end</code>. These
 are half-open, i.e. <code>[start, end)</code>, intervals, which means
@@ -201,25 +200,19 @@ not included in a time period.</p>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="what-datey-deliberately-leaves-out">What <strong>datey</strong> deliberately leaves out<a class="anchor" aria-label="anchor" href="#what-datey-deliberately-leaves-out"></a>
+<h2 id="what-datey-is-not-for">What <strong>datey</strong> is <em>not</em> for<a class="anchor" aria-label="anchor" href="#what-datey-is-not-for"></a>
 </h2>
-<p>To keep the guarantees above simple and dependable,
-<strong>datey</strong> is very narrowly scoped. It is <em>not</em> the
-right tool for:</p>
+<p><strong>datey</strong> is <em>deliberately</em> narrowly scoped – it
+is <em>not</em> the right tool for</p>
 <ul>
-<li>General date arithmetic for output, e.g. “what date is 3 months from
-now” for a calendar shown to a user.</li>
-<li>Parsing or formatting dates beyond the simple
-<code>YYYY-MM-DD[.fff]</code> representation.</li>
-<li>Time zones, daylight saving time, leap seconds, or different
-calendars.</li>
+<li>general date arithmetic for output, e.g. ‘what date is 3 months from
+now’ for a calendar shown to a user,</li>
+<li>parsing or formatting dates beyond the simple
+<code>YYYY-MM-DD[.fff]</code> representation, or</li>
+<li>handling time zones, daylight saving time, leap seconds, or
+different calendars.</li>
 </ul>
-<p>Packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a> already do
-that.</p>
-<p>The trade-off is deliberate: by refusing to be a general date
-library, <strong>datey</strong> can make a precise, associative annual
-grid <em>the</em> representation for rate-related calculations, with one
-well-defined answer regardless of how the calculation is structured.</p>
+<p>If you need that kind of functionality check out packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -38,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.svg" class="logo" alt=""><h1>datey</h1>
-      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/v0.1.1/CLAUDE.md" class="external-link"><code>CLAUDE.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/main/CLAUDE.md" class="external-link"><code>CLAUDE.md</code></a></small>
     </div>
 
 <div id="datey" class="section level1">
@@ -86,11 +86,17 @@
 <div class="section level2">
 <h2 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h2>
 <ul><li>For R code follow Tidyverse naming conventions</li>
-<li>For C++ code use PascalCase for naming types and camelCase for naming functions and function parameters</li>
-<li>Use modern C++11 idioms</li>
-<li>For C++, use Allman bracket style</li>
+<li>For C++ code use
+<ul><li>PascalCase for naming types and constants, and</li>
+<li>camelCase for naming functions and function parameters</li>
+</ul></li>
+<li>For C++ code in general:
+<ul><li>Use modern C++11 idioms</li>
+<li>Use Allman bracket style</li>
 <li>Check for const T&amp;</li>
 <li>Use range-based for loops, const auto&amp;, and explicit single-argument constructors</li>
+<li>Prefer wordy identifiers rather than abbreviations unless they are universal or keywords. For instance, prefer <code>literal</code> to <code>lit</code>.</li>
+</ul></li>
 </ul></div>
 <div class="section level2">
 <h2 id="language-style">Language style<a class="anchor" aria-label="anchor" href="#language-style"></a></h2>

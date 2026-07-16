@@ -12,7 +12,7 @@ guarantee, see [Why
 complete formal specification, see the [**datey**
 specification](https://r-datey.logmu.org/articles/spec.md).
 
-## The core types
+## Core types
 
 **datey** provides three S3 classes:
 
