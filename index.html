@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,31 +73,28 @@
 </div>
 <!-- badges: start -->
 
-<p>The <strong>datey</strong> package provides a standardised mapping of dates, including fractions of a day, onto a discrete annual grid, together with exact date and duration arithmetic.</p>
+<p>The <strong>datey</strong> package provides a standardised mapping of dates onto a discrete annual grid, together with exact date and duration arithmetic.</p>
 <p>If you work primarily with mortality rates and time intervals defined by year but your input data uses dates, <em>and</em> precision is important, then it is worth considering using <strong>datey</strong>.</p>
 <p>Classic examples are mortality experience analysis and the valuation of life assurance and annuities. Mortality rates are defined <em>per annum</em> but experience and valuation data is usually defined using dates (i.e. days).</p>
 <p>The benefits of using <strong>datey</strong> are:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Standardised mapping of dates to a uniform annual timescale.</strong> There is no unique way to map dates to an annual timescale. Without standardisation, sooner or later errors will arise.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Even the highly-regarded &lt;a href="https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation" class="external-link"&gt;CMI&lt;/a&gt; has had issues with inconsistencies on this point within the same model.&lt;/p&gt;'><sup>1</sup></a></p></li>
 <li><p><strong>Fixed precision arithmetic.</strong> Using fixed precision excludes common bugs arising from the imprecision of floating point arithmetic.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;This is sufficiently common that it has a &lt;a href="https://CRAN.R-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f" class="external-link"&gt;CRAN FAQ&lt;/a&gt;. Also see &lt;a href="https://therneau.r-universe.dev/survival/doc/tiedtimes.pdf" class="external-link"&gt;this note&lt;/a&gt; on problems caused by floating point imprecision for the &lt;code&gt;survival&lt;/code&gt; package. Interestingly, that author’s preferred approach is to use integer day counts, which is also fixed precision.&lt;/p&gt;'><sup>2</sup></a></p></li>
-<li><p>Handling <strong>whether a date means the start, during or end of a day</strong>. This issue is usually ignored<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Possibly on grounds of triviality, but also sometimes simply because handling it is messy in date systems that do not handle fractions of a day.&lt;/p&gt;"><sup>3</sup></a>, but systematic errors can accumulate and end up being material.</p></li>
+<li><p>Handling <strong>whether a date means the start, during or end of a day</strong>. This issue is usually ignored<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Partly on grounds of triviality but because handling this issue with date systems that do not handle fractions of a day is messy.&lt;/p&gt;"><sup>3</sup></a>, but systematic errors can accumulate and end up being material.</p></li>
 </ol>
 <p>For more detail on the motivation for <strong>datey</strong>, see <a href="https://r-datey.logmu.org/articles/why-datey.html">Why <strong>datey</strong>?</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install from CRAN:</p>
+<p>You can install the development version of datey from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"datey"</span><span class="op">)</span></span></code></pre></div>
-<p>Or install the latest development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"logmu-org/r-datey"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create datey from a base R date ...</span></span>
@@ -158,7 +155,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://timgord.com" class="external-link">Tim Gordon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0006-3087-4384" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<a href="http://timgord.com" class="external-link">Tim Gordon</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0006-3087-4384" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
@@ -176,7 +173,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://timgord.com" class="external-link">Tim Gordon</a>. <br>Typeset in <a href="https://lisnoti.com/" class="external-link">Lisnoti</a>.</p>
+  <p>Developed by <a href="http://timgord.com" class="external-link">Tim Gordon</a>. <br>Typeset in <a href="https://lisnoti.com/" class="external-link">Lisnoti</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
