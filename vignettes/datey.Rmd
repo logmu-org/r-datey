@@ -35,7 +35,7 @@ These all store dates and durations as integers with units of 1/534&#8201;360 of
 
 [^atomic]: An atomic type can be stored in a single R vector without any additional special handling. Although they have properties such as `t$year` for a `datey`
 or `interval$start` for a `datey_interval`, these properties are generated on the fly --
-they are not accessing underlying data vectors.
+they are not accessing separate underlying data vectors.
 
 ## Creating a `datey`
 
