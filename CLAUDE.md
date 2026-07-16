@@ -60,17 +60,13 @@ duration arithmetic.
 ## Code style
 
 - For R code follow Tidyverse naming conventions
-- For C++ code use
-  - PascalCase for naming types and constants, and
-  - camelCase for naming functions and function parameters
-- For C++ code in general:
-  - Use modern C++11 idioms
-  - Use Allman bracket style
-  - Check for const T&
-  - Use range-based for loops, const auto&, and explicit single-argument
-    constructors
-  - Prefer wordy identifiers rather than abbreviations unless they are
-    universal or keywords. For instance, prefer `literal` to `lit`.
+- For C++ code use PascalCase for naming types and camelCase for naming
+  functions and function parameters
+- Use modern C++11 idioms
+- For C++, use Allman bracket style
+- Check for const T&
+- Use range-based for loops, const auto&, and explicit single-argument
+  constructors
 
 ## Language style
 
