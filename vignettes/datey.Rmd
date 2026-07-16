@@ -23,7 +23,7 @@ motivation behind the annual-grid approach and the associativity guarantee,
 see [Why **datey**?][why-datey]. For the complete formal specification, see the
 [**datey** specification][spec].
 
-## The core types
+## Core types
 
 **datey** provides three S3 classes:
 
