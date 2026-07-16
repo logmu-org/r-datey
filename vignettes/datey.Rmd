@@ -35,9 +35,9 @@ These are atomic types[^datey-interval-is-atomic] that store dates and durations
 integers with units of 1/534&#8201;360 of a
 year). As a result, arithmetic with these types is exact and associative.
 
-[^datey-interval-is-atomic]: Even though `datey_interval` stores the start and the end of
+[^datey-interval-is-atomic]: Even though `datey_interval` stores the start and end of
 a time interval, it too is atomic, which means that `datey_interval`s can be
-stored in a single vector without any additional special handling.
+stored in a single R vector without any additional special handling.
 
 ## Creating a `datey`
 
