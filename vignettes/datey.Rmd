@@ -25,19 +25,17 @@ see [Why **datey**?][why-datey]. For the complete formal specification, see the
 
 ## Core types
 
-**datey** provides three S3 classes:
+**datey** provides three atomic[^atomic] S3 classes:
 
 - **`datey`** -- a point in time, stored at day-fraction precision.
 - **`durationy`** -- a duration in years.
 - **`datey_interval`** -- a half-open `[start, end)` time interval.
 
-These are atomic types[^datey-interval-is-atomic] that store dates and durations as 
-integers with units of 1/534&#8201;360 of a
-year). As a result, arithmetic with these types is exact and associative.
+These all store dates and durations as integers with units of 1/534&#8201;360 of a year (*clicks*). As a result, arithmetic with these types is exact and associative.
 
-[^datey-interval-is-atomic]: Even though `datey_interval` stores the start and end of
-a time interval, it too is atomic, which means that `datey_interval`s can be
-stored in a single R vector without any additional special handling.
+[^atomic]: An atomic type can be stored in a single R vector without any additional special handling. Although they have properties such as `t$year` for a `datey`
+or `interval$start` for a `datey_interval`, these properties are generated on the fly --
+they are not accessing underlying data vectors.
 
 ## Creating a `datey`
 
@@ -90,10 +88,10 @@ standard base R types `Date`[^fractional-dates], `POSIXct` or `POSIXlt`.
 To convert these to a `datey`, use `start_day()`, `mid_day()` or `end_day()`:
 
 ```{r}
-d <- as.Date("2024-03-07")
-start_day(d)
-mid_day(d)
-end_day(d)
+r_date <- as.Date("2024-03-07")
+start_day(r_date)
+mid_day(r_date)
+end_day(r_date)
 ```
 
 [^fractional-dates]: Even though the `Date` type is not designed for
@@ -158,9 +156,9 @@ is_mid_day(datey(2024, 3, 7, 0.25)) # FALSE
 `durationy`s typically arise as `datey` differences:
 
 ```{r}
-dob <- start_day(as.Date("1965-09-12"))
-dod <- mid_day(2024, 3, 7)
-age <- dod - dob
+birth_date <- start_day(as.Date("1965-09-12"))
+death_date <- mid_day(2024, 3, 7)
+age <- death_date - birth_date
 age
 ```
 
@@ -210,14 +208,14 @@ click counts, so the results are exact and associative.
 
 ```{r}
 start  <- start_day(2000, 1, 1)
-one_yr <- durationy(1)
-qtr_yr <- durationy(0.25)
+one_year <- durationy(1)
+quarter_year <- durationy(0.25)
 
-start + one_yr    # One year later
-start - qtr_yr    # Quarter of a year earlier
+start + one_year        # One year later
+start - quarter_year    # Quarter of a year earlier
 
-one_yr - qtr_yr   # Three quarters of a year
-one_yr + qtr_yr
+one_year - quarter_year # Three quarters of a year
+one_year + quarter_year
 
 datey(2024) < datey(2025)     # TRUE
 durationy(1) > durationy(0.5) # TRUE
