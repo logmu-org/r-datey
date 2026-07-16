@@ -456,7 +456,7 @@ seq(from = datey(2020), to = datey(2024), by = durationy(2))
     additional special handling. Although they have properties such as
     `t$year` for a `datey` or `interval$start` for a `datey_interval`,
     these properties are generated on the fly – they are not accessing
-    underlying data vectors.
+    separate underlying data vectors.
 
 [^2]: Even though the `Date` type is not designed for fractional dates,
     it typically uses floating point under the covers, and can
