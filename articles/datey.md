@@ -14,15 +14,15 @@ specification](https://r-datey.logmu.org/articles/spec.md).
 
 ## Core types
 
-**datey** provides three S3 classes:
+**datey** provides three atomic[^1] S3 classes:
 
 - **`datey`** – a point in time, stored at day-fraction precision.
 - **`durationy`** – a duration in years.
 - **`datey_interval`** – a half-open `[start, end)` time interval.
 
-These are atomic types[^1] that store dates and durations as integers
-with units of 1/534 360 of a year). As a result, arithmetic with these
-types is exact and associative.
+These all store dates and durations as integers with units of 1/534 360
+of a year (*clicks*). As a result, arithmetic with these types is exact
+and associative.
 
 ## Creating a `datey`
 
@@ -93,12 +93,12 @@ To convert these to a `datey`, use
 
 ``` r
 
-d <- as.Date("2024-03-07")
-start_day(d)
+r_date <- as.Date("2024-03-07")
+start_day(r_date)
 #> [1] 2024-03-07.0
-mid_day(d)
+mid_day(r_date)
 #> [1] 2024-03-07.5
-end_day(d)
+end_day(r_date)
 #> [1] 2024-03-08.0
 ```
 
@@ -196,9 +196,9 @@ is_mid_day(datey(2024, 3, 7, 0.25)) # FALSE
 
 ``` r
 
-dob <- start_day(as.Date("1965-09-12"))
-dod <- mid_day(2024, 3, 7)
-age <- dod - dob
+birth_date <- start_day(as.Date("1965-09-12"))
+death_date <- mid_day(2024, 3, 7)
+age <- death_date - birth_date
 age
 #> [1] 58.485804 yr
 ```
@@ -259,17 +259,17 @@ the underlying click counts, so the results are exact and associative.
 ``` r
 
 start  <- start_day(2000, 1, 1)
-one_yr <- durationy(1)
-qtr_yr <- durationy(0.25)
+one_year <- durationy(1)
+quarter_year <- durationy(0.25)
 
-start + one_yr    # One year later
+start + one_year        # One year later
 #> [1] 2001-01-01.0
-start - qtr_yr    # Quarter of a year earlier
+start - quarter_year    # Quarter of a year earlier
 #> [1] 1999-10-01.75
 
-one_yr - qtr_yr   # Three quarters of a year
+one_year - quarter_year # Three quarters of a year
 #> [1] 0.75 yr
-one_yr + qtr_yr
+one_year + quarter_year
 #> [1] 1.25 yr
 
 datey(2024) < datey(2025)     # TRUE
@@ -452,10 +452,11 @@ seq(from = datey(2020), to = datey(2024), by = durationy(2))
 #> [1] 2020-01-01.0 2022-01-01.0 2024-01-01.0
 ```
 
-[^1]: Even though `datey_interval` stores the start and end of a time
-    interval, it too is atomic, which means that `datey_interval`s can
-    be stored in a single R vector without any additional special
-    handling.
+[^1]: An atomic type can be stored in a single R vector without any
+    additional special handling. Although they have properties such as
+    `t$year` for a `datey` or `interval$start` for a `datey_interval`,
+    these properties are generated on the fly – they are not accessing
+    underlying data vectors.
 
 [^2]: Even though the `Date` type is not designed for fractional dates,
     it typically uses floating point under the covers, and can

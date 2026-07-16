@@ -87,7 +87,12 @@ the <a href="spec.html"><strong>datey</strong> specification</a>.</p>
 <div class="section level2">
 <h2 id="core-types">Core types<a class="anchor" aria-label="anchor" href="#core-types"></a>
 </h2>
-<p><strong>datey</strong> provides three S3 classes:</p>
+<p><strong>datey</strong> provides three atomic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;An atomic type can be stored in a single R vector
+without any additional special handling. Although they have properties
+such as &lt;code&gt;t$year&lt;/code&gt; for a &lt;code&gt;datey&lt;/code&gt; or
+&lt;code&gt;interval$start&lt;/code&gt; for a &lt;code&gt;datey_interval&lt;/code&gt;, these
+properties are generated on the fly – they are not accessing underlying
+data vectors.&lt;/p&gt;"><sup>1</sup></a> S3 classes:</p>
 <ul>
 <li>
 <strong><code>datey</code></strong> – a point in time, stored at
@@ -98,12 +103,9 @@ day-fraction precision.</li>
 <strong><code>datey_interval</code></strong> – a half-open
 <code>[start, end)</code> time interval.</li>
 </ul>
-<p>These are atomic types<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Even though &lt;code&gt;datey_interval&lt;/code&gt; stores the start
-and end of a time interval, it too is atomic, which means that
-&lt;code&gt;datey_interval&lt;/code&gt;s can be stored in a single R vector without
-any additional special handling.&lt;/p&gt;"><sup>1</sup></a> that store dates and durations as integers
-with units of 1/534 360 of a year). As a result, arithmetic with these
-types is exact and associative.</p>
+<p>These all store dates and durations as integers with units of
+1/534 360 of a year (<em>clicks</em>). As a result, arithmetic with
+these types is exact and associative.</p>
 </div>
 <div class="section level2">
 <h2 id="creating-a-datey">Creating a <code>datey</code><a class="anchor" aria-label="anchor" href="#creating-a-datey"></a>
@@ -161,12 +163,12 @@ or <code>POSIXlt</code>.</p>
 <code><a href="../reference/datey.html">start_day()</a></code>, <code><a href="../reference/datey.html">mid_day()</a></code> or
 <code><a href="../reference/datey.html">end_day()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2024-03-07"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">r_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2024-03-07"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="va">r_date</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.0</span></span>
-<span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="va">r_date</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2024-03-07.5</span></span>
-<span><span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="va">r_date</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2024-03-08.0</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -243,9 +245,9 @@ position within the day. Note that <code><a href="../reference/datey.html">end_d
 <p><code>durationy</code>s typically arise as <code>datey</code>
 differences:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1965-09-12"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">dod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span></span>
-<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="va">dod</span> <span class="op">-</span> <span class="va">dob</span></span>
+<code class="sourceCode R"><span><span class="va">birth_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1965-09-12"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">death_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="va">death_date</span> <span class="op">-</span> <span class="va">birth_date</span></span>
 <span><span class="va">age</span></span>
 <span><span class="co">#&gt; [1] 58.485804 yr</span></span></code></pre></div>
 <p>You can create them explicitly using <code><a href="../reference/durationy.html">durationy()</a></code>, which
@@ -350,17 +352,17 @@ associative.</p>
 </table>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">one_yr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">qtr_yr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span></span>
+<span><span class="va">one_year</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">quarter_year</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">start</span> <span class="op">+</span> <span class="va">one_yr</span>    <span class="co"># One year later</span></span>
+<span><span class="va">start</span> <span class="op">+</span> <span class="va">one_year</span>        <span class="co"># One year later</span></span>
 <span><span class="co">#&gt; [1] 2001-01-01.0</span></span>
-<span><span class="va">start</span> <span class="op">-</span> <span class="va">qtr_yr</span>    <span class="co"># Quarter of a year earlier</span></span>
+<span><span class="va">start</span> <span class="op">-</span> <span class="va">quarter_year</span>    <span class="co"># Quarter of a year earlier</span></span>
 <span><span class="co">#&gt; [1] 1999-10-01.75</span></span>
 <span></span>
-<span><span class="va">one_yr</span> <span class="op">-</span> <span class="va">qtr_yr</span>   <span class="co"># Three quarters of a year</span></span>
+<span><span class="va">one_year</span> <span class="op">-</span> <span class="va">quarter_year</span> <span class="co"># Three quarters of a year</span></span>
 <span><span class="co">#&gt; [1] 0.75 yr</span></span>
-<span><span class="va">one_yr</span> <span class="op">+</span> <span class="va">qtr_yr</span></span>
+<span><span class="va">one_year</span> <span class="op">+</span> <span class="va">quarter_year</span></span>
 <span><span class="co">#&gt; [1] 1.25 yr</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>     <span class="co"># TRUE</span></span>
