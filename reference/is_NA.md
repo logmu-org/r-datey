@@ -31,7 +31,7 @@ For performance reasons, intermediate **datey** system calculations are
 *not* required to check for NAs.
 
 Throughout the **datey** package, `NA` will cause an error when used
-where a `datey_`, `durationy_` or `datey_interval_` is expected. This is
+where a `datey`, `durationy` or `datey_interval` is expected. This is
 because its type is `logical` and potentially indicates user error. If
 you want an NA value with a **datey** system type, use one of
 `NA_datey_`, `NA_durationy_` or `NA_datey_interval_`.

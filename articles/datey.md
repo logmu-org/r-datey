@@ -386,7 +386,7 @@ overlap$duration  # exposure in calendar year 2024, in years
 ## NA values
 
 Throughout the **datey** package, `NA` will cause an error when used
-where a `datey_`, `durationy_` or `datey_interval_` is expected. This is
+where a `datey`, `durationy` or `datey_interval` is expected. This is
 because the type of `NA` is `logical`. which has no meaningful date or
 duration interpretation therefore potentially indicates user error.
 
