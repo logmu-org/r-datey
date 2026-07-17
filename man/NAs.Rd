@@ -20,7 +20,7 @@ representation of its type: \code{NA_datey_} is a \code{datey}, \code{NA_duratio
 }
 \description{
 Throughout the \strong{datey} package, \code{NA} will cause an error when used where
-a \code{datey_}, \code{durationy_} or \code{datey_interval_} is expected.
+a \code{datey}, \code{durationy} or \code{datey_interval} is expected.
 This is because its type is \code{logical} and potentially indicates user
 error. If you want an NA value with a \strong{datey} system type, use one of \code{NA_datey_}, \code{NA_durationy_}
 or \code{NA_datey_interval_}.
