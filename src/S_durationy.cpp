@@ -62,6 +62,9 @@ int durationyFromYears(double years, bool strict)
   return years * ClicksPerYear;
 }
 
+/*
+
+// This function is not actually used in datey.
 double durationyToYears(int clicks)
 {
   if (!isValidDurationy(clicks))
@@ -69,8 +72,11 @@ double durationyToYears(int clicks)
     return NA_REAL;
   }
 
-  return clicks / (double)ClicksPerYear;
+ // Convention adopted by LogMu
+ return clicks * (double)YearsPerClick;
 }
+
+*/
 
 cpp11::r_string durationyToRString(
   int clicks,
