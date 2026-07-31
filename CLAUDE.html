@@ -87,15 +87,25 @@
 <h2 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h2>
 <ul><li>For R code follow Tidyverse naming conventions</li>
 <li>For C++ code use
-<ul><li>PascalCase for naming types and constants, and</li>
-<li>camelCase for naming functions and function parameters</li>
+<ul><li>
+<code>PascalCase</code> for naming types and constants, and</li>
+<li>
+<code>camelCase</code> for naming functions and function parameters</li>
 </ul></li>
 <li>For C++ code in general:
-<ul><li>Use modern C++11 idioms</li>
-<li>Use Allman bracket style</li>
-<li>Check for const T&amp;</li>
-<li>Use range-based for loops, const auto&amp;, and explicit single-argument constructors</li>
-<li>Prefer wordy identifiers rather than abbreviations unless they are universal or keywords. For instance, prefer <code>literal</code> to <code>lit</code>.</li>
+<ul><li><p>Use modern C++11 idioms</p></li>
+<li><p>Use Allman bracket style</p></li>
+<li><p>Check for const T&amp;</p></li>
+<li><p>Use range-based for loops, const auto&amp;, and explicit single-argument constructors</p></li>
+<li><p>Prefer wordy identifiers rather than abbreviations unless they are universal or keywords. For instance, prefer <code>literal</code> to <code>lit</code>.</p></li>
+<li>
+<p>Do <em>not</em> use indentation styles that rely on fixed width fonts. Specifically do <em>not</em> align to opening delimiters (<code>AlignAfterOpenBracket: Align</code> in CLang, <code>Align contents to opening parenthesis</code> Visual Studio etc). Instead used hanging / block indent with a fixed indentation level regardless of the function name’s length. For example, do <em>not</em> do this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="dt">int</span> some_function<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                  <span class="dt">int</span> b<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                  <span class="dt">int</span> c<span class="op">)</span></span></code></pre></div>
+<p>but <em>do</em> do this:</p>
+<p>```cpp int some_function( int a, int b, int c)</p>
+</li>
 </ul></li>
 </ul></div>
 <div class="section level2">
@@ -120,7 +130,9 @@
 <li>Do not request permission to amend this file <code>CLAUDE.md</code>.</li>
 <li>Do not amend any code without my permission.</li>
 <li>Do not download any software.</li>
-<li>Do not add Claude credits e.g. “Co-Authored-By: Claude” in code comments or git commit summaries or descriptions.</li>
+<li>Do not commit any changes without my permission.</li>
+<li>Do not offer to commit changes yourself (although you can suggest that I do commit changes at sensible stopping points).</li>
+<li>Do not add Claude credits e.g. “Co-Authored-By: Claude” in code comments or in git commit summaries or descriptions.</li>
 </ul></div>
 </div>
 

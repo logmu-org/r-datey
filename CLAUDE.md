@@ -61,16 +61,38 @@ duration arithmetic.
 
 - For R code follow Tidyverse naming conventions
 - For C++ code use
-  - PascalCase for naming types and constants, and
-  - camelCase for naming functions and function parameters
+  - `PascalCase` for naming types and constants, and
+  - `camelCase` for naming functions and function parameters
 - For C++ code in general:
   - Use modern C++11 idioms
+
   - Use Allman bracket style
+
   - Check for const T&
+
   - Use range-based for loops, const auto&, and explicit single-argument
     constructors
+
   - Prefer wordy identifiers rather than abbreviations unless they are
     universal or keywords. For instance, prefer `literal` to `lit`.
+
+  - Do *not* use indentation styles that rely on fixed width fonts.
+    Specifically do *not* align to opening delimiters
+    (`AlignAfterOpenBracket: Align` in CLang,
+    `Align contents to opening parenthesis` Visual Studio etc). Instead
+    used hanging / block indent with a fixed indentation level
+    regardless of the function name’s length. For example, do *not* do
+    this:
+
+    ``` cpp
+    int some_function(int a,
+                      int b,
+                      int c)
+    ```
+
+    but *do* do this:
+
+    \`\`\`cpp int some_function( int a, int b, int c)
 
 ## Language style
 
@@ -104,5 +126,8 @@ to be salesy.
 - Do not request permission to amend this file `CLAUDE.md`.
 - Do not amend any code without my permission.
 - Do not download any software.
+- Do not commit any changes without my permission.
+- Do not offer to commit changes yourself (although you can suggest that
+  I do commit changes at sensible stopping points).
 - Do not add Claude credits e.g. “Co-Authored-By: Claude” in code
-  comments or git commit summaries or descriptions.
+  comments or in git commit summaries or descriptions.
