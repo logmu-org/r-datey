@@ -65,7 +65,6 @@ c.datey_interval <- function(..., recursive = FALSE) {
   datey_interval_from_punned_double(result)
 }
 
-
 #' Subset `datey`, `durationy` or `datey_interval` vectors
 #'
 #' @description
@@ -185,3 +184,32 @@ seq.durationy <- function(from, to, by, ...) {
 
   durationy_from_clicks(clicks)
 }
+
+#' Replicate `datey`, `durationy` or `datey_interval` vectors
+#'
+#' @description
+#' Replicates `datey`, `durationy` or `datey_interval` vectors.
+#'
+#' @param x A `datey`, `durationy` or `datey_interval`.
+#' @param ... Other arguments.
+#' @returns
+#'   The replicated vector.
+#' @keywords replicate
+#' @examples
+#'   x <- datey(2001:2004)
+#'   rep(x, 2)
+#'   rep(x, each = 2)
+#'   pmax(x, datey(2002))
+#' @seealso [datey], [durationy], [datey_interval]
+#' @name replicate
+NULL
+
+#' @rdname replicate
+#' @export
+rep.datey <- function(x, ...) datey_from_clicks(NextMethod())
+#' @rdname replicate
+#' @export
+rep.durationy <- function(x, ...) durationy_from_clicks(NextMethod())
+#' @rdname replicate
+#' @export
+rep.datey_interval <- function(x, ...) datey_interval_from_punned_double(NextMethod())

@@ -124,3 +124,91 @@ test_that("seq.durationy", {
   expected <- c(durationy(1), durationy(1.5), durationy(2))
   expect_identical(actual, expected)
 })
+
+# rep.datey ==================================================
+test_that("rep.datey", {
+
+  d_1 <- datey(2001, 03, 04, 0.25)
+  d_2 <- datey(2002, 05, 06, 0.5)
+  d_3 <- datey(2003, 07, 08, 0.75)
+
+  x <- c(d_1, d_2, d_3)
+
+  expect_identical(rep(x, 2), c(d_1, d_2, d_3, d_1, d_2, d_3))
+  expect_identical(rep(x, each = 2), c(d_1, d_1, d_2, d_2, d_3, d_3))
+  expect_identical(rep(x, times = 2, each = 2), c(d_1, d_1, d_2, d_2, d_3, d_3, d_1, d_1, d_2, d_2, d_3, d_3))
+  expect_identical(rep(x, times = 1:3), c(d_1, d_2, d_2, d_3, d_3, d_3))
+  expect_identical(rep(x, length.out = 5), c(d_1, d_2, d_3, d_1, d_2))
+  expect_identical(rep(x, length.out = 2), c(d_1, d_2))
+  expect_identical(rep(x, 0), datey(integer(0)))
+
+  # `rep_len()` and `rep.int()` fall back to `rep()` dispatch since R 4.0.0
+  expect_identical(rep_len(x, 5), c(d_1, d_2, d_3, d_1, d_2))
+  expect_identical(rep.int(x, 2), c(d_1, d_2, d_3, d_1, d_2, d_3))
+
+  expect_identical(rep(NA_datey_, 2), c(NA_datey_, NA_datey_))
+
+  # Names are preserved
+  named <- c(a = d_1, b = d_2)
+  expect_identical(names(rep(named, 2)), c("a", "b", "a", "b"))
+  expect_identical(unname(rep(named, 2)), c(d_1, d_2, d_1, d_2))
+})
+
+# pmax()/pmin() on datey rely on rep.datey for recycling ==================================================
+test_that("`pmax()` and `pmin()` on `datey` with recycling", {
+
+  x <- datey(2001:2003)
+
+  expect_identical(pmax(x, datey(2002)), datey(c(2002, 2002, 2003)))
+  expect_identical(pmin(x, datey(2002)), datey(c(2001, 2002, 2002)))
+  expect_identical(pmax(datey(2002), x), datey(c(2002, 2002, 2003)))
+  expect_identical(pmin(datey(2002), x), datey(c(2001, 2002, 2002)))
+
+  na <- datey(c(2001, NA, 2003))
+  expect_identical(pmax(na, datey(2002)), datey(c(2002, NA, 2003)))
+  expect_identical(pmax(na, datey(2002), na.rm = TRUE), datey(c(2002, 2002, 2003)))
+})
+
+# rep.durationy ==================================================
+test_that("rep.durationy", {
+
+  d_1 <- durationy(0)
+  d_2 <- durationy(1.4567)
+  d_3 <- durationy(-100.1234)
+
+  x <- c(d_1, d_2, d_3)
+
+  expect_identical(rep(x, 2), c(d_1, d_2, d_3, d_1, d_2, d_3))
+  expect_identical(rep(x, each = 2), c(d_1, d_1, d_2, d_2, d_3, d_3))
+  expect_identical(rep(x, times = 1:3), c(d_1, d_2, d_2, d_3, d_3, d_3))
+  expect_identical(rep(x, length.out = 5), c(d_1, d_2, d_3, d_1, d_2))
+  expect_identical(rep(x, 0), durationy(integer(0)))
+
+  expect_identical(rep_len(x, 5), c(d_1, d_2, d_3, d_1, d_2))
+  expect_identical(rep.int(x, 2), c(d_1, d_2, d_3, d_1, d_2, d_3))
+
+  expect_identical(rep(NA_durationy_, 2), c(NA_durationy_, NA_durationy_))
+
+  expect_identical(pmax(x, durationy(1)), c(durationy(1), d_2, durationy(1)))
+  expect_identical(pmin(x, durationy(1)), c(d_1, durationy(1), d_3))
+})
+
+# rep.datey_interval ==================================================
+test_that("rep.datey_interval", {
+
+  i_1 <- 2001 %to% 2002
+  i_2 <- 2003 %to% 2005
+  i_3 <- datey(2006, 07, 08, 0.5) %to% datey(2009, 10, 11, 0.25)
+
+  x <- c(i_1, i_2, i_3)
+
+  expect_identical(rep(x, 2), c(i_1, i_2, i_3, i_1, i_2, i_3))
+  expect_identical(rep(x, each = 2), c(i_1, i_1, i_2, i_2, i_3, i_3))
+  expect_identical(rep(x, times = 1:3), c(i_1, i_2, i_2, i_3, i_3, i_3))
+  expect_identical(rep(x, length.out = 5), c(i_1, i_2, i_3, i_1, i_2))
+
+  expect_identical(rep_len(x, 5), c(i_1, i_2, i_3, i_1, i_2))
+  expect_identical(rep.int(x, 2), c(i_1, i_2, i_3, i_1, i_2, i_3))
+
+  expect_identical(rep(NA_datey_interval_, 2), c(NA_datey_interval_, NA_datey_interval_))
+})

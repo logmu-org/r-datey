@@ -1,3 +1,13 @@
+# datey (development version)
+
+- Added `rep()` methods for `datey`, `durationy` and `datey_interval`.
+  Previously `rep()` dropped the class and returned bare integer or double
+  values. As `rep_len()` and `rep.int()` fall back to `rep()` dispatch, they
+  are fixed too. This also fixes `pmax()` and `pmin()`, which previously
+  returned the wrong values for `datey` and `durationy` when arguments
+  of different lengths were recycled.
+
+
 # datey 0.1.1
 
 - Fixed undefined behaviour (negation of `NA_INTEGER`) when parsing `durationy`

@@ -56,33 +56,33 @@ disclaimer at the top.
 ## Code style
 
 - For R code follow Tidyverse naming conventions
-- For C++ code use
-    - `PascalCase` for naming types and constants, and
-    - `camelCase` for naming functions and function parameters
-- For C++ code in general:
-    - Use modern C++11 idioms
+- For C++ code:
+    - Use modern C++20 idioms
+    - Use tabs for indentation.
+    - Use `PascalCase` for naming types and constants, and `camelCase` for naming functions and function parameters
     - Use Allman bracket style
     - Check for const T&
     - Use range-based for loops, const auto&, and explicit single-argument constructors
     - Prefer wordy identifiers rather than abbreviations unless they are universal or keywords. For instance, prefer `literal` to `lit`.
     - Do *not* use indentation styles that rely on fixed width fonts. 
-      Specifically do *not* align to opening delimiters (`AlignAfterOpenBracket: Align` in CLang, `Align contents to opening parenthesis` Visual Studio etc).
-      Instead used hanging / block indent with a fixed indentation level regardless of the function name's length.
-      For example, do *not* do this:
+    Specifically do *not* align to opening delimiters (`AlignAfterOpenBracket: Align` in CLang, `Align contents to opening parenthesis` Visual Studio etc).
+    Instead used hanging / block indent with a fixed indentation level regardless of the function name's length.
+    For example, do *not* do this:
 
-      ```cpp
-      int some_function(int a,
-                        int b,
-                        int c)
-      ```
+        ```cpp
+        int some_function(int a,
+                          int b,
+                          int c)
+        ```
       
       but *do* do this:
 
-      ```cpp
-      int some_function(
-        int a,
-        int b,
-        int c)
+        ```cpp
+        int some_function(
+        	int a,
+        	int b,
+        	int c)
+        ```
 
 ## Language style
 
