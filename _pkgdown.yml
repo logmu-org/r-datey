@@ -45,6 +45,7 @@ reference:
   - seq
   - combine
   - subset
+  - replicate
 - title: 'Properties of `datey` and `durationy`'
   contents:
   - datey_components
