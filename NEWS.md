@@ -1,4 +1,4 @@
-# datey (development version)
+# datey 0.1.2
 
 - Added `rep()` methods for `datey`, `durationy` and `datey_interval`.
   Previously `rep()` dropped the class and returned bare integer or double

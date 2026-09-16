@@ -1,24 +1,15 @@
-# CRAN submission comments — datey 0.1.1
+# CRAN submission comments — datey 0.1.2
 
 ## Summary
 
-This is a patch release addressing the `UndefinedBehaviorSanitizer` report
-emailed by Prof Brian Ripley on 2026-07-07, and the corresponding additional
-issues (clang-UBSAN and gcc-UBSAN) shown on the package check page.
-
-The sanitiser flagged the potential negation of `NA_INTEGER` (i.e. -2^31) in
-C++ code, which is undefined behaviour. The fix moves the negation to inside a 
-check that the relevant value is not `NA_INTEGER` -- see `src/S_durationy.cpp`
-(search 'integer overflow').
-
-There is no change to observable behaviour on conforming hardware.
-
-I have also added a `clang-ubsan` sanitiser check to GitHub Actions to help
-catch similar issues before future submissions.
+This is a patch release adding `rep()` methods for the S3 classes defined in
+this package. Previously `rep()` dropped the class and returned bare integer
+or double values, which also caused `pmax()` and `pmin()` to return wrong
+values when arguments were recycled. No C++ code has changed.
 
 ## Test environments
 
-- Windows 11, R 4.6.0 (local)
+- Windows 11, R 4.6.1 (local)
 - Windows (R-devel), via win-builder
 - Windows (R-release), via win-builder
 - macOS-latest (R-release), Windows-latest (R-release),
@@ -30,11 +21,6 @@ catch similar issues before future submissions.
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
-
-## Undefined behaviour sanitiser
-
-Under the R-hub `clang-ubsan` container, the package tests now run cleanly
-with no `UndefinedBehaviorSanitizer` diagnostics.
 
 ## Reverse dependencies
 
