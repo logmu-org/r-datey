@@ -24,81 +24,55 @@ duration arithmetic.
 ## Standards
 
 - R minimum version: **4.0.0**
-
 - Required C++ standard: **C++11**
-
 - All R and C++ files other than those sourced externally must have a
-  standard disclaimer at the top.
-
-  The disclaimer for R files is:
-
-  ``` r
-
-  # Date and duration arithmetic on an annual grid for R
-  #
-  # This file is licensed to you under the MIT License.
-  #
-  # Copyright (c) Tim Gordon
-  ```
-
+  standard disclaimer at the top. The disclaimer for R files is:
+  `R # Date and duration arithmetic on an annual grid for R # # This file is licensed to you under the MIT License. # # Copyright (c) Tim Gordon`
   The disclaimer for C++ (including `.cpp` and `.hpp`) files is:
-
-  ``` cpp
-  // Date and duration arithmetic on an annual grid for R
-  //
-  // This file is licensed to you under the MIT License.
-  //
-  // Copyright (c) Tim Gordon
-  ```
+  `cpp // Date and duration arithmetic on an annual grid for R // // This file is licensed to you under the MIT License. // // Copyright (c) Tim Gordon`
 
 ## Dependencies
 
-- For R/C++ code interop use the `cpp11` package, i.e. `cpp11::`
+- For R/C++ code interop use the `cpp11` package, i.e.  `cpp11::`
   `doubles`, `logicals`, `sexp`, etc. and `[[cpp11::register]]`.
 - Do *not* use `Rcpp`, `Rcpp::NumericVector`, or `Rcpp` macros.
 
 ## Code style
 
 - For R code follow Tidyverse naming conventions
-- For C++ code use
-  - `PascalCase` for naming types and constants, and
-  - `camelCase` for naming functions and function parameters
-- For C++ code in general:
-  - Use modern C++11 idioms
-
+- For C++ code:
+  - Use modern C++20 idioms
+  - Use tabs for indentation.
+  - Use `PascalCase` for naming types and constants, and `camelCase` for
+    naming functions and function parameters
   - Use Allman bracket style
-
   - Check for const T&
-
   - Use range-based for loops, const auto&, and explicit single-argument
     constructors
-
   - Prefer wordy identifiers rather than abbreviations unless they are
     universal or keywords. For instance, prefer `literal` to `lit`.
-
   - Do *not* use indentation styles that rely on fixed width fonts.
     Specifically do *not* align to opening delimiters
     (`AlignAfterOpenBracket: Align` in CLang,
     `Align contents to opening parenthesis` Visual Studio etc). Instead
     used hanging / block indent with a fixed indentation level
     regardless of the function name’s length. For example, do *not* do
-    this:
-
-    ``` cpp
-    int some_function(int a,
-                      int b,
-                      int c)
-    ```
-
-    but *do* do this:
-
-    \`\`\`cpp int some_function( int a, int b, int c)
+    this: `cpp int some_function(int a, int b, int c)` but *do* do this:
+    `cpp int some_function( int a, int b, int c)`
 
 ## Language style
 
 Act as a direct, clear human writer.
 
-Always use British English.
+Always use British English. In particular: - When using a dash as a
+strong comma, colon, or parenthesis to create an emphatic pause, break
+in thought, or aside within a sentence, always use en dash (–) with
+spaces either size. Never use em dash (—). - Use single quotation marks
+for speech and quotations. Use double quotation marks for speech and
+quotations inside speech and quotations that use single quotation
+marks. - Never use ‘off of’ or ‘outside of’. - Always use ‘named after’
+instead of ‘named for’ (unless you are giving the reason for the
+naming).
 
 Do not use AI-tell phrasing:
 
@@ -128,6 +102,6 @@ to be salesy.
 - Do not download any software.
 - Do not commit any changes without my permission.
 - Do not offer to commit changes yourself (although you can suggest that
-  I do commit changes at sensible stopping points).
+  I commit changes at sensible stopping points).
 - Do not add Claude credits e.g. “Co-Authored-By: Claude” in code
   comments or in git commit summaries or descriptions.

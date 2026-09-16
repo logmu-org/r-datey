@@ -42,6 +42,10 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="datey-development-version">datey (development version)<a class="anchor" aria-label="anchor" href="#datey-development-version"></a></h2>
+<ul><li>Added <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code> methods for <code>datey</code>, <code>durationy</code> and <code>datey_interval</code>. Previously <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code> dropped the class and returned bare integer or double values. As <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len()</a></code> and <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep.int()</a></code> fall back to <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code> dispatch, they are fixed too. This also fixes <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax()</a></code> and <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin()</a></code>, which previously returned the wrong values for <code>datey</code> and <code>durationy</code> when arguments of different lengths were recycled.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="datey-011">datey 0.1.1<a class="anchor" aria-label="anchor" href="#datey-011"></a></h2><p class="text-muted">CRAN release: 2026-07-14</p>
 <ul><li>Fixed undefined behaviour (negation of <code>NA_INTEGER</code>) when parsing <code>durationy</code> from text in C++. Results are unaffected on conforming hardware.</li>
 </ul></div>

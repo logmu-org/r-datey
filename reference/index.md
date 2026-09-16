@@ -41,6 +41,13 @@
 
   Subset `datey`, `durationy` or `datey_interval` vectors
 
+- [`rep(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/replicate.md)
+  [`rep(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/replicate.md)
+  [`rep(`*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/replicate.md)
+  :
+
+  Replicate `datey`, `durationy` or `datey_interval` vectors
+
 ## Properties of `datey` and `durationy`
 
 - [`to_ymdf()`](https://r-datey.logmu.org/reference/datey_components.md)

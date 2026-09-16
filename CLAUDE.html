@@ -59,59 +59,37 @@
 </ul></div>
 <div class="section level2">
 <h2 id="standards">Standards<a class="anchor" aria-label="anchor" href="#standards"></a></h2>
-<ul><li><p>R minimum version: <strong>4.0.0</strong></p></li>
-<li><p>Required C++ standard: <strong>C++11</strong></p></li>
-<li>
-<p>All R and C++ files other than those sourced externally must have a standard disclaimer at the top.</p>
-<p>The disclaimer for R files is:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Date and duration arithmetic on an annual grid for R</span></span>
-<span><span class="co">#</span></span>
-<span><span class="co"># This file is licensed to you under the MIT License.</span></span>
-<span><span class="co">#</span></span>
-<span><span class="co"># Copyright (c) Tim Gordon</span></span></code></pre></div>
-<p>The disclaimer for C++ (including <code>.cpp</code> and <code>.hpp</code>) files is:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">// Date and duration arithmetic on an annual grid for R</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">//</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">// This file is licensed to you under the MIT License.</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">//</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">// Copyright (c) Tim Gordon</span></span></code></pre></div>
+<ul><li>R minimum version: <strong>4.0.0</strong>
+</li>
+<li>Required C++ standard: <strong>C++11</strong>
+</li>
+<li>All R and C++ files other than those sourced externally must have a standard disclaimer at the top. The disclaimer for R files is: <code>R   # Date and duration arithmetic on an annual grid for R   #   # This file is licensed to you under the MIT License.   #   # Copyright (c) Tim Gordon</code> The disclaimer for C++ (including <code>.cpp</code> and <code>.hpp</code>) files is: <code>cpp   // Date and duration arithmetic on an annual grid for R   //   // This file is licensed to you under the MIT License.   //   // Copyright (c) Tim Gordon</code>
 </li>
 </ul></div>
 <div class="section level2">
 <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a></h2>
-<ul><li>For R/C++ code interop use the <code>cpp11</code> package, i.e. <code>cpp11::</code> <code>doubles</code>, <code>logicals</code>, <code>sexp</code>, etc. and <code>[[cpp11::register]]</code>.</li>
+<ul><li>For R/C++ code interop use the <code>cpp11</code> package, i.e.  <code>cpp11::</code> <code>doubles</code>, <code>logicals</code>, <code>sexp</code>, etc. and <code>[[cpp11::register]]</code>.</li>
 <li>Do <em>not</em> use <code>Rcpp</code>, <code>Rcpp::NumericVector</code>, or <code>Rcpp</code> macros.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h2>
 <ul><li>For R code follow Tidyverse naming conventions</li>
-<li>For C++ code use
-<ul><li>
-<code>PascalCase</code> for naming types and constants, and</li>
-<li>
-<code>camelCase</code> for naming functions and function parameters</li>
-</ul></li>
-<li>For C++ code in general:
-<ul><li><p>Use modern C++11 idioms</p></li>
-<li><p>Use Allman bracket style</p></li>
-<li><p>Check for const T&amp;</p></li>
-<li><p>Use range-based for loops, const auto&amp;, and explicit single-argument constructors</p></li>
-<li><p>Prefer wordy identifiers rather than abbreviations unless they are universal or keywords. For instance, prefer <code>literal</code> to <code>lit</code>.</p></li>
-<li>
-<p>Do <em>not</em> use indentation styles that rely on fixed width fonts. Specifically do <em>not</em> align to opening delimiters (<code>AlignAfterOpenBracket: Align</code> in CLang, <code>Align contents to opening parenthesis</code> Visual Studio etc). Instead used hanging / block indent with a fixed indentation level regardless of the function name’s length. For example, do <em>not</em> do this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="dt">int</span> some_function<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                  <span class="dt">int</span> b<span class="op">,</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                  <span class="dt">int</span> c<span class="op">)</span></span></code></pre></div>
-<p>but <em>do</em> do this:</p>
-<p>```cpp int some_function( int a, int b, int c)</p>
+<li>For C++ code:
+<ul><li>Use modern C++20 idioms</li>
+<li>Use tabs for indentation.</li>
+<li>Use <code>PascalCase</code> for naming types and constants, and <code>camelCase</code> for naming functions and function parameters</li>
+<li>Use Allman bracket style</li>
+<li>Check for const T&amp;</li>
+<li>Use range-based for loops, const auto&amp;, and explicit single-argument constructors</li>
+<li>Prefer wordy identifiers rather than abbreviations unless they are universal or keywords. For instance, prefer <code>literal</code> to <code>lit</code>.</li>
+<li>Do <em>not</em> use indentation styles that rely on fixed width fonts. Specifically do <em>not</em> align to opening delimiters (<code>AlignAfterOpenBracket: Align</code> in CLang, <code>Align contents to opening parenthesis</code> Visual Studio etc). Instead used hanging / block indent with a fixed indentation level regardless of the function name’s length. For example, do <em>not</em> do this: <code>cpp   int some_function(int a,                     int b,                     int c)</code> but <em>do</em> do this: <code>cpp   int some_function(       int a,       int b,       int c)</code>
 </li>
 </ul></li>
 </ul></div>
 <div class="section level2">
 <h2 id="language-style">Language style<a class="anchor" aria-label="anchor" href="#language-style"></a></h2>
 <p>Act as a direct, clear human writer.</p>
-<p>Always use British English.</p>
+<p>Always use British English. In particular: - When using a dash as a strong comma, colon, or parenthesis to create an emphatic pause, break in thought, or aside within a sentence, always use en dash (–) with spaces either size. Never use em dash (—). - Use single quotation marks for speech and quotations. Use double quotation marks for speech and quotations inside speech and quotations that use single quotation marks. - Never use ‘off of’ or ‘outside of’. - Always use ‘named after’ instead of ‘named for’ (unless you are giving the reason for the naming).</p>
 <p>Do not use AI-tell phrasing:</p>
 <ul><li>Do not use telegraphic appositive headlines or fragments (“One construct, three uses”, “Same core, two bindings”).</li>
 <li>Do not use rule-of-three parallelism for rhythm rather than content.</li>
@@ -131,7 +109,7 @@
 <li>Do not amend any code without my permission.</li>
 <li>Do not download any software.</li>
 <li>Do not commit any changes without my permission.</li>
-<li>Do not offer to commit changes yourself (although you can suggest that I do commit changes at sensible stopping points).</li>
+<li>Do not offer to commit changes yourself (although you can suggest that I commit changes at sensible stopping points).</li>
 <li>Do not add Claude credits e.g. “Co-Authored-By: Claude” in code comments or in git commit summaries or descriptions.</li>
 </ul></div>
 </div>
