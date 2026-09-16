@@ -1,6 +1,6 @@
 # Changelog
 
-## datey (development version)
+## datey 0.1.2
 
 - Added [`rep()`](https://rdrr.io/r/base/rep.html) methods for `datey`,
   `durationy` and `datey_interval`. Previously
