@@ -2,6 +2,8 @@
 
 ## datey 0.1.2
 
+CRAN release: 2026-09-16
+
 - Added [`rep()`](https://rdrr.io/r/base/rep.html) methods for `datey`,
   `durationy` and `datey_interval`. Previously
   [`rep()`](https://rdrr.io/r/base/rep.html) dropped the class and
