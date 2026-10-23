@@ -1,5 +1,7 @@
 # datey
 
+Documentation: <https://r-datey.logmu.org/>
+
 The **datey** package provides a standardised mapping of dates,
 including fractions of a day, onto a discrete annual grid, together with
 exact date and duration arithmetic.
