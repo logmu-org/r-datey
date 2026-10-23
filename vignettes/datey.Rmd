@@ -1,5 +1,6 @@
 ---
 title: "Get started with datey"
+description: "A tour of the datey R package covering dates, durations and intervals."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Get started with datey}

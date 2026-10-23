@@ -1,5 +1,6 @@
 ---
 title: "Why datey?"
+description: "Why turning dates into years requires special care when calculating rates per annum, and how datey's regular annual grid helps."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Why datey?}

@@ -13,10 +13,17 @@ template:
     navbar-light-bg: hsl(14, 100%, 96%)
     navbar-dark-bg: hsl(14, 100%, 18%)
   includes:
-    # Every page sets Latin text in Lisnoti Regular, so fetch it alongside the
-    # stylesheets. pkgdown inserts this verbatim, so the path is from the root.
+    # Web pages set Latin text in Lisnoti Regular,
+    # so fetch it alongside the stylesheets.
+    # pkgdown inserts this verbatim, so the path is from the root.
     in_header: |
       <link rel="preload" href="/fonts/Lisnoti-woff2/Lisnoti-Regular-latin.woff2" as="font" type="font/woff2" crossorigin>
+home:
+  # The meta description search engines show. DESCRIPTION's is too long for
+  # one, so the home page gets its own.
+  description: >-
+    Exact date and duration arithmetic for R on a discrete annual grid,
+    built for actuarial mortality experience analysis and valuation.
 footer:
   structure:
     left: [developed_by, typeset_in]

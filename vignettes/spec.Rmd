@@ -1,6 +1,7 @@
 ---
 title: "The datey specification"
-output: 
+description: "The datey specification: mapping of dates and fractions of a day onto an annual grid, and rules for exact date and duration arithmetic."
+output:
   rmarkdown::html_vignette:
     pandoc_args: ["--columns", "10000"]
 pkgdown:

@@ -5,7 +5,7 @@
 &#10;After changing this file, run devtools::build_readme()
 -->
 
-# datey <img src="man/figures/logo.png" align="right" />
+# datey <img src="man/figures/logo.png" align="right" alt="datey logo" />
 
 <!-- badges: start -->
 
