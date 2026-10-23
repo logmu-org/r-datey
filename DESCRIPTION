@@ -12,7 +12,7 @@ Description: Standardised mapping of dates onto a discrete annual grid,
     year but experience and valuation data are typically defined using
     dates.
 License: MIT + file LICENSE
-URL: https://github.com/logmu-org/r-datey, https://r-datey.logmu.org/
+URL: https://r-datey.logmu.org/, https://github.com/logmu-org/r-datey
 BugReports: https://github.com/logmu-org/r-datey/issues
 Depends: 
     R (>= 4.0.0)
