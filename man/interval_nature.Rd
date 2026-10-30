@@ -59,7 +59,7 @@ any_collapsed(x)
 }
 }
 \description{
-Test whether intervals, \eqn{[a,b)}, are 'proper' or 'collapsed':
+Test whether intervals, \eqn{(a,b]}, are 'proper' or 'collapsed':
 \itemize{
 \item A \emph{proper} interval does not end before its start,
 i.e. \eqn{a \le b}{a <= b}.
@@ -72,7 +72,7 @@ An NA interval is treated as collapsed and improper.
 These definitions imply the following:
 \itemize{
 \item A collapsed interval could be empty or improper.
-\item To test for an empty interval, i.e. \eqn{[a,a)}, test that it is both
+\item To test for an empty interval, i.e. \eqn{(a,a]}, test that it is both
 proper and collapsed.
 }
 

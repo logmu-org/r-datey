@@ -20,9 +20,9 @@ of the boundaries of the valid \code{datey} or \code{durationy} range described 
 \description{
 The following integer constants may make code clearer.\tabular{lll}{
    Constant \tab Value \tab Meaning \cr
-   \code{valid_years_start} \tab \code{1000L} \tab The first calendar year for a \code{datey} \cr
-   \code{valid_years_end} \tab \code{3000L} \tab The final valid calendar year for a \code{datey} (noting that only the start of this year is valid) \cr
-   \code{valid_duration_years_max} \tab \code{2000L} \tab The maximum valid duration in years for a \code{durationy} \cr
+   \code{valid_years_start} \tab \code{1000L} \tab First valid calendar year for a \code{datey}. \if{html}{\out{<br/>}}NB \code{datey(valid_years_start)} is not included in \code{all_of_time} because intervals do not include their start. \cr
+   \code{valid_years_end} \tab \code{3000L} \tab The final valid calendar year for a \code{datey} (noting that only the start of this year is valid). \cr
+   \code{valid_duration_years_max} \tab \code{2000L} \tab The maximum valid duration in years for a \code{durationy}. \cr
 }
 }
 \examples{
@@ -30,7 +30,8 @@ The following integer constants may make code clearer.\tabular{lll}{
   datey(valid_years_start)
   datey(valid_years_end)
   datey(valid_years_end + 0.001, strict = FALSE)
-  durationy(-(valid_duration_years_max + 0.001), strict = FALSE)
+  durationy(valid_duration_years_max)
+  durationy(valid_duration_years_max + 0.001, strict = FALSE)
 }
 \seealso{
 \link{is_NA}, \link{NAs}, \link{datey}, \link{all_of_time}

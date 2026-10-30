@@ -20,8 +20,8 @@ A vector of \code{logical} corresponding to whether the interval
 includes the value. Always TRUE or FALSE -- NAs result in FALSE.
 }
 \description{
-Test whether a \code{datey_interval}, \eqn{[a,b)}, includes a \code{datey} \eqn{t}, i.e.
-\eqn{a \le t}{a <= t} and \eqn{t < b}.
+Test whether a \code{datey_interval}, \eqn{(a,b]}, includes a \code{datey} \eqn{t}, i.e.
+\eqn{a < t} and \eqn{t \le b}{t <= b}.
 
 The \verb{\%includes\%} operator is syntactic sugar for \code{interval_includes()}.
 
@@ -36,10 +36,10 @@ any interval, so these methods are guaranteed to return \code{TRUE} or \code{FAL
   t_2004 <- datey(2004)
 
   interval <- t_2000 \%to\% t_2003
-  interval \%includes\% t_2000
-  interval \%includes\% t_2001 # Start of interval *is* included
+  interval \%includes\% t_2000 # Start of interval *not* included
+  interval \%includes\% t_2001
   interval \%includes\% t_2002
-  interval \%includes\% t_2003 # End of interval *not* included
+  interval \%includes\% t_2003 # End of interval *is* included
   interval \%includes\% t_2004
   interval \%includes\% NA_datey_        # NAs are FALSE
   NA_datey_interval_ \%includes\% t_2004 # NAs are FALSE

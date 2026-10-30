@@ -279,7 +279,7 @@ logicals cpp_dateyIntervalIncludes(doubles interval, integers value)
 
       result[i] = isValidDatey(start) && isValidDatey(end)
         && isValidDatey(value_i)
-        && start <= value_i && value_i < end;
+        && start < value_i && value_i <= end;
 
       if (++i_interval >= n_interval) { i_interval = 0;}
       if (++i_value >= n_value) { i_value = 0;}

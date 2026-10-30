@@ -1,8 +1,8 @@
 Package: datey
 Title: Exact Date and Duration Arithmetic on an Annual Grid
-Version: 0.1.2
+Version: 0.2.0
 Authors@R: 
-    person("Tim", "Gordon", , "tim.gordon@btinternet.com", role = c("aut", "cre"),
+    person("Tim", "Gordon", , "tim@timgord.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0006-3087-4384"))
 Description: Standardised mapping of dates onto a discrete annual grid,
     together with exact date and duration arithmetic.  This matters when

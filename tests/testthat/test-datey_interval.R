@@ -153,15 +153,45 @@ test_that("interval_includes / %includes%", {
 
   expect_identical(interval %includes% NA_datey_, FALSE)
   expect_identical(interval %includes% pre, FALSE)
-  expect_identical(interval %includes% start, TRUE)
+  expect_identical(interval %includes% start, FALSE)
   expect_identical(interval %includes% mid, TRUE)
-  expect_identical(interval %includes% end, FALSE)
+  expect_identical(interval %includes% end, TRUE)
   expect_identical(interval %includes% post, FALSE)
 
   # 1 × interval, 4 × value
-  expect_identical(interval %includes% c(NA_datey_, pre, start, mid, end, post), c(FALSE, FALSE, TRUE, TRUE, FALSE, FALSE))
+  expect_identical(interval %includes% c(NA_datey_, pre, start, mid, end, post), c(FALSE, FALSE, FALSE, TRUE, TRUE, FALSE))
   # 4 × interval, 2 × value
-  expect_identical(c(start %to% start, start %to% end, pre %to% start, mid %to% end) %includes% c(start, mid), c(FALSE, TRUE, FALSE, TRUE))
+  expect_identical(c(start %to% start, start %to% end, pre %to% start, mid %to% end) %includes% c(start, mid), c(FALSE, TRUE, TRUE, FALSE))
+})
+test_that("%includes% on an empty interval includes nothing", {
+  t <- datey(2000)
+
+  expect_identical((t %to% t) %includes% t, FALSE)
+})
+test_that("%includes% includes a death at the end of exposure", {
+  entry <- start_day(2018, 9, 12)
+  death <- mid_day(2024, 3, 7)
+
+  expect_identical((entry %to% death) %includes% death, TRUE)
+  expect_identical((entry %to% death) %includes% entry, FALSE)
+})
+test_that("%includes% on adjacent intervals includes each point exactly once", {
+  a <- start_day(2024, 1, 1)
+  b <- start_day(2025, 1, 1)
+  c <- start_day(2026, 1, 1)
+  points <- c(a, mid_day(2024, 6, 30), b, mid_day(2025, 6, 30), c)
+
+  in_first <- (a %to% b) %includes% points
+  in_second <- (b %to% c) %includes% points
+
+  expect_identical(in_first, c(FALSE, TRUE, TRUE, FALSE, FALSE))
+  expect_identical(in_second, c(FALSE, FALSE, FALSE, TRUE, TRUE))
+  expect_identical(in_first | in_second, (a %to% c) %includes% points)
+  expect_identical(any(in_first & in_second), FALSE)
+})
+test_that("all_of_time excludes its first instant and includes its last", {
+  expect_identical(all_of_time %includes% datey(valid_years_start), FALSE)
+  expect_identical(all_of_time %includes% datey(valid_years_end), TRUE)
 })
 
 # format.datey_interval <- function(x, include_day_fraction = TRUE, ...) ==================================================
@@ -175,8 +205,8 @@ test_that("`format.datey_interval()`", {
   t_2 <- start_day(2002, 2, 2)
   interval <- datey_interval(t_1, t_2)
 
-  expect_identical(format(interval), "[2001-01-01.0, 2002-02-02.0)")
-  expect_identical(format(interval, include_day_fraction = FALSE), "[2001-01-01, 2002-02-02)")
+  expect_identical(format(interval), "(2001-01-01.0, 2002-02-02.0]")
+  expect_identical(format(interval, include_day_fraction = FALSE), "(2001-01-01, 2002-02-02]")
 })
 
 # print.datey <- function(x, include_day_fraction = TRUE, max = NULL, ...) ==================================================

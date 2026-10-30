@@ -12,9 +12,9 @@
 #'
 #' | Constant | Value | Meaning |
 #' | :--- | :--- | :--- |
-#' | `valid_years_start` | `1000L` | The first calendar year for a `datey` |
-#' | `valid_years_end` | `3000L` | The final valid calendar year for a `datey` (noting that only the start of this year is valid) |
-#' | `valid_duration_years_max` | `2000L` | The maximum valid duration in years for a `durationy` |
+#' | `valid_years_start` | `1000L` | First valid calendar year for a `datey`. <br/>NB `datey(valid_years_start)` is not included in `all_of_time` because intervals do not include their start. |
+#' | `valid_years_end` | `3000L` | The final valid calendar year for a `datey` (noting that only the start of this year is valid). |
+#' | `valid_duration_years_max` | `2000L` | The maximum valid duration in years for a `durationy`. |
 #'
 #' @returns Each of these constants is a scalar `integer` giving one
 #'   of the boundaries of the valid `datey` or `durationy` range described above.
@@ -24,7 +24,8 @@
 #'   datey(valid_years_start)
 #'   datey(valid_years_end)
 #'   datey(valid_years_end + 0.001, strict = FALSE)
-#'   durationy(-(valid_duration_years_max + 0.001), strict = FALSE)
+#'   durationy(valid_duration_years_max)
+#'   durationy(valid_duration_years_max + 0.001, strict = FALSE)
 #' @name integer_constants
 
 
