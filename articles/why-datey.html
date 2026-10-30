@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,7 +168,7 @@ not included in a time period.</p>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
 <span><span class="va">one_day_period</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">m</span>, <span class="va">d</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2026</span>, <span class="va">m</span>, <span class="va">d</span><span class="op">)</span></span>
 <span><span class="va">one_day_period</span></span>
-<span><span class="co">#&gt; [1] [2026-01-01.0, 2026-01-02.0)</span></span>
+<span><span class="co">#&gt; [1] (2026-01-01.0, 2026-01-02.0]</span></span>
 <span></span>
 <span><span class="va">mid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">mid_day</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">m</span>, <span class="va">d</span><span class="op">)</span></span>
 <span><span class="va">mid</span></span>
@@ -189,25 +189,30 @@ and end of a time interval, it is atomic (as are &lt;code&gt;datey&lt;/code&gt; 
 can be stored in a single R vector without any additional special
 handling.&lt;/p&gt;"><sup>1</sup></a> type
 <code>datey_interval</code>, created using <code>start %to% end</code>.
-These are half-open, i.e. <code>[start, end)</code>, intervals, which
-means consecutive periods interlock precisely without gaps or
-double-counting.</p>
+These are left-open, right-closed intervals,
+i.e. <code>(start, end]</code>. Consecutive periods interlock precisely
+without gaps or double-counting: <code>(a, c]</code> is the union of
+<code>(a, b]</code> and <code>(b, c]</code>, and those two pieces share
+no point in time.</p>
+<p>Closing the interval at its end matches how actuaries name periods,
+as in ‘the year ending 31 December 2025’. It also means an exposure
+period that ends in death contains the death.</p>
 <p><strong>datey</strong> provides interval algebra to work with time
 intervals directly:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">period_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># Calendar year 2024</span></span>
 <span></span>
-<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="co"># TRUE</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># FALSE</span></span>
+<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="co"># FALSE -- belongs to 2023</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># TRUE</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
 <span><span class="va">time_at_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># the part of the time at risk to which the 2024 rate applies</span></span>
 <span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="va">time_at_risk</span> <span class="op">&amp;</span> <span class="va">period_2024</span></span>
 <span><span class="va">overlap</span></span>
-<span><span class="co">#&gt; [1] [2024-01-01.0, 2024-04-02.0)</span></span>
+<span><span class="co">#&gt; [1] (2024-01-01.0, 2024-04-02.0]</span></span>
 <span></span>
 <span><span class="co"># ... as a duration in years, ready to multiply by an annual rate</span></span>
 <span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">$</span><span class="va">end</span> <span class="op">-</span> <span class="va">overlap</span><span class="op">$</span><span class="va">start</span><span class="op">)</span></span>

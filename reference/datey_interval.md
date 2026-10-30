@@ -1,9 +1,12 @@
 # Create a `datey_interval`
 
-Creates a `datey_interval`, a closed-open ('clopen') interval \[`start`,
-`end`).
+Creates a `datey_interval`, a left-open, right-closed interval (`start`,
+`end`\].
 
-A `datey` `t` in included in the interval if `start` \<= t \< `end`.
+A `datey` `t` is included in the interval if `start` \< t \<= `end`.
+This matches the usual actuarial convention that a period is named after
+its end, e.g. 'the year ending 31 December 2025', and means that a death
+at the end of an exposure period lies within that period.
 
 There are two syntaxes to create a `datey_interval` from `start` and
 `end`:
@@ -19,7 +22,7 @@ each other.
 
 A `datey_interval` can also be created from `logical`, mapping
 
-- `TRUE` to \[1000,3000), which is referred to as 'all of time' in
+- `TRUE` to (1000,3000\], which is referred to as 'all of time' in
   **datey** documentation, and
 
 - `FALSE` and `NA` to `NA_datey_interval_`.
@@ -67,7 +70,7 @@ start %to% end
 - x:
 
   Argument to S3 method `datey_interval()`. If `x` is a `datey` then it
-  represents the start (inclusive) of an interval and an `end` argument
+  represents the start (exclusive) of an interval and an `end` argument
   is also required. If `x` is a `logical` then it is mapped to 'all of
   time' or `NA_datey_interval_`.
 
@@ -83,7 +86,7 @@ start %to% end
 
 - start, end:
 
-  The start (inclusive) and end of the interval (exclusive). These can
+  The start (exclusive) and end (inclusive) of the interval. These can
   be any type that is convertible to a `datey`.
 
 ## Value
@@ -108,39 +111,39 @@ for a worked introduction
 start <- datey(2000)
 end <- datey(2001)
 interval <- start %to% end
-interval  # [2000-01-01.0, 2001-01-01.0)
-#> [1] [2000-01-01.0, 2001-01-01.0)
+interval  # (2000-01-01.0, 2001-01-01.0]
+#> [1] (2000-01-01.0, 2001-01-01.0]
 
 # Alternative functional syntax:
 identical(interval, datey_interval(start, end)) # TRUE
 #> [1] TRUE
 
 # Can use numeric arguments:
-2000 %to% 2001  # [2000-01-01.0, 2001-01-01.0)
-#> [1] [2000-01-01.0, 2001-01-01.0)
+2000 %to% 2001  # (2000-01-01.0, 2001-01-01.0]
+#> [1] (2000-01-01.0, 2001-01-01.0]
 
 # Can use vector arguments:
 2000 %to% 2001:2003 # Vector of 3 intervals
-#> [1] [2000-01-01.0, 2001-01-01.0) [2000-01-01.0, 2002-01-01.0)
-#> [3] [2000-01-01.0, 2003-01-01.0)
+#> [1] (2000-01-01.0, 2001-01-01.0] (2000-01-01.0, 2002-01-01.0]
+#> [3] (2000-01-01.0, 2003-01-01.0]
 
 # Logical values are mapped to 'all of time' or `NA_datey_interval_`:
-datey_interval(c(TRUE, FALSE, NA)) # [1000-01-01.0, 3000-01-01.0) <NA> <NA>
-#> [1] [1000-01-01.0, 3000-01-01.0) <NA>                        
+datey_interval(c(TRUE, FALSE, NA)) # (1000-01-01.0, 3000-01-01.0] <NA> <NA>
+#> [1] (1000-01-01.0, 3000-01-01.0] <NA>                        
 #> [3] <NA>                        
 
-# Test for inclusion in [start, end):
+# Test for inclusion in (start, end]:
 interval %includes% mid_day(1999, 12, 31) # FALSE
 #> [1] FALSE
-interval %includes% start                 # TRUE -- start *is* included
-#> [1] TRUE
+interval %includes% start                 # FALSE -- start is *not* included
+#> [1] FALSE
 interval %includes% datey(2000.5)         # TRUE
 #> [1] TRUE
-interval %includes% end                   # FALSE -- end is *not* included
-#> [1] FALSE
+interval %includes% end                   # TRUE -- end *is* included
+#> [1] TRUE
 
 # Obtain the intersection of two intervals
 interval2 <- start_day(2000, 12, 1) %to% 2010
-interval & interval2  # [2000-12-01.0, 2001-01-01.0)
-#> [1] [2000-12-01.0, 2001-01-01.0)
+interval & interval2  # (2000-12-01.0, 2001-01-01.0]
+#> [1] (2000-12-01.0, 2001-01-01.0]
 ```

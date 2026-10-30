@@ -10,7 +10,7 @@ arithmetic on an annual grid:
   duration in years.
 
 - [datey_interval](https://r-datey.logmu.org/reference/datey_interval.md)
-  — a closed-open interval \[`start`, `end`) of time.
+  — a left-open, right-closed interval (start, end\] of time.
 
 Arithmetic, comparison and summary operations are defined in
 [ops](https://r-datey.logmu.org/reference/ops.md),
@@ -39,10 +39,10 @@ Arithmetic, comparison and summary operations are defined in
 
 ## Author
 
-**Maintainer**: Tim Gordon <tim.gordon@btinternet.com>
+**Maintainer**: Tim Gordon <tim@timgord.com>
 ([ORCID](https://orcid.org/0009-0006-3087-4384))
 
 Authors:
 
-- Tim Gordon <tim.gordon@btinternet.com>
+- Tim Gordon <tim@timgord.com>
   ([ORCID](https://orcid.org/0009-0006-3087-4384))

@@ -1,6 +1,6 @@
 # Properties of a `datey_interval`
 
-Test whether intervals, \\\[a,b)\\, are 'proper' or 'collapsed':
+Test whether intervals, \\(a,b\]\\, are 'proper' or 'collapsed':
 
 - A *proper* interval does not end before its start, i.e. \\a \le b\\.
 
@@ -13,7 +13,7 @@ These definitions imply the following:
 
 - A collapsed interval could be empty or improper.
 
-- To test for an empty interval, i.e. \\\[a,a)\\, test that it is both
+- To test for an empty interval, i.e. \\(a,a\]\\, test that it is both
   proper and collapsed.
 
 These methods are guaranteed to return `TRUE` or `FALSE`, i.e. not `NA`

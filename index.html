@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,10 +113,12 @@
 <span><span class="co">#&gt; [1] 2018-09-12.0    2021-03-27.4098 2024-03-07.5</span></span>
 <span></span>
 <span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="va">start</span> <span class="op"><a href="reference/datey_interval.html">%to%</a></span> <span class="va">exit</span> <span class="co"># Exposure period</span></span>
-<span><span class="va">interval</span> <span class="co"># [2018-09-12.0, 2024-03-07.5)</span></span>
-<span><span class="co">#&gt; [1] [2018-09-12.0, 2024-03-07.5)</span></span>
+<span><span class="va">interval</span> <span class="co"># (2018-09-12.0, 2024-03-07.5]</span></span>
+<span><span class="co">#&gt; [1] (2018-09-12.0, 2024-03-07.5]</span></span>
 <span></span>
 <span><span class="va">interval</span> <span class="op"><a href="reference/interval_includes.html">%includes%</a></span> <span class="va">t</span> <span class="co"># Test if a point in time is in an interval</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="va">interval</span> <span class="op"><a href="reference/interval_includes.html">%includes%</a></span> <span class="va">exit</span> <span class="co"># TRUE -- the death is in the exposure period</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
 <span><span class="va">exit</span> <span class="op">-</span> <span class="va">start</span>      <span class="co"># Duration of exposure period</span></span>

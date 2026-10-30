@@ -125,18 +125,18 @@ d_0.5 * 2       # Arithmetic with numerics results in a double
 
 interval <- t_2000 %to% t_2001
 interval
-#> [1] [2000-01-01.0, 2001-01-01.0)
+#> [1] (2000-01-01.0, 2001-01-01.0]
 
 # %to% also accepts numbers:
 2000 %to% 2001
-#> [1] [2000-01-01.0, 2001-01-01.0)
+#> [1] (2000-01-01.0, 2001-01-01.0]
 
-interval %includes% t_2000 # TRUE -- start *is* included in an interval
-#> [1] TRUE
+interval %includes% t_2000 # FALSE -- start is *not* included in an interval
+#> [1] FALSE
 interval %includes% (t_2000 + d_0.5) # TRUE
 #> [1] TRUE
-interval %includes% t_2001 # FALSE -- end is *not* included in an interval
-#> [1] FALSE
+interval %includes% t_2001 # TRUE -- end *is* included in an interval
+#> [1] TRUE
 
 # %includes% also accepts a number as its right hand operand:
 interval %includes% 2000.5
@@ -148,12 +148,12 @@ interval %includes% NA_datey_         # FALSE (not NA)
 NA_datey_interval_ %includes% t_2000  # FALSE (not NA)
 #> [1] FALSE
 
-(2000 %to% 2020) & (2010 %to% 2030) # [2010-01-01.0, 2020-01-01.0)
-#> [1] [2010-01-01.0, 2020-01-01.0)
+(2000 %to% 2020) & (2010 %to% 2030) # (2010-01-01.0, 2020-01-01.0]
+#> [1] (2010-01-01.0, 2020-01-01.0]
 
 # Non-intersecting *adjacent* intervals:
-(2000 %to% 2001) & (2001 %to% 2002) # [2001-01-01.0, 2001-01-01.0)
-#> [1] [2001-01-01.0, 2001-01-01.0)
+(2000 %to% 2001) & (2001 %to% 2002) # (2001-01-01.0, 2001-01-01.0]
+#> [1] (2001-01-01.0, 2001-01-01.0]
 # Non-intersecting *non*-adjacent intervals:
 (1900 %to% 1901) & (2001 %to% 2001) # <NA>
 #> [1] <NA>

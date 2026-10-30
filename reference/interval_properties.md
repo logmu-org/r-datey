@@ -43,7 +43,7 @@ vector of `durationy`.
   t_2 <- start_day(2002, 2, 2)
   interval <- datey_interval(t_1, t_2)
   interval
-#> [1] [2001-01-01.0, 2002-02-02.0)
+#> [1] (2001-01-01.0, 2002-02-02.0]
   interval$start
 #> [1] 2001-01-01.0
   interval$end

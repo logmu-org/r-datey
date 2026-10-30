@@ -18,7 +18,8 @@ specification](https://r-datey.logmu.org/articles/spec.md).
 
 - **`datey`** – a point in time, stored at day-fraction precision.
 - **`durationy`** – a duration in years.
-- **`datey_interval`** – a half-open `[start, end)` time interval.
+- **`datey_interval`** – a left-open, right-closed `(start, end]` time
+  interval.
 
 These all store dates and durations as integers with units of 1/534 360
 of a year (*clicks*). As a result, arithmetic with these types is exact
@@ -292,8 +293,8 @@ identical(durationy(2) * 0.05, 0.10)  # TRUE
 
 ## `datey_interval` – representing a time period
 
-A `datey_interval` is a half-open `[start, end)` interval. Create one
-with
+A `datey_interval` is a left-open, right-closed `(start, end]` interval.
+Create one with
 [`datey_interval()`](https://r-datey.logmu.org/reference/datey_interval.md)
 or the `%to%` operator:
 
@@ -303,7 +304,7 @@ a  <- start_day(2024, 1, 1)
 b  <- start_day(2025, 1, 1)
 interval <- a %to% b
 interval
-#> [1] [2024-01-01.0, 2025-01-01.0)
+#> [1] (2024-01-01.0, 2025-01-01.0]
 ```
 
 The `$start`, `$end` and `$duration` properties extract the interval’s
@@ -331,15 +332,25 @@ durationy(interval)
 ### Interval membership testing
 
 `%includes%` tests whether a `datey` falls inside the interval. The
-interval includes its start and excludes its end:
+interval excludes its start and includes its end:
 
 ``` r
 
-interval %includes% a                     # TRUE  -- start is included
-#> [1] TRUE
-interval %includes% b                     # FALSE -- end is excluded
+interval %includes% a                     # FALSE -- start is excluded
 #> [1] FALSE
+interval %includes% b                     # TRUE  -- end is included
+#> [1] TRUE
 interval %includes% mid_day(2024, 6, 15)  # TRUE
+#> [1] TRUE
+```
+
+So an exposure period that ends in death includes the death:
+
+``` r
+
+entry <- start_day(2018, 9, 12)
+death <- mid_day(2024, 3, 7)
+(entry %to% death) %includes% death       # TRUE
 #> [1] TRUE
 ```
 
@@ -348,7 +359,7 @@ interval %includes% mid_day(2024, 6, 15)  # TRUE
 [`is_proper()`](https://r-datey.logmu.org/reference/interval_nature.md)
 returns `TRUE` when start ≤ end;
 [`is_collapsed()`](https://r-datey.logmu.org/reference/interval_nature.md)
-returns `TRUE` when start ≥ end. A point interval `[a, a)` is both
+returns `TRUE` when start ≥ end. A point interval `(a, a]` is both
 proper and collapsed (it contains no time):
 
 ``` r
@@ -377,7 +388,7 @@ year_2024 <- start_day(2024, 1, 1) %to% end_day(2024, 12, 31)
 
 overlap <- period & year_2024
 overlap
-#> [1] [2024-01-01.0, 2024-07-01.0)
+#> [1] (2024-01-01.0, 2024-07-01.0]
 
 overlap$duration  # exposure in calendar year 2024, in years
 #> [1] 0.497268 yr

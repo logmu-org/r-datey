@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,17 @@
       <small>Source: <a href="https://github.com/logmu-org/r-datey/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="datey-020">datey 0.2.0<a class="anchor" aria-label="anchor" href="#datey-020"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
+<ul><li>
+<p>Switched the interval convention for <code>datey_interval</code> from left-closed, right-open <code>[start, end)</code> to left-open, right-closed <code>(start, end]</code> for consistency with survival analysis and actuarial exposed-to-risk, for which a period ending in death should include the time of death.</p>
+<p>This means <code>interval %includes% t</code> is now <code>TRUE</code> when <code>start &lt; t &lt;= end</code> and so code that tests membership at an interval’s start or end will produce different results. In particular, <code>datey(valid_years_start)</code> is no longer included in <code>all_of_time</code> but <code>datey(valid_years_end)</code> is.</p>
+</li>
+<li><p>A <code>datey_interval</code> is now formatted and printed as <code>(start, end]</code>.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="datey-012">datey 0.1.2<a class="anchor" aria-label="anchor" href="#datey-012"></a></h2><p class="text-muted">CRAN release: 2026-09-16</p>
 <ul><li>Added <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code> methods for <code>datey</code>, <code>durationy</code> and <code>datey_interval</code>. Previously <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code> dropped the class and returned bare integer or double values. As <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len()</a></code> and <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep.int()</a></code> fall back to <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code> dispatch, they are fixed too. This also fixes <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax()</a></code> and <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin()</a></code>, which previously returned the wrong values for <code>datey</code> and <code>durationy</code> when arguments of different lengths were recycled.</li>

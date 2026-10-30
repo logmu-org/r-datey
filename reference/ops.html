@@ -83,7 +83,7 @@ or NA_datey_interval_."><meta property="og:image" content="https://r-datey.logmu
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -206,18 +206,18 @@ evaluation,</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="va">t_2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="va">t_2001</span></span></span>
 <span class="r-in"><span><span class="va">interval</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] [2000-01-01.0, 2001-01-01.0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] (2000-01-01.0, 2001-01-01.0]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># %to% also accepts numbers:</span></span></span>
 <span class="r-in"><span><span class="fl">2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2001</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] [2000-01-01.0, 2001-01-01.0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] (2000-01-01.0, 2001-01-01.0]</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2000</span> <span class="co"># TRUE -- start *is* included in an interval</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2000</span> <span class="co"># FALSE -- start is *not* included in an interval</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="op">(</span><span class="va">t_2000</span> <span class="op">+</span> <span class="va">d_0.5</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2001</span> <span class="co"># FALSE -- end is *not* included in an interval</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2001</span> <span class="co"># TRUE -- end *is* included in an interval</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># %includes% also accepts a number as its right hand operand:</span></span></span>
 <span class="r-in"><span><span class="va">interval</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="fl">2000.5</span></span></span>
@@ -229,12 +229,12 @@ evaluation,</p></li>
 <span class="r-in"><span><span class="va">NA_datey_interval_</span> <span class="op"><a href="interval_includes.html">%includes%</a></span> <span class="va">t_2000</span>  <span class="co"># FALSE (not NA)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="fl">2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2020</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fl">2010</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2030</span><span class="op">)</span> <span class="co"># [2010-01-01.0, 2020-01-01.0)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] [2010-01-01.0, 2020-01-01.0)</span>
+<span class="r-in"><span><span class="op">(</span><span class="fl">2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2020</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fl">2010</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2030</span><span class="op">)</span> <span class="co"># (2010-01-01.0, 2020-01-01.0]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] (2010-01-01.0, 2020-01-01.0]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Non-intersecting *adjacent* intervals:</span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="fl">2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2001</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fl">2001</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2002</span><span class="op">)</span> <span class="co"># [2001-01-01.0, 2001-01-01.0)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] [2001-01-01.0, 2001-01-01.0)</span>
+<span class="r-in"><span><span class="op">(</span><span class="fl">2000</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2001</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fl">2001</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2002</span><span class="op">)</span> <span class="co"># (2001-01-01.0, 2001-01-01.0]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] (2001-01-01.0, 2001-01-01.0]</span>
 <span class="r-in"><span><span class="co"># Non-intersecting *non*-adjacent intervals:</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="fl">1900</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">1901</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="fl">2001</span> <span class="op"><a href="datey_interval.html">%to%</a></span> <span class="fl">2001</span><span class="op">)</span> <span class="co"># &lt;NA&gt;</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;NA&gt;</span>
