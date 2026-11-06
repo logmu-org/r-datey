@@ -55,7 +55,7 @@ is_durationy(NA)
 
 interval <- datey(2000:2001) %to% datey(2001:2002)
 interval
-#> [1] (2000-01-01.0, 2001-01-01.0] (2001-01-01.0, 2002-01-01.0]
+#> [1] [2000-01-01.0, 2001-01-01.0) [2001-01-01.0, 2002-01-01.0)
 is_datey_interval(interval)
 #> [1] TRUE
 is_datey_interval(NULL)

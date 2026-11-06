@@ -1,22 +1,13 @@
 # Changelog
 
-## datey 0.2.0
+## datey 0.1.3
 
-### Breaking changes
-
-- Switched the interval convention for `datey_interval` from
-  left-closed, right-open `[start, end)` to left-open, right-closed
-  `(start, end]` for consistency with survival analysis and actuarial
-  exposed-to-risk, for which a period ending in death should include the
-  time of death.
-
-  This means `interval %includes% t` is now `TRUE` when
-  `start < t <= end` and so code that tests membership at an interval’s
-  start or end will produce different results. In particular,
-  `datey(valid_years_start)` is no longer included in `all_of_time` but
-  `datey(valid_years_end)` is.
-
-- A `datey_interval` is now formatted and printed as `(start, end]`.
+- The maintainer’s email address is now <tim@timgord.com>.
+- `datey_interval` remains left-closed, right-open, i.e. `[start, end)`.
+  The development version briefly switched to `(start, end]`, but that
+  change was withdrawn before release.
+- Added tests of interval boundaries, covering adjacent intervals, empty
+  intervals and the two ends of `all_of_time`.
 
 ## datey 0.1.2
 

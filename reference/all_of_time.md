@@ -1,11 +1,8 @@
 # 'All of time' — the maximum valid `datey_interval`
 
-`all_of_time` is the `datey_interval` (1000-01-01.0, 3000-01-01.0\],
+`all_of_time` is the `datey_interval` \[1000-01-01.0, 3000-01-01.0),
 spanning the full valid date range. It is referred to as 'all of time'
 throughout the **datey** documentation.
-
-As intervals are left-open, the very first valid instant,
-`datey(valid_years_start)`, is not included in `all_of_time`.
 
 It is the value produced by `datey_interval(TRUE)` and is used when a
 `datey_interval` is intersected with a logical `TRUE` via `&`.
@@ -19,7 +16,7 @@ all_of_time
 ## Value
 
 A scalar `datey_interval` spanning the full valid date range,
-(1000-01-01.0, 3000-01-01.0\].
+\[1000-01-01.0, 3000-01-01.0).
 
 ## See also
 
@@ -30,5 +27,5 @@ A scalar `datey_interval` spanning the full valid date range,
 
 ``` r
   all_of_time
-#> [1] (1000-01-01.0, 3000-01-01.0]
+#> [1] [1000-01-01.0, 3000-01-01.0)
 ```

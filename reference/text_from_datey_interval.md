@@ -1,6 +1,6 @@
 # Format or print a `datey_interval`
 
-A `datey_interval` is printed as "(start, end\]", where start and end
+A `datey_interval` is printed as "\[start, end)", where start and end
 are printed either as
 
 - `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or

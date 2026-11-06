@@ -96,7 +96,7 @@ m <- 1L
 d <- 1L
 one_day_period <- start_day(y, m, d) %to% end_day(2026, m, d)
 one_day_period
-#> [1] (2026-01-01.0, 2026-01-02.0]
+#> [1] [2026-01-01.0, 2026-01-02.0)
 
 mid <- mid_day(y, m, d)
 mid
@@ -113,15 +113,9 @@ did rate X apply?’ – e.g. combining a policy’s time at risk with the
 period over which a particular assumption set is valid.
 
 **datey** represents time intervals using the atomic[^1] type
-`datey_interval`, created using `start %to% end`. These are left-open,
-right-closed intervals, i.e. `(start, end]`. Consecutive periods
-interlock precisely without gaps or double-counting: `(a, c]` is the
-union of `(a, b]` and `(b, c]`, and those two pieces share no point in
-time.
-
-Closing the interval at its end matches how actuaries name periods, as
-in ‘the year ending 31 December 2025’. It also means an exposure period
-that ends in death contains the death.
+`datey_interval`, created using `start %to% end`. These are half-open,
+i.e. `[start, end)`, intervals, which means consecutive periods
+interlock precisely without gaps or double-counting.
 
 **datey** provides interval algebra to work with time intervals
 directly:
@@ -130,17 +124,17 @@ directly:
 
 period_2024 <- datey(2024) %to% datey(2025) # Calendar year 2024
 
-period_2024 %includes% datey(2024) # FALSE -- belongs to 2023
-#> [1] FALSE
-period_2024 %includes% datey(2025) # TRUE
+period_2024 %includes% datey(2024) # TRUE
 #> [1] TRUE
+period_2024 %includes% datey(2025) # FALSE
+#> [1] FALSE
 
 time_at_risk <- start_day(2023, 4, 1) %to% end_day(2024, 4, 1)
 
 # the part of the time at risk to which the 2024 rate applies
 overlap <- time_at_risk & period_2024
 overlap
-#> [1] (2024-01-01.0, 2024-04-02.0]
+#> [1] [2024-01-01.0, 2024-04-02.0)
 
 # ... as a duration in years, ready to multiply by an annual rate
 durationy(overlap$end - overlap$start)

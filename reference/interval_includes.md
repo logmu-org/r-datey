@@ -1,7 +1,7 @@
 # Whether a `datey_interval` includes a `datey`
 
-Test whether a `datey_interval`, \\(a,b\]\\, includes a `datey` \\t\\,
-i.e. \\a \< t\\ and \\t \le b\\.
+Test whether a `datey_interval`, \\\[a,b)\\, includes a `datey` \\t\\,
+i.e. \\a \le t\\ and \\t \< b\\.
 
 The `%includes%` operator is syntactic sugar for `interval_includes()`.
 
@@ -50,14 +50,14 @@ value. Always TRUE or FALSE – NAs result in FALSE.
   t_2004 <- datey(2004)
 
   interval <- t_2000 %to% t_2003
-  interval %includes% t_2000 # Start of interval *not* included
-#> [1] FALSE
-  interval %includes% t_2001
+  interval %includes% t_2000
+#> [1] TRUE
+  interval %includes% t_2001 # Start of interval *is* included
 #> [1] TRUE
   interval %includes% t_2002
 #> [1] TRUE
-  interval %includes% t_2003 # End of interval *is* included
-#> [1] TRUE
+  interval %includes% t_2003 # End of interval *not* included
+#> [1] FALSE
   interval %includes% t_2004
 #> [1] FALSE
   interval %includes% NA_datey_        # NAs are FALSE
