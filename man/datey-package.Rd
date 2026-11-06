@@ -11,7 +11,7 @@ on an annual grid:
 \item \link{datey} — a point in time, expressed as a calendar date with an optional
 day fraction.
 \item \link{durationy} — a duration in years.
-\item \link{datey_interval} — a left-open, right-closed interval (start, end] of time.
+\item \link{datey_interval} — a closed-open interval [\code{start}, \code{end}) of time.
 }
 
 Arithmetic, comparison and summary operations are defined in \link{ops},

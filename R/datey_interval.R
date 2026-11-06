@@ -21,12 +21,9 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #'
 #' @description
 #' Creates a `datey_interval`,
-#' a left-open, right-closed interval (`start`, `end`].
+#' a closed-open ('clopen') interval  [`start`, `end`).
 #'
-#' A `datey` `t` is included in the interval if `start` < t <= `end`.
-#' This matches the usual actuarial convention that a period is named after
-#' its end, e.g. 'the year ending 31 December 2025', and means that a death
-#' at the end of an exposure period lies within that period.
+#' A `datey` `t` in included in the interval if `start` <= t < `end`.
 #'
 #' There are two syntaxes to create a `datey_interval` from `start` and `end`:
 #'
@@ -39,7 +36,7 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #'
 #' A `datey_interval` can also be created from `logical`, mapping
 #'
-#' - `TRUE` to (1000,3000], which is referred to as
+#' - `TRUE` to [1000,3000), which is referred to as
 #'   'all of time' in **datey** documentation, and
 #' - `FALSE` and `NA` to `NA_datey_interval_`.
 #'
@@ -53,10 +50,10 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #' - obtaining the *intersection*, which uses the `&` operator -- `interval_a & interval b`.
 #'
 #' @param x Argument to S3 method `datey_interval()`.
-#' If `x` is a `datey` then it represents the start (exclusive) of an interval
+#' If `x` is a `datey` then it represents the start (inclusive) of an interval
 #' and an `end` argument is also required.
 #' If `x` is a `logical` then it is mapped to 'all of time' or `NA_datey_interval_`.
-#' @param start,end The start (exclusive) and end (inclusive) of the interval.
+#' @param start,end The start (inclusive) and end of the interval (exclusive).
 #' These can be any type that is convertible to a `datey`.
 #' @param strict
 #' How invalid *non-NA* `datey` inputs should be handled.
@@ -68,29 +65,29 @@ is_datey_interval <- function(x) typeof(x) == "double" && isa(x, c("datey_interv
 #' start <- datey(2000)
 #' end <- datey(2001)
 #' interval <- start %to% end
-#' interval  # (2000-01-01.0, 2001-01-01.0]
+#' interval  # [2000-01-01.0, 2001-01-01.0)
 #'
 #' # Alternative functional syntax:
 #' identical(interval, datey_interval(start, end)) # TRUE
 #'
 #' # Can use numeric arguments:
-#' 2000 %to% 2001  # (2000-01-01.0, 2001-01-01.0]
+#' 2000 %to% 2001  # [2000-01-01.0, 2001-01-01.0)
 #'
 #' # Can use vector arguments:
 #' 2000 %to% 2001:2003 # Vector of 3 intervals
 #'
 #' # Logical values are mapped to 'all of time' or `NA_datey_interval_`:
-#' datey_interval(c(TRUE, FALSE, NA)) # (1000-01-01.0, 3000-01-01.0] <NA> <NA>
+#' datey_interval(c(TRUE, FALSE, NA)) # [1000-01-01.0, 3000-01-01.0) <NA> <NA>
 #'
-#' # Test for inclusion in (start, end]:
+#' # Test for inclusion in [start, end):
 #' interval %includes% mid_day(1999, 12, 31) # FALSE
-#' interval %includes% start                 # FALSE -- start is *not* included
+#' interval %includes% start                 # TRUE -- start *is* included
 #' interval %includes% datey(2000.5)         # TRUE
-#' interval %includes% end                   # TRUE -- end *is* included
+#' interval %includes% end                   # FALSE -- end is *not* included
 #'
 #' # Obtain the intersection of two intervals
 #' interval2 <- start_day(2000, 12, 1) %to% 2010
-#' interval & interval2  # (2000-12-01.0, 2001-01-01.0]
+#' interval & interval2  # [2000-12-01.0, 2001-01-01.0)
 #'
 #' @seealso [interval_properties], [interval_nature], [interval_includes],
 #'   [all_of_time], [durationy], [ops], [is_NA],
@@ -213,17 +210,14 @@ anyNA.datey_interval <- function(x, recursive = FALSE) {
 #' 'All of time' — the maximum valid `datey_interval`
 #'
 #' @description
-#' `all_of_time` is the `datey_interval` (1000-01-01.0, 3000-01-01.0\],
+#' `all_of_time` is the `datey_interval` \[1000-01-01.0, 3000-01-01.0),
 #' spanning the full valid date range. It is referred to as 'all of time'
 #' throughout the **datey** documentation.
-#'
-#' As intervals are left-open, the very first valid instant,
-#' `datey(valid_years_start)`, is not included in `all_of_time`.
 #'
 #' It is the value produced by `datey_interval(TRUE)` and is used
 #' when a `datey_interval` is intersected with a logical `TRUE` via `&`.
 #' @returns A scalar `datey_interval` spanning the full valid date range,
-#'   (1000-01-01.0, 3000-01-01.0\].
+#'   \[1000-01-01.0, 3000-01-01.0).
 #' @seealso [datey_interval], [ops]
 #' @export
 #' @examples
@@ -233,7 +227,7 @@ all_of_time <- NULL
 #' Properties of a `datey_interval`
 #'
 #' @description
-#' Test whether intervals, \eqn{(a,b]}, are 'proper' or 'collapsed':
+#' Test whether intervals, \eqn{[a,b)}, are 'proper' or 'collapsed':
 #'
 #' - A *proper* interval does not end before its start,
 #' i.e. \eqn{a \le b}{a <= b}.
@@ -245,7 +239,7 @@ all_of_time <- NULL
 #' These definitions imply the following:
 #'
 #' - A collapsed interval could be empty or improper.
-#' - To test for an empty interval, i.e. \eqn{(a,a]}, test that it is both
+#' - To test for an empty interval, i.e. \eqn{[a,a)}, test that it is both
 #' proper and collapsed.
 #'
 #' These methods are guaranteed to return `TRUE` or `FALSE`, i.e. not `NA`
@@ -369,8 +363,8 @@ any_collapsed.datey_interval <- function(x) {
 #' Whether a `datey_interval` includes a `datey`
 #'
 #' @description
-#' Test whether a `datey_interval`, \eqn{(a,b]}, includes a `datey` \eqn{t}, i.e.
-#' \eqn{a < t} and \eqn{t \le b}{t <= b}.
+#' Test whether a `datey_interval`, \eqn{[a,b)}, includes a `datey` \eqn{t}, i.e.
+#' \eqn{a \le t}{a <= t} and \eqn{t < b}.
 #'
 #' The `%includes%` operator is syntactic sugar for `interval_includes()`.
 #'
@@ -390,10 +384,10 @@ any_collapsed.datey_interval <- function(x) {
 #'   t_2004 <- datey(2004)
 #'
 #'   interval <- t_2000 %to% t_2003
-#'   interval %includes% t_2000 # Start of interval *not* included
-#'   interval %includes% t_2001
+#'   interval %includes% t_2000
+#'   interval %includes% t_2001 # Start of interval *is* included
 #'   interval %includes% t_2002
-#'   interval %includes% t_2003 # End of interval *is* included
+#'   interval %includes% t_2003 # End of interval *not* included
 #'   interval %includes% t_2004
 #'   interval %includes% NA_datey_        # NAs are FALSE
 #'   NA_datey_interval_ %includes% t_2004 # NAs are FALSE
@@ -422,7 +416,7 @@ interval_includes <- function(interval, value) {
 #' Format or print a `datey_interval`
 #'
 #' @description
-#' A `datey_interval` is printed as "(start, end]", where start and end are
+#' A `datey_interval` is printed as "[start, end)", where start and end are
 #' printed either as
 #' - `YYYY-MM-DD`, i.e. ISO 8601 extended date format, or
 #' - `YYYY-MM-DD.F...` where `.F...` is the day fraction part.

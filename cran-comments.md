@@ -1,15 +1,14 @@
-# CRAN submission comments — datey 0.2.0
+# CRAN submission comments — datey 0.1.3
 
 ## Summary
 
-This is a minor release with one deliberate breaking change.
-The interval convention for `datey_interval` has been changed
-from left-closed, right-open `[start, end)`
-to left-open, right-closed `(start, end]`
-for consistency with survival analysis and actuarial exposed-to-risk.
-This means that `%includes%` now
-excludes an interval's start and includes its end, and
-intervals print as `(start, end]`.
+This is a patch release that replaces datey 0.2.0, which I submitted on
+30 October 2026 and which is still in the incoming 'waiting' queue.
+Please discard that 0.2.0 submission.
+
+On reflection, the breaking change to the `datey_interval` convention
+proposed in 0.2.0 has been dropped, so this release has no API changes.
+The only other change is the maintainer's email address.
 
 ## Maintainer email
 

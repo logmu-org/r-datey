@@ -29,7 +29,7 @@ start \%to\% end
 }
 \arguments{
 \item{x}{Argument to S3 method \code{datey_interval()}.
-If \code{x} is a \code{datey} then it represents the start (exclusive) of an interval
+If \code{x} is a \code{datey} then it represents the start (inclusive) of an interval
 and an \code{end} argument is also required.
 If \code{x} is a \code{logical} then it is mapped to 'all of time' or \code{NA_datey_interval_}.}
 
@@ -39,7 +39,7 @@ If \code{x} is a \code{logical} then it is mapped to 'all of time' or \code{NA_d
 If \code{strict} is \code{TRUE} -- the default -- then execution is stopped.
 If \code{strict} is \code{FALSE} then \code{NA} is returned.}
 
-\item{start, end}{The start (exclusive) and end (inclusive) of the interval.
+\item{start, end}{The start (inclusive) and end of the interval (exclusive).
 These can be any type that is convertible to a \code{datey}.}
 }
 \value{
@@ -47,12 +47,9 @@ A vector of \code{datey_interval}.
 }
 \description{
 Creates a \code{datey_interval},
-a left-open, right-closed interval (\code{start}, \code{end}].
+a closed-open ('clopen') interval  [\code{start}, \code{end}).
 
-A \code{datey} \code{t} is included in the interval if \code{start} < t <= \code{end}.
-This matches the usual actuarial convention that a period is named after
-its end, e.g. 'the year ending 31 December 2025', and means that a death
-at the end of an exposure period lies within that period.
+A \code{datey} \code{t} in included in the interval if \code{start} <= t < \code{end}.
 
 There are two syntaxes to create a \code{datey_interval} from \code{start} and \code{end}:
 \itemize{
@@ -66,7 +63,7 @@ version. The lengths of vector arguments must be multiples of each other.
 
 A \code{datey_interval} can also be created from \code{logical}, mapping
 \itemize{
-\item \code{TRUE} to (1000,3000], which is referred to as
+\item \code{TRUE} to [1000,3000), which is referred to as
 'all of time' in \strong{datey} documentation, and
 \item \code{FALSE} and \code{NA} to \code{NA_datey_interval_}.
 }
@@ -85,29 +82,29 @@ Common operations on intervals are
 start <- datey(2000)
 end <- datey(2001)
 interval <- start \%to\% end
-interval  # (2000-01-01.0, 2001-01-01.0]
+interval  # [2000-01-01.0, 2001-01-01.0)
 
 # Alternative functional syntax:
 identical(interval, datey_interval(start, end)) # TRUE
 
 # Can use numeric arguments:
-2000 \%to\% 2001  # (2000-01-01.0, 2001-01-01.0]
+2000 \%to\% 2001  # [2000-01-01.0, 2001-01-01.0)
 
 # Can use vector arguments:
 2000 \%to\% 2001:2003 # Vector of 3 intervals
 
 # Logical values are mapped to 'all of time' or `NA_datey_interval_`:
-datey_interval(c(TRUE, FALSE, NA)) # (1000-01-01.0, 3000-01-01.0] <NA> <NA>
+datey_interval(c(TRUE, FALSE, NA)) # [1000-01-01.0, 3000-01-01.0) <NA> <NA>
 
-# Test for inclusion in (start, end]:
+# Test for inclusion in [start, end):
 interval \%includes\% mid_day(1999, 12, 31) # FALSE
-interval \%includes\% start                 # FALSE -- start is *not* included
+interval \%includes\% start                 # TRUE -- start *is* included
 interval \%includes\% datey(2000.5)         # TRUE
-interval \%includes\% end                   # TRUE -- end *is* included
+interval \%includes\% end                   # FALSE -- end is *not* included
 
 # Obtain the intersection of two intervals
 interval2 <- start_day(2000, 12, 1) \%to\% 2010
-interval & interval2  # (2000-12-01.0, 2001-01-01.0]
+interval & interval2  # [2000-12-01.0, 2001-01-01.0)
 
 }
 \seealso{

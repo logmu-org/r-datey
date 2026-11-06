@@ -79,12 +79,10 @@ c(start, t, exit) # 2018-09-12.0 2021-03-27.4098 2024-03-07.5
 #> [1] 2018-09-12.0    2021-03-27.4098 2024-03-07.5
 
 interval <- start %to% exit # Exposure period
-interval # (2018-09-12.0, 2024-03-07.5]
-#> [1] (2018-09-12.0, 2024-03-07.5]
+interval # [2018-09-12.0, 2024-03-07.5)
+#> [1] [2018-09-12.0, 2024-03-07.5)
 
 interval %includes% t # Test if a point in time is in an interval
-#> [1] TRUE
-interval %includes% exit # TRUE -- the death is in the exposure period
 #> [1] TRUE
 
 exit - start      # Duration of exposure period

@@ -26,17 +26,17 @@ cpp11::r_string dateyIntervalToRString(double interval, bool includeDayFraction)
 
   // 4 digits distinguishes between values
   // 16 chars captures max text plus 0 terminator
-  // (YYYY-MM-DD.0###, YYYY-MM-DD.0###]\0
+  // [YYYY-MM-DD.0###, YYYY-MM-DD.0###)\0
   char chars[1 + 15 + 2 + 15 + 2];
 
   char* pChars = chars;
 
-  *pChars++ = '(';
+  *pChars++ = '[';
   writeValidDatey(start, includeDayFraction, pChars);
   *pChars++ = ',';
   *pChars++ = ' ';
   writeValidDatey(end, includeDayFraction, pChars);
-  *pChars++ = ']';
+  *pChars++ = ')';
   *pChars = '\0';
 
   return cpp11::r_string(chars);

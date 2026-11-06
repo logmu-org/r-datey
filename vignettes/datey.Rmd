@@ -30,7 +30,7 @@ see [Why **datey**?][why-datey]. For the complete formal specification, see the
 
 - **`datey`** -- a point in time, stored at day-fraction precision.
 - **`durationy`** -- a duration in years.
-- **`datey_interval`** -- a left-open, right-closed `(start, end]` time interval.
+- **`datey_interval`** -- a half-open `[start, end)` time interval.
 
 These all store dates and durations as integers with units of 1/534&#8201;360 of a year (*clicks*). As a result, arithmetic with these types is exact and associative.
 
@@ -232,7 +232,7 @@ identical(durationy(2) * 0.05, 0.10)  # TRUE
 
 ## `datey_interval` -- representing a time period
 
-A `datey_interval` is a left-open, right-closed `(start, end]` interval. Create one with
+A `datey_interval` is a half-open `[start, end)` interval. Create one with
 `datey_interval()` or the `%to%` operator:
 
 ```{r}
@@ -260,26 +260,18 @@ durationy(interval)
 ### Interval membership testing
 
 `%includes%` tests whether a `datey` falls inside the interval. The interval
-excludes its start and includes its end:
+includes its start and excludes its end:
 
 ```{r}
-interval %includes% a                     # FALSE -- start is excluded
-interval %includes% b                     # TRUE  -- end is included
+interval %includes% a                     # TRUE  -- start is included
+interval %includes% b                     # FALSE -- end is excluded
 interval %includes% mid_day(2024, 6, 15)  # TRUE
-```
-
-So an exposure period that ends in death includes the death:
-
-```{r}
-entry <- start_day(2018, 9, 12)
-death <- mid_day(2024, 3, 7)
-(entry %to% death) %includes% death       # TRUE
 ```
 
 ### Interval properties
 
 `is_proper()` returns `TRUE` when start ≤ end; `is_collapsed()` returns
-`TRUE` when start ≥ end. A point interval `(a, a]` is both proper and
+`TRUE` when start ≥ end. A point interval `[a, a)` is both proper and
 collapsed (it contains no time):
 
 ```{r}

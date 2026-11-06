@@ -6,7 +6,7 @@
 #' - [datey] — a point in time, expressed as a calendar date with an optional
 #'   day fraction.
 #' - [durationy] — a duration in years.
-#' - [datey_interval] — a left-open, right-closed interval (start, end\] of time.
+#' - [datey_interval] — a closed-open interval \[`start`, `end`) of time.
 #'
 #' Arithmetic, comparison and summary operations are defined in [ops],
 #' [mean.datey] and [max_min].

@@ -12,7 +12,7 @@
 #'
 #' | Constant | Value | Meaning |
 #' | :--- | :--- | :--- |
-#' | `valid_years_start` | `1000L` | First valid calendar year for a `datey`. <br/>NB `datey(valid_years_start)` is not included in `all_of_time` because intervals do not include their start. |
+#' | `valid_years_start` | `1000L` | The first valid calendar year for a `datey`. |
 #' | `valid_years_end` | `3000L` | The final valid calendar year for a `datey` (noting that only the start of this year is valid). |
 #' | `valid_duration_years_max` | `2000L` | The maximum valid duration in years for a `durationy`. |
 #'
