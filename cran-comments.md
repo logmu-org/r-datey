@@ -2,13 +2,13 @@
 
 ## Summary
 
-This is a patch release that replaces datey 0.2.0, which I submitted on
-30 October 2026 and which is still in the incoming 'waiting' queue.
-Please discard that 0.2.0 submission.
+This release adds three functions for anniversary-based calculations
+(`start_anniversary_day()`, `is_start_anniversary_day()` and
+`start_anniversary_day_to_ymd()`).
 
-On reflection, the breaking change to the `datey_interval` convention
-proposed in 0.2.0 has been dropped, so this release has no API changes.
-The only other change is the maintainer's email address.
+The maintainer's email address has been updated.
+
+Existing behaviour is unchanged.
 
 ## Maintainer email
 

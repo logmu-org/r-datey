@@ -3,7 +3,7 @@
 - Added anniversary days for circumstances where anniversaries are the main
   focus, such as defining datasets by policy anniversary.
   Under this interpretation, all years have 366 days but 29 February is treated
-  as always being a quarter of the length of other days.
+  as always being just under a quarter of the length of other days.
   This means that adding whole years always lands on the same
   calendar date, regardless of whether it is in a leap year or not.
   Use `start_anniversary_day()` to create
