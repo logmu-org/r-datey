@@ -23,7 +23,8 @@ A vector of \code{logical}. Elements of the \code{datey} vector that are
 \code{is_mid_day()} checks whether \code{x} is the middle of a day.
 
 These properties are \emph{not} necessarily preserved when a duration of
-\emph{n} years is added or subtracted.
+\emph{n} years is added or subtracted. If that's critical (e.g. for
+dataset anniversaries) then use \link[=anniversary_days]{anniversary days}.
 }
 \examples{
 # Create (NA, 0 days, 1/4 day, 1/2 day):
@@ -39,5 +40,5 @@ is_start_day(t) # TRUE
 is_start_day(t + durationy(1)) # FALSE
 }
 \seealso{
-\link{datey}
+\link{datey}, \link{anniversary_days}
 }

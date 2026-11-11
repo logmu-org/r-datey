@@ -70,6 +70,10 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
         {
           msg = "`month` must be 1 to 12 inclusive.";
         }
+        else if (day < 1)
+        {
+          msg = "`day` is less than 1.";
+        }
         else
         {
           msg = "`day_fraction` must be in the interval [0,1].";
@@ -102,7 +106,7 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
   {
     if (strict)
     {
-      cpp11::stop("`day` argument must be 1 to M, where M is the number of days in the month.");
+      cpp11::stop("`day` must be 1 to M, where M is the number of days in the month.");
     }
     return NA_INTEGER;
   }
@@ -112,6 +116,73 @@ int dateyFromYMDF(int year, int month, int day, double dayFraction, bool strict)
   int fractionClicks = (int)roundBankers(dayFraction * clicksPerDay);
 
   return year * ClicksPerYear + dayCount * clicksPerDay + fractionClicks;
+}
+
+int startAnniversaryDayFromYMD(int year, int month, int day, bool strict)
+{
+  if (!is1000To2999(year) || !isValidMonth(month) || day < 1)
+  {
+    if (
+      // Special case: 3000-01-01
+      !(year == 3000 && month == 1 && day == 1)
+    )
+    {
+      if (cpp11::is_na(year) || cpp11::is_na(month) || cpp11::is_na(day))
+      {
+        return NA_INTEGER;
+      }
+
+      if (strict)
+      {
+        const char *msg;
+        if (!is1000To2999(year))
+        {
+          msg = "`year` is outside [1000,2999] and date is not 3000-01-01.0.";
+        }
+        else if (!isValidMonth(month))
+        {
+          msg = "`month` must be 1 to 12 inclusive.";
+        }
+        else //if (day < 1)
+        {
+          msg = "`day` is less than 1.";
+        }
+        cpp11::stop(msg);
+      }
+
+      return NA_INTEGER;
+    }
+  }
+
+  // 29 Feb is always allowed so work with the leap year version
+  int daysToEndOfMonth = DaysToStartByMonth366[month];
+  int daysToStartOfMonth = DaysToStartByMonth366[month - 1];
+
+  int dayLess1 = day - 1;
+  if (dayLess1 < 0 || dayLess1 >= daysToEndOfMonth - daysToStartOfMonth)
+  {
+    if (strict)
+    {
+      cpp11::stop("`day` must be 1 to M, where M is the number of days in the month.");
+    }
+    return NA_INTEGER;
+  }
+
+  int dayCount = daysToStartOfMonth + dayLess1;
+
+  // End of 28 Feb is 59 = 31 + 28 days into the year
+  // Clicks per day is 1463 except for 29 Feb which is 365
+  int clicksFromStartYear;
+  if (dayCount <= 59)
+  {
+    clicksFromStartYear = dayCount * 1463;
+  }
+  else
+  {
+    clicksFromStartYear = (dayCount - 1) * 1463 + 365;
+  }
+
+  return year * ClicksPerYear + clicksFromStartYear;
 }
 
 std::tuple<int, int, int, double> dateyToYMDF(int datey)
@@ -154,6 +225,48 @@ std::tuple<int, int, int, double> dateyToYMDF(int datey)
 
   // This is unreachable.
   return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER, NA_REAL);
+}
+
+std::tuple<int, int, int> dateyToStartAnniversaryYMD(int datey)
+{
+  if (!isValidDatey(datey))
+  {
+    return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER);
+  }
+  int year = datey / ClicksPerYear;
+  int clicksFromStartOfYear = datey - year * ClicksPerYear;
+
+  const int start_02_29 = (31 + 28) * 1463;
+  const int start_03_01 = start_02_29 + 365;
+  if(clicksFromStartOfYear >= start_03_01)
+  {
+    // Assumes leap year calendar
+    clicksFromStartOfYear += 1463 - 365;
+  }
+  else if (clicksFromStartOfYear > start_02_29)
+  {
+    return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER);
+  }
+
+  int wholeDaysFromStartOfYear = clicksFromStartOfYear / 1463;
+  if (clicksFromStartOfYear != wholeDaysFromStartOfYear * 1463)
+  {
+    return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER);
+  }
+
+  for (int monthLess1 = 11; ; --monthLess1)
+  {
+    int daysToStartOfMonth = DaysToStartByMonth366[monthLess1];
+    if (wholeDaysFromStartOfYear >= daysToStartOfMonth)
+    {
+      int day = wholeDaysFromStartOfYear - daysToStartOfMonth + 1;
+      int month = monthLess1 + 1;
+      return std::make_tuple(year, month, day);
+    }
+  }
+
+  // This should be unreachable.
+  return std::make_tuple(NA_INTEGER, NA_INTEGER, NA_INTEGER);
 }
 
 int dateyWithNewDayFraction(int datey, double dayFraction, bool strict)

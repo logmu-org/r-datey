@@ -57,5 +57,5 @@ If the \code{datey} was constructed using \code{end_day} or \code{day_fraction =
   t$day_fraction
 }
 \seealso{
-\link{datey}, \link{text_from_datey}
+\link{datey}, \link{text_from_datey}, \link{anniversary_days}
 }

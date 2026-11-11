@@ -224,7 +224,7 @@ is_datey <- function(x) typeof(x) == "integer" && isa(x, c("datey", "datey_type"
 #'   t$month
 #'   t$day
 #'   t$day_fraction
-#' @seealso [datey], [text_from_datey]
+#' @seealso [datey], [text_from_datey], [anniversary_days]
 #' @name datey_components
 NULL
 
@@ -430,7 +430,7 @@ to_ymdf <- function(x) {
 #' try(mid_day("0999-01-01"))
 #' end_day("abc", strict = FALSE) # NA
 #' end_day("0999-01-01", strict = FALSE) # NA
-#' @seealso [durationy], [datey_interval], [text_from_datey], [as_years_datey],
+#' @seealso [anniversary_days], [durationy], [datey_interval], [text_from_datey], [as_years_datey],
 #'   [datey_components], [is_xxx_day], [is_leap_year], [is_NA], [ops],
 #'   `vignette("why-datey", package = "datey")` for the annual-grid design,
 #'   `vignette("datey", package = "datey")` for a worked introduction
@@ -604,7 +604,8 @@ xxx_day <- function(x, month, day, day_fraction, strict, blank_is_NA) {
 #' `is_mid_day()` checks whether `x` is the middle of a day.
 #'
 #' These properties are *not* necessarily preserved when a duration of
-#' *n*&#xA0;years is added or subtracted.
+#' *n*&#xA0;years is added or subtracted. If that's critical (e.g. for
+#' dataset anniversaries) then use [anniversary days][anniversary_days].
 #'
 #' @param x The `datey` to test.
 #' @returns A vector of `logical`. Elements of the `datey` vector that are
@@ -621,7 +622,7 @@ xxx_day <- function(x, month, day, day_fraction, strict, blank_is_NA) {
 #' t <- start_day(2000,7,1) # Leap year
 #' is_start_day(t) # TRUE
 #' is_start_day(t + durationy(1)) # FALSE
-#' @seealso [datey]
+#' @seealso [datey], [anniversary_days]
 #' @name is_xxx_day
 NULL
 
@@ -758,4 +759,109 @@ print.datey <- function(x, include_day_fraction = TRUE, max = NULL, ...) {
   }
 
   invisible(x)
+}
+
+
+#' Anniversary days
+#'
+#' @description
+#' The position of a date relative to the start of its calendar year depends on
+#' whether that calendar year is a leap year or not.
+#' This means that in **datey** (and reality!) the start of 2020-04-01 plus
+#' 1&#xA0;year is not equal to the start of 2021-04-01.
+#'
+#' This is by design and is usually precisely what's required.
+#' But this behaviour can be awkward when anniversaries are the focus
+#' and, fictitious as it may be, the position of a date in a year is required to
+#' be the same regardless of whether the year is or is not a leap year.
+#'
+#' To help with such cases, **datey** also provides anniversary days,
+#' which assume every year has 366 days but that 29 February is just under
+#' a quarter of the length of the other days. This convenient fiction ensures
+#' that anniversaries always occur at the same point in the year.
+#'
+#' These functions are intended for special cases, e.g. when anniversaries are
+#' used to define datasets.
+#' *For standard calculations, the normal approach is recommended.*
+#'
+#' @param x The `datey` to test or deconstruct.
+#' @param year,month,day
+#' The year (1000 to 3000), month (1 to 12) and day (1 to 31).
+#'
+#' Note that 29&#xA0;February is valid for all years.
+#' @param strict
+#' How non-compliant *non-NA* inputs should be handled.
+#' If `strict` is `TRUE` -- the default -- then execution is stopped.
+#' If `strict` is `FALSE` then `NA` is returned.
+#' @returns
+#' `start_anniversary_day()` returns a `datey` the same length as its arguments.
+#'
+#' `is_start_anniversary_day()` returns a `logical` the same length as its argument.
+#'
+#' `start_anniversary_day_to_ymd()` returns a list of
+#'   integer vector `year`,
+#'   integer vector `month`, and
+#'   integer vector `day`,
+#' all with the same length.
+#'
+#' If the `datey` is not the start of an anniversary day then
+#' all components are `NA`.
+#' @examples
+#' # Adding whole years to the start of a day can leave the day boundary,
+#' # because days in a leap year are shorter:
+#' t <- start_day(2020, 4, 1) + durationy(0:4)
+#' t
+#' is_start_day(t)
+#'
+#' # Anniversary days stay on the anniversary:
+#' anniversary <- start_anniversary_day(2020, 4, 1) + durationy(0:4)
+#' is_start_anniversary_day(anniversary)
+#' as.data.frame(start_anniversary_day_to_ymd(anniversary))
+#'
+#' # 29 February is an anniversary day in every year:
+#' leap_day <- start_anniversary_day(2020, 2, 29) + durationy(0:4)
+#' as.data.frame(start_anniversary_day_to_ymd(leap_day))
+#'
+#' # The cost is that anniversary days rarely match calendar days. Indeed, in
+#' # 2020, a leap year, the 1 April anniversary day starts on 31 March:
+#' anniversary[1:2]
+#'
+#' # Anniversary day deconstruction is NA for non-anniversary days:
+#' as.data.frame(start_anniversary_day_to_ymd(start_day(2020, 4, 1)))
+#' @seealso [datey], [datey_components], [is_xxx_day]
+#' @name anniversary_days
+NULL
+
+#' @rdname anniversary_days
+#' @export
+start_anniversary_day_to_ymd <- function(x) {
+  ensure_is_datey(x)
+  cpp_dateyToStartAnniversaryYMD(x)
+}
+
+#' @rdname anniversary_days
+#' @export
+start_anniversary_day <- function(year, month, day, strict = TRUE) {
+
+  ensure_is_switch(strict)
+
+  year <- as_integer_for_cpp(year)
+  month <- as_integer_for_cpp(month)
+  day <- as_integer_for_cpp(day)
+
+  clicks <- cpp_startAnniversaryDayFromYMD(year, month, day, strict)
+
+  datey_from_clicks(clicks)
+}
+
+#' @rdname anniversary_days
+#' @export
+is_start_anniversary_day <- function(x) {
+  ensure_is_datey(x)
+  clicks <- convert_datey_to_valid_clicks(x)
+  clicks_from_start_year <- clicks %% 534360L
+  # Start 29 Feb is (31 + 28) * 1463 = 86317
+  clicks_to_test <- ifelse(clicks_from_start_year <= 86317L, clicks_from_start_year, clicks_from_start_year - 365L)
+  day_fraction_clicks <- clicks_to_test %% 1463L
+  day_fraction_clicks == 0L
 }

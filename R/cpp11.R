@@ -20,6 +20,10 @@ cpp_dateyFromYMDF_dblYMD <- function(year, month, day, dayFraction, strict) {
   .Call(`_datey_cpp_dateyFromYMDF_dblYMD`, year, month, day, dayFraction, strict)
 }
 
+cpp_startAnniversaryDayFromYMD <- function(year, month, day, strict) {
+  .Call(`_datey_cpp_startAnniversaryDayFromYMD`, year, month, day, strict)
+}
+
 cpp_dateyToYMDF <- function(clicks) {
   .Call(`_datey_cpp_dateyToYMDF`, clicks)
 }
@@ -38,6 +42,10 @@ cpp_dateyToD <- function(clicks) {
 
 cpp_dateyToF <- function(clicks) {
   .Call(`_datey_cpp_dateyToF`, clicks)
+}
+
+cpp_dateyToStartAnniversaryYMD <- function(clicks) {
+  .Call(`_datey_cpp_dateyToStartAnniversaryYMD`, clicks)
 }
 
 cpp_dateyWithNewDayFraction <- function(clicks, dayFraction, strict) {

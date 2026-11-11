@@ -159,6 +159,63 @@ integers cpp_dateyFromYMDF_dblYMD(
 
   return result;
 }
+[[cpp11::register]]
+integers cpp_startAnniversaryDayFromYMD(
+    integers year,
+    integers month,
+    integers day,
+    bool strict)
+{
+  R_xlen_t n_y = year.size();
+  R_xlen_t n_m = month.size();
+  R_xlen_t n_d = day.size();
+
+  // Optimise common case where vectors are same length.
+  if (n_y == n_m && n_y == n_d)
+  {
+    writable::integers result(n_y);
+
+    for(R_xlen_t i = 0; i < n_y; ++i)
+    {
+      result[i] = startAnniversaryDayFromYMD(year[i], month[i], day[i], strict);
+    }
+
+    return result;
+  }
+  else
+  {
+    R_xlen_t n = std::max(std::max(n_y, n_m), n_d);
+
+    writable::integers result(n);
+
+    if (n > 0)
+    {
+      if (n_y == 0 || n_m == 0 || n_d == 0)
+      {
+        stop("If one of `year`, `month` and `day` has a non-zero length then all must.");
+      }
+      if (n % n_y != 0 || n % n_m != 0 || n % n_d != 0)
+      {
+        stop("Lengths of `year`, `month` and `day` must be multiples of each other.");
+      }
+    }
+
+    R_xlen_t i_y = 0;
+    R_xlen_t i_m = 0;
+    R_xlen_t i_d = 0;
+
+    for(R_xlen_t i = 0; i < n; ++i)
+    {
+      result[i] = startAnniversaryDayFromYMD(year[i_y], month[i_m], day[i_d], strict);
+
+      if (++i_y >= n_y) { i_y = 0;}
+      if (++i_m >= n_m) { i_m = 0;}
+      if (++i_d >= n_d) { i_d = 0;}
+    }
+
+    return result;
+  }
+}
 
 [[cpp11::register]]
 list cpp_dateyToYMDF(integers clicks)
@@ -241,6 +298,34 @@ doubles cpp_dateyToF(integers clicks)
 
   return result;
 }
+
+[[cpp11::register]]
+list cpp_dateyToStartAnniversaryYMD(integers clicks)
+{
+  R_xlen_t n = clicks.size();
+
+  cpp11::writable::integers year(n);
+  cpp11::writable::integers month(n);
+  cpp11::writable::integers day(n);
+
+  for(R_xlen_t i = 0; i < n; ++i)
+  {
+    auto ymdf = dateyToStartAnniversaryYMD(clicks[i]);
+
+    year[i] = std::get<0>(ymdf);
+    month[i] = std::get<1>(ymdf);
+    day[i] = std::get<2>(ymdf);
+  }
+
+  cpp11::writable::list result(3);
+  result[0] = year;
+  result[1] = month;
+  result[2] = day;
+  result.names() = {"year", "month", "day"};
+
+  return result;
+}
+
 
 [[cpp11::register]]
 integers cpp_dateyWithNewDayFraction(integers clicks, doubles dayFraction, bool strict)

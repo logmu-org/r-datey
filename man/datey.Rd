@@ -220,7 +220,7 @@ end_day("abc", strict = FALSE) # NA
 end_day("0999-01-01", strict = FALSE) # NA
 }
 \seealso{
-\link{durationy}, \link{datey_interval}, \link{text_from_datey}, \link{as_years_datey},
+\link{anniversary_days}, \link{durationy}, \link{datey_interval}, \link{text_from_datey}, \link{as_years_datey},
 \link{datey_components}, \link{is_xxx_day}, \link{is_leap_year}, \link{is_NA}, \link{ops},
 \code{vignette("why-datey", package = "datey")} for the annual-grid design,
 \code{vignette("datey", package = "datey")} for a worked introduction

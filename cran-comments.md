@@ -34,6 +34,13 @@ I can confirm the change from the old address.
 0 errors | 0 warnings | 1 note
 
 * New maintainer -- the maintainer email address has changed (per the above)
+* Possibly invalid URL
+  <https://www.actuaries.org.uk/learn-and-develop/continuous-mortality-investigation>
+  (status 503) -- this is the Institute and Faculty of Actuaries' page for
+  the Continuous Mortality Investigation. The URL is correct, but the whole
+  actuaries.org.uk site has been returning '503 Service Unavailable' since
+  at least 30 October 2026. The same URL passed the incoming checks for
+  datey 0.1.2.
 
 ## Reverse dependencies
 

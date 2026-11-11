@@ -68,6 +68,9 @@ reference:
   contents:
   - as_years_datey
   - as_years_durationy
+- title: Anniversary days
+  contents:
+  - anniversary_days
 - title: Operators and statistics
   contents:
   - ops

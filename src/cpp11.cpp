@@ -41,6 +41,13 @@ extern "C" SEXP _datey_cpp_dateyFromYMDF_dblYMD(SEXP year, SEXP month, SEXP day,
   END_CPP11
 }
 // R_datey.cpp
+integers cpp_startAnniversaryDayFromYMD(integers year, integers month, integers day, bool strict);
+extern "C" SEXP _datey_cpp_startAnniversaryDayFromYMD(SEXP year, SEXP month, SEXP day, SEXP strict) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_startAnniversaryDayFromYMD(cpp11::as_cpp<cpp11::decay_t<integers>>(year), cpp11::as_cpp<cpp11::decay_t<integers>>(month), cpp11::as_cpp<cpp11::decay_t<integers>>(day), cpp11::as_cpp<cpp11::decay_t<bool>>(strict)));
+  END_CPP11
+}
+// R_datey.cpp
 list cpp_dateyToYMDF(integers clicks);
 extern "C" SEXP _datey_cpp_dateyToYMDF(SEXP clicks) {
   BEGIN_CPP11
@@ -73,6 +80,13 @@ doubles cpp_dateyToF(integers clicks);
 extern "C" SEXP _datey_cpp_dateyToF(SEXP clicks) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_dateyToF(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
+  END_CPP11
+}
+// R_datey.cpp
+list cpp_dateyToStartAnniversaryYMD(integers clicks);
+extern "C" SEXP _datey_cpp_dateyToStartAnniversaryYMD(SEXP clicks) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(cpp_dateyToStartAnniversaryYMD(cpp11::as_cpp<cpp11::decay_t<integers>>(clicks)));
   END_CPP11
 }
 // R_datey.cpp
@@ -286,6 +300,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_dateyToF",                       (DL_FUNC) &_datey_cpp_dateyToF,                       1},
     {"_datey_cpp_dateyToM",                       (DL_FUNC) &_datey_cpp_dateyToM,                       1},
     {"_datey_cpp_dateyToRString",                 (DL_FUNC) &_datey_cpp_dateyToRString,                 2},
+    {"_datey_cpp_dateyToStartAnniversaryYMD",     (DL_FUNC) &_datey_cpp_dateyToStartAnniversaryYMD,     1},
     {"_datey_cpp_dateyToY",                       (DL_FUNC) &_datey_cpp_dateyToY,                       1},
     {"_datey_cpp_dateyToYMDF",                    (DL_FUNC) &_datey_cpp_dateyToYMDF,                    1},
     {"_datey_cpp_dateyWithNewDayFraction",        (DL_FUNC) &_datey_cpp_dateyWithNewDayFraction,        3},
@@ -296,6 +311,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_datey_cpp_isLeapYear_datey",               (DL_FUNC) &_datey_cpp_isLeapYear_datey,               1},
     {"_datey_cpp_isLeapYear_double",              (DL_FUNC) &_datey_cpp_isLeapYear_double,              1},
     {"_datey_cpp_isLeapYear_integer",             (DL_FUNC) &_datey_cpp_isLeapYear_integer,             1},
+    {"_datey_cpp_startAnniversaryDayFromYMD",     (DL_FUNC) &_datey_cpp_startAnniversaryDayFromYMD,     4},
     {NULL, NULL, 0}
 };
 }
