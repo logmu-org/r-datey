@@ -30,9 +30,9 @@ durations.
 Defaults to \code{FALSE}.}
 
 \item{use_true_minus}{Whether to use the
-\href{https://www.compart.com/en/unicode/U+2212}{true minus sign ('-', U+2212)}
-sign as opposed to the
-\href{https://www.compart.com/en/unicode/U+002D}{ASCII hyphen (-, U+002D)}.
+true minus sign (U+2212)
+as opposed to the
+ASCII hyphen (U+002D).
 Defaults to \code{TRUE}.}
 
 \item{year_unit}{The year unit name to print.

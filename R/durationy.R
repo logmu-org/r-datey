@@ -242,9 +242,9 @@ as.integer.durationy <- function(x, ...) {
 #' durations.
 #' Defaults to `FALSE`.
 #' @param use_true_minus Whether to use the
-#' [true minus sign ('-', U+2212)](https://www.compart.com/en/unicode/U+2212)
-#' sign as opposed to the
-#' [ASCII hyphen (-, U+002D)](https://www.compart.com/en/unicode/U+002D).
+#' true minus sign (U+2212)
+#' as opposed to the
+#' ASCII hyphen (U+002D).
 #' Defaults to `TRUE`.
 #' @param year_unit The year unit name to print.
 #' If not blank then the value is followed by a space and the unit.
