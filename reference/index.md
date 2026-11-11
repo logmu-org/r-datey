@@ -86,6 +86,13 @@
 
   Convert a `durationy` to duration in years
 
+## Anniversary days
+
+- [`start_anniversary_day_to_ymd()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  [`start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  [`is_start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  : Anniversary days
+
 ## Operators and statistics
 
 - [`Ops(`*`<datey_type>`*`)`](https://r-datey.logmu.org/reference/ops.md)

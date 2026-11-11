@@ -56,7 +56,8 @@ individually.
 ## See also
 
 [datey](https://r-datey.logmu.org/reference/datey.md),
-[text_from_datey](https://r-datey.logmu.org/reference/text_from_datey.md)
+[text_from_datey](https://r-datey.logmu.org/reference/text_from_datey.md),
+[anniversary_days](https://r-datey.logmu.org/reference/anniversary_days.md)
 
 ## Examples
 

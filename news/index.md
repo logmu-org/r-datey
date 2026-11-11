@@ -2,12 +2,18 @@
 
 ## datey 0.1.3
 
-- The maintainer’s email address is now <tim@timgord.com>.
-- `datey_interval` remains left-closed, right-open, i.e. `[start, end)`.
-  The development version briefly switched to `(start, end]`, but that
-  change was withdrawn before release.
-- Added tests of interval boundaries, covering adjacent intervals, empty
-  intervals and the two ends of `all_of_time`.
+- Added anniversary days for circumstances where anniversaries are the
+  main focus, such as defining datasets by policy anniversary. Under
+  this interpretation, all years have 366 days but 29 February is
+  treated as always being a quarter of the length of other days. This
+  means that adding whole years always lands on the same calendar date,
+  regardless of whether it is in a leap year or not. Use
+  [`start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  to create them,
+  [`is_start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  to test for them and
+  [`start_anniversary_day_to_ymd()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  to recover year, month and day using the same interpretation.
 
 ## datey 0.1.2
 
