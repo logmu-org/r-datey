@@ -1,4 +1,4 @@
-# CRAN submission comments — datey 0.1.3
+# CRAN submission comments - datey 0.1.3
 
 ## Summary
 
