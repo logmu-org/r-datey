@@ -1,5 +1,13 @@
 # Changelog
 
+## datey 0.1.1
+
+CRAN release: 2026-07-14
+
+- Fixed undefined behaviour (negation of `NA_INTEGER`) when parsing
+  `durationy` from text in C++. Results are unaffected on conforming
+  hardware.
+
 ## datey 0.1.0
 
 CRAN release: 2026-07-07
