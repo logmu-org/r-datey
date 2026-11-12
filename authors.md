@@ -8,15 +8,15 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/logmu-org/r-datey/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/logmu-org/r-datey/blob/v0.1.2/DESCRIPTION)
 
 Gordon T (2026). *datey: Exact Date and Duration Arithmetic on an Annual
-Grid*. R package version 0.1.3, <https://r-datey.logmu.org/>.
+Grid*. R package version 0.1.2, <https://github.com/logmu-org/r-datey>.
 
     @Manual{,
       title = {datey: Exact Date and Duration Arithmetic on an Annual Grid},
       author = {Tim Gordon},
       year = {2026},
-      note = {R package version 0.1.3},
-      url = {https://r-datey.logmu.org/},
+      note = {R package version 0.1.2},
+      url = {https://github.com/logmu-org/r-datey},
     }

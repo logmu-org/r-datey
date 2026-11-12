@@ -1,20 +1,5 @@
 # Changelog
 
-## datey 0.1.3
-
-- Added anniversary days for circumstances where anniversaries are the
-  main focus, such as defining datasets by policy anniversary. Under
-  this interpretation, all years have 366 days but 29 February is
-  treated as always being just under a quarter of the length of other
-  days. This means that adding whole years always lands on the same
-  calendar date, regardless of whether it is in a leap year or not. Use
-  [`start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
-  to create them,
-  [`is_start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
-  to test for them and
-  [`start_anniversary_day_to_ymd()`](https://r-datey.logmu.org/reference/anniversary_days.md)
-  to recover year, month and day using the same interpretation.
-
 ## datey 0.1.2
 
 CRAN release: 2026-09-16

@@ -42,8 +42,11 @@ print(
 
 - use_true_minus:
 
-  Whether to use the true minus sign (U+2212) as opposed to the ASCII
-  hyphen (U+002D). Defaults to `TRUE`.
+  Whether to use the [true minus sign ('-',
+  U+2212)](https://www.compart.com/en/unicode/U+2212) sign as opposed to
+  the [ASCII hyphen (-,
+  U+002D)](https://www.compart.com/en/unicode/U+002D). Defaults to
+  `TRUE`.
 
 - year_unit:
 

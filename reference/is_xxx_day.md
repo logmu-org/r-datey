@@ -5,9 +5,7 @@
 `is_mid_day()` checks whether `x` is the middle of a day.
 
 These properties are *not* necessarily preserved when a duration of
-*n* years is added or subtracted. If that's critical (e.g. for dataset
-anniversaries) then use [anniversary
-days](https://r-datey.logmu.org/reference/anniversary_days.md).
+*n* years is added or subtracted.
 
 ## Usage
 
@@ -30,8 +28,7 @@ A vector of `logical`. Elements of the `datey` vector that are
 
 ## See also
 
-[datey](https://r-datey.logmu.org/reference/datey.md),
-[anniversary_days](https://r-datey.logmu.org/reference/anniversary_days.md)
+[datey](https://r-datey.logmu.org/reference/datey.md)
 
 ## Examples
 
