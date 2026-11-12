@@ -170,6 +170,7 @@ A vector of `datey`.
 
 ## See also
 
+[anniversary_days](https://r-datey.logmu.org/reference/anniversary_days.md),
 [durationy](https://r-datey.logmu.org/reference/durationy.md),
 [datey_interval](https://r-datey.logmu.org/reference/datey_interval.md),
 [text_from_datey](https://r-datey.logmu.org/reference/text_from_datey.md),

@@ -1,6 +1,5 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-datey.logmu.org/404.html</loc></url>
-<url><loc>https://r-datey.logmu.org/CLAUDE.html</loc></url>
 <url><loc>https://r-datey.logmu.org/LICENSE-text.html</loc></url>
 <url><loc>https://r-datey.logmu.org/LICENSE.html</loc></url>
 <url><loc>https://r-datey.logmu.org/articles/datey.html</loc></url>
@@ -12,6 +11,7 @@
 <url><loc>https://r-datey.logmu.org/news/index.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/NAs.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/all_of_time.html</loc></url>
+<url><loc>https://r-datey.logmu.org/reference/anniversary_days.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/as_years_datey.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/as_years_durationy.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/combine.html</loc></url>
@@ -32,6 +32,7 @@
 <url><loc>https://r-datey.logmu.org/reference/max_min.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/mean.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/ops.html</loc></url>
+<url><loc>https://r-datey.logmu.org/reference/replicate.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/seq.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/subset.html</loc></url>
 <url><loc>https://r-datey.logmu.org/reference/text_from_datey.html</loc></url>

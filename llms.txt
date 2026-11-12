@@ -1,5 +1,7 @@
 # datey
 
+Documentation: <https://r-datey.logmu.org/>
+
 The **datey** package provides a standardised mapping of dates,
 including fractions of a day, onto a discrete annual grid, together with
 exact date and duration arithmetic.
@@ -142,6 +144,13 @@ started](https://r-datey.logmu.org/articles/datey.html).
 
   Subset `datey`, `durationy` or `datey_interval` vectors
 
+- [`rep(`*`<datey>`*`)`](https://r-datey.logmu.org/reference/replicate.md)
+  [`rep(`*`<durationy>`*`)`](https://r-datey.logmu.org/reference/replicate.md)
+  [`rep(`*`<datey_interval>`*`)`](https://r-datey.logmu.org/reference/replicate.md)
+  :
+
+  Replicate `datey`, `durationy` or `datey_interval` vectors
+
 ## Properties of `datey` and `durationy`
 
 - [`to_ymdf()`](https://r-datey.logmu.org/reference/datey_components.md)
@@ -179,6 +188,13 @@ started](https://r-datey.logmu.org/articles/datey.html).
   :
 
   Convert a `durationy` to duration in years
+
+## Anniversary days
+
+- [`start_anniversary_day_to_ymd()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  [`start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  [`is_start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  : Anniversary days
 
 ## Operators and statistics
 
@@ -284,5 +300,15 @@ started](https://r-datey.logmu.org/articles/datey.html).
 ### All vignettes
 
 - [Get started with datey](https://r-datey.logmu.org/articles/datey.md):
+
+  A tour of the datey R package covering dates, durations and intervals.
+
 - [The datey specification](https://r-datey.logmu.org/articles/spec.md):
+
+  The datey specification: mapping of dates and fractions of a day onto
+  an annual grid, and rules for exact date and duration arithmetic.
+
 - [Why datey?](https://r-datey.logmu.org/articles/why-datey.md):
+
+  Why turning dates into years requires special care when calculating
+  rates per annum, and how datey’s regular annual grid helps.

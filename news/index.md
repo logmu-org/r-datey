@@ -1,5 +1,36 @@
 # Changelog
 
+## datey 0.1.3
+
+- Added anniversary days for circumstances where anniversaries are the
+  main focus, such as defining datasets by policy anniversary. Under
+  this interpretation, all years have 366 days but 29 February is
+  treated as always being just under a quarter of the length of other
+  days. This means that adding whole years always lands on the same
+  calendar date, regardless of whether it is in a leap year or not. Use
+  [`start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  to create them,
+  [`is_start_anniversary_day()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  to test for them and
+  [`start_anniversary_day_to_ymd()`](https://r-datey.logmu.org/reference/anniversary_days.md)
+  to recover year, month and day using the same interpretation.
+
+## datey 0.1.2
+
+CRAN release: 2026-09-16
+
+- Added [`rep()`](https://rdrr.io/r/base/rep.html) methods for `datey`,
+  `durationy` and `datey_interval`. Previously
+  [`rep()`](https://rdrr.io/r/base/rep.html) dropped the class and
+  returned bare integer or double values. As
+  [`rep_len()`](https://rdrr.io/r/base/rep.html) and
+  [`rep.int()`](https://rdrr.io/r/base/rep.html) fall back to
+  [`rep()`](https://rdrr.io/r/base/rep.html) dispatch, they are fixed
+  too. This also fixes [`pmax()`](https://rdrr.io/r/base/Extremes.html)
+  and [`pmin()`](https://rdrr.io/r/base/Extremes.html), which previously
+  returned the wrong values for `datey` and `durationy` when arguments
+  of different lengths were recycled.
+
 ## datey 0.1.1
 
 CRAN release: 2026-07-14

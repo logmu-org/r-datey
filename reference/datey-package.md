@@ -39,10 +39,10 @@ Arithmetic, comparison and summary operations are defined in
 
 ## Author
 
-**Maintainer**: Tim Gordon <tim.gordon@btinternet.com>
+**Maintainer**: Tim Gordon <tim@timgord.com>
 ([ORCID](https://orcid.org/0009-0006-3087-4384))
 
 Authors:
 
-- Tim Gordon <tim.gordon@btinternet.com>
+- Tim Gordon <tim@timgord.com>
   ([ORCID](https://orcid.org/0009-0006-3087-4384))
