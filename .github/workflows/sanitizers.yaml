@@ -41,7 +41,7 @@ jobs:
       # let missing Suggests turn into a check error.
       _R_CHECK_FORCE_SUGGESTS_: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install build/test dependencies
         # Use pak, which the r-hub containers ship and which fetches correctly
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload check directory
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: datey.Rcheck-${{ matrix.image }}
           path: datey.Rcheck/
