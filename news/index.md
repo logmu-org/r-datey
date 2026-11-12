@@ -1,29 +1,5 @@
 # Changelog
 
-## datey 0.1.2
-
-CRAN release: 2026-09-16
-
-- Added [`rep()`](https://rdrr.io/r/base/rep.html) methods for `datey`,
-  `durationy` and `datey_interval`. Previously
-  [`rep()`](https://rdrr.io/r/base/rep.html) dropped the class and
-  returned bare integer or double values. As
-  [`rep_len()`](https://rdrr.io/r/base/rep.html) and
-  [`rep.int()`](https://rdrr.io/r/base/rep.html) fall back to
-  [`rep()`](https://rdrr.io/r/base/rep.html) dispatch, they are fixed
-  too. This also fixes [`pmax()`](https://rdrr.io/r/base/Extremes.html)
-  and [`pmin()`](https://rdrr.io/r/base/Extremes.html), which previously
-  returned the wrong values for `datey` and `durationy` when arguments
-  of different lengths were recycled.
-
-## datey 0.1.1
-
-CRAN release: 2026-07-14
-
-- Fixed undefined behaviour (negation of `NA_INTEGER`) when parsing
-  `durationy` from text in C++. Results are unaffected on conforming
-  hardware.
-
 ## datey 0.1.0
 
 CRAN release: 2026-07-07

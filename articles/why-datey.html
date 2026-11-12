@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">datey</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Why datey?</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/v0.1.2/vignettes/why-datey.Rmd" class="external-link"><code>vignettes/why-datey.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/logmu-org/r-datey/blob/v0.1.0/vignettes/why-datey.Rmd" class="external-link"><code>vignettes/why-datey.Rmd</code></a></small>
       <div class="d-none name"><code>why-datey.Rmd</code></div>
     </div>
 
@@ -79,42 +79,44 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/logmu-org/r-datey" class="external-link">datey</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="calculating-per-annum-rates-from-date-input-data">Calculating <em>per annum</em> rates from <em>date</em> input
-data<a class="anchor" aria-label="anchor" href="#calculating-per-annum-rates-from-date-input-data"></a>
+<h2 id="the-unit-is-years-but-the-data-are-dates">The unit is years, but the data are dates<a class="anchor" aria-label="anchor" href="#the-unit-is-years-but-the-data-are-dates"></a>
 </h2>
 <p>Mortality rates, valuation assumptions and many other actuarial
-quantities are defined <em>per year</em>, but the data they are applied
-to – dates of birth, dates of death, policy anniversaries, valuation
-dates – are measured in days.</p>
-<p>It’s common to treat mapping dates onto an annual scale as trivial,
-but consider these two calculations:</p>
+quantities are defined <em>per year</em>. The data they are applied to –
+dates of birth, dates of death, policy anniversaries, valuation dates –
+are measured in days.</p>
+<p>Converting between the two seems like it should be trivial, but it
+isn’t. Consider these calculations:</p>
 <ul>
-<li><p><em>‘Add half a year’ twice starting from 2000‑01‑01.</em> Does
-this land on the same point in time as a single ‘add one year’ step?
-With most day-based arithmetic, the answer is no – the result depends on
-how you split the year up, and on the order in which you do the
+<li><p>“Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so is it
+2025‑02‑28 or is it 2025‑03‑01? Both are defensible, and different tools
+(and different people) choose differently.</p></li>
+<li><p>“Add half a year” twice starting from 2000‑01‑01. Does this land
+on the same point in time as a single “add one year” step? With most
+day-based arithmetic, the answer is no – the result depends on how you
+split the year up, and on the order in which you do the
 additions.</p></li>
-<li><p><em>‘Add one year’ to 2024‑02‑29.</em> There is no 2025‑02‑29, so
-is it 2025‑02‑28 or is it 2025‑03‑01? Both are defensible, and different
-tools (and different people) choose differently.</p></li>
 </ul>
-<p>For a single <em>ad hoc</em> calculation we usually ignore the
-ambiguity and do ‘something sensible’. But actuarial modelling typically
-entails thousands or even millions of these calculations, and so it is
-important to ensure that they produce consistent results.</p>
+<p>For a single <em>ad hoc</em> calculation this kind of ambiguity is a
+curiosity. For an actuarial model that combines exposure periods, runs
+sensitivities, and is reconciled and audited, it’s a problem: the same
+logical calculation, expressed two different but equivalent ways, can
+produce two different numbers.</p>
 </div>
 <div class="section level2">
-<h2 id="an-annual-grid-of-clicks">An annual grid of <em>clicks</em><a class="anchor" aria-label="anchor" href="#an-annual-grid-of-clicks"></a>
+<h2 id="the-datey-approach-a-fixed-annual-grid">The <strong>datey</strong> approach: a fixed annual grid<a class="anchor" aria-label="anchor" href="#the-datey-approach-a-fixed-annual-grid"></a>
 </h2>
-<p><strong>datey</strong> picks a single standardised and precise
-mapping from dates to <em>clicks</em>, where one click is 1 / 534 360 of
-a year, a number chosen so that 1/365 and 1/366 of a year, and useful
-fractions of days and years, are represented exactly.</p>
-<p>Dates (<code>datey</code>) and durations (<code>durationy</code>) are
-stored internally as a count of <em>clicks</em>, which means that date
-and duration calculations reduce to plain old integer arithmetic.</p>
-<p>The practical import is that the two-steps-vs-one-step problem above
-does not arise:</p>
+<p><strong>datey</strong> picks <em>one</em> standardised, precise
+mapping from dates onto an annual grid, and guarantees that arithmetic
+on that grid is exact and associative. Every <code>datey</code> and
+<code>durationy</code> is stored internally as a count of
+<em>clicks</em>, where one click is 1 / 534 360 of a year, a number
+chosen so that 1/365 and 1/366 of a year, and useful fractions of days
+and years, are represented exactly.</p>
+<p>With this approach, date and duration calculations reduce to plain
+old integer arithmetic which is both precise and associative.</p>
+<p>The practical consequence is that the two-steps-vs-one-step problem
+above does not arise:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -128,15 +130,40 @@ does not arise:</p>
 <span><span class="co">#&gt; [1] 2001-01-01.0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">two_steps</span>, <span class="va">one_step</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>In general, <code>(a + d1) + d2 == a + (d1 + d2)</code> for any
+<p><code>(a + d1) + d2 == a + (d1 + d2)</code> for any
 <code>datey</code> <code>a</code> and <code>durationy</code>s
-<code>d1</code>, <code>d2</code>, regardless of leap years or the order
-of operations.</p>
-<p>For full details see the <a href="spec.html"><strong>datey</strong>
-specification</a>.</p>
+<code>d1</code>, <code>d2</code> – always, exactly, regardless of leap
+years or the order of operations. That’s the guarantee
+<strong>datey</strong> is built around, and the <a href="spec.html">specification</a> sets it out precisely.</p>
 </div>
 <div class="section level2">
-<h2 id="fractions-of-a-day">Fractions of a day<a class="anchor" aria-label="anchor" href="#fractions-of-a-day"></a>
+<h2 id="interval-algebra-for-rate-periods">Interval algebra for rate periods<a class="anchor" aria-label="anchor" href="#interval-algebra-for-rate-periods"></a>
+</h2>
+<p>Actuarial calculations very often involve asking “for how much of
+this period did rate X apply?” – e.g. combining a policy’s time at risk
+with the period over which a particular assumption set is valid.</p>
+<p><strong>datey</strong> represents time intervals as
+<code>datey_interval</code>s, written <code>start %to% end</code>. These
+are half-open, i.e. <code>[start, end)</code>, intervals, which means
+consecutive periods interlock precisely without gaps or
+double-counting.</p>
+<p><strong>datey</strong> provides interval algebra to work with time
+intervals directly:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">time_at_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">rate_period_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">12</span>, <span class="fl">31</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># the part of the time at risk to which the 2024 rate applies</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="va">time_at_risk</span> <span class="op">&amp;</span> <span class="va">rate_period_2024</span></span>
+<span><span class="va">overlap</span></span>
+<span><span class="co">#&gt; [1] [2024-01-01.0, 2024-04-02.0)</span></span>
+<span></span>
+<span><span class="co"># ... as a duration in years, ready to multiply by an annual rate</span></span>
+<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">$</span><span class="va">end</span> <span class="op">-</span> <span class="va">overlap</span><span class="op">$</span><span class="va">start</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.251366 yr</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="standardised-day-fractions-for-exposure-calculations">Standardised day-fractions for exposure calculations<a class="anchor" aria-label="anchor" href="#standardised-day-fractions-for-exposure-calculations"></a>
 </h2>
 <p>Because a <code>datey</code> can represent a position <em>within</em>
 a day (as a fraction of a year), <strong>datey</strong> provides
@@ -157,7 +184,7 @@ halfway through the day it is recorded on.</li>
 <p>Choosing consistently between these (rather than, say, always using
 midnight) improves clarity and accuracy as to what events are and are
 not included in a time period.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2026L</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
@@ -173,57 +200,26 @@ not included in a time period.</p>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="interval-algebra-for-time-periods">Interval algebra for time periods<a class="anchor" aria-label="anchor" href="#interval-algebra-for-time-periods"></a>
+<h2 id="what-datey-deliberately-leaves-out">What <strong>datey</strong> deliberately leaves out<a class="anchor" aria-label="anchor" href="#what-datey-deliberately-leaves-out"></a>
 </h2>
-<p>Actuarial calculations often involve asking ‘for how much of this
-period did rate X apply?’ – e.g. combining a policy’s time at risk with
-the period over which a particular assumption set is valid.</p>
-<p><strong>datey</strong> represents time intervals using the atomic<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Even though &lt;code&gt;datey_interval&lt;/code&gt; stores the start
-and end of a time interval, it is atomic (as are &lt;code&gt;datey&lt;/code&gt; and
-&lt;code&gt;durationy&lt;/code&gt;), which means that &lt;code&gt;datey_interval&lt;/code&gt;s
-can be stored in a single R vector without any additional special
-handling.&lt;/p&gt;"><sup>1</sup></a> type
-<code>datey_interval</code>, created using <code>start %to% end</code>.
-These are half-open, i.e. <code>[start, end)</code>, intervals, which
-means consecutive periods interlock precisely without gaps or
-double-counting.</p>
-<p><strong>datey</strong> provides interval algebra to work with time
-intervals directly:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">period_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># Calendar year 2024</span></span>
-<span></span>
-<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span> <span class="co"># TRUE</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="va">period_2024</span> <span class="op"><a href="../reference/interval_includes.html">%includes%</a></span> <span class="fu"><a href="../reference/datey.html">datey</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="co"># FALSE</span></span>
-<span><span class="co">#&gt; [1] FALSE</span></span>
-<span></span>
-<span><span class="va">time_at_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/datey.html">start_day</a></span><span class="op">(</span><span class="fl">2023</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/datey_interval.html">%to%</a></span> <span class="fu"><a href="../reference/datey.html">end_day</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># the part of the time at risk to which the 2024 rate applies</span></span>
-<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="va">time_at_risk</span> <span class="op">&amp;</span> <span class="va">period_2024</span></span>
-<span><span class="va">overlap</span></span>
-<span><span class="co">#&gt; [1] [2024-01-01.0, 2024-04-02.0)</span></span>
-<span></span>
-<span><span class="co"># ... as a duration in years, ready to multiply by an annual rate</span></span>
-<span><span class="fu"><a href="../reference/durationy.html">durationy</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">$</span><span class="va">end</span> <span class="op">-</span> <span class="va">overlap</span><span class="op">$</span><span class="va">start</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.251366 yr</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="what-datey-is-not-for">What <strong>datey</strong> is <em>not</em> for<a class="anchor" aria-label="anchor" href="#what-datey-is-not-for"></a>
-</h2>
-<p><strong>datey</strong> is deliberately narrowly scoped – it is
-<em>not</em> the right tool for</p>
+<p>To keep the guarantees above simple and dependable,
+<strong>datey</strong> is very narrowly scoped. It is <em>not</em> the
+right tool for:</p>
 <ul>
-<li>general date arithmetic for output, e.g. ‘what date is 3 months from
-now’ for a calendar shown to a user,</li>
-<li>parsing or formatting dates beyond the simple
-<code>YYYY-MM-DD[.fff]</code> representation, or</li>
-<li>handling time zones, daylight saving time, leap seconds, or
-different calendars.</li>
+<li>General date arithmetic for output, e.g. “what date is 3 months from
+now” for a calendar shown to a user.</li>
+<li>Parsing or formatting dates beyond the simple
+<code>YYYY-MM-DD[.fff]</code> representation.</li>
+<li>Time zones, daylight saving time, leap seconds, or different
+calendars.</li>
 </ul>
-<p>If you need that kind of functionality check out packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a>.</p>
+<p>Packages like <a href="https://clock.r-lib.org/" class="external-link">clock</a> and <a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a> already do
+that.</p>
+<p>The trade-off is deliberate: by refusing to be a general date
+library, <strong>datey</strong> can make a precise, associative annual
+grid <em>the</em> representation for rate-related calculations, with one
+well-defined answer regardless of how the calculation is structured.</p>
 </div>
-
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
@@ -231,7 +227,7 @@ different calendars.</li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://timgord.com" class="external-link">Tim Gordon</a>. <br>Typeset in <a href="https://lisnoti.com/" class="external-link">Lisnoti</a>.</p>
+  <p>Developed by <a href="http://timgord.com" class="external-link">Tim Gordon</a>. <br>Typeset in <a href="https://lisnoti.com/" class="external-link">Lisnoti</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

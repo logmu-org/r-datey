@@ -5,43 +5,45 @@
 library(datey)
 ```
 
-## Calculating *per annum* rates from *date* input data
+## The unit is years, but the data are dates
 
 Mortality rates, valuation assumptions and many other actuarial
-quantities are defined *per year*, but the data they are applied to –
-dates of birth, dates of death, policy anniversaries, valuation dates –
-are measured in days.
+quantities are defined *per year*. The data they are applied to – dates
+of birth, dates of death, policy anniversaries, valuation dates – are
+measured in days.
 
-It’s common to treat mapping dates onto an annual scale as trivial, but
-consider these two calculations:
+Converting between the two seems like it should be trivial, but it
+isn’t. Consider these calculations:
 
-- *‘Add half a year’ twice starting from 2000‑01‑01.* Does this land on
-  the same point in time as a single ‘add one year’ step? With most
-  day-based arithmetic, the answer is no – the result depends on how you
-  split the year up, and on the order in which you do the additions.
-
-- *‘Add one year’ to 2024‑02‑29.* There is no 2025‑02‑29, so is it
+- “Add one year” to 2024‑02‑29. There is no 2025‑02‑29, so is it
   2025‑02‑28 or is it 2025‑03‑01? Both are defensible, and different
   tools (and different people) choose differently.
 
-For a single *ad hoc* calculation we usually ignore the ambiguity and do
-‘something sensible’. But actuarial modelling typically entails
-thousands or even millions of these calculations, and so it is important
-to ensure that they produce consistent results.
+- “Add half a year” twice starting from 2000‑01‑01. Does this land on
+  the same point in time as a single “add one year” step? With most
+  day-based arithmetic, the answer is no – the result depends on how you
+  split the year up, and on the order in which you do the additions.
 
-## An annual grid of *clicks*
+For a single *ad hoc* calculation this kind of ambiguity is a curiosity.
+For an actuarial model that combines exposure periods, runs
+sensitivities, and is reconciled and audited, it’s a problem: the same
+logical calculation, expressed two different but equivalent ways, can
+produce two different numbers.
 
-**datey** picks a single standardised and precise mapping from dates to
-*clicks*, where one click is 1 / 534 360 of a year, a number chosen so
-that 1/365 and 1/366 of a year, and useful fractions of days and years,
-are represented exactly.
+## The **datey** approach: a fixed annual grid
 
-Dates (`datey`) and durations (`durationy`) are stored internally as a
-count of *clicks*, which means that date and duration calculations
-reduce to plain old integer arithmetic.
+**datey** picks *one* standardised, precise mapping from dates onto an
+annual grid, and guarantees that arithmetic on that grid is exact and
+associative. Every `datey` and `durationy` is stored internally as a
+count of *clicks*, where one click is 1 / 534 360 of a year, a number
+chosen so that 1/365 and 1/366 of a year, and useful fractions of days
+and years, are represented exactly.
 
-The practical import is that the two-steps-vs-one-step problem above
-does not arise:
+With this approach, date and duration calculations reduce to plain old
+integer arithmetic which is both precise and associative.
+
+The practical consequence is that the two-steps-vs-one-step problem
+above does not arise:
 
 ``` r
 
@@ -59,14 +61,42 @@ identical(two_steps, one_step)
 #> [1] TRUE
 ```
 
-In general, `(a + d1) + d2 == a + (d1 + d2)` for any `datey` `a` and
-`durationy`s `d1`, `d2`, regardless of leap years or the order of
-operations.
+`(a + d1) + d2 == a + (d1 + d2)` for any `datey` `a` and `durationy`s
+`d1`, `d2` – always, exactly, regardless of leap years or the order of
+operations. That’s the guarantee **datey** is built around, and the
+[specification](https://r-datey.logmu.org/articles/spec.md) sets it out
+precisely.
 
-For full details see the [**datey**
-specification](https://r-datey.logmu.org/articles/spec.md).
+## Interval algebra for rate periods
 
-## Fractions of a day
+Actuarial calculations very often involve asking “for how much of this
+period did rate X apply?” – e.g. combining a policy’s time at risk with
+the period over which a particular assumption set is valid.
+
+**datey** represents time intervals as `datey_interval`s, written
+`start %to% end`. These are half-open, i.e. `[start, end)`, intervals,
+which means consecutive periods interlock precisely without gaps or
+double-counting.
+
+**datey** provides interval algebra to work with time intervals
+directly:
+
+``` r
+
+time_at_risk <- start_day(2023, 4, 1) %to% end_day(2024, 4, 1)
+rate_period_2024 <- start_day(2024, 1, 1) %to% end_day(2025, 12, 31)
+
+# the part of the time at risk to which the 2024 rate applies
+overlap <- time_at_risk & rate_period_2024
+overlap
+#> [1] [2024-01-01.0, 2024-04-02.0)
+
+# ... as a duration in years, ready to multiply by an annual rate
+durationy(overlap$end - overlap$start)
+#> [1] 0.251366 yr
+```
+
+## Standardised day-fractions for exposure calculations
 
 Because a `datey` can represent a position *within* a day (as a fraction
 of a year), **datey** provides
@@ -106,58 +136,22 @@ interval_includes(one_day_period, mid)
 #> [1] TRUE
 ```
 
-## Interval algebra for time periods
+## What **datey** deliberately leaves out
 
-Actuarial calculations often involve asking ‘for how much of this period
-did rate X apply?’ – e.g. combining a policy’s time at risk with the
-period over which a particular assumption set is valid.
+To keep the guarantees above simple and dependable, **datey** is very
+narrowly scoped. It is *not* the right tool for:
 
-**datey** represents time intervals using the atomic[^1] type
-`datey_interval`, created using `start %to% end`. These are half-open,
-i.e. `[start, end)`, intervals, which means consecutive periods
-interlock precisely without gaps or double-counting.
-
-**datey** provides interval algebra to work with time intervals
-directly:
-
-``` r
-
-period_2024 <- datey(2024) %to% datey(2025) # Calendar year 2024
-
-period_2024 %includes% datey(2024) # TRUE
-#> [1] TRUE
-period_2024 %includes% datey(2025) # FALSE
-#> [1] FALSE
-
-time_at_risk <- start_day(2023, 4, 1) %to% end_day(2024, 4, 1)
-
-# the part of the time at risk to which the 2024 rate applies
-overlap <- time_at_risk & period_2024
-overlap
-#> [1] [2024-01-01.0, 2024-04-02.0)
-
-# ... as a duration in years, ready to multiply by an annual rate
-durationy(overlap$end - overlap$start)
-#> [1] 0.251366 yr
-```
-
-## What **datey** is *not* for
-
-**datey** is deliberately narrowly scoped – it is *not* the right tool
-for
-
-- general date arithmetic for output, e.g. ‘what date is 3 months from
-  now’ for a calendar shown to a user,
-- parsing or formatting dates beyond the simple `YYYY-MM-DD[.fff]`
-  representation, or
-- handling time zones, daylight saving time, leap seconds, or different
+- General date arithmetic for output, e.g. “what date is 3 months from
+  now” for a calendar shown to a user.
+- Parsing or formatting dates beyond the simple `YYYY-MM-DD[.fff]`
+  representation.
+- Time zones, daylight saving time, leap seconds, or different
   calendars.
 
-If you need that kind of functionality check out packages like
-[clock](https://clock.r-lib.org/) and
-[lubridate](https://lubridate.tidyverse.org/).
+Packages like [clock](https://clock.r-lib.org/) and
+[lubridate](https://lubridate.tidyverse.org/) already do that.
 
-[^1]: Even though `datey_interval` stores the start and end of a time
-    interval, it is atomic (as are `datey` and `durationy`), which means
-    that `datey_interval`s can be stored in a single R vector without
-    any additional special handling.
+The trade-off is deliberate: by refusing to be a general date library,
+**datey** can make a precise, associative annual grid *the*
+representation for rate-related calculations, with one well-defined
+answer regardless of how the calculation is structured.

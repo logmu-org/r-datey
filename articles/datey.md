@@ -12,17 +12,17 @@ guarantee, see [Why
 complete formal specification, see the [**datey**
 specification](https://r-datey.logmu.org/articles/spec.md).
 
-## Core types
+## The core types
 
-**datey** provides three atomic[^1] S3 classes:
+**datey** provides three S3 classes:
 
 - **`datey`** – a point in time, stored at day-fraction precision.
 - **`durationy`** – a duration in years.
 - **`datey_interval`** – a half-open `[start, end)` time interval.
 
-These all store dates and durations as integers with units of 1/534 360
-of a year (*clicks*). As a result, arithmetic with these types is exact
-and associative.
+These are atomic types[^1] that store dates and durations as integers
+with units of 1/534 360 of a year). As a result, arithmetic with these
+types is exact and associative.
 
 ## Creating a `datey`
 
@@ -93,12 +93,12 @@ To convert these to a `datey`, use
 
 ``` r
 
-r_date <- as.Date("2024-03-07")
-start_day(r_date)
+d <- as.Date("2024-03-07")
+start_day(d)
 #> [1] 2024-03-07.0
-mid_day(r_date)
+mid_day(d)
 #> [1] 2024-03-07.5
-end_day(r_date)
+end_day(d)
 #> [1] 2024-03-08.0
 ```
 
@@ -196,9 +196,9 @@ is_mid_day(datey(2024, 3, 7, 0.25)) # FALSE
 
 ``` r
 
-birth_date <- start_day(as.Date("1965-09-12"))
-death_date <- mid_day(2024, 3, 7)
-age <- death_date - birth_date
+dob <- start_day(as.Date("1965-09-12"))
+dod <- mid_day(2024, 3, 7)
+age <- dod - dob
 age
 #> [1] 58.485804 yr
 ```
@@ -259,17 +259,17 @@ the underlying click counts, so the results are exact and associative.
 ``` r
 
 start  <- start_day(2000, 1, 1)
-one_year <- durationy(1)
-quarter_year <- durationy(0.25)
+one_yr <- durationy(1)
+qtr_yr <- durationy(0.25)
 
-start + one_year        # One year later
+start + one_yr    # One year later
 #> [1] 2001-01-01.0
-start - quarter_year    # Quarter of a year earlier
+start - qtr_yr    # Quarter of a year earlier
 #> [1] 1999-10-01.75
 
-one_year - quarter_year # Three quarters of a year
+one_yr - qtr_yr   # Three quarters of a year
 #> [1] 0.75 yr
-one_year + quarter_year
+one_yr + qtr_yr
 #> [1] 1.25 yr
 
 datey(2024) < datey(2025)     # TRUE
@@ -386,7 +386,7 @@ overlap$duration  # exposure in calendar year 2024, in years
 ## NA values
 
 Throughout the **datey** package, `NA` will cause an error when used
-where a `datey`, `durationy` or `datey_interval` is expected. This is
+where a `datey_`, `durationy_` or `datey_interval_` is expected. This is
 because the type of `NA` is `logical`. which has no meaningful date or
 duration interpretation therefore potentially indicates user error.
 
@@ -452,11 +452,10 @@ seq(from = datey(2020), to = datey(2024), by = durationy(2))
 #> [1] 2020-01-01.0 2022-01-01.0 2024-01-01.0
 ```
 
-[^1]: An atomic type can be stored in a single R vector without any
-    additional special handling. Although they have properties such as
-    `t$year` for a `datey` or `interval$start` for a `datey_interval`,
-    these properties are generated on the fly – they are not accessing
-    separate underlying data vectors.
+[^1]: Even though `datey_interval` stores the start and the end of a
+    time interval, it too is atomic, which means that `datey_interval`s
+    can be stored in a single vector without any additional special
+    handling.
 
 [^2]: Even though the `Date` type is not designed for fractional dates,
     it typically uses floating point under the covers, and can
